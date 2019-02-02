@@ -1,6 +1,7 @@
 require 'dry-struct'
 require_relative 'types'
 require_relative 'issue'
+require_relative 'sprint_epic'
 
 class Sprint < Dry::Struct
   attribute :name, Types::Strict::String
@@ -23,15 +24,25 @@ class Sprint < Dry::Struct
     closed_issues.reduce(0){ |sum, issue| sum + issue.estimation }
   end
 
-  def points_per_epic
-    closed_issues.inject(Hash.new(0)) do |memo, issue|
+  def sprint_epics
+    no_sprint_epic = SprintEpic.new(self, nil)
+
+    sp = closed_issues.inject([]) do |memo, issue|
       if issue.epic
-        memo[issue.epic.name] += issue.estimation
+        sprint_epic = SprintEpic.new(self, issue.epic)
+        if memo.include?(sprint_epic)
+          memo[memo.index(sprint_epic)].total_points += issue.estimation
+        else
+          sprint_epic.total_points = issue.estimation
+          memo << sprint_epic
+        end
       else
-        memo['no epic'] += issue.estimation
+        no_sprint_epic.total_points += issue.estimation
       end
       memo
     end
+
+    sp << no_sprint_epic
   end
 
   def to_s

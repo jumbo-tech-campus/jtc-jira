@@ -10,4 +10,8 @@ class Epic
       json['id'], json['name']
     )
   end
+
+  def ==(epic)
+    id == epic.id
+  end
 end
