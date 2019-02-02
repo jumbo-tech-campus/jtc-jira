@@ -4,8 +4,6 @@ require_relative 'sprint'
 require_relative 'issue'
 
 class JiraClient
-  extend Forwardable
-
   def initialize
     options = {
       :username     => ENV['USERNAME'],
