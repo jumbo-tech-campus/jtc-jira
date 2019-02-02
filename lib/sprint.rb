@@ -23,6 +23,17 @@ class Sprint < Dry::Struct
     closed_issues.reduce(0){ |sum, issue| sum + issue.estimation }
   end
 
+  def points_per_epic
+    closed_issues.inject(Hash.new(0)) do |memo, issue|
+      if issue.epic
+        memo[issue.epic.name] += issue.estimation
+      else
+        memo['no epic'] += issue.estimation
+      end
+      memo
+    end
+  end
+
   def to_s
     "Name: #{name}"
   end
