@@ -1,6 +1,5 @@
 require 'dotenv/load'
 require_relative 'lib/jira_client'
-require_relative 'lib/sprint'
 
 class Run < Thor
   desc "task", "whatever"
