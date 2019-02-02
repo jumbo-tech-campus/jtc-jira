@@ -1,7 +1,7 @@
 require 'jira-ruby'
-require_relative 'board'
-require_relative 'sprint'
-require_relative 'issue'
+require_relative 'models/board'
+require_relative 'models/sprint'
+require_relative 'models/issue'
 
 class JiraClient
   def initialize
