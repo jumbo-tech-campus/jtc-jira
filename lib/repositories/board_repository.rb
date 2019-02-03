@@ -14,6 +14,13 @@ class BoardRepository
 
   private
   def load_board(id)
-    Board.from_jira_board(@client.Board.find(id))
+    board = Board.from_jira_board(@client.Board.find(id))
+    load_sprints(board)
+  end
+
+  def load_sprints(board)
+    sprints = Repository.for(:sprint).find_by(board: board)
+    board.sprints.concat(sprints)
+    board
   end
 end

@@ -21,31 +21,7 @@ class JiraClient
     @client = JIRA::Client.new(options)
   end
 
-  def_delegators :@client, :Board
-
-  def get_board_by_id(board_id)
-    board = Repository.for(:board).find(board_id)
-    board.sprints.concat(get_sprints_for(board))
-
-    board
-  end
-
-  def get_sprints_for(board)
-    start_at = 0
-    sprints = []
-
-    loop do
-      response = @client.Agile.get_sprints(board.id, {startAt: start_at})
-
-      response['values'].each do |sprint|
-        sprints << Sprint.from_json(sprint)
-      end
-
-      start_at += response['maxResults']
-      break if response['isLast']
-    end
-    sprints
-  end
+  def_delegators :@client, :Board, :Agile
 
   def get_issues_for(sprint)
     start_at = 0
