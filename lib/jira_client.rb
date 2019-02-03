@@ -1,9 +1,14 @@
 require 'jira-ruby'
 require_relative 'models/board'
 require_relative 'models/sprint'
+require_relative 'models/sprint_epic'
+require_relative 'models/parent_epic'
 require_relative 'models/issue'
+require_relative 'repositories/repository'
 
 class JiraClient
+  extend Forwardable
+
   def initialize
     options = {
       :username     => ENV['USERNAME'],
@@ -16,10 +21,10 @@ class JiraClient
     @client = JIRA::Client.new(options)
   end
 
-  def get_board_by_id(board_id)
-    response = @client.Board.find(board_id)
+  def_delegators :@client, :Board
 
-    board = Board.create_from(response)
+  def get_board_by_id(board_id)
+    board = Repository.for(:board).find(board_id)
     board.sprints.concat(get_sprints_for(board))
 
     board
@@ -65,5 +70,13 @@ class JiraClient
     end
 
     issues
+  end
+
+  def get_parent_epic_for(sprint_epic)
+
+    return nil unless sprint_epic.epic
+
+    epic = @client.Issue.find(sprint_epic.epic.key)
+    ParentEpic.from_json(epic.fields['customfield_11200'])
   end
 end

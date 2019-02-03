@@ -1,4 +1,6 @@
 require 'dotenv/load'
+
+require_relative 'lib/init_repositories'
 require_relative 'lib/jira_client'
 
 class Run < Thor
@@ -13,5 +15,7 @@ class Run < Thor
     puts "Points closed in sprint: #{last_sprint.points_closed}"
     puts last_sprint.closed_issues
     puts last_sprint.sprint_epics
+
+    puts client.get_parent_epic_for(last_sprint.sprint_epics.first)
   end
 end

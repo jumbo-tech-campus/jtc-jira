@@ -11,6 +11,7 @@ class Sprint < Dry::Struct
   attribute :startDate, Types::Params::DateTime.meta(omittable: true)
   attribute :completeDate, Types::Params::DateTime.meta(omittable: true)
   attribute :issues, Types::Strict::Array.default([])
+  attribute :parent_epics, Types::Strict::Array.default([])
 
   def closed?
     state == 'closed'

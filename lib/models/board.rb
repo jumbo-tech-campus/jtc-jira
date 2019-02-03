@@ -1,7 +1,7 @@
 require_relative 'sprint'
 
 class Board
-  attr_reader :sprints, :name, :id
+  attr_reader :name, :id, :sprints
 
   def initialize(name, id)
     @name = name
@@ -9,8 +9,8 @@ class Board
     @sprints = []
   end
 
-  def self.create_from(jira_board)
-    new(jira_board.name, jira_board.id)
+  def self.from_jira_board(board)
+    new(board.name, board.id)
   end
 
   def closed_sprints
