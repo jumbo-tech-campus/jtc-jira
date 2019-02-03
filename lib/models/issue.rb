@@ -9,16 +9,14 @@ class Issue
   end
 
   def self.from_json(json)
-    issue = new(json['key'], json['fields']['summary'],
+    new(json['key'], json['fields']['summary'],
       json['id'], json['fields']['customfield_10014'] || 0,
       json['fields']['resolutiondate'],
       json
     )
-    issue.epic = Epic.from_json(json['fields']['epic']) if json['fields']['epic']
-    issue
   end
 
   def to_s
-    "Key: #{key}, summary: #{summary}, estimation: #{estimation}, epic: #{epic&.name}"
+    "Issue: #{key}, summary: #{summary}, estimation: #{estimation}, epic: #{epic&.name}"
   end
 end

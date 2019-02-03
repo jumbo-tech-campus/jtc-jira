@@ -6,8 +6,9 @@ class ParentEpic
   end
 
   def self.from_json(json)
-    data = json['data']
-    new(data['id'], data['key'], data['summary'])
+    return nil if json.nil?
+    
+    new(json['id'], json['key'], json['summary'])
   end
 
   def to_s

@@ -1,13 +1,14 @@
 require_relative 'issue'
 require_relative 'sprint_epic'
 require_relative '../utils/date_helper'
+require_relative '../repositories/repository'
 
 class Sprint
   attr_reader :id, :name, :state, :startDate, :endDate, :completeDate, :issues, :parent_epics
 
   def initialize(id, name, state, startDate, endDate, completeDate)
     @id, @name, @state, @startDate, @endDate, @completeDate = id, name, state, startDate, endDate, completeDate
-    @issues = []
+    @issues = nil
     @parent_epics = []
   end
 
@@ -21,6 +22,10 @@ class Sprint
 
   def closed?
     state == 'closed'
+  end
+
+  def issues
+    @issues ||= Repository.for(:issue).find_by(sprint: self)
   end
 
   def closed_issues
