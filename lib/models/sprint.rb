@@ -1,17 +1,23 @@
-require 'dry-struct'
-require_relative 'types'
 require_relative 'issue'
 require_relative 'sprint_epic'
+require_relative '../utils/date_helper'
 
-class Sprint < Dry::Struct
-  attribute :name, Types::Strict::String
-  attribute :id, Types::Coercible::Integer
-  attribute :state, Types::Strict::String
-  attribute :endDate, Types::Params::DateTime.meta(omittable: true)
-  attribute :startDate, Types::Params::DateTime.meta(omittable: true)
-  attribute :completeDate, Types::Params::DateTime.meta(omittable: true)
-  attribute :issues, Types::Strict::Array.default([])
-  attribute :parent_epics, Types::Strict::Array.default([])
+class Sprint
+  attr_reader :id, :name, :state, :startDate, :endDate, :completeDate, :issues, :parent_epics
+
+  def initialize(id, name, state, startDate, endDate, completeDate)
+    @id, @name, @state, @startDate, @endDate, @completeDate = id, name, state, startDate, endDate, completeDate
+    @issues = []
+    @parent_epics = []
+  end
+
+  def self.from_json(json)
+    new(json['id'], json['name'], json['state'],
+      DateHelper.safe_parse(json['startDate']),
+      DateHelper.safe_parse(json['endDate']),
+      DateHelper.safe_parse(json['completeDate']),
+    )
+  end
 
   def closed?
     state == 'closed'

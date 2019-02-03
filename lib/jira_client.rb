@@ -38,8 +38,7 @@ class JiraClient
       response = @client.Agile.get_sprints(board.id, {startAt: start_at})
 
       response['values'].each do |sprint|
-        sprint.transform_keys!(&:to_sym)
-        sprints << Sprint.new(sprint)
+        sprints << Sprint.from_json(sprint)
       end
 
       start_at += response['maxResults']
