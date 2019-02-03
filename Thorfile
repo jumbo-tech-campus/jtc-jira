@@ -13,7 +13,6 @@ class Run < Thor
     puts "Points closed in sprint: #{last_sprint.points_closed}"
     puts last_sprint.closed_issues
     puts last_sprint.sprint_epics
-
-    puts last_sprint.sprint_epics.first.epic.parent_epic
+    puts last_sprint.sprint_parent_epics
   end
 end

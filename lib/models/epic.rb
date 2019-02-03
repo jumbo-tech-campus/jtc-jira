@@ -19,6 +19,6 @@ class Epic
   end
 
   def to_s
-    "Epic: #{key}, name: #{name}"
+    "Epic: #{key} #{name}"
   end
 end

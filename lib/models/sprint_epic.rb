@@ -11,8 +11,8 @@ class SprintEpic
     epic == sprint_epic.epic
   end
 
-  def name
-    epic&.name || "No epic"
+  def parent_epic
+    epic.parent_epic
   end
 
   def percentage
@@ -20,6 +20,6 @@ class SprintEpic
   end
 
   def to_s
-    "Epic: #{name}, total points: #{total_points}, percentage: #{percentage.round(1)}%"
+    "#{epic}, total points: #{total_points}, percentage: #{percentage.round(1)}%"
   end
 end

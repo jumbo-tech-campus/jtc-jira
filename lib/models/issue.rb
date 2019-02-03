@@ -17,6 +17,6 @@ class Issue
   end
 
   def to_s
-    "Issue: #{key}, summary: #{summary}, estimation: #{estimation}, epic: #{epic&.name}"
+    "Issue: #{key} #{summary}, estimation: #{estimation}, epic: #{epic&.name}"
   end
 end

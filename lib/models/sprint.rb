@@ -1,15 +1,17 @@
 require_relative 'issue'
 require_relative 'sprint_epic'
+require_relative 'sprint_parent_epic'
 require_relative '../utils/date_helper'
 require_relative '../repositories/repository'
 
 class Sprint
-  attr_reader :id, :name, :state, :startDate, :endDate, :completeDate, :issues, :parent_epics
+  attr_reader :id, :name, :state, :startDate, :endDate, :completeDate, :issues
 
   def initialize(id, name, state, startDate, endDate, completeDate)
     @id, @name, @state, @startDate, @endDate, @completeDate = id, name, state, startDate, endDate, completeDate
     @issues = nil
-    @parent_epics = []
+    @sprint_epics = nil
+    @sprint_parent_epics = nil
   end
 
   def self.from_json(json)
@@ -37,9 +39,11 @@ class Sprint
   end
 
   def sprint_epics
-    no_sprint_epic = SprintEpic.new(self, nil)
+    return @sprint_epics if @sprint_epics
 
-    sp = closed_issues.inject([]) do |memo, issue|
+    no_sprint_epic = SprintEpic.new(self, Epic.new('X', 'Undefined', 0, 'Undefined'))
+
+    @sprint_epics = closed_issues.inject([]) do |memo, issue|
       if issue.epic
         sprint_epic = SprintEpic.new(self, issue.epic)
         if memo.include?(sprint_epic)
@@ -54,10 +58,34 @@ class Sprint
       memo
     end
 
-    sp << no_sprint_epic
+    @sprint_epics << no_sprint_epic
+  end
+
+  def sprint_parent_epics
+    return @sprint_parent_epics if @sprint_parent_epics
+
+    no_sprint_parent_epic = SprintParentEpic.new(self, ParentEpic.new(0, 'X', 'Undefined'))
+
+    @sprint_parent_epics = sprint_epics.inject([]) do |memo, sprint_epic|
+      if sprint_epic.parent_epic
+        sprint_parent_epic = SprintParentEpic.new(self, sprint_epic.parent_epic)
+        if memo.include?(sprint_parent_epic)
+          memo[memo.index(sprint_parent_epic)].total_points += sprint_epic.total_points
+        else
+          sprint_parent_epic.total_points = sprint_epic.total_points
+          memo << sprint_parent_epic
+        end
+      else
+        no_sprint_parent_epic.total_points += sprint_epic.total_points
+      end
+
+      memo
+    end
+
+    @sprint_parent_epics << no_sprint_parent_epic
   end
 
   def to_s
-    "Name: #{name}"
+    "Sprint: #{name}"
   end
 end
