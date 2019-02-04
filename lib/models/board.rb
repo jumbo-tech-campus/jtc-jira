@@ -18,7 +18,7 @@ class Board
   end
 
   def recent_closed_sprints(n)
-    closed_sprints.sort_by{ |sprint| sprint.endDate }.reverse.take(n)
+    closed_sprints.sort_by{ |sprint| sprint.end_date }.reverse.take(n)
   end
 
   def last_closed_sprint

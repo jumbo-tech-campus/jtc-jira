@@ -1,17 +1,19 @@
 require_relative 'issue'
 require_relative 'sprint_epic'
 require_relative 'sprint_parent_epic'
+require_relative 'sprint_issue_abilities'
 require_relative '../utils/date_helper'
 require_relative '../repositories/repository'
 
 class Sprint
-  attr_reader :id, :name, :state, :startDate, :endDate, :completeDate, :issues
+  attr_reader :id, :name, :state, :percentage_of_points_closed, :end_date, :complete_date
 
-  def initialize(id, name, state, startDate, endDate, completeDate)
-    @id, @name, @state, @startDate, @endDate, @completeDate = id, name, state, startDate, endDate, completeDate
-    @issues = nil
-    @sprint_epics = nil
-    @sprint_parent_epics = nil
+  include SprintIssueAbilities
+
+  def initialize(id, name, state, start_date, end_date, complete_date)
+    @id, @name, @state, @start_date, @end_date, @complete_date = id, name, state, start_date, end_date, complete_date
+
+    sprint_issue_abilities(self, nil)
   end
 
   def self.from_jira(json)
@@ -30,31 +32,24 @@ class Sprint
     @issues ||= Repository.for(:issue).find_by(sprint: self)
   end
 
-  def closed_issues
-    issues.select{ |issue| issue.resolution_date && issue.resolution_date <= completeDate }
-  end
-
-  def points_closed
-    closed_issues.reduce(0){ |sum, issue| sum + issue.estimation }
-  end
-
   def sprint_epics
     return @sprint_epics if @sprint_epics
 
     no_sprint_epic = SprintEpic.new(self, Epic.new('X', 'Undefined', 0, 'Undefined'))
 
-    @sprint_epics = closed_issues.inject([]) do |memo, issue|
+    @sprint_epics = issues.inject([]) do |memo, issue|
       if issue.epic
         sprint_epic = SprintEpic.new(self, issue.epic)
         if memo.include?(sprint_epic)
-          memo[memo.index(sprint_epic)].points_closed += issue.estimation
+          sprint_epic = memo[memo.index(sprint_epic)]
         else
-          sprint_epic.points_closed = issue.estimation
           memo << sprint_epic
         end
       else
-        no_sprint_epic.points_closed += issue.estimation
+        sprint_epic = no_sprint_epic
       end
+      sprint_epic.issues << issue
+
       memo
     end
 
@@ -70,15 +65,14 @@ class Sprint
       if sprint_epic.parent_epic
         sprint_parent_epic = SprintParentEpic.new(self, sprint_epic.parent_epic)
         if memo.include?(sprint_parent_epic)
-          memo[memo.index(sprint_parent_epic)].points_closed += sprint_epic.points_closed
+          sprint_parent_epic = memo[memo.index(sprint_parent_epic)]
         else
-          sprint_parent_epic.points_closed = sprint_epic.points_closed
           memo << sprint_parent_epic
         end
       else
-        no_sprint_parent_epic.points_closed += sprint_epic.points_closed
+        sprint_parent_epic = no_sprint_parent_epic
       end
-
+      sprint_parent_epic.issues.concat(sprint_epic.issues)
       memo
     end
 

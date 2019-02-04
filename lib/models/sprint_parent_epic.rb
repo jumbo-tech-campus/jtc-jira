@@ -1,18 +1,18 @@
+require_relative 'sprint_issue_abilities'
+
 class SprintParentEpic
-  attr_reader :sprint, :parent_epic
-  attr_accessor :points_closed
+  attr_reader :parent_epic
+
+  include SprintIssueAbilities
 
   def initialize(sprint, parent_epic)
-    @sprint, @parent_epic = sprint, parent_epic
-    @points_closed = 0
+    @parent_epic = parent_epic
+
+    sprint_issue_abilities(sprint, [])
   end
 
   def ==(sprint_parent_epic)
     self.parent_epic == sprint_parent_epic.parent_epic
-  end
-
-  def percentage_of_points_closed
-    points_closed / sprint.points_closed * 100
   end
 
   def to_s
