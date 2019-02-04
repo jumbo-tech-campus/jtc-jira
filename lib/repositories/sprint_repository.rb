@@ -1,9 +1,9 @@
 require_relative '../models/sprint'
 
 class SprintRepository
-  def initialize
+  def initialize(jira_client)
     @records = {}
-    @client = JiraClient.new
+    @client = jira_client
   end
 
   def find_by(options)

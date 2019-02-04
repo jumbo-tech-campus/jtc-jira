@@ -3,9 +3,9 @@ require_relative '../jira_client'
 require_relative 'repository'
 
 class BoardRepository
-  def initialize
+  def initialize(jira_client)
     @records = {}
-    @client = JiraClient.new
+    @client = jira_client
   end
 
   def find(id)

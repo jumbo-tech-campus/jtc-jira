@@ -2,9 +2,10 @@ require_relative '../models/issue'
 require_relative 'repository'
 
 class IssueRepository
-  def initialize
+  def initialize(jira_client, config)
     @records = {}
-    @client = JiraClient.new
+    @client = jira_client
+    @config = config
   end
 
   def find_by(options)
@@ -23,9 +24,9 @@ class IssueRepository
       response['issues'].each do |value|
         #filter out subtasks
         next if value['fields']['issuetype']['subtask']
-        #filter out issues with certain field values
-        if ENV['ISSUE_FILTER'] && ENV['ISSUE_FILTER_VALUE']
-          next if value['fields'][ENV['ISSUE_FILTER']]['value'] != ENV['ISSUE_FILTER_VALUE']
+        #filter on subteam
+        if @config.filter_subteam?
+          next if value['fields']['customfield_12613']['value'] != @config.subteam_name
         end
         issue = Issue.from_jira(value)
         issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
