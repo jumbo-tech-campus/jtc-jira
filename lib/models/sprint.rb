@@ -47,13 +47,13 @@ class Sprint
       if issue.epic
         sprint_epic = SprintEpic.new(self, issue.epic)
         if memo.include?(sprint_epic)
-          memo[memo.index(sprint_epic)].total_points += issue.estimation
+          memo[memo.index(sprint_epic)].points_closed += issue.estimation
         else
-          sprint_epic.total_points = issue.estimation
+          sprint_epic.points_closed = issue.estimation
           memo << sprint_epic
         end
       else
-        no_sprint_epic.total_points += issue.estimation
+        no_sprint_epic.points_closed += issue.estimation
       end
       memo
     end
@@ -70,13 +70,13 @@ class Sprint
       if sprint_epic.parent_epic
         sprint_parent_epic = SprintParentEpic.new(self, sprint_epic.parent_epic)
         if memo.include?(sprint_parent_epic)
-          memo[memo.index(sprint_parent_epic)].total_points += sprint_epic.total_points
+          memo[memo.index(sprint_parent_epic)].points_closed += sprint_epic.points_closed
         else
-          sprint_parent_epic.total_points = sprint_epic.total_points
+          sprint_parent_epic.points_closed = sprint_epic.points_closed
           memo << sprint_parent_epic
         end
       else
-        no_sprint_parent_epic.total_points += sprint_epic.total_points
+        no_sprint_parent_epic.points_closed += sprint_epic.points_closed
       end
 
       memo
