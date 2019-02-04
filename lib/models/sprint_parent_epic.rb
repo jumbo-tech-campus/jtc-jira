@@ -7,8 +7,8 @@ class SprintParentEpic
     @total_points = 0
   end
 
-  def ==(sprint_epic)
-    parent_epic == sprint_epic.parent_epic
+  def ==(sprint_parent_epic)
+    self.parent_epic == sprint_parent_epic.parent_epic
   end
 
   def percentage
