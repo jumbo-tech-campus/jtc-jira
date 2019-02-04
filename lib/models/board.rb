@@ -17,6 +17,10 @@ class Board
     sprints.select{ |sprint| sprint.closed? }
   end
 
+  def open_sprint
+    sprints.select{ |sprint| !sprint.closed? }.first
+  end
+
   def recent_closed_sprints(n)
     closed_sprints.sort_by{ |sprint| sprint.end_date }.reverse.take(n)
   end
