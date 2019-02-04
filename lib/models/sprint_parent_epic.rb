@@ -16,6 +16,10 @@ class SprintParentEpic
   end
 
   def to_s
-    "#{parent_epic}, points closed: #{points_closed}, percentage in sprint: #{percentage_of_points_closed.round(1)}%"
+    if sprint.closed?
+      "#{parent_epic}, points closed: #{points_closed}, percentage in sprint: #{percentage_of_points_closed.round(1)}%"
+    else
+      "#{parent_epic}, points closed: #{points_closed}, points open: #{points_open}"
+    end
   end
 end

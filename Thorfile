@@ -18,4 +18,12 @@ class Report < Thor
       command_line.print_last_sprint(options[:board_id], options[:subteam])
     end
   end
+
+  desc "open_sprint", "Report statistics on open sprint for specified board id"
+  method_option :board_id, type: :numeric
+  method_option :subteam
+  def open_sprint
+    command_line = CommandLine.new
+    command_line.print_open_sprint(options[:board_id], options[:subteam])
+  end
 end
