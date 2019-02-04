@@ -10,7 +10,7 @@ class Report < Thor
     command_line.print_last_sprint(options[:board_id], options[:subteam])
   end
 
-  desc "last_sprint", "Report statistics on last closed sprint for teams from config file"
+  desc "last_sprint_from_config", "Report statistics on last closed sprint for teams from config file"
   def last_sprint_from_config
     team_config = YAML.load_file('config.yaml')
     command_line = CommandLine.new
