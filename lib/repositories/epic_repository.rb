@@ -8,6 +8,6 @@ class EpicRepository
   end
 
   def find(key)
-    @records[key] ||= Epic.from_issue(@client.Issue.find(key))
+    @records[key] ||= Epic.from_jira(@client.Issue.find(key))
   end
 end
