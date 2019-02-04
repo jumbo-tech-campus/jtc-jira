@@ -86,6 +86,6 @@ class Sprint
   end
 
   def to_s
-    "Sprint: #{name}"
+    "Sprint: #{name}, points closed: #{points_closed}"
   end
 end

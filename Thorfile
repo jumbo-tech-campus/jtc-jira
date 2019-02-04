@@ -10,7 +10,7 @@ class Run < Thor
 
     last_sprint = board.last_closed_sprint
 
-    puts "Points closed in sprint: #{last_sprint.points_closed}"
+    puts last_sprint
     puts last_sprint.closed_issues
     puts last_sprint.sprint_epics
     puts last_sprint.sprint_parent_epics
