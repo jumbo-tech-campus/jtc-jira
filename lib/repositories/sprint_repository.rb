@@ -21,7 +21,7 @@ class SprintRepository
       response = @client.Agile.get_sprints(board.id, {startAt: start_at})
 
       response['values'].each do |value|
-        sprint = Sprint.from_json(value)
+        sprint = Sprint.from_jira(value)
         sprints << sprint
         @records[sprint.id] = sprint
       end

@@ -5,7 +5,7 @@ class ParentEpic
     @id, @key, @summary = id, key, summary
   end
 
-  def self.from_json(json)
+  def self.from_jira(json)
     return nil if json.nil?
 
     new(json['id'], json['key'], json['summary'])

@@ -10,7 +10,7 @@ class Epic
 
   def self.from_issue(issue)
     epic = new(issue.key, issue.summary, issue.id, issue.fields['customfield_10018'])
-    epic.parent_epic = ParentEpic.from_json(issue.fields['customfield_11200']['data'])
+    epic.parent_epic = ParentEpic.from_jira(issue.fields['customfield_11200']['data'])
     epic
   end
 

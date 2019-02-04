@@ -14,7 +14,7 @@ class BoardRepository
 
   private
   def load_board(id)
-    board = Board.from_jira_board(@client.Board.find(id))
+    board = Board.from_jira(@client.Board.find(id))
     load_sprints(board)
     board
   end

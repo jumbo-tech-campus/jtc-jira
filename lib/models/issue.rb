@@ -8,7 +8,7 @@ class Issue
     @key, @summary, @id, @estimation, @resolution_date, @source = key, summary, id, estimation, resolution_date, source
   end
 
-  def self.from_json(json)
+  def self.from_jira(json)
     new(json['key'], json['fields']['summary'],
       json['id'], json['fields']['customfield_10014'] || 0,
       json['fields']['resolutiondate'],

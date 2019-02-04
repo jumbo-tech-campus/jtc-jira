@@ -9,7 +9,7 @@ class Board
     @sprints = []
   end
 
-  def self.from_jira_board(board)
+  def self.from_jira(board)
     new(board.name, board.id)
   end
 

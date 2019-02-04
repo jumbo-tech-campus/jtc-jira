@@ -27,7 +27,7 @@ class IssueRepository
         if ENV['ISSUE_FILTER'] && ENV['ISSUE_FILTER_VALUE']
           next if value['fields'][ENV['ISSUE_FILTER']]['value'] != ENV['ISSUE_FILTER_VALUE']
         end
-        issue = Issue.from_json(value)
+        issue = Issue.from_jira(value)
         issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
 
         @records[issue.id] = issue

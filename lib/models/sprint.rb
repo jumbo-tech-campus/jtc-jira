@@ -14,7 +14,7 @@ class Sprint
     @sprint_parent_epics = nil
   end
 
-  def self.from_json(json)
+  def self.from_jira(json)
     new(json['id'], json['name'], json['state'],
       DateHelper.safe_parse(json['startDate']),
       DateHelper.safe_parse(json['endDate']),
