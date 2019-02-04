@@ -1,0 +1,6 @@
+- team_1:
+  :board_id: <<JIRA rapidview ID of your board>>
+  :subteam: <<subteam name>>
+- team_2:
+  :board_id: <<JIRA rapidview ID of your board>>
+  :subteam: <<subteam name>>
