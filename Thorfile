@@ -4,10 +4,11 @@ require_relative 'lib/command_line'
 class Report < Thor
   desc "last_sprint", "Report statistics on last closed sprint for specified board id"
   method_option :board_id, type: :numeric
+  method_option :number_of_sprints, type: :numeric
   method_option :subteam
   def last_sprint
     command_line = CommandLine.new
-    command_line.print_last_sprint(options[:board_id], options[:subteam])
+    command_line.print_last_sprints(options[:board_id], options[:subteam], options[:number_of_sprints])
   end
 
   desc "last_sprint_from_config", "Report statistics on last closed sprint for teams from config file"
