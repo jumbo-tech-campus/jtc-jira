@@ -6,7 +6,7 @@ require_relative '../utils/date_helper'
 require_relative '../repositories/repository'
 
 class Sprint
-  attr_reader :id, :name, :state, :percentage_of_points_closed, :end_date, :complete_date
+  attr_reader :id, :name, :state, :percentage_of_points_closed, :start_date, :end_date, :complete_date
 
   include SprintIssueAbilities
 
@@ -30,6 +30,14 @@ class Sprint
 
   def issues
     @issues ||= Repository.for(:issue).find_by(sprint: self)
+  end
+
+  def issues_added_after_start
+    @issues_added ||= @issues.select{ |issue| issue.added_after_sprint_start?(self) }
+  end
+
+  def points_added_after_start
+    issues_added_after_start.reduce(0){ |sum, issue| sum + issue.estimation }
   end
 
   def sprint_epics
@@ -79,7 +87,21 @@ class Sprint
     @sprint_parent_epics << no_sprint_parent_epic if no_sprint_parent_epic.issues.size > 0
   end
 
+  def ==(sprint)
+    self.id == sprint.id
+  end
+
   def to_s
-    "Sprint: #{name}, points closed: #{points_closed}"
+    "Sprint: #{name}
+     Points:
+      closed: #{points_closed}
+      open: #{points_open}
+      added: #{points_added_after_start}
+      total: #{points_total}
+     Issues:
+      closed: #{closed_issues.size}
+      open: #{open_issues.size}
+      added: #{issues_added_after_start.size}
+      total: #{issues.size}"
   end
 end

@@ -15,5 +15,5 @@ class JiraClient
     @client = JIRA::Client.new(options)
   end
 
-  def_delegators :@client, :Board, :Agile, :Issue
+  def_delegators :@client, :Board, :Agile, :Issue, :Sprint
 end

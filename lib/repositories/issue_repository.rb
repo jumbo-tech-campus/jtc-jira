@@ -1,9 +1,9 @@
 require_relative '../models/issue'
+require_relative '../models/sprint_issue'
 require_relative 'repository'
 
 class IssueRepository
   def initialize(jira_client, config)
-    @records = {}
     @client = jira_client
     @config = config
   end
@@ -20,7 +20,7 @@ class IssueRepository
     issues = []
 
     loop do
-      response = @client.Agile.get_sprint_issues(sprint.id, {startAt: start_at})
+      response = @client.Agile.get_sprint_issues(sprint.id, {startAt: start_at, expand: 'changelog'})
       response['issues'].each do |value|
         #filter out subtasks
         next if value['fields']['issuetype']['subtask']
@@ -28,10 +28,17 @@ class IssueRepository
         if @config.filter_subteam?
           next if value['fields']['customfield_12613']['value'] != @config.subteam_name
         end
+
         issue = Issue.from_jira(value)
         issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
 
-        @records[issue.id] = issue
+
+        value['changelog']['histories'].reverse.each do |history|
+          #this custom field changes when sprint is changed
+          next if history['items'].first['fieldId'] != 'customfield_10020'
+          issue.sprint_issues << SprintIssue.from_jira(history, issue)
+        end
+
         issues << issue
       end
 

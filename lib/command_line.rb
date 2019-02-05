@@ -13,7 +13,12 @@ class CommandLine
 
     last_sprints.each do |last_sprint|
       puts last_sprint
+      puts "Closed issues:"
       puts last_sprint.closed_issues
+      puts "Open issues:"
+      puts last_sprint.open_issues
+      puts "Added issues"
+      puts last_sprint.issues_added_after_start
       puts last_sprint.sprint_epics
       puts last_sprint.sprint_parent_epics
     end

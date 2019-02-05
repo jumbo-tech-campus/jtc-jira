@@ -6,6 +6,22 @@ class SprintRepository
     @client = jira_client
   end
 
+  def find(id)
+    sprint = @records[id]
+
+    return sprint unless sprint.nil?
+
+    begin
+      sprint = Sprint.from_jira(@client.Sprint.find(id).to_json)
+    rescue JIRA::HTTPError
+      # apparently sprint was deleted
+      sprint = Sprint.new(id, 'Deleted sprint', 'closed', nil, nil, nil)
+    end
+
+    @records[id] = sprint
+    sprint
+  end
+
   def find_by(options)
     if options[:board]
       find_by_board(options[:board])
