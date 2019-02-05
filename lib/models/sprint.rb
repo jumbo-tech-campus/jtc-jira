@@ -35,7 +35,7 @@ class Sprint
   def sprint_epics
     return @sprint_epics if @sprint_epics
 
-    no_sprint_epic = SprintEpic.new(self, Epic.new('X', 'Undefined', 0, 'Undefined'))
+    no_sprint_epic = SprintEpic.new(self, Epic.new('X', '', 0, 'Issues without epic'))
 
     @sprint_epics = issues.inject([]) do |memo, issue|
       if issue.epic
@@ -53,13 +53,13 @@ class Sprint
       memo
     end
 
-    @sprint_epics << no_sprint_epic
+    @sprint_epics << no_sprint_epic if no_sprint_epic.issues.size > 0
   end
 
   def sprint_parent_epics
     return @sprint_parent_epics if @sprint_parent_epics
 
-    no_sprint_parent_epic = SprintParentEpic.new(self, ParentEpic.new(0, 'X', 'Undefined'))
+    no_sprint_parent_epic = SprintParentEpic.new(self, ParentEpic.new(0, 'X', 'Issues without parent epic'))
 
     @sprint_parent_epics = sprint_epics.inject([]) do |memo, sprint_epic|
       if sprint_epic.parent_epic
@@ -76,7 +76,7 @@ class Sprint
       memo
     end
 
-    @sprint_parent_epics << no_sprint_parent_epic
+    @sprint_parent_epics << no_sprint_parent_epic if no_sprint_parent_epic.issues.size > 0
   end
 
   def to_s
