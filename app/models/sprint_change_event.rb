@@ -17,7 +17,7 @@ class SprintChangeEvent
   def added_after_sprint_start?
     return false unless to_sprint.start_date
 
-    self.created > DateTime.new(to_sprint.start_date.year, to_sprint.start_date.month, to_sprint.start_date.day, 23, 59, 59, to_sprint.start_date.zone)
+    self.created > to_sprint.start_date.end_of_day
   end
 
   def to_s
