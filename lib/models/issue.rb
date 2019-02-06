@@ -19,14 +19,12 @@ class Issue
     )
   end
 
-  def sprint_issue_for(sprint)
-    sprint_issues.select{ |sprint_issue| sprint_issue.sprint == sprint }.first
-  end
-
   def added_after_sprint_start?(sprint)
     return true if self.created > sprint.start_date
 
-    sprint_issue_for(sprint)&.added_after_sprint_start?
+    sprint_issue = sprint_issues.select{ |sprint_issue| sprint_issue.to_sprint == sprint }.first
+
+    sprint_issue&.added_after_sprint_start?
   end
 
   def to_s
