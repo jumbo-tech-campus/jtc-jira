@@ -1,7 +1,7 @@
 require_relative '../utils/date_helper'
 require_relative '../repositories/repository'
 
-class SprintIssue
+class SprintChangeEvent
   attr_reader :id, :created, :to_sprint, :issue
 
   def initialize(id, created, to_sprint, issue)

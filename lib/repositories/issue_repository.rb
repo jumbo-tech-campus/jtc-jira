@@ -1,5 +1,5 @@
 require_relative '../models/issue'
-require_relative '../models/sprint_issue'
+require_relative '../models/sprint_change_event'
 require_relative 'repository'
 
 class IssueRepository
@@ -36,7 +36,7 @@ class IssueRepository
         value['changelog']['histories'].reverse.each do |history|
           #this custom field changes when sprint is changed
           next if history['items'].first['fieldId'] != 'customfield_10020'
-          issue.sprint_issues << SprintIssue.from_jira(history, issue)
+          issue.sprint_change_events << SprintChangeEvent.from_jira(history, issue)
         end
 
         issues << issue
