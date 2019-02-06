@@ -1,13 +1,8 @@
-require_relative 'config'
-require_relative 'jira_client'
-
 class CommandLine
   def print_last_sprints(board_id, subteam, number_of_sprints)
     puts "Report for board #{board_id} #{subteam}"
-    config = Config.new(subteam)
-    config.init_repositories
 
-    board = Repository.for(:board).find(board_id)
+    board = Repository.for(:board).find_by(id: board_id, subteam: subteam)
 
     last_sprints = board.recent_closed_sprints(number_of_sprints)
 
@@ -26,10 +21,8 @@ class CommandLine
 
   def print_open_sprint(board_id, subteam)
     puts "Report for board #{board_id} #{subteam}"
-    config = Config.new(subteam)
-    config.init_repositories
 
-    board = Repository.for(:board).find(board_id)
+    board = Repository.for(:board).find_by(id: board_id, subteam: subteam)
 
     open_sprint = board.open_sprint
 

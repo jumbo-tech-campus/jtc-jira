@@ -1,6 +1,3 @@
-require_relative '../models/epic'
-require_relative 'repository'
-
 class EpicRepository
   def initialize(jira_client)
     @records = {}

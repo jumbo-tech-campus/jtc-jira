@@ -1,5 +1,6 @@
 require 'dotenv/load'
 require_relative 'lib/command_line'
+require_relative 'config/environment.rb'
 
 class Report < Thor
   desc "last_sprint", "Report statistics on last closed sprint for specified board id"

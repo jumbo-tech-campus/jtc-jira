@@ -1,5 +1,3 @@
-require_relative '../models/sprint'
-
 class SprintRepository
   def initialize(jira_client)
     @records = {}
@@ -24,12 +22,12 @@ class SprintRepository
 
   def find_by(options)
     if options[:board]
-      find_by_board(options[:board])
+      find_by_board(options[:board], options[:subteam])
     end
   end
 
   private
-  def find_by_board(board)
+  def find_by_board(board, subteam)
     start_at = 0
     sprints = []
 
@@ -38,6 +36,7 @@ class SprintRepository
 
       response['values'].each do |value|
         sprint = Sprint.from_jira(value)
+        sprint.subteam = subteam
         sprints << sprint
         @records[sprint.id] = sprint
       end

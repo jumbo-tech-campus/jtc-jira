@@ -1,5 +1,3 @@
-require_relative 'sprint_issue_abilities'
-
 class SprintParentEpic
   attr_reader :parent_epic
 

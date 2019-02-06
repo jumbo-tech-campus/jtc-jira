@@ -1,26 +1,21 @@
-require_relative 'issue'
-require_relative 'sprint_epic'
-require_relative 'sprint_parent_epic'
-require_relative 'sprint_issue_abilities'
-require_relative '../utils/date_helper'
-require_relative '../repositories/repository'
-
 class Sprint
   attr_reader :id, :name, :state, :percentage_of_points_closed, :start_date, :end_date, :complete_date
+  attr_accessor :subteam
 
   include SprintIssueAbilities
 
   def initialize(id, name, state, start_date, end_date, complete_date)
     @id, @name, @state, @start_date, @end_date, @complete_date = id, name, state, start_date, end_date, complete_date
+    @subteam = nil
 
     sprint_issue_abilities(self, nil)
   end
 
   def self.from_jira(json)
     new(json['id'], json['name'], json['state'],
-      DateHelper.safe_parse(json['startDate']),
-      DateHelper.safe_parse(json['endDate']),
-      DateHelper.safe_parse(json['completeDate']),
+      ApplicationHelper.safe_parse(json['startDate']),
+      ApplicationHelper.safe_parse(json['endDate']),
+      ApplicationHelper.safe_parse(json['completeDate'])
     )
   end
 

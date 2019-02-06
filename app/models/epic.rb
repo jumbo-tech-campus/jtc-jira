@@ -1,5 +1,3 @@
-require_relative 'parent_epic'
-
 class Epic
   attr_reader :key, :summary, :id, :name
   attr_accessor :parent_epic

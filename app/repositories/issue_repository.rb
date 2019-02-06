@@ -1,11 +1,6 @@
-require_relative '../models/issue'
-require_relative '../models/sprint_change_event'
-require_relative 'repository'
-
 class IssueRepository
-  def initialize(jira_client, config)
+  def initialize(jira_client)
     @client = jira_client
-    @config = config
   end
 
   def find_by(options)
@@ -25,8 +20,8 @@ class IssueRepository
         #filter out subtasks
         next if value['fields']['issuetype']['subtask']
         #filter on subteam
-        if @config.filter_subteam?
-          next if value['fields']['customfield_12613']['value'] != @config.subteam_name
+        if sprint.subteam
+          next if value['fields']['customfield_12613']['value'] != sprint.subteam
         end
 
         issue = Issue.from_jira(value)

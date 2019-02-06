@@ -1,5 +1,3 @@
-require_relative 'sprint'
-
 class Board
   attr_reader :name, :id, :sprints
 

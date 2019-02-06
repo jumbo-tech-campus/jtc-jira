@@ -1,6 +1,3 @@
-require_relative 'epic'
-require_relative '../utils/date_helper'
-
 class Issue
   attr_reader :key, :summary, :id, :source, :estimation, :created, :resolution_date, :sprint_change_events
   attr_accessor :epic
@@ -13,8 +10,8 @@ class Issue
   def self.from_jira(json)
     new(json['key'], json['fields']['summary'],
       json['id'], json['fields']['customfield_10014'] || 0,
-      DateHelper.safe_parse(json['fields']['created']),
-      DateHelper.safe_parse(json['fields']['resolutiondate']),
+      ApplicationHelper.safe_parse(json['fields']['created']),
+      ApplicationHelper.safe_parse(json['fields']['resolutiondate']),
       json
     )
   end

@@ -5,9 +5,9 @@ class JiraClient
 
   def initialize
     options = {
-      :username     => ENV['USERNAME'],
-      :password     => ENV['API_KEY'],
-      :site         => ENV['SITE'],
+      :username     => ENV['JIRA_USERNAME'],
+      :password     => ENV['JIRA_API_KEY'],
+      :site         => ENV['JIRA_SITE'],
       :context_path => '',
       :auth_type    => :basic
     }

@@ -1,6 +1,3 @@
-require_relative '../utils/date_helper'
-require_relative '../repositories/repository'
-
 class SprintChangeEvent
   attr_reader :id, :created, :to_sprint, :issue
 
@@ -11,7 +8,7 @@ class SprintChangeEvent
   def self.from_jira(json, issue)
     to_sprint_id = json['items'].first['to'].split(',').last.to_i
     to_sprint  = Repository.for(:sprint).find(to_sprint_id) unless to_sprint_id == 0
-    new(json['id'], DateHelper.safe_parse(json['created']),
+    new(json['id'], ApplicationHelper.safe_parse(json['created']),
       to_sprint,
       issue
     )
