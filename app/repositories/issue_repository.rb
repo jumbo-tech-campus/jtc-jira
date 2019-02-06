@@ -29,6 +29,7 @@ class IssueRepository
 
 
         value['changelog']['histories'].reverse.each do |history|
+          next unless history['items'].first
           #this custom field changes when sprint is changed
           next if history['items'].first['fieldId'] != 'customfield_10020'
           issue.sprint_change_events << SprintChangeEvent.from_jira(history, issue)
