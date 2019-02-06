@@ -17,7 +17,7 @@ class Report < Thor
     team_config = YAML.load_file('config.yaml')
     command_line = CommandLine.new
     team_config.each do |options|
-      command_line.print_last_sprint(options[:board_id], options[:subteam])
+      command_line.print_last_sprints(options[:board_id], options[:subteam], 1)
     end
   end
 
