@@ -26,5 +26,12 @@ module JtcJira
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.to_prepare do
+      client = JiraClient.new
+      Repository.register(:board, BoardRepository.new(client))
+      Repository.register(:sprint, SprintRepository.new(client))
+      Repository.register(:issue, IssueRepository.new(client))
+      Repository.register(:epic, EpicRepository.new(client))
+    end
   end
 end
