@@ -1,9 +1,9 @@
 class Issue
-  attr_reader :key, :summary, :id, :source, :estimation, :created, :resolution_date, :sprint_change_events
+  attr_reader :key, :summary, :id, :estimation, :created, :resolution_date, :sprint_change_events
   attr_accessor :epic
 
-  def initialize(key, summary, id, estimation, created, resolution_date, source)
-    @key, @summary, @id, @estimation, @created, @resolution_date, @source = key, summary, id, estimation, created, resolution_date, source
+  def initialize(key, summary, id, estimation, created, resolution_date)
+    @key, @summary, @id, @estimation, @created, @resolution_date = key, summary, id, estimation, created, resolution_date
     @sprint_change_events = []
   end
 
@@ -11,8 +11,7 @@ class Issue
     new(json['key'], json['fields']['summary'],
       json['id'], json['fields']['customfield_10014'] || 0,
       ApplicationHelper.safe_parse(json['fields']['created']),
-      ApplicationHelper.safe_parse(json['fields']['resolutiondate']),
-      json
+      ApplicationHelper.safe_parse(json['fields']['resolutiondate'])
     )
   end
 
