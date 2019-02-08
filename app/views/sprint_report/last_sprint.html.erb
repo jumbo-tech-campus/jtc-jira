@@ -1,20 +1,135 @@
-<div>
-    <%= @sprint %><br>
-    Closed issues:<br>
-    <% @sprint.closed_issues.each do |issue| %>
-      <%= issue %><br>
-    <% end %>
-    Open issues:<br>
-    <% @sprint.open_issues.each do |issue| %>
-      <%= issue %><br>
-    <% end %>
+   <nav class="navbar navbar-white navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <div class="pull-left">
+          <span class="panel-heading">Sprint:</span>
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-info active">
+              <input type="checkbox" autocomplete="off" checked> <%= @sprint.name %>
+            </label>
+          </div>
+        </div>      
+      </nav>
 
-    <% @sprint.sprint_epics.each do |sprint_epic| %>
-      <%= sprint_epic %><br>
-    <% end %>
+      <div class="col-sm-12 col-lg-12 main">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">Portofio View
+              </div>
+              <div class="panel-body">
+                <% @sprint.sprint_parent_epics.each do |sprint_parent_epic| %>
 
-    <% @sprint.sprint_parent_epics.each do |sprint_parent_epic| %>
-      <%= sprint_parent_epic %><br>
-    <% end %>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= sprint_parent_epic.percentage_of_points_closed.round() %>%;">
+                    <span class="sr-only"><%= sprint_parent_epic.percentage_of_points_closed.round() %>% Complete</span>
+                  </div>
+                  <span class="progress-type"><%= sprint_parent_epic.parent_epic.key %> - <%= sprint_parent_epic.parent_epic.summary %></span>
+                  <span class="progress-completed"><%= sprint_parent_epic.percentage_of_points_closed.round() %>%</span>
+                </div>
 
-</div>
+                <% end %>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">Epics View
+              </div>
+              <div class="panel-body">
+                <% @sprint.sprint_epics.each do |sprint_epic| %>
+
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= sprint_epic.percentage_of_points_closed.round() %>%;">
+                    <span class="sr-only"><%= sprint_epic.percentage_of_points_closed.round() %>% Complete</span>
+                  </div>
+                  <span class="progress-type"><%= sprint_epic.epic.key %> - <%= sprint_epic.epic.name %></span>
+                  <span class="progress-completed"><%= sprint_epic.percentage_of_points_closed.round() %>%</span>
+                </div>
+
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">Issues
+              </div>
+              <div class="panel-body">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="active"><a href="#closed" role="tab" data-toggle="tab">Closed</a></li>
+                  <li><a href="#opened" role="tab" data-toggle="tab">Opened</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div class="tab-pane active" id="closed">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Code</th>
+                          <th>Title</th>
+                          <th>Estimation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                       <% @sprint.closed_issues.each do |issue| %>
+                       <tr>
+                        <td>
+                          <a><%= issue.key %></a>
+                        </td>
+                        <td><%= issue.summary %></td>
+                        <td><%= issue.estimation %></td>
+                      </tr>
+                      <% end %>
+                    </tbody>
+                  </table>  
+                </div>
+                <div class="tab-pane" id="opened">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Code</th>
+                          <th>Title</th>
+                          <th>Estimation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                       <% @sprint.open_issues.each do |issue| %>
+                       <tr>
+                        <td>
+                          <a><%= issue.key %></a>
+                        </td>
+                        <td><%= issue.summary %></td>
+                        <td><%= issue.estimation %></td>
+                      </tr>
+                      <% end %>
+                    </tbody>
+                  </table>  
+
+                </div>
+              </div> 
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+     <!--    <%= @sprint %><br>
+        Closed issues:<br>
+        <% @sprint.closed_issues.each do |issue| %>
+        <%= issue %><br>
+        <% end %>
+        Open issues:<br>
+        <% @sprint.open_issues.each do |issue| %>
+        <%= issue %><br>
+        <% end %>
+
+        <% @sprint.sprint_epics.each do |sprint_epic| %>
+        <%= sprint_epic %><br>
+        <% end %>
+
+        <% @sprint.sprint_parent_epics.each do |sprint_parent_epic| %>
+        <%= sprint_parent_epic %><br>
+        <% end %> -->
+
+
