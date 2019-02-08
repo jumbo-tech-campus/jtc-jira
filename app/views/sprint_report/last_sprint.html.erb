@@ -1,13 +1,20 @@
 <div>
-  <p>
-    <%= @sprint %>
-    Closed issues:
-    <%= @sprint.closed_issues.each{ |issue| issue.to_s } %>
-    Open issues:
-    <%= @sprint.open_issues %>
-    Added issues
-    <%= @sprint.issues_added_after_start %>
-    <%= @sprint.sprint_epics %>
-    <%= @sprint.sprint_parent_epics %>
-  </p>
+    <%= @sprint %><br>
+    Closed issues:<br>
+    <% @sprint.closed_issues.each do |issue| %>
+      <%= issue %><br>
+    <% end %>
+    Open issues:<br>
+    <% @sprint.open_issues.each do |issue| %>
+      <%= issue %><br>
+    <% end %>
+
+    <% @sprint.sprint_epics.each do |sprint_epic| %>
+      <%= sprint_epic %><br>
+    <% end %>
+
+    <% @sprint.sprint_parent_epics.each do |sprint_parent_epic| %>
+      <%= sprint_parent_epic %><br>
+    <% end %>
+
 </div>
