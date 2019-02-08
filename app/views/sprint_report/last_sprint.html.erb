@@ -8,24 +8,24 @@
               <input type="checkbox" autocomplete="off" checked> <%= @sprint.name %>
             </label>
           </div>
-        </div>      
+        </div>
       </nav>
 
       <div class="col-sm-12 col-lg-12 main">
         <div class="row">
           <div class="col-lg-6">
             <div class="panel panel-default">
-              <div class="panel-heading">Portofio View
+              <div class="panel-heading">Portfolio View
               </div>
               <div class="panel-body">
                 <% @sprint.sprint_parent_epics.each do |sprint_parent_epic| %>
 
                 <div class="progress">
-                 
-                  <div 
-                      
+
+                  <div
+
                       <% if sprint_parent_epic.parent_epic.id > 0 %>
-                      class="progress-bar" 
+                      class="progress-bar"
                       <% else %>
                       class="progress-bar progress-bar-warning"
                       <% end %>
@@ -66,7 +66,7 @@
               <div class="panel-body">
                 <ul class="nav nav-tabs" role="tablist">
                   <li class="active"><a href="#closed" role="tab" data-toggle="tab">Closed</a></li>
-                  <li><a href="#opened" role="tab" data-toggle="tab">Opened</a></li>
+                  <li><a href="#opened" role="tab" data-toggle="tab">Open</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -91,7 +91,7 @@
                       </tr>
                       <% end %>
                     </tbody>
-                  </table>  
+                  </table>
                 </div>
                 <div class="tab-pane" id="opened">
                     <table class="table table-bordered">
@@ -113,33 +113,12 @@
                       </tr>
                       <% end %>
                     </tbody>
-                  </table>  
+                  </table>
 
                 </div>
-              </div> 
+              </div>
             </div>
           </div>
 
         </div>
       </div>
-
-
-     <!--    <%= @sprint %><br>
-        Closed issues:<br>
-        <% @sprint.closed_issues.each do |issue| %>
-        <%= issue %><br>
-        <% end %>
-        Open issues:<br>
-        <% @sprint.open_issues.each do |issue| %>
-        <%= issue %><br>
-        <% end %>
-
-        <% @sprint.sprint_epics.each do |sprint_epic| %>
-        <%= sprint_epic %><br>
-        <% end %>
-
-        <% @sprint.sprint_parent_epics.each do |sprint_parent_epic| %>
-        <%= sprint_parent_epic %><br>
-        <% end %> -->
-
-
