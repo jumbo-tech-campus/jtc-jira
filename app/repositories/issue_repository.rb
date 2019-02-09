@@ -21,7 +21,7 @@ class IssueRepository
         next if value['fields']['issuetype']['subtask']
         #filter on subteam
         if sprint.subteam
-          next if value['fields']['customfield_12613']['value'] != sprint.subteam
+          next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != sprint.subteam
         end
 
         issue = Issue.from_jira(value)

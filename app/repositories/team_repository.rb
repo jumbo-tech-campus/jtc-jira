@@ -7,4 +7,10 @@ class TeamRepository
       team
     end
   end
+
+  def find_by(options)
+    if options[:board_id]
+      all.select{ |team| team.board_id == options[:board_id]}
+    end
+  end
 end

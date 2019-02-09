@@ -36,6 +36,9 @@ class SprintRepository
 
       response['values'].each do |value|
         sprint = Sprint.from_jira(value)
+        #skip future sprints
+        next unless sprint.start_date
+
         sprint.subteam = subteam
         sprints << sprint
         @records[sprint.id] = sprint
