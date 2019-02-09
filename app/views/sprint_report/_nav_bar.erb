@@ -17,7 +17,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <% @board.recent_sprints(6).each do |sprint| %>
-              <a class="dropdown-item" href="<%= sprint_report_path(id: sprint.id, board_id: @board.id, subteam: sprint.subteam)%>"><%= sprint.name %></a>
+              <a class="dropdown-item <%= 'active' if sprint == @sprint %>" href="<%= sprint_report_path(id: sprint.id, board_id: @board.id, subteam: sprint.subteam)%>"><%= sprint.name %></a>
             <% end %>
           </div>
         </li>
@@ -27,7 +27,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <% @teams.each do |team| %>
-              <a class="dropdown-item" href="<%= last_sprint_report_path(board_id: team.board_id, subteam: team.subteam)%>"><%= team.name %></a>
+              <a class="dropdown-item <%= 'active' if team.name == @board.team.name %>" href="<%= last_sprint_report_path(board_id: team.board_id, subteam: team.subteam)%>"><%= team.name %></a>
             <% end %>
           </div>
         </li>

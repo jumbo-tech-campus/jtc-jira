@@ -591,6 +591,11 @@ a.bg-danger:hover {
     color: #5f6468;
 }
 
+.dropdown-item.active, .dropdown-item:active {
+    background-color: rgb(253, 197, 19);
+    color: #5f6468;
+}
+
 input.fixed-size {
     width: 100px !important;
 }
