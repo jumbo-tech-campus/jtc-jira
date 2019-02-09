@@ -1,9 +1,9 @@
 class Board
   attr_reader :name, :id, :sprints
+  attr_accessor :team
 
   def initialize(name, id)
-    @name = name
-    @id = id
+    @name, @id = name, id
     @sprints = []
   end
 
@@ -21,6 +21,10 @@ class Board
 
   def recent_closed_sprints(n)
     closed_sprints.sort_by{ |sprint| sprint.end_date }.reverse.take(n)
+  end
+
+  def recent_sprints(n)
+    sprints.sort_by{ |sprint| sprint.end_date }.reverse.take(n)
   end
 
   def last_closed_sprint

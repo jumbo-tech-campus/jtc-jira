@@ -581,6 +581,16 @@ a.bg-danger:hover {
     box-shadow: inset 0px 0px 0px 1px #30a5ff;
 }
 
+.nav-item {
+    font-family: JumboBold;
+    color: #5f6468;
+}
+
+.dropdown-item {
+    font-family: JumboRegular;
+    color: #5f6468;
+}
+
 input.fixed-size {
     width: 100px !important;
 }

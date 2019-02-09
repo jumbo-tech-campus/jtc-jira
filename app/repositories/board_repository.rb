@@ -6,10 +6,18 @@ class BoardRepository
 
   def find_by(options)
     if options[:id]
-      @records[options[:id]] ||= load_board(options[:id], options[:subteam])
+      return @records[options[:id]] if @records[options[:id]]
+
+      board = load_board(options[:id], options[:subteam])
+      board.team = Repository.for(:team).find_by(board_id: options[:id]).first
     elsif options[:team]
-      @records[options[team].board_id] ||= load_board(options[:team].board_id, options[:team].subteam)
+      team = options[:team]
+      return @records[team.board_id] if @records[team.board_id]
+
+      board = load_board(team.board_id, team.subteam)
+      board.team = team
     end
+    @records[board.id] ||= board
   end
 
   private
