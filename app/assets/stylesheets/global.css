@@ -7,14 +7,10 @@ body {
     font-family: JumboRegular,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 }
 
-p {
-    color: #777;
-}
-
 a,
 a:hover,
 a:focus {
-    color: #30a5ff;
+    color: #5f6468;
 }
 
 h1,
@@ -24,6 +20,7 @@ h4,
 h5,
 h6 {
     color: #5f6468;
+    font-family: JumboBold;
 }
 
 h1 {
@@ -41,12 +38,17 @@ h4 {
     font-weight: 300;
 }
 
+strong {
+  color: #5f6468 !important;
+  font-family: JumboBold;
+}
+
 .large {
     font-size: 2em;
 }
 
 .text-muted {
-    color: #9fadbb;
+    color: #9fadbb !important;
 }
 
 button {
@@ -343,6 +345,16 @@ a.bg-danger:hover {
 .bg-danger a {
     color: rgba(255, 255, 255, .75);
 }
+
+
+.bg-orange {
+    background-color: rgb(255,165,0);
+}
+
+.bg-yellow {
+    background-color: rgb(253, 197, 19);
+}
+
 
 /*cards*/
 .card-header {
@@ -964,14 +976,6 @@ select.auto {
 .progress {
     position: relative;
     height: 25px;
-}
-
-.progress-bar-warning {
-    background-color: rgb(255,165,0);
-}
-
-.progress-bar {
-    background-color: rgb(253, 197, 19);
 }
 
 .progress > .progress-type {

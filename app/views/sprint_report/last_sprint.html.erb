@@ -72,7 +72,7 @@
                        <div class="tab-pane active" id="closed">
                            <table class="table table-bordered">
                                <thead>
-                                   <tr>
+                                   <tr class="small">
                                        <th>Code</th>
                                        <th>Title</th>
                                        <th>Estimation</th>
@@ -80,10 +80,8 @@
                                </thead>
                                <tbody>
                                    <% @sprint.closed_issues.each do |issue| %>
-                                   <tr>
-                                    <td>
-                                      <a><%= issue.key %></a>
-                                    </td>
+                                   <tr class="small">
+                                    <td nowrap><%= issue.key %></td>
                                     <td><%= issue.summary %></td>
                                     <td><%= issue.estimation %></td>
                                   </tr>
@@ -102,10 +100,8 @@
                                </thead>
                                <tbody>
                                    <% @sprint.open_issues.each do |issue| %>
-                                   <tr>
-                                    <td>
-                                      <a><%= issue.key %></a>
-                                    </td>
+                                   <tr class="small">
+                                    <td nowrap><%= issue.key %></td>
                                     <td><%= issue.summary %></td>
                                     <td><%= issue.estimation %></td>
                                   </tr>
