@@ -1,0 +1,37 @@
+<header>
+  <nav class="navbar navbar-light navbar-white fixed-top navbar-expand-lg" role="navigation">
+    <a class="navbar-brand" href="<%= root_path %>">
+      <%= image_tag('320px-Jumbo_Logo.svg.png', height: '32', class:'mr-3') %>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="<%= last_sprint_report_path(board_id: @board.id, subteam: @sprint.subteam) %>">Team <%= @board.team.name %><span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sprints
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <% @board.recent_sprints(6).each do |sprint| %>
+              <a class="dropdown-item <%= 'active' if sprint == @sprint %>" href="<%= sprint_report_path(id: sprint.id, board_id: @board.id, subteam: sprint.subteam)%>"><%= sprint.name %></a>
+            <% end %>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Teams
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <% @teams.each do |team| %>
+              <a class="dropdown-item <%= 'active' if team.name == @board.team.name %>" href="<%= last_sprint_report_path(board_id: team.board_id, subteam: team.subteam)%>"><%= team.name %></a>
+            <% end %>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
