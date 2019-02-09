@@ -7,6 +7,8 @@ class BoardRepository
   def find_by(options)
     if options[:id]
       @records[options[:id]] ||= load_board(options[:id], options[:subteam])
+    elsif options[:team]
+      @records[options[team].board_id] ||= load_board(options[:team].board_id, options[:team].subteam)
     end
   end
 

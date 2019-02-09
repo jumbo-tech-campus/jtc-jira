@@ -12,7 +12,7 @@ class Sprint
   end
 
   def self.from_jira(json)
-    new(json['id'], json['name'], json['state'],
+    new(json['id'].to_i, json['name'], json['state'],
       ApplicationHelper.safe_parse(json['startDate']),
       ApplicationHelper.safe_parse(json['endDate']),
       ApplicationHelper.safe_parse(json['completeDate'])
@@ -38,7 +38,7 @@ class Sprint
   def sprint_epics
     return @sprint_epics if @sprint_epics
 
-    no_sprint_epic = SprintEpic.new(self, Epic.new('X', '', 0, 'Issues without epic'))
+    no_sprint_epic = SprintEpic.new(self, Epic.new('DEV', 'Issues without epic', 0, 'Issues without epic'))
 
     @sprint_epics = issues.inject([]) do |memo, issue|
       if issue.epic
@@ -62,7 +62,7 @@ class Sprint
   def sprint_parent_epics
     return @sprint_parent_epics if @sprint_parent_epics
 
-    no_sprint_parent_epic = SprintParentEpic.new(self, ParentEpic.new(0, 'X', 'Issues without parent epic'))
+    no_sprint_parent_epic = SprintParentEpic.new(self, ParentEpic.new(0, 'DEV', 'Issues without portfolio epic'))
 
     @sprint_parent_epics = sprint_epics.inject([]) do |memo, sprint_epic|
       if sprint_epic.parent_epic

@@ -32,6 +32,8 @@ module JtcJira
       Repository.register(:sprint, SprintRepository.new(client))
       Repository.register(:issue, IssueRepository.new(client))
       Repository.register(:epic, EpicRepository.new(client))
+      Repository.register(:project, ProjectRepository.new(client))
+      Repository.register(:team, TeamRepository.new)
     end
   end
 end

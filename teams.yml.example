@@ -1,6 +1,8 @@
 - team_1:
+  :name: <<The name of the team>>
   :board_id: <<JIRA rapidview ID of your board>>
   :subteam: <<subteam name, optional, only needed if you use the subteam property in issues>>
 - team_2:
+  :name: <<The name of the team>>
   :board_id: <<JIRA rapidview ID of your board>>
   :subteam: <<subteam name, optional, only needed if you use the subteam property in issues>>
