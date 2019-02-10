@@ -1,4 +1,4 @@
-class Team
+class Team < ActiveModelSerializers::Model
   extend Forwardable
 
   attr_reader :name, :board_id, :subteam
@@ -6,6 +6,12 @@ class Team
 
   def initialize(name, board_id, subteam)
     @name, @board_id, @subteam = name, board_id, subteam
+  end
+
+  def self.from_cache(json)
+    team = new(json['name'], json['board_id'], json['subteam'])
+    team.project = Project.from_cache(json['project'])
+    team
   end
 
   def_delegator :@project, :avatars

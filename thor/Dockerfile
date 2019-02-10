@@ -23,4 +23,4 @@ RUN bundle install
 
 ADD . .
 
-CMD bash -c "rm -f /app/tmp/pids/server.pid; bundle exec rails s -p 3001 -b '0.0.0.0'"
+CMD bash -c "thor cache:all"

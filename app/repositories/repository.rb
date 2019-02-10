@@ -8,6 +8,6 @@ class Repository
   end
 
   def self.for(type)
-   repositories[type]
+    repositories[type]
   end
 end

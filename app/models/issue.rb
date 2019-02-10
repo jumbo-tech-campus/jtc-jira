@@ -1,4 +1,4 @@
-class Issue
+class Issue < ActiveModelSerializers::Model
   attr_reader :key, :summary, :id, :estimation, :created, :resolution_date, :sprint_change_events
   attr_accessor :epic
 
@@ -13,6 +13,16 @@ class Issue
       ApplicationHelper.safe_parse(json['fields']['created']),
       ApplicationHelper.safe_parse(json['fields']['resolutiondate'])
     )
+  end
+
+  def self.from_cache(json)
+    issue = new(json['key'], json['summary'],
+      json['id'], json['estimation'],
+      ApplicationHelper.safe_parse(json['created']),
+      ApplicationHelper.safe_parse(json['resolution_date'])
+    )
+    issue.epic = Epic.from_cache(json['epic'])
+    issue
   end
 
   def added_after_sprint_start?(sprint)

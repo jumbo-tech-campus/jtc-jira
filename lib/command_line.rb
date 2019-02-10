@@ -2,7 +2,7 @@ class CommandLine
   def print_last_sprints(board_id, subteam, number_of_sprints)
     puts "Report for board #{board_id} #{subteam}"
 
-    board = Repository.for(:board).find_by(id: board_id, subteam: subteam)
+    board = Repository.for(:board).find(board_id)
 
     last_sprints = board.recent_closed_sprints(number_of_sprints)
 
@@ -22,7 +22,7 @@ class CommandLine
   def print_open_sprint(board_id, subteam)
     puts "Report for board #{board_id} #{subteam}"
 
-    board = Repository.for(:board).find_by(id: board_id, subteam: subteam)
+    board = Repository.for(:board).find(board_id)
 
     open_sprint = board.open_sprint
 

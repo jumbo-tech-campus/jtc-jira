@@ -1,4 +1,4 @@
-class SprintChangeEvent
+class SprintChangeEvent < ActiveModelSerializers::Model
   attr_reader :id, :created, :to_sprint, :issue
 
   def initialize(id, created, to_sprint, issue)

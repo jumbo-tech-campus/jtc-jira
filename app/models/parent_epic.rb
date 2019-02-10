@@ -1,4 +1,4 @@
-class ParentEpic
+class ParentEpic < ActiveModelSerializers::Model
   attr_reader :id, :key, :summary
 
   def initialize(id, key, summary)
@@ -6,6 +6,12 @@ class ParentEpic
   end
 
   def self.from_jira(json)
+    return nil if json.nil?
+
+    new(json['id'], json['key'], json['summary'])
+  end
+
+  def self.from_cache(json)
     return nil if json.nil?
 
     new(json['id'], json['key'], json['summary'])

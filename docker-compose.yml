@@ -3,9 +3,29 @@ version: '3.6'
 services:
   web:
     build: .
+    depends_on:
+      - redis
     volumes:
       - ./:/app
     working_dir: /app
     command: bash -c "rm -f /app/tmp/pids/server.pid; bundle exec rails s -p 3001 -b '0.0.0.0'"
     ports:
       - 3001:3001
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis:/data
+  thor_runner:
+    build:
+      context: .
+      dockerfile: ./thor/Dockerfile
+    depends_on:
+      - redis
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: bash -c "thor cache:all"
+
+
+volumes:
+  redis:
