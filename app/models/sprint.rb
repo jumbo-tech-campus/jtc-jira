@@ -1,5 +1,5 @@
-class Sprint
-  attr_reader :id, :name, :state, :percentage_of_points_closed, :start_date, :end_date, :complete_date
+class Sprint < ActiveModelSerializers::Model
+  attr_reader :id, :name, :state, :start_date, :end_date, :complete_date
   attr_accessor :subteam
 
   include SprintIssueAbilities

@@ -1,4 +1,4 @@
-class Issue
+class Issue < ActiveModelSerializers::Model
   attr_reader :key, :summary, :id, :estimation, :created, :resolution_date, :sprint_change_events
   attr_accessor :epic
 

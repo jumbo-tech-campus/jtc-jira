@@ -1,4 +1,4 @@
-class Board
+class Board < ActiveModelSerializers::Model
   attr_reader :name, :id, :sprints
   attr_accessor :team
 

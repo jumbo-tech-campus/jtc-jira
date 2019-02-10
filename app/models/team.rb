@@ -1,4 +1,4 @@
-class Team
+class Team < ActiveModelSerializers::Model
   extend Forwardable
 
   attr_reader :name, :board_id, :subteam

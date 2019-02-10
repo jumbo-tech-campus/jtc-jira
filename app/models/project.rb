@@ -1,4 +1,4 @@
-class Project
+class Project < ActiveModelSerializers::Model
   attr_reader :key, :name, :avatars
 
   def initialize(key, name, avatars)

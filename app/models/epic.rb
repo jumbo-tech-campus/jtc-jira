@@ -1,4 +1,4 @@
-class Epic
+class Epic < ActiveModelSerializers::Model
   attr_reader :key, :summary, :id, :name
   attr_accessor :parent_epic
 
