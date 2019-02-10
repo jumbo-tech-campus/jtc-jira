@@ -41,6 +41,7 @@ h4 {
 strong {
   color: #5f6468 !important;
   font-family: JumboBold;
+  font-weight: 500;
 }
 
 .large {
@@ -584,6 +585,16 @@ a.bg-danger:hover {
 .nav-item {
     font-family: JumboBold;
     color: #5f6468;
+}
+
+.nav-tabs .nav-link.active {
+    font-family: JumboBold;
+    color: #5f6468;
+}
+
+.nav-tabs .nav-link {
+    font-family: JumboBold;
+    color: #9fadbb;
 }
 
 .dropdown-item {
