@@ -6,7 +6,7 @@ module Cache
     end
 
     def find(id)
-      @records[id] ||= Board.from_cache(JSON.parse(@client.get("board.#{id}")))
+      @records[id] ||= Factory.for(:board).create_from_json(JSON.parse(@client.get("board.#{id}")))
     end
 
     def save(board)

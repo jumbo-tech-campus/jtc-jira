@@ -21,7 +21,7 @@ module Jira
             next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != sprint.subteam
           end
 
-          issue = Issue.from_jira(value)
+          issue = Factory.for(:issue).create_from_jira(value)
           issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
 
 
@@ -29,7 +29,7 @@ module Jira
             next unless history['items'].first
             #this custom field changes when sprint is changed
             next if history['items'].first['fieldId'] != 'customfield_10020'
-            issue.sprint_change_events << SprintChangeEvent.from_jira(history, issue)
+            issue.sprint_change_events << Factory.for(:sprint_change_event).create_from_jira(history, issue)
           end
 
           issues << issue

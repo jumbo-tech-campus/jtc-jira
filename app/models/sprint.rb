@@ -11,24 +11,6 @@ class Sprint < ActiveModelSerializers::Model
     sprint_issue_abilities(self, nil)
   end
 
-  def self.from_jira(json)
-    new(json['id'].to_i, json['name'], json['state'],
-      ApplicationHelper.safe_parse(json['startDate']),
-      ApplicationHelper.safe_parse(json['endDate']),
-      ApplicationHelper.safe_parse(json['completeDate'])
-    )
-  end
-
-  def self.from_cache(json)
-    sprint = new(json['id'].to_i, json['name'], json['state'],
-      ApplicationHelper.safe_parse(json['start_date']),
-      ApplicationHelper.safe_parse(json['end_date']),
-      ApplicationHelper.safe_parse(json['complete_date'])
-    )
-    sprint.subteam = json['subteam']
-    sprint
-  end
-
   def closed?
     state == 'closed'
   end

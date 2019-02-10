@@ -6,7 +6,7 @@ module Jira
     end
 
     def find(key)
-      @records[key] ||= Project.from_jira(@client.Project.find(key))
+      @records[key] ||= Factory.for(:project).create_from_jira(@client.Project.find(key))
     end
   end
 end

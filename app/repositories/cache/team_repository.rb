@@ -6,7 +6,7 @@ module Cache
 
     def all
       JSON.parse(@client.get("teams")).map do |team|
-        Team.from_cache(team)
+        Factory.for(:team).create_from_json(team)
       end
     end
 

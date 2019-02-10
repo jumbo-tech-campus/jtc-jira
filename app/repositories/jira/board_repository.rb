@@ -22,7 +22,7 @@ module Jira
 
     private
     def load_board(id, subteam)
-      board = Board.from_jira(@client.Board.find(id))
+      board = Factory.for(:board).create_from_jira(@client.Board.find(id))
       load_sprints(board, subteam)
       board
     end
