@@ -49,14 +49,65 @@
        </div>
        <div class="col-xl-6">
            <div class="card box-shadow">
-               <div class="card-header">Issues</div>
+               <div class="card-header">Sprint view</div>
                <div class="card-body">
+                   <div>
+                     <table class="table table-borderless">
+                         <tbody>
+                             <tr>
+                              <td class="small p-1"><strong>Team</strong></td>
+                              <td class="small p-1">
+                                <img src="<%= @board.team.avatars['24x24'] %>" alt="" class="mr-2 rounded" height="24" width="24">
+                                <%= @board.team.name %>
+                              </td>
+                            </tr>
+                            <tr>
+                             <td class="small p-1"><strong>Sprint</strong></td>
+                             <td class="small p-1">
+                               <% if @sprint.complete_date %>
+                                <%= "#{@sprint.name} (started: #{@sprint.start_date.strftime('%d-%m-%Y')}, ended: #{@sprint.complete_date.strftime('%d-%m-%Y')})" %>
+                               <% else %>
+                                <%= "Current sprint (started: #{@sprint.start_date.strftime('%d-%m-%Y')})" %>
+                               <% end %>
+                             </td>
+                            </tr>
+                            <tr>
+                             <td class="small p-1"><strong>Points closed</strong></td>
+                             <td class="small p-1">
+                                <%= @sprint.points_closed %>
+                             </td>
+                           </tr>
+                           <tr>
+                            <td class="small p-1"><strong>Points open</strong></td>
+                            <td class="small p-1">
+                               <%= @sprint.points_open %>
+                            </td>
+                          </tr>
+                          <tr>
+                           <td class="small p-1"><strong>Percentage closed</strong></td>
+                           <td class="small p-1">
+                             <div class="progress">
+                               <div class="progress-bar bg-yellow"
+                               role="progressbar" aria-valuenow="<%= @sprint.percentage_of_points_closed.round() %>"
+                               aria-valuemin="0"
+                               aria-valuemax="100" style="width: <%= @sprint.percentage_of_points_closed.round() %>%;">
+                               </div>
+                               <span class="progress-completed"><%= @sprint.percentage_of_points_closed.round() %>%</span>
+                             </div>
+                           </td>
+                          </tr>
+                        </tbody>
+                     </table>
+                   </div>
+
                    <ul class="nav nav-tabs" role="tablist">
                        <li class="nav-item">
-                         <a href="#closed" id="closed-tab" role="tab" data-toggle="tab" class="nav-link active" aria-controls="closed" aria-expanded="true">Closed</a>
+                         <a href="#closed" id="closed-tab" role="tab" data-toggle="tab"
+                         class="nav-link active" aria-controls="closed" aria-expanded="true">Closed issues (<%= @sprint.closed_issues.size %>)</a>
                        </li>
                        <li class="nav-item">
-                         <a href="#open" id="open-tab" role="tab" data-toggle="tab" class="nav-link" aria-controls="open" aria-expanded="false">Open</a>
+                         <a href="#open" id="open-tab" role="tab" data-toggle="tab"
+                         class="nav-link" aria-controls="open" aria-expanded="false">Open issues (<%= @sprint.open_issues.size %>)</a>
                        </li>
                    </ul>
                    <!-- Tab panes -->
