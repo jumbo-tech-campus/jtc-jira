@@ -19,3 +19,9 @@ The application uses a Redis cache to store the data from JIRA. There is a Thor 
 ### Running the application without cache
 It's possible to run the application without using the cache. It then queries the JIRA API on each page load. Change the value `:use_cached_data: true
 ` to `:use_cached_data: false` in [config.yml](./config.yml) and restart the application.
+
+## Development
+
+The application is built on Ruby on Rails 5, using Ruby 2.6. It follows a lot of the standard Rails development practices, except that it does not use ActiveRecord, but factory and repository patterns for object creation and persistence. The front-end is built with Bootstrap 4. It uses Docker containers in a docker-compose setup to make development and deployment easy. There are no unit tests yet, however adding them should be fairly simple and PR's containing tests will be welcomed.
+
+The application is a prototype to show how easy it can be to automate sprint reporting on portfolio epics if your team uses JIRA and consistently estimates the issues in a sprint. Even though the application does not change data in JIRA, use of this application is on your own risk. The authors nor Jumbo Supermarkten can be held responsible for any issues that may occur when using this application.
