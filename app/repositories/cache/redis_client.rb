@@ -5,7 +5,7 @@ module Cache
     extend Forwardable
 
     def initialize
-      @client = Redis.new(host: 'redis')
+      @client = Redis.new(host: ENV['REDIS_HOST'])
     end
 
     def_delegators :@client, :get, :set, :keys
