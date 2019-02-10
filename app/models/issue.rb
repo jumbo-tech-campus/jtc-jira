@@ -15,6 +15,16 @@ class Issue < ActiveModelSerializers::Model
     )
   end
 
+  def self.from_cache(json)
+    issue = new(json['key'], json['summary'],
+      json['id'], json['estimation'],
+      ApplicationHelper.safe_parse(json['created']),
+      ApplicationHelper.safe_parse(json['resolution_date'])
+    )
+    issue.epic = Epic.from_cache(json['epic'])
+    issue
+  end
+
   def added_after_sprint_start?(sprint)
     return true if self.created > sprint.start_date
 

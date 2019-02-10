@@ -11,6 +11,15 @@ class Board < ActiveModelSerializers::Model
     new(board.name, board.id)
   end
 
+  def self.from_cache(json)
+    board = new(json['name'], json['id'])
+    board.team = Team.from_cache(json['team'])
+    json['sprints'].each do |sprint_json|
+      board.sprints << Sprint.from_cache(sprint_json)
+    end
+    board
+  end
+
   def closed_sprints
     sprints.select{ |sprint| sprint.closed? }
   end

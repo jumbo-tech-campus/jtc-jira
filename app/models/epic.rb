@@ -12,6 +12,14 @@ class Epic < ActiveModelSerializers::Model
     epic
   end
 
+  def self.from_cache(json)
+    return nil if json.nil?
+
+    epic = new(json['key'], json['summary'], json['id'], json['name'])
+    epic.parent_epic = ParentEpic.from_cache(json['parent_epic'])
+    epic
+  end
+
   def ==(epic)
     self.id == epic.id
   end

@@ -27,13 +27,22 @@ module JtcJira
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.to_prepare do
-      client = JiraClient.new
-      Repository.register(:board, BoardRepository.new(client))
-      Repository.register(:sprint, SprintRepository.new(client))
-      Repository.register(:issue, IssueRepository.new(client))
-      Repository.register(:epic, EpicRepository.new(client))
-      Repository.register(:project, ProjectRepository.new(client))
-      Repository.register(:team, TeamRepository.new)
+      config = YAML.load_file(Rails.root.join('config.yml'))
+      if config[:use_cached_data]
+        redis_client = Cache::RedisClient.new
+        Repository.register(:board, Cache::BoardRepository.new(redis_client))
+        Repository.register(:sprint, Cache::SprintRepository.new(redis_client))
+        Repository.register(:issue, Cache::IssueRepository.new(redis_client))
+        Repository.register(:team, Cache::TeamRepository.new(redis_client))
+      else
+        jira_client = ::Jira::JiraClient.new
+        Repository.register(:board, Jira::BoardRepository.new(jira_client))
+        Repository.register(:sprint, Jira::SprintRepository.new(jira_client))
+        Repository.register(:issue, Jira::IssueRepository.new(jira_client))
+        Repository.register(:epic, Jira::EpicRepository.new(jira_client))
+        Repository.register(:project, Jira::ProjectRepository.new(jira_client))
+        Repository.register(:team, Jira::TeamRepository.new(jira_client))
+    end
     end
   end
 end

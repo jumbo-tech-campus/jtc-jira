@@ -19,6 +19,16 @@ class Sprint < ActiveModelSerializers::Model
     )
   end
 
+  def self.from_cache(json)
+    sprint = new(json['id'].to_i, json['name'], json['state'],
+      ApplicationHelper.safe_parse(json['start_date']),
+      ApplicationHelper.safe_parse(json['end_date']),
+      ApplicationHelper.safe_parse(json['complete_date'])
+    )
+    sprint.subteam = json['subteam']
+    sprint
+  end
+
   def closed?
     state == 'closed'
   end
