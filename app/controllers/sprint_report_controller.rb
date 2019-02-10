@@ -13,7 +13,7 @@ class SprintReportController < ApplicationController
 
   private
   def set_board
-    @board = Repository.for(:board).find_by(id: params[:board_id].to_i, subteam: params[:subteam])
+    @board = Repository.for(:board).find(params[:board_id].to_i)
   end
 
   def set_teams
