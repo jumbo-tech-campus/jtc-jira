@@ -5,15 +5,6 @@ class SprintChangeEvent < ActiveModelSerializers::Model
     @id, @created, @to_sprint, @issue = id, created, to_sprint, issue
   end
 
-  def self.from_jira(json, issue)
-    to_sprint_id = json['items'].first['to'].split(',').last.to_i
-    to_sprint  = Repository.for(:sprint).find(to_sprint_id) unless to_sprint_id == 0
-    new(json['id'], ApplicationHelper.safe_parse(json['created']),
-      to_sprint,
-      issue
-    )
-  end
-
   def added_after_sprint_start?
     return false unless to_sprint.start_date
 

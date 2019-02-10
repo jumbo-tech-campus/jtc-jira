@@ -6,7 +6,7 @@ module Jira
       return sprint unless sprint.nil?
 
       begin
-        sprint = Sprint.from_jira(@client.Sprint.find(id).to_json)
+        sprint = Factory.for(:sprint).create_from_jira(@client.Sprint.find(id).to_json)
       rescue JIRA::HTTPError
         # apparently sprint was deleted
         sprint = Sprint.new(id, 'Deleted sprint', 'closed', nil, nil, nil)
@@ -31,7 +31,7 @@ module Jira
         response = @client.Agile.get_sprints(board.id, {startAt: start_at})
 
         response['values'].each do |value|
-          sprint = Sprint.from_jira(value)
+          sprint = Factory.for(:sprint).create_from_jira(value)
           #skip future sprints
           next unless sprint.start_date
 

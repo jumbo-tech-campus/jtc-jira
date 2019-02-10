@@ -6,7 +6,7 @@ module Cache
     end
 
     def find(id)
-      @records[id] ||= Sprint.from_cache(JSON.parse(@client.get("sprint.#{id}")))
+      @records[id] ||= Factory.for(:sprint).create_from_json(JSON.parse(@client.get("sprint.#{id}")))
     end
 
     def save(sprint)
