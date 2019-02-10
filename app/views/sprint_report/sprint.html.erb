@@ -55,7 +55,7 @@
                      <table class="table table-borderless">
                          <tbody>
                              <tr>
-                              <td class="small p-1"><strong>Team</strong></td>
+                              <td class="small p-1" width="30%"><strong>Team</strong></td>
                               <td class="small p-1">
                                 <img src="<%= @board.team.avatars['24x24'] %>" alt="" class="mr-2 rounded" height="24" width="24">
                                 <%= @board.team.name %>
@@ -84,7 +84,7 @@
                             </td>
                           </tr>
                           <tr>
-                           <td class="small p-1"><strong>Percentage closed</strong></td>
+                           <td class="small p-1"><strong>Percentage of points closed</strong></td>
                            <td class="small p-1">
                              <div class="progress">
                                <div class="progress-bar bg-yellow"
@@ -93,6 +93,19 @@
                                aria-valuemax="100" style="width: <%= @sprint.percentage_of_points_closed.round() %>%;">
                                </div>
                                <span class="progress-completed"><%= @sprint.percentage_of_points_closed.round() %>%</span>
+                             </div>
+                           </td>
+                          </tr>
+                          <tr>
+                           <td class="small p-1"><strong>Percentage of issues closed</strong></td>
+                           <td class="small p-1">
+                             <div class="progress">
+                               <div class="progress-bar bg-yellow"
+                               role="progressbar" aria-valuenow="<%= @sprint.percentage_of_issues_closed.round() %>"
+                               aria-valuemin="0"
+                               aria-valuemax="100" style="width: <%= @sprint.percentage_of_issues_closed.round() %>%;">
+                               </div>
+                               <span class="progress-completed"><%= @sprint.percentage_of_issues_closed.round() %>%</span>
                              </div>
                            </td>
                           </tr>
