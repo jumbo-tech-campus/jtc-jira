@@ -49,6 +49,7 @@ class Sprint < ActiveModelSerializers::Model
     end
 
     @sprint_epics << no_sprint_epic if no_sprint_epic.issues.size > 0
+    @sprint_epics
   end
 
   def sprint_parent_epics
@@ -72,6 +73,7 @@ class Sprint < ActiveModelSerializers::Model
     end
 
     @sprint_parent_epics << no_sprint_parent_epic if no_sprint_parent_epic.issues.size > 0
+    @sprint_parent_epics
   end
 
   def ==(sprint)
