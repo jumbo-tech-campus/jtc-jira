@@ -138,15 +138,15 @@
                            <table class="table table-bordered">
                                <thead>
                                    <tr class="small">
-                                       <th>Code</th>
+                                       <th>Key</th>
                                        <th>Title</th>
-                                       <th>Estimation</th>
+                                       <th>Est.</th>
                                    </tr>
                                </thead>
                                <tbody>
                                    <% @sprint.closed_issues.each do |issue| %>
                                    <tr class="small">
-                                    <td nowrap><%= issue.key %></td>
+                                    <td nowrap><%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %></td>
                                     <td><%= issue.summary %></td>
                                     <td><%= issue.estimation %></td>
                                   </tr>
@@ -157,16 +157,16 @@
                        <div class="tab-pane" id="open">
                            <table class="table table-bordered">
                                <thead>
-                                   <tr>
+                                   <tr class="small">
                                        <th>Code</th>
                                        <th>Title</th>
-                                       <th>Estimation</th>
+                                       <th>Est.</th>
                                    </tr>
                                </thead>
                                <tbody>
                                    <% @sprint.open_issues.each do |issue| %>
                                    <tr class="small">
-                                    <td nowrap><%= issue.key %></td>
+                                    <td nowrap><%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %></td>
                                     <td><%= issue.summary %></td>
                                     <td><%= issue.estimation %></td>
                                   </tr>
