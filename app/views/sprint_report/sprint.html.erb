@@ -18,12 +18,12 @@
                       <% else %>
                       class="progress-bar bg-orange"
                       <% end %>
-                     role="progressbar" aria-valuenow="<%= sprint_parent_epic.percentage_of_points_closed.round() %>"
+                     role="progressbar" aria-valuenow="<%= sprint_parent_epic.percentage_of_points_closed.round %>"
                      aria-valuemin="0"
-                     aria-valuemax="100" style="width: <%= sprint_parent_epic.percentage_of_points_closed.round() %>%;">
+                     aria-valuemax="100" style="width: <%= sprint_parent_epic.percentage_of_points_closed.round %>%;">
                      </div>
-                     <span class="progress-type"><%= "#{sprint_parent_epic.parent_epic.key} - #{sprint_parent_epic.parent_epic.summary}" %></span>
-                     <span class="progress-completed"><%= sprint_parent_epic.percentage_of_points_closed.round() %>%</span>
+                     <span class="progress-type"><%= sprint_parent_epic.description %></span>
+                     <span class="progress-completed"><%= sprint_parent_epic.percentage_of_points_closed.round %>%</span>
                    </div>
                </div>
                <% end %>
@@ -42,12 +42,12 @@
                      <% else %>
                      class="progress-bar bg-orange"
                      <% end %>
-                     role="progressbar" aria-valuenow="<%= sprint_epic.percentage_of_points_closed.round() %>"
+                     role="progressbar" aria-valuenow="<%= sprint_epic.percentage_of_points_closed.round %>"
                      aria-valuemin="0"
-                     aria-valuemax="100" style="width: <%= sprint_epic.percentage_of_points_closed.round() %>%;">
+                     aria-valuemax="100" style="width: <%= sprint_epic.percentage_of_points_closed.round %>%;">
                      </div>
-                     <span class="progress-type"><%= "#{sprint_epic.epic.key} - #{sprint_epic.epic.summary}" %></span>
-                     <span class="progress-completed"><%= sprint_epic.percentage_of_points_closed.round() %>%</span>
+                     <span class="progress-type"><%= sprint_epic.description %></span>
+                     <span class="progress-completed"><%= sprint_epic.percentage_of_points_closed.round %>%</span>
                    </div>
                </div>
                <% end %>
@@ -138,7 +138,7 @@
                            <table class="table table-bordered">
                                <thead>
                                    <tr class="small">
-                                       <th>Key</th>
+                                       <th>Link</th>
                                        <th>Title</th>
                                        <th>Est.</th>
                                    </tr>
@@ -147,7 +147,11 @@
                                    <% @sprint.closed_issues.each do |issue| %>
                                    <tr class="small">
                                     <td nowrap><%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %></td>
-                                    <td><%= issue.summary %></td>
+                                    <td>
+                                      <%= issue.summary %><br>
+                                      <small class="text-muted"><%= issue.epic&.description %></small><br>
+                                      <small class="text-muted"><%= issue.epic&.parent_epic&.description %></small>
+                                    </td>
                                     <td><%= issue.estimation %></td>
                                   </tr>
                                   <% end %>
@@ -158,7 +162,7 @@
                            <table class="table table-bordered">
                                <thead>
                                    <tr class="small">
-                                       <th>Code</th>
+                                       <th>Link</th>
                                        <th>Title</th>
                                        <th>Est.</th>
                                    </tr>
@@ -167,7 +171,11 @@
                                    <% @sprint.open_issues.each do |issue| %>
                                    <tr class="small">
                                     <td nowrap><%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %></td>
-                                    <td><%= issue.summary %></td>
+                                    <td>
+                                      <%= issue.summary %><br>
+                                      <small class="text-muted"><%= issue.epic&.description %></small><br>
+                                      <small class="text-muted"><%= issue.epic&.parent_epic&.description %></small>
+                                    </td>
                                     <td><%= issue.estimation %></td>
                                   </tr>
                                   <% end %>

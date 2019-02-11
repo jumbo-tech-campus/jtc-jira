@@ -13,6 +13,10 @@ class SprintParentEpic
     self.parent_epic == sprint_parent_epic.parent_epic
   end
 
+  def description
+    parent_epic.description
+  end
+
   def to_s
     if sprint.closed?
       "#{parent_epic}, points closed: #{points_closed}, percentage in sprint: #{percentage_of_points_closed.round(1)}%"

@@ -13,6 +13,10 @@ class SprintEpic
     epic == sprint_epic.epic
   end
 
+  def description
+    epic.description
+  end
+
   def parent_epic
     epic.parent_epic
   end
