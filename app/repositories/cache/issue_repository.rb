@@ -7,13 +7,15 @@ module Cache
 
     def find_by(options)
       if options[:sprint]
-        return @records[options[:sprint].id] if @records[options[:sprint].id]
-        sprint_json = JSON.parse(@client.get("sprint.#{options[:sprint].id}"))
+        sprint = options[:sprint]
+        return @records[sprint.id] if @records[sprint.id]
+  
+        sprint_json = JSON.parse(@client.get("sprint.#{sprint.subteam}_#{sprint.id}"))
         issues = sprint_json['issues'].map do |issue_json|
           Factory.for(:issue).create_from_json(issue_json)
         end
 
-        @records[options[:sprint].id] = issues
+        @records[sprint.id] = issues
         issues
       end
     end

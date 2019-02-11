@@ -8,7 +8,7 @@ class SprintReportController < ApplicationController
   end
 
   def sprint
-    @sprint = Repository.for(:sprint).find(params[:id].to_i)
+    @sprint = Repository.for(:sprint).find_by(id: params[:id].to_i, subteam: params[:subteam])
   end
 
   private
