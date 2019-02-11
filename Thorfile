@@ -5,19 +5,13 @@ class Cache < Thor
   desc "cache data", "Extract boards from JIRA and store in Redis cache"
   def all
     # first make sure we use the Jira repositories to fetch data
-    jira_client = ::Jira::JiraClient.new
-    Repository.register(:board, ::Jira::BoardRepository.new(jira_client))
-    Repository.register(:sprint, ::Jira::SprintRepository.new(jira_client))
-    Repository.register(:issue, ::Jira::IssueRepository.new(jira_client))
-    Repository.register(:epic, ::Jira::EpicRepository.new(jira_client))
-    Repository.register(:project, ::Jira::ProjectRepository.new(jira_client))
-    Repository.register(:team, ::Jira::TeamRepository.new(jira_client))
+    JiraService.new.register_jira_repositories
 
     teams = Repository.for(:team).all
     boards = teams.map{ |team| Repository.for(:board).find(team.board_id)}
 
     redis_client = ::Cache::RedisClient.new
-
+    puts "Redis keys #{redis_client.keys}"
     puts "Caching #{teams.size} teams"
     ::Cache::TeamRepository.new(redis_client).save(teams)
 
