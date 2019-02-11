@@ -15,6 +15,10 @@ class Issue < ActiveModelSerializers::Model
     sprint_change_event&.added_after_sprint_start?
   end
 
+  def jira_url
+    URI.join(ENV['JIRA_SITE'], "browse/", key)
+  end
+
   def to_s
     "Issue: #{key} #{summary}, estimation: #{estimation}, epic: #{epic&.name}"
   end
