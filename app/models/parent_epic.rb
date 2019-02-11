@@ -9,6 +9,10 @@ class ParentEpic < ActiveModelSerializers::Model
     self.id == parent_epic.id
   end
 
+  def description
+    "#{key} - #{summary}"
+  end
+
   def to_s
     "Parent epic: #{key} #{summary}"
   end

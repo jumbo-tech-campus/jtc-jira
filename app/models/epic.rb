@@ -6,6 +6,10 @@ class Epic < ActiveModelSerializers::Model
     @key, @summary, @id, @name = key, summary, id, name
   end
 
+  def description
+    "#{key} - #{summary}"
+  end
+
   def ==(epic)
     self.id == epic.id
   end
