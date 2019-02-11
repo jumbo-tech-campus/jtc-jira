@@ -9,7 +9,7 @@ module SprintIssueAbilities
   def percentage_of_points_closed
     return 0 if sprint.points_closed == 0
 
-    points_closed / sprint.points_total.to_f * 100
+    points_closed / sprint.points_closed.to_f * 100
   end
 
   def percentage_of_issues_closed
