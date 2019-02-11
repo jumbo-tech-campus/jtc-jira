@@ -27,6 +27,13 @@ class Sprint < ActiveModelSerializers::Model
     issues_added_after_start.reduce(0){ |sum, issue| sum + issue.estimation }
   end
 
+  def percentage_closed
+    return 0 if points_total == 0
+
+    points_closed / sprint.points_total.to_f * 100
+  end
+
+
   def sprint_epics
     return @sprint_epics if @sprint_epics
 
