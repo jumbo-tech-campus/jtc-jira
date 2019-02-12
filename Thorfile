@@ -14,16 +14,18 @@ class Cache < Thor
     puts "Redis keys #{redis_client.keys}"
     puts "Caching #{teams.size} teams"
     ::Cache::TeamRepository.new(redis_client).save(teams)
-
+    $stdout.flush
     board_repo = ::Cache::BoardRepository.new(redis_client)
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
 
     boards.each do |board|
       puts "Cache board #{board.id} for team #{board.team.name}"
       board_repo.save(board)
+      $stdout.flush
       board.recent_sprints(6).each do |sprint|
         puts "Caching sprint #{sprint.name}"
         sprint_repo.save(sprint)
+        $stdout.flush
       end
     end
   end
