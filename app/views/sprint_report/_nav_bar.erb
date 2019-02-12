@@ -34,6 +34,7 @@
           </div>
         </li>
       </ul>
+      <%= link_to 'Refresh data', sprint_report_refresh_path(board_id: @board.id), method: :post, class: 'btn btn-secondary', data: { disable_with: "In progress..." }  %>
     </div>
   </nav>
 </header>
