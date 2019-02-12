@@ -11,14 +11,15 @@ module Jira
       start_at = 0
       issues = []
 
+      subteam = sprint.board.team.subteam
       loop do
         response = @client.Agile.get_sprint_issues(sprint.id, {startAt: start_at, expand: 'changelog'})
         response['issues'].each do |value|
           #filter out subtasks
           next if value['fields']['issuetype']['subtask']
           #filter on subteam
-          if sprint.board.team.subteam
-            next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != sprint.board.team.subteam
+          if subteam
+            next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != subteam
           end
 
           issue = Factory.for(:issue).create_from_jira(value)

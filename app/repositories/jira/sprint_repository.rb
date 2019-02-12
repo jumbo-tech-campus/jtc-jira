@@ -52,7 +52,7 @@ module Jira
 
     private
     def uid(id, board)
-      options[:board].id.to_s << '_' << options[:id].to_s
+      board.id.to_s << '_' << id.to_s
     end
   end
 end

@@ -83,7 +83,11 @@ class Sprint < ActiveModelSerializers::Model
   end
 
   def uid
-    @uid ||= "#{board.id}_#{id}"
+    @uid ||= "#{board_id}_#{id}"
+  end
+
+  def board_id
+    @board_id ||= board.id
   end
 
   def ==(sprint)
