@@ -1,12 +1,11 @@
 class Sprint < ActiveModelSerializers::Model
   attr_reader :id, :name, :state, :start_date, :end_date, :complete_date
-  attr_accessor :subteam
+  attr_accessor :board
 
   include SprintIssueAbilities
 
   def initialize(id, name, state, start_date, end_date, complete_date)
     @id, @name, @state, @start_date, @end_date, @complete_date = id, name, state, start_date, end_date, complete_date
-    @subteam = nil
 
     sprint_issue_abilities(self, nil)
   end
@@ -83,8 +82,12 @@ class Sprint < ActiveModelSerializers::Model
     @sprint_parent_epics
   end
 
+  def uid
+    "#{board.id}_#{id}"
+  end
+
   def ==(sprint)
-    self.id == sprint.id
+    self.uid == sprint.uid
   end
 
   def to_s

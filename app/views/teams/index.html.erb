@@ -10,7 +10,7 @@
   <div class="my-3 p-3 bg-white rounded box-shadow">
     <h6 class="border-bottom border-gray pb-2 mb-0">Teams</h6>
     <% @teams.each do |team| %>
-      <a href="<%= last_sprint_report_path(board_id: team.board_id, subteam: team.subteam) %>">
+      <a href="<%= last_sprint_report_path(board_id: team.board_id) %>">
       <div class="media small pt-3">
         <img src="<%= team.avatars['32x32'] %>" alt="" class="mr-2 rounded" height="32" width="32">
         <p class="media-body pb-3 mb-0 text-muted lh-125 border-bottom border-gray">

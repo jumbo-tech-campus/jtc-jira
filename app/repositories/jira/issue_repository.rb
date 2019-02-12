@@ -17,8 +17,8 @@ module Jira
           #filter out subtasks
           next if value['fields']['issuetype']['subtask']
           #filter on subteam
-          if sprint.subteam
-            next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != sprint.subteam
+          if sprint.board.team.subteam
+            next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != sprint.board.team.subteam
           end
 
           issue = Factory.for(:issue).create_from_jira(value)
@@ -29,7 +29,7 @@ module Jira
             next unless history['items'].first
             #this custom field changes when sprint is changed
             next if history['items'].first['fieldId'] != 'customfield_10020'
-            issue.sprint_change_events << Factory.for(:sprint_change_event).create_from_jira(history, issue)
+            issue.sprint_change_events << Factory.for(:sprint_change_event).create_from_jira(history, issue, sprint.board)
           end
 
           issues << issue

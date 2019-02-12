@@ -3,12 +3,11 @@ class SprintReportController < ApplicationController
   before_action :set_teams
 
   def last_sprint
-    @sprint = @board.last_closed_sprint
-    render 'sprint'
+    redirect_to action: 'sprint', board_id: @board.id, id: @board.last_closed_sprint.id
   end
 
   def sprint
-    @sprint = Repository.for(:sprint).find_by(id: params[:id].to_i, subteam: params[:subteam])
+    @sprint = Repository.for(:sprint).find_by(id: params[:id].to_i, board: @board)
   end
 
   private

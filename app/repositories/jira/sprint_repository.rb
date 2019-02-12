@@ -2,14 +2,14 @@ module Jira
   class SprintRepository < Jira::JiraRepository
     def find_by(options)
       if options[:board]
-        find_by_board(options[:board], options[:subteam])
+        find_by_board(options[:board])
       elsif options[:id]
-        find_by_id(options[:id], options[:subteam])
+        find_by_id(options[:id], options[:board])
       end
     end
 
     private
-    def find_by_board(board, subteam)
+    def find_by_board(board)
       start_at = 0
       sprints = []
 
@@ -21,9 +21,9 @@ module Jira
           #skip future sprints
           next unless sprint.start_date
 
-          sprint.subteam = subteam
+          sprint.board = board
           sprints << sprint
-          @records[sprint.id] = sprint
+          @records[uid(sprint.id, board)] = sprint
         end
 
         start_at += response['maxResults']
@@ -32,22 +32,27 @@ module Jira
       sprints
     end
 
-    def find_by_id(id, subteam)
-      sprint = @records[id]
+    def find_by_id(id, board)
+      sprint = @records[uid(id, board)]
 
       return sprint unless sprint.nil?
 
       begin
         json = @client.Sprint.find(id).to_json
         sprint = Factory.for(:sprint).create_from_jira(json)
-        sprint.subteam = subteam
+        sprint.board = board
       rescue JIRA::HTTPError
         # apparently sprint was deleted
         sprint = Sprint.new(id, 'Deleted sprint', 'closed', nil, nil, nil)
       end
 
-      @records[id] = sprint
+      @records[uid(id, board)] = sprint
       sprint
+    end
+
+    private
+    def uid(id, board)
+      "#{board.id}_#{id}"
     end
   end
 end
