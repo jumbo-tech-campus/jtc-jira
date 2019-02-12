@@ -18,14 +18,6 @@ class Sprint < ActiveModelSerializers::Model
     @issues ||= Repository.for(:issue).find_by(sprint: self)
   end
 
-  def issues_added_after_start
-    @issues_added ||= @issues.select{ |issue| issue.added_after_sprint_start?(self) }
-  end
-
-  def points_added_after_start
-    issues_added_after_start.reduce(0){ |sum, issue| sum + issue.estimation }
-  end
-
   def percentage_closed
     return 0 if points_total == 0
 
@@ -99,12 +91,10 @@ class Sprint < ActiveModelSerializers::Model
      Points:
       closed: #{points_closed}
       open: #{points_open}
-      added: #{points_added_after_start}
       total: #{points_total}
      Issues:
       closed: #{closed_issues.size}
       open: #{open_issues.size}
-      added: #{issues_added_after_start.size}
       total: #{issues.size}"
   end
 end

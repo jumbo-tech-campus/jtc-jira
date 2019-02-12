@@ -40,7 +40,6 @@ module JtcJira
       Factory.register(:epic, EpicFactory.new)
       Factory.register(:parent_epic, ParentEpicFactory.new)
       Factory.register(:project, ProjectFactory.new)
-      Factory.register(:sprint_change_event, SprintChangeEventFactory.new)
       Factory.register(:team, TeamFactory.new)
     end
   end
