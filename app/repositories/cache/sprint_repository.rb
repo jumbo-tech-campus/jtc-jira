@@ -17,7 +17,7 @@ module Cache
 
     private
     def uid(options)
-      "#{options[:board].id}_#{options[:id]}"
+      options[:board].id.to_s << '_' << options[:id].to_s
     end
   end
 end
