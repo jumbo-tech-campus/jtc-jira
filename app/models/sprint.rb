@@ -1,12 +1,11 @@
 class Sprint < ActiveModelSerializers::Model
   attr_reader :id, :name, :state, :start_date, :end_date, :complete_date
-  attr_accessor :subteam
+  attr_accessor :board
 
   include SprintIssueAbilities
 
   def initialize(id, name, state, start_date, end_date, complete_date)
     @id, @name, @state, @start_date, @end_date, @complete_date = id, name, state, start_date, end_date, complete_date
-    @subteam = nil
 
     sprint_issue_abilities(self, nil)
   end
@@ -17,14 +16,6 @@ class Sprint < ActiveModelSerializers::Model
 
   def issues
     @issues ||= Repository.for(:issue).find_by(sprint: self)
-  end
-
-  def issues_added_after_start
-    @issues_added ||= @issues.select{ |issue| issue.added_after_sprint_start?(self) }
-  end
-
-  def points_added_after_start
-    issues_added_after_start.reduce(0){ |sum, issue| sum + issue.estimation }
   end
 
   def percentage_closed
@@ -83,8 +74,16 @@ class Sprint < ActiveModelSerializers::Model
     @sprint_parent_epics
   end
 
+  def uid
+    @uid ||= "#{board_id}_#{id}"
+  end
+
+  def board_id
+    @board_id ||= board.id
+  end
+
   def ==(sprint)
-    self.id == sprint.id
+    self.uid == sprint.uid
   end
 
   def to_s
@@ -92,12 +91,10 @@ class Sprint < ActiveModelSerializers::Model
      Points:
       closed: #{points_closed}
       open: #{points_open}
-      added: #{points_added_after_start}
       total: #{points_total}
      Issues:
       closed: #{closed_issues.size}
       open: #{open_issues.size}
-      added: #{issues_added_after_start.size}
       total: #{issues.size}"
   end
 end

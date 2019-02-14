@@ -7,13 +7,13 @@ class SprintFactory
     )
   end
 
-  def create_from_json(json)
+  def create_from_json(json, board)
     sprint = Sprint.new(json['id'].to_i, json['name'], json['state'],
       ApplicationHelper.safe_parse(json['start_date']),
       ApplicationHelper.safe_parse(json['end_date']),
       ApplicationHelper.safe_parse(json['complete_date'])
     )
-    sprint.subteam = json['subteam']
+    sprint.board = board
     sprint
   end
 end

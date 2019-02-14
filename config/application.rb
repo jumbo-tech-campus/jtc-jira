@@ -29,19 +29,9 @@ module JtcJira
     config.to_prepare do
       config = YAML.load_file(Rails.root.join('config.yml'))
       if config[:use_cached_data]
-        redis_client = Cache::RedisClient.new
-        Repository.register(:board, Cache::BoardRepository.new(redis_client))
-        Repository.register(:sprint, Cache::SprintRepository.new(redis_client))
-        Repository.register(:issue, Cache::IssueRepository.new(redis_client))
-        Repository.register(:team, Cache::TeamRepository.new(redis_client))
+        CacheService.new.register_cache_repositories
       else
-        jira_client = ::Jira::JiraClient.new
-        Repository.register(:board, Jira::BoardRepository.new(jira_client))
-        Repository.register(:sprint, Jira::SprintRepository.new(jira_client))
-        Repository.register(:issue, Jira::IssueRepository.new(jira_client))
-        Repository.register(:epic, Jira::EpicRepository.new(jira_client))
-        Repository.register(:project, Jira::ProjectRepository.new(jira_client))
-        Repository.register(:team, Jira::TeamRepository.new(jira_client))
+        JiraService.new.register_jira_repositories
       end
 
       Factory.register(:board, BoardFactory.new)
@@ -50,7 +40,6 @@ module JtcJira
       Factory.register(:epic, EpicFactory.new)
       Factory.register(:parent_epic, ParentEpicFactory.new)
       Factory.register(:project, ProjectFactory.new)
-      Factory.register(:sprint_change_event, SprintChangeEventFactory.new)
       Factory.register(:team, TeamFactory.new)
     end
   end

@@ -7,9 +7,9 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="<%= last_sprint_report_path(board_id: @board.id, subteam: @sprint.subteam) %>">Team <%= @board.team.name %><span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="<%= last_sprint_report_path(board_id: @board.id) %>">Team <%= @board.team.name %><span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -18,7 +18,7 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <% @board.recent_sprints(6).each do |sprint| %>
               <a class="dropdown-item <%= 'active' if sprint == @sprint %>"
-                href="<%= sprint_report_path(id: sprint.id, board_id: @board.id, subteam: sprint.subteam)%>">
+                href="<%= sprint_report_path(id: sprint.id, board_id: @board.id)%>">
                 <%= sprint.name %><%= " (current sprint)" unless sprint.complete_date %></a>
             <% end %>
           </div>
@@ -29,11 +29,12 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <% @teams.each do |team| %>
-              <a class="dropdown-item <%= 'active' if team.name == @board.team.name %>" href="<%= last_sprint_report_path(board_id: team.board_id, subteam: team.subteam)%>"><%= team.name %></a>
+              <a class="dropdown-item <%= 'active' if team.name == @board.team.name %>" href="<%= last_sprint_report_path(board_id: team.board_id)%>"><%= team.name %></a>
             <% end %>
           </div>
         </li>
       </ul>
+      <%= link_to 'Refresh data', sprint_report_refresh_path(board_id: @board.id), method: :post, class: 'btn btn-secondary', data: { disable_with: "In progress..." }  %>
     </div>
   </nav>
 </header>

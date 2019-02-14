@@ -7,12 +7,17 @@ module Cache
 
     def find_by(options)
       if options[:id]
-        @records[options[:id]] ||= Factory.for(:sprint).create_from_json(JSON.parse(@client.get("sprint.#{options[:subteam]}_#{options[:id]}")))
+        @records[uid(options)] ||= Factory.for(:sprint).create_from_json(JSON.parse(@client.get("sprint.#{uid(options)}")), options[:board])
       end
     end
 
     def save(sprint)
-      @client.set("sprint.#{sprint.subteam}_#{sprint.id}", ActiveModelSerializers::SerializableResource.new(sprint, include: ['issues', 'issues.epic', 'issues.epic.parent_epic']).to_json)
+      @client.set("sprint.#{sprint.uid}", ActiveModelSerializers::SerializableResource.new(sprint, include: ['issues', 'issues.epic', 'issues.epic.parent_epic']).to_json)
+    end
+
+    private
+    def uid(options)
+      options[:board].id.to_s << '_' << options[:id].to_s
     end
   end
 end
