@@ -20,7 +20,7 @@ build:
     - apk add --no-cache curl jq python py-pip
     - pip install awscli
     - docker build
-      -t ${PROD_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}
+      -t ${SVC_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}
       .
 
     # Do PROD
