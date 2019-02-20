@@ -1,0 +1,50 @@
+ # Version2.1 of gitlab ci
+
+stages:
+  - npm_install
+  - build
+  - deploy
+
+variables:
+  APP_NAME: jtc-jira
+  DEPLOYMENT: ${APP_NAME}
+  SVN_NAME: ${APP_NAME}
+  ING_PATH: jira
+
+build:
+  stage: build
+  image: docker:17
+  variables:
+    DOCKER_API_VERSION: "1.23"
+  script:
+    - apk add --no-cache curl jq python py-pip
+    - pip install awscli
+    - docker build
+      -t ${PROD_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}
+      .
+
+    # Do PROD
+    - export AWS_ACCESS_KEY_ID=${PROD_ACCESS_KEY_ID}
+    - export AWS_SECRET_ACCESS_KEY=${PROD_SECRET_ACCESS_KEY}
+    - $(aws ecr get-login --no-include-email --region eu-central-1)
+    - docker push ${PROD_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}
+  only:
+    - master
+  tags:
+    - k8s-dev
+    
+deploy_dev:
+  stage: deploy
+  image: lachlanevenson/k8s-kubectl:v1.10.4 
+  variables:
+    FQDN: internal.dev.cloud.jumbo.com
+  script:
+  - sed -i -e "s#{CONTAINER_IMAGE}#${PROD_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}#g" -e "s/{APP}/${APP_NAME}/g" deployment.yml
+  - kubectl apply -f deployment.yml 
+  - sed -i -e "s/{APP}/${APP_NAME}/g" -e "s/{ING_PATH}/${ING_PATH}/g"  -e "s/{FQDN}/${FQDN}/g" svc_ing.yml
+  - kubectl apply -f svc_ing.yml
+  - kubectl -n ${APP_NAME} rollout status deployment ${DEPLOYMENT}
+  only:
+    - master
+  tags:
+    - k8s-dev

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: {APP}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - image: redis:alpine
+        name: redis
+        ports:
+        - containerPort: 6379
+          name: redis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {APP}
+  namespace: {APP}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {APP}
+  template:
+    metadata:
+      labels:
+        app: {APP}
+    spec:
+      containers:
+      - image: {CONTAINER_IMAGE} 
+        name: {APP}
+        ports:
+        - containerPort: 3001
+          name: {APP}
+---
+apiVersion: batch/v1beta1 
+kind: CronJob
+metadata:
+  name: {APP}
+  namespace: {APP}
+spec:
+  schedule: "15 3 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - image: {CONTAINER_IMAGE}
+            name: {APP}
+            command: ["/bin/bash"]
+            args: ["-c", "thor cache:all]
+          restartPolicy: OnFailure
