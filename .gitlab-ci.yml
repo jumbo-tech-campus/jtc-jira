@@ -55,6 +55,7 @@ run_once:
   variables:
     FQDN: internal.dev.cloud.jumbo.com
   script:
+  - kubectl -n jtc-jira delete job jtc-jira
   - sed -i -e "s#{CONTAINER_IMAGE}#${SVC_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}#g" -e "s/{APP}/${APP_NAME}/g" job.yml
   - kubectl apply -f job.yml
   only:
