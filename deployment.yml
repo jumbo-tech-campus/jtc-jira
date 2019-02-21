@@ -56,7 +56,7 @@ spec:
               key: JIRA_SITE
         - name: REDIS_HOST
           value: redis
-        - name: RELATIVE_URL
+        - name: RAILS_RELATIVE_URL_ROOT
           value: /jira
         ports:
         - containerPort: 3001
