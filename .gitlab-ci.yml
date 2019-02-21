@@ -23,11 +23,11 @@ build:
       -t ${SVC_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}
       .
 
-    # Do PROD
-    - export AWS_ACCESS_KEY_ID=${PROD_ACCESS_KEY_ID}
-    - export AWS_SECRET_ACCESS_KEY=${PROD_SECRET_ACCESS_KEY}
+    # Do SVC
+    - export AWS_ACCESS_KEY_ID=${SVC_ACCESS_KEY_ID}
+    - export AWS_SECRET_ACCESS_KEY=${SVC_SECRET_ACCESS_KEY}
     - $(aws ecr get-login --no-include-email --region eu-central-1)
-    - docker push ${PROD_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}
+    - docker push ${SVC_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}
   only:
     - master
   tags:
@@ -39,7 +39,7 @@ deploy_dev:
   variables:
     FQDN: internal.dev.cloud.jumbo.com
   script:
-  - sed -i -e "s#{CONTAINER_IMAGE}#${PROD_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}#g" -e "s/{APP}/${APP_NAME}/g" deployment.yml
+  - sed -i -e "s#{CONTAINER_IMAGE}#${SVC_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}#g" -e "s/{APP}/${APP_NAME}/g" deployment.yml
   - kubectl apply -f deployment.yml 
   - sed -i -e "s/{APP}/${APP_NAME}/g" -e "s/{ING_PATH}/${ING_PATH}/g"  -e "s/{FQDN}/${FQDN}/g" svc_ing.yml
   - kubectl apply -f svc_ing.yml
