@@ -33,3 +33,7 @@
   :name: AEM
   :project_key: JMBAEM
   :board_id: 228
+- winkelapp:
+  :name: Winkelapp
+  :project_key: APP
+  :board_id: 43
