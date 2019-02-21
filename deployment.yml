@@ -38,6 +38,22 @@ spec:
       containers:
       - image: {CONTAINER_IMAGE}
         name: {APP}
+        env:
+        - name: JIRA_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: jtc-jira
+              key: JIRA_USERNAME
+        - name: JIRA_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: jtc-jira
+              key: JIRA_API_KEY
+        - name: JIRA_SITE
+          valueFrom:
+            secretKeyRef:
+              name: JIRA_SITE
+              key: JIRA_USERNAME
         ports:
         - containerPort: 3001
           name: {APP}
@@ -59,4 +75,20 @@ spec:
             name: {APP}
             command: ["/bin/bash"]
             args: ["-c", "thor cache:all"]
+            env:
+            - name: JIRA_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: jtc-jira
+                  key: JIRA_USERNAME
+            - name: JIRA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jtc-jira
+                  key: JIRA_API_KEY
+            - name: JIRA_SITE
+              valueFrom:
+                secretKeyRef:
+                  name: JIRA_SITE
+                  key: JIRA_USERNAME
           restartPolicy: OnFailure
