@@ -54,6 +54,8 @@ spec:
             secretKeyRef:
               name: jtc-jira
               key: JIRA_SITE
+        - name: REDIS_HOST
+          value: redis
         ports:
         - containerPort: 3001
           name: {APP}
@@ -91,4 +93,6 @@ spec:
                 secretKeyRef:
                   name: jtc-jira
                   key: JIRA_SITE
+            - name: REDIS_HOST
+              value: redis
           restartPolicy: OnFailure
