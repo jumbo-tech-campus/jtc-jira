@@ -1,0 +1,35 @@
+- mob_a_team:
+  :name: A-team
+  :project_key: JMBMOB
+  :board_id: 230
+  :subteam: A-team
+- mob_baywatch:
+  :name: Baywatch
+  :project_key: JMBMOB
+  :board_id: 231
+  :subteam: Baywatch
+- food_csi:
+  :name: CSI
+  :project_key: FOOD
+  :board_id: 294
+  :subteam: CSI
+- exp:
+  :name: Experience
+  :project_key: EXP
+  :board_id: 261
+- oms:
+  :name: OMS
+  :project_key: OMS
+  :board_id: 259
+- cto:
+  :name: Check this out
+  :project_key: CTO
+  :board_id: 260
+- b2b:
+  :name: B2B
+  :project_key: B2BJTC
+  :board_id: 258
+- aem:
+  :name: AEM
+  :project_key: JMBAEM
+  :board_id: 228
