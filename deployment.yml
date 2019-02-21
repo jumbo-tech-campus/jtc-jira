@@ -36,13 +36,13 @@ spec:
         app: {APP}
     spec:
       containers:
-      - image: {CONTAINER_IMAGE} 
+      - image: {CONTAINER_IMAGE}
         name: {APP}
         ports:
         - containerPort: 3001
           name: {APP}
 ---
-apiVersion: batch/v1beta1 
+apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: {APP}
@@ -58,5 +58,5 @@ spec:
           - image: {CONTAINER_IMAGE}
             name: {APP}
             command: ["/bin/bash"]
-            args: ["-c", "thor cache:all]
+            args: ["-c", "thor cache:all"]
           restartPolicy: OnFailure
