@@ -89,6 +89,6 @@ spec:
             - name: JIRA_SITE
               valueFrom:
                 secretKeyRef:
-                  name: JIRA_SITE
-                  key: JIRA_USERNAME
+                  name: jtc-jira
+                  key: JIRA_SITE
           restartPolicy: OnFailure
