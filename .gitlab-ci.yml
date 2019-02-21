@@ -48,3 +48,17 @@ deploy_dev:
     - master
   tags:
     - k8s-dev
+
+run_once:
+  stage: deploy
+  image: lachlanevenson/k8s-kubectl:v1.10.4 
+  variables:
+    FQDN: internal.dev.cloud.jumbo.com
+  script:
+  - sed -i -e "s#{CONTAINER_IMAGE}#${SVC_REPO_URL}/${APP_NAME}:${CI_COMMIT_SHA:0:8}#g" -e "s/{APP}/${APP_NAME}/g" job.yml
+  - kubectl apply -f job.yml
+  only:
+    - master
+  when: manual
+  tags:
+    - k8s-dev

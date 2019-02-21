@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {APP}
+  namespace: {APP}
+spec:
+  template:
+    spec:
+      containers:
+        - image: {CONTAINER_IMAGE}
+          command: ["/bin/bash"]
+          args: ["-c", "thor cache:all"]
+          name: jtc-jira-run-once
+          env:
+            - name: JIRA_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: jtc-jira
+                  key: JIRA_USERNAME
+            - name: JIRA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jtc-jira
+                  key: JIRA_API_KEY
+            - name: JIRA_SITE
+              valueFrom:
+                secretKeyRef:
+                  name: jtc-jira
+                  key: JIRA_SITE
+            - name: REDIS_HOST
+              value: redis
+      restartPolicy: Never
+  backoffLimit: 1
