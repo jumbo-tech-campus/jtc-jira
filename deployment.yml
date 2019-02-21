@@ -52,8 +52,8 @@ spec:
         - name: JIRA_SITE
           valueFrom:
             secretKeyRef:
-              name: JIRA_SITE
-              key: JIRA_USERNAME
+              name: jtc-jira
+              key: JIRA_SITE
         ports:
         - containerPort: 3001
           name: {APP}
