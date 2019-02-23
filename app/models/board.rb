@@ -26,4 +26,11 @@ class Board < ActiveModelSerializers::Model
   def last_closed_sprint
     recent_closed_sprints(1).first
   end
+
+  def issues
+    sprints.inject([]) do |memo, sprint|
+      memo.concat(sprint.issues)
+      memo
+    end
+  end
 end

@@ -93,6 +93,18 @@
                             </td>
                           </tr>
                           <tr>
+                           <td class="small p-1"><strong>Stories moved to done</strong></td>
+                           <td class="small p-1">
+                              <%= @sprint.done_issues.size %>
+                           </td>
+                         </tr>
+                         <tr>
+                          <td class="small p-1"><strong>Average cycle time</strong></td>
+                          <td class="small p-1">
+                             <%= @sprint.average_cycle_time.to_f.round(1) %> days
+                          </td>
+                        </tr>
+                          <tr>
                            <td class="small p-1"><strong>Percentage of points closed</strong></td>
                            <td class="small p-1">
                              <div class="progress">
@@ -130,6 +142,10 @@
                        <li class="nav-item">
                          <a href="#open" id="open-tab" role="tab" data-toggle="tab"
                          class="nav-link" aria-controls="open" aria-expanded="false">Open issues (<%= @sprint.open_issues.size %>)</a>
+                       </li>
+                       <li class="nav-item">
+                         <a href="#done" id="done-tab" role="tab" data-toggle="tab"
+                         class="nav-link" aria-controls="done" aria-expanded="false">Done issues (<%= @sprint.done_issues.size %>)</a>
                        </li>
                    </ul>
                    <!-- Tab panes -->
@@ -185,6 +201,35 @@
                                       <small class="text-muted"><%= issue.epic&.parent_epic&.description %></small>
                                     </td>
                                     <td><%= issue.estimation %></td>
+                                  </tr>
+                                  <% end %>
+                               </tbody>
+                           </table>
+                       </div>
+                       <div class="tab-pane" id="done">
+                           <table class="table table-bordered">
+                               <thead>
+                                   <tr class="small">
+                                       <th>Link</th>
+                                       <th>Title</th>
+                                       <th>Est.</th>
+                                       <th>Cycle time (days)</th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   <% @sprint.done_issues.each do |issue| %>
+                                   <tr class="small">
+                                    <td nowrap>
+                                      <%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %><br>
+                                      <small class="text-muted"><%= issue.status %></small><br>
+                                    </td>
+                                    <td>
+                                      <%= issue.summary %><br>
+                                      <small class="text-muted"><%= issue.epic&.description %></small><br>
+                                      <small class="text-muted"><%= issue.epic&.parent_epic&.description %></small>
+                                    </td>
+                                    <td><%= issue.estimation %></td>
+                                    <td><%= issue.cycle_time&.round %></td>
                                   </tr>
                                   <% end %>
                                </tbody>

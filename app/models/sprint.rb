@@ -74,6 +74,21 @@ class Sprint < ActiveModelSerializers::Model
     @sprint_parent_epics
   end
 
+  def done_issues
+    @issues_done ||= @board.issues.inject([]) do |memo, issue|
+      memo << issue if issue.done_date && issue.done_date.between?(self.start_date, self.complete_date  || self.end_date)
+      memo
+    end
+  end
+
+  def average_cycle_time
+    issues_with_cycle_time = done_issues.select{ |issue| issue.cycle_time }
+    return nil if issues_with_cycle_time.size == 0
+
+    total_cycle_time = issues_with_cycle_time.reduce(0){ |memo, issue| memo += issue.cycle_time }
+    total_cycle_time / issues_with_cycle_time.size
+  end
+
   def uid
     @uid ||= "#{board_id}_#{id}"
   end
