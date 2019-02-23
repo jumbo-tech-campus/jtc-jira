@@ -13,7 +13,8 @@ module Jira
 
       subteam = sprint.board.team.subteam
       loop do
-        response = @client.Agile.get_sprint_issues(sprint.id, startAt: start_at)
+        response = @client.Agile.get_sprint_issues(sprint.id, {startAt: start_at, expand: 'changelog'})
+
         response['issues'].each do |value|
           #filter out subtasks
           next if value['fields']['issuetype']['subtask']
@@ -24,6 +25,18 @@ module Jira
 
           issue = Factory.for(:issue).create_from_jira(value)
           issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
+
+          state_changed_events = []
+          value['changelog']['histories'].each do |history|
+            history['items'].each do |item|
+              if item['fieldId'] == 'status'
+                state_changed_events << Factory.for(:state_changed_event).create_from_jira(history)
+                break
+              end
+            end
+          end
+
+          issue.state_changed_events.concat(state_changed_events.sort_by{ |event| event.created })
 
           issues << issue
         end

@@ -41,6 +41,7 @@ module JtcJira
       Factory.register(:parent_epic, ParentEpicFactory.new)
       Factory.register(:project, ProjectFactory.new)
       Factory.register(:team, TeamFactory.new)
+      Factory.register(:state_changed_event, StateChangedEventFactory.new)
     end
   end
 end

@@ -3,7 +3,9 @@ class IssueFactory
     Issue.new(json['key'], json['fields']['summary'],
       json['id'], json['fields']['customfield_10014'] || 0,
       ApplicationHelper.safe_parse(json['fields']['created']),
-      ApplicationHelper.safe_parse(json['fields']['resolutiondate'])
+      json['fields']['status']['name'],
+      ApplicationHelper.safe_parse(json['fields']['resolutiondate']),
+      nil, nil, nil
     )
   end
 
@@ -11,7 +13,11 @@ class IssueFactory
     issue = Issue.new(json['key'], json['summary'],
       json['id'], json['estimation'],
       ApplicationHelper.safe_parse(json['created']),
-      ApplicationHelper.safe_parse(json['resolution_date'])
+      json['status'],
+      ApplicationHelper.safe_parse(json['resolution_date']),
+      ApplicationHelper.safe_parse(json['in_progress_date']),
+      ApplicationHelper.safe_parse(json['done_date']),
+      ApplicationHelper.safe_parse(json['ready_for_prod_date'])
     )
     issue.epic = Factory.for(:epic).create_from_json(json['epic'])
     issue

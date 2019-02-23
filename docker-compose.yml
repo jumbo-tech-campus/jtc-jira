@@ -25,7 +25,17 @@ services:
       - ./:/app
     working_dir: /app
     command: bash -c "thor cache:all"
-
-
+  redis_commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    depends_on:
+      - redis
+    environment:
+    - REDIS_HOSTS=local:redis:6379
+    ports:
+    - "8081:8081"
+ 
 volumes:
   redis:

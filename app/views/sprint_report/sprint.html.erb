@@ -141,18 +141,23 @@
                                        <th>Link</th>
                                        <th>Title</th>
                                        <th>Est.</th>
+                                       <th>Cycle time (days)</th>
                                    </tr>
                                </thead>
                                <tbody>
                                    <% @sprint.closed_issues.each do |issue| %>
                                    <tr class="small">
-                                    <td nowrap><%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %></td>
+                                    <td nowrap>
+                                      <%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %><br>
+                                      <small class="text-muted"><%= issue.status %></small><br>
+                                    </td>
                                     <td>
                                       <%= issue.summary %><br>
                                       <small class="text-muted"><%= issue.epic&.description %></small><br>
                                       <small class="text-muted"><%= issue.epic&.parent_epic&.description %></small>
                                     </td>
                                     <td><%= issue.estimation %></td>
+                                    <td><%= issue.cycle_time&.round %></td>
                                   </tr>
                                   <% end %>
                                </tbody>
@@ -170,8 +175,11 @@
                                <tbody>
                                    <% @sprint.open_issues.each do |issue| %>
                                    <tr class="small">
-                                    <td nowrap><%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %></td>
-                                    <td>
+                                     <td nowrap>
+                                       <%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %><br>
+                                       <small class="text-muted"><%= issue.status %></small><br>
+                                     </td>
+                                     <td>
                                       <%= issue.summary %><br>
                                       <small class="text-muted"><%= issue.epic&.description %></small><br>
                                       <small class="text-muted"><%= issue.epic&.parent_epic&.description %></small>
