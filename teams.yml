@@ -37,10 +37,6 @@
   :name: Winkelapp
   :project_key: APP
   :board_id: 43
-- pim:
-  :name: Pim
-  :project_key: PIM
-  :board_id: 262
 - find_it:
   :name: Find it
   :project_key: FI
