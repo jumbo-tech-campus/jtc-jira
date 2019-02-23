@@ -9,8 +9,4 @@ class Issue < ActiveModelSerializers::Model
   def jira_url
     URI.join(ENV['JIRA_SITE'], "browse/", key)
   end
-
-  def to_s
-    "Issue: #{key} #{summary}, estimation: #{estimation}, epic: #{epic&.name}"
-  end
 end

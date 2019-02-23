@@ -85,16 +85,4 @@ class Sprint < ActiveModelSerializers::Model
   def ==(sprint)
     self.uid == sprint.uid
   end
-
-  def to_s
-    "Sprint: #{name}
-     Points:
-      closed: #{points_closed}
-      open: #{points_open}
-      total: #{points_total}
-     Issues:
-      closed: #{closed_issues.size}
-      open: #{open_issues.size}
-      total: #{issues.size}"
-  end
 end

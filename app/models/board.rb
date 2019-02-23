@@ -26,8 +26,4 @@ class Board < ActiveModelSerializers::Model
   def last_closed_sprint
     recent_closed_sprints(1).first
   end
-
-  def to_s
-    "Name: #{name}, id: #{id}, number of sprints: #{sprints.size}, number of closed sprints: #{closed_sprints.size}"
-  end
 end

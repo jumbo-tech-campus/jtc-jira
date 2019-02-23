@@ -13,8 +13,4 @@ class Epic < ActiveModelSerializers::Model
   def ==(epic)
     self.id == epic.id
   end
-
-  def to_s
-    "Epic: #{key} #{name}"
-  end
 end

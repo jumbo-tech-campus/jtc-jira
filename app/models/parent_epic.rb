@@ -12,8 +12,4 @@ class ParentEpic < ActiveModelSerializers::Model
   def description
     "#{key} - #{summary}"
   end
-
-  def to_s
-    "Parent epic: #{key} #{summary}"
-  end
 end
