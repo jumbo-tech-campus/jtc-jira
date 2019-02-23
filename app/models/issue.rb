@@ -18,6 +18,8 @@ class Issue < ActiveModelSerializers::Model
   end
 
   def done_date
+    return nil if status != 'Done'
+
     @done_date ||= @state_changed_events.reverse.find{ |event| event.to_state == "Done" }&.created
   end
 
