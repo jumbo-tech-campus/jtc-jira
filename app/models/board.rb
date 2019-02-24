@@ -28,8 +28,10 @@ class Board < ActiveModelSerializers::Model
   end
 
   def issues
-    sprints.inject([]) do |memo, sprint|
-      memo.concat(sprint.issues)
+    @issues ||= sprints.inject([]) do |memo, sprint|
+      sprint.issues.each do |issue|
+        memo << issue unless memo.include?(issue)
+      end
       memo
     end
   end

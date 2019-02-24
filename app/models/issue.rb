@@ -30,6 +30,10 @@ class Issue < ActiveModelSerializers::Model
   def cycle_time
     return nil unless done_date && in_progress_date
 
-    done_date - in_progress_date
+    (done_date - in_progress_date).to_f
+  end
+
+  def ==(issue)
+    self.id == issue.id
   end
 end
