@@ -14,7 +14,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
             <% @teams.each do |team| %>
-              <a class="dropdown-item <%= 'active' if team.name == @board.team.name %>" href="<%= last_sprint_report_path(board_id: team.board_id)%>"><%= team.name %></a>
+              <a class="dropdown-item <%= 'active' if @board && team.name == @board.team.name %>" href="<%= last_sprint_report_path(board_id: team.board_id)%>"><%= team.name %></a>
             <% end %>
           </div>
         </li>
