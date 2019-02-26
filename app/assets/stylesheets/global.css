@@ -396,6 +396,15 @@ a.bg-danger:hover {
     margin: 0;
 }
 
+.card-link {
+  color: #007bff;
+}
+
+.card-link:hover, .card-link:focus {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
 .card-widget .card-footer a {
     color: #999;
 }
