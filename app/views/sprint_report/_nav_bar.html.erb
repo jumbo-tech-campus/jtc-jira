@@ -1,0 +1,35 @@
+<header>
+  <nav class="navbar navbar-light navbar-white fixed-top navbar-expand-lg" role="navigation">
+    <a class="navbar-brand" href="<%= home_path %>">
+      <%= image_tag('320px-Jumbo_Logo.svg.png', height: '32', class:'mr-3') %>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Teams
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+            <% @teams.each do |team| %>
+              <a class="dropdown-item <%= 'active' if team.name == @board.team.name %>" href="<%= last_sprint_report_path(board_id: team.board_id)%>"><%= team.name %></a>
+            <% end %>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Reports
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
+            <a class="dropdown-item" href="<%= portfolio_report_path %>">
+              Portfolio report
+            </a>
+          </div>
+        </li>
+      </ul>
+      <%= link_to 'Refresh data', sprint_report_refresh_path(board_id: @board.id), method: :post, class: 'btn btn-secondary', data: { disable_with: "In progress..." }  %>
+    </div>
+  </nav>
+</header>
