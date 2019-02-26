@@ -27,6 +27,10 @@ class Board < ActiveModelSerializers::Model
     recent_closed_sprints(1).first
   end
 
+  def sprint_for(date)
+    sprints.find{ |sprint| date.between?(sprint.start_date, sprint.complete_date || sprint.end_date)}
+  end
+
   def issues
     @issues ||= sprints.inject([]) do |memo, sprint|
       sprint.issues.each do |issue|

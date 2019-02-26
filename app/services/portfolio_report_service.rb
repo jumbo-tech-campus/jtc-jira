@@ -1,10 +1,10 @@
 class PortfolioReportService
-  def last_closed_sprint
+  def self.for_sprints_on(date)
     teams = Repository.for(:team).all
 
     team_sprint_parent_epics = teams.inject({}) do |memo, team|
-      sprint = Repository.for(:board).find(team.board_id).last_closed_sprint
-      memo[team.name] = sprint.sprint_parent_epics
+      sprint = Repository.for(:board).find(team.board_id).sprint_for(date)
+      memo[team.name] = sprint&.sprint_parent_epics || []
       memo
     end
 

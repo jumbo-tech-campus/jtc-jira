@@ -5,8 +5,9 @@
       <ul class="nav">
         <% @dates.each do |date| %>
         <li class="nav-item">
-          <a class="btn btn-outline-secondary btn-sm shadow-sm mb-4 mr-2 <%= 'active' if false %>" href="<%= portfolio_report_path %>">
-            Week <%= date.strftime('%W')  %>
+          <a class="btn btn-outline-secondary btn-sm shadow-sm mb-4 mr-2 <%= 'active' if date == @selected_date %>"
+            href="<%= portfolio_report_path(date: date) %>">
+            Week <%= "#{date.cweek} & #{date.cweek + 1}" %>
           </a>
         </li>
        <% end %>
@@ -14,8 +15,8 @@
      </div>
      <div class="card box-shadow mb-4">
        <div class="card-header">
-         <strong>Portfolio report</strong><br>
-         <small class="text-muted small">Percentage of work in sprint per team per portfolio epic</small>
+         <strong>Portfolio report week <%= "#{@selected_date.cweek} & #{@selected_date.cweek + 1}" %></strong><br>
+         <small class="text-muted small">Percentage of work per team per portfolio epic in sprints that span across these weeks</small>
        </div>
        <div class="card-body">
          <table class="table table-bordered">
