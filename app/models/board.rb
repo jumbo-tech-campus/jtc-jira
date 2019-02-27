@@ -1,9 +1,9 @@
 class Board < ActiveModelSerializers::Model
-  attr_reader :name, :id, :sprints
+  attr_reader :id, :sprints
   attr_accessor :team
 
-  def initialize(name, id)
-    @name, @id = name, id
+  def initialize(id)
+    @id = id
     @sprints = []
   end
 
