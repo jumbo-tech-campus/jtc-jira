@@ -24,7 +24,7 @@ class ReportController < ApplicationController
   end
 
   def to_csv(table)
-    CSV.generate(headers: true) do |csv|
+    ::CSV.generate(headers: true) do |csv|
       table.each do |row|
         csv << row
       end
