@@ -41,3 +41,7 @@
   :name: Find it
   :project_key: FI
   :board_id: 267
+- optimize_prime:
+  :name: Optimize Prime
+  :project_key: RJC
+  :board_id: 217
