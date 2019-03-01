@@ -84,3 +84,5 @@ teams.yml
 
 #macOS
 .DS_Store
+
+.sass-cache
