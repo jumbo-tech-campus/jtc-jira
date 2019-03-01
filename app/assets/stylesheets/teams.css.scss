@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 html,
 body {
-  overflow-x: hidden; /* Prevent scroll on narrow devices */
+  overflow-x: hidden;
 }
 
 body {
@@ -13,7 +13,7 @@ body {
 @media (max-width: 767.98px) {
   .offcanvas-collapse {
     position: fixed;
-    top: 56px; /* Height of navbar */
+    top: 56px;
     bottom: 0;
     width: 100%;
     padding-right: 1rem;
