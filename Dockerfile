@@ -1,14 +1,15 @@
 FROM ruby:2.6
 
 # Installation of dependencies
-RUN apt-get update -qq \
-  && apt-get install -y \
-      # Needed for certain gems
-    build-essential \
-      # Needed for asset compilation
-    nodejs \
-    # The following are used to trim down the size of the image by removing unneeded data
-  && apt-get clean autoclean \
+RUN apt-get update && apt-get install -y apt-utils curl build-essential
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get update && apt-get install -y nodejs
+
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y yarn
+
+RUN apt-get clean autoclean \
   && apt-get autoremove -y \
   && rm -rf \
     /var/lib/apt \
@@ -22,5 +23,8 @@ ADD Gemfile* ./
 RUN bundle install
 
 ADD . .
+
+RUN bundle exec rails assets:clobber
+RUN RAILS_ENV=production bundle exec rails assets:precompile
 
 CMD bash -c "rm -f /app/tmp/pids/server.pid; bundle exec rails s -p 3001 -b '0.0.0.0'"
