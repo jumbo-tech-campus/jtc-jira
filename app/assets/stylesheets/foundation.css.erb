@@ -1,15 +1,13 @@
-<% root = ENV['RAILS_RELATIVE_URL_ROOT'] %>
-
 @font-face {
   font-family: "JumboRegular";
-  src: url("<%= "#{root}#{asset_url('thesans-plain.woff')}" %>") format("woff");
+  src: url("<%= "#{ENV['RAILS_RELATIVE_URL_ROOT']}#{asset_url('thesans-plain.woff')}" %>") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "JumboBold";
-  src: url("<%= "#{root}#{asset_url('thesans-bold.woff')}" %>") format("woff");
+  src: url("<%= "#{ENV['RAILS_RELATIVE_URL_ROOT']}#{asset_url('thesans-bold.woff')}" %>") format("woff");
   font-weight: normal;
   font-style: normal;
 }
