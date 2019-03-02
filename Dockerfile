@@ -1,5 +1,7 @@
 FROM ruby:2.6
 
+ARG RAILS_RELATIVE_URL_ROOT
+
 # Installation of dependencies
 RUN apt-get update && apt-get install -y apt-utils curl build-essential
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
@@ -25,6 +27,6 @@ RUN bundle install
 ADD . .
 
 RUN bundle exec rails assets:clobber
-RUN RAILS_ENV=production bundle exec rails assets:precompile
+RUN RAILS_ENV=production RAILS_RELATIVE_URL_ROOT=$RAILS_RELATIVE_URL_ROOT bundle exec rails assets:precompile
 
 CMD bash -c "rm -f /app/tmp/pids/server.pid; bundle exec rails s -p 3001 -b '0.0.0.0'"
