@@ -64,6 +64,8 @@ spec:
           value: "true"
         - name: RAILS_SERVE_STATIC_FILES
           value: "true"
+        - name: RAILS_MASTER_KEY
+          value: "237dd1fee65d1b2fcf463c446daa16e6"
         ports:
         - containerPort: 3001
           name: {APP}
@@ -109,4 +111,6 @@ spec:
               value: "true"
             - name: RAILS_SERVE_STATIC_FILES
               value: "true"
+            - name: RAILS_MASTER_KEY
+              value: "237dd1fee65d1b2fcf463c446daa16e6"
           restartPolicy: OnFailure

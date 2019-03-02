@@ -28,6 +28,14 @@ spec:
                   name: jtc-jira
                   key: JIRA_SITE
             - name: REDIS_HOST
-              value: redis
+              value: "redis"
+            - name: RAILS_ENV
+              value: "production"
+            - name: RAILS_LOG_TO_STDOUT
+              value: "true"
+            - name: RAILS_SERVE_STATIC_FILES
+              value: "true"
+            - name: RAILS_MASTER_KEY
+              value: "237dd1fee65d1b2fcf463c446daa16e6"
       restartPolicy: Never
   backoffLimit: 1
