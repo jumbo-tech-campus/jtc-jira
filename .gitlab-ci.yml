@@ -10,13 +10,13 @@ variables:
   DEPLOYMENT: ${APP_NAME}
   SVN_NAME: ${APP_NAME}
   ING_PATH: jira
-  URL_PREFIX: /jira
 
 build:
   stage: build
   image: docker:17
   variables:
     DOCKER_API_VERSION: "1.23"
+    RAILS_RELATIVE_URL_ROOT: "/jira"
   script:
     - apk add --no-cache curl jq python py-pip
     - pip install awscli
