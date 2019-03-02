@@ -10,7 +10,7 @@ variables:
   DEPLOYMENT: ${APP_NAME}
   SVN_NAME: ${APP_NAME}
   ING_PATH: jira
-  URL_PREFIX: jira
+  URL_PREFIX: /jira
 
 build:
   stage: build
