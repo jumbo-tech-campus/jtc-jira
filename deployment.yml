@@ -55,9 +55,15 @@ spec:
               name: jtc-jira
               key: JIRA_SITE
         - name: REDIS_HOST
-          value: redis
+          value: "redis"
         - name: RAILS_RELATIVE_URL_ROOT
-          value: /jira
+          value: "/jira"
+        - name: RAILS_ENV
+          value: "production"
+        - name: RAILS_LOG_TO_STDOUT
+          value: "true"
+        - name: RAILS_SERVE_STATIC_FILES
+          value: "true"
         ports:
         - containerPort: 3001
           name: {APP}
@@ -96,5 +102,11 @@ spec:
                   name: jtc-jira
                   key: JIRA_SITE
             - name: REDIS_HOST
-              value: redis
+              value: "redis"
+            - name: RAILS_ENV
+              value: "production"
+            - name: RAILS_LOG_TO_STDOUT
+              value: "true"
+            - name: RAILS_SERVE_STATIC_FILES
+              value: "true"
           restartPolicy: OnFailure
