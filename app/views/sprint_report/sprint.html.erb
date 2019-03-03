@@ -6,7 +6,7 @@
         <ul class="nav">
           <% @board.recent_sprints(6).each do |sprint| %>
           <li class="nav-item">
-            <a class="btn btn-outline-secondary btn-sm shadow-sm mb-4 mr-2 <%= 'active' if sprint == @sprint %>" href="<%= sprint_report_path(id: sprint.id, board_id: @board.id)%>">
+            <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if sprint == @sprint %>" href="<%= sprint_report_path(id: sprint.id, board_id: @board.id)%>">
               <%= sprint.name %><%= " (current sprint)" unless sprint.complete_date %>
             </a>
           </li>

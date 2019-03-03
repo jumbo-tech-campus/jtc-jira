@@ -90,7 +90,7 @@ button.auto {
 
 
 .text-yellow {
-  color: rgb(253, 197, 19);
+  color: #fdc513;
 }
 
 .no-padding {
@@ -353,7 +353,71 @@ a.bg-danger:hover {
 }
 
 .bg-yellow {
-  background-color: rgb(253, 197, 19);
+  background-color: #fdc513;
+}
+
+/* line 362, /app/app/assets/stylesheets/global.css.scss */
+.btn-jumbo {
+  color: #5f6468;
+  background-color: #fdc513;
+  border-color: #e8b102;
+}
+/* line 13, /app/app/assets/stylesheets/_hover.scss */
+.btn-jumbo:hover {
+  color: #5f6468;
+  background-color: #e8b102;
+  border-color: #b58a02;
+}
+/* line 18, /app/app/assets/stylesheets/_buttons.scss */
+.btn-jumbo:focus, .btn-jumbo.focus {
+  box-shadow: 0 0 0 0.2rem rgba(202, 156, 8, 0.5);
+}
+/* line 29, /app/app/assets/stylesheets/_buttons.scss */
+.btn-jumbo.disabled, .btn-jumbo:disabled {
+  color: #5f6468;
+  background-color: #fdc513;
+  border-color: #e8b102;
+}
+/* line 40, /app/app/assets/stylesheets/_buttons.scss */
+.btn-jumbo:not(:disabled):not(.disabled):active, .btn-jumbo:not(:disabled):not(.disabled).active, .show > .btn-jumbo.dropdown-toggle {
+  color: #5f6468;
+  background-color: #dba702;
+  border-color: #a98101;
+}
+/* line 50, /app/app/assets/stylesheets/_buttons.scss */
+.btn-jumbo:not(:disabled):not(.disabled):active:focus, .btn-jumbo:not(:disabled):not(.disabled).active:focus, .show > .btn-jumbo.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(202, 156, 8, 0.5);
+}
+
+/* line 366, /app/app/assets/stylesheets/global.css.scss */
+.btn-outline-jumbo {
+  color: #fdc513;
+  border-color: #fdc513;
+}
+/* line 13, /app/app/assets/stylesheets/_hover.scss */
+.btn-outline-jumbo:hover {
+  color: #5f6468;
+  background-color: #fdc513;
+  border-color: #fdc513;
+}
+/* line 71, /app/app/assets/stylesheets/_buttons.scss */
+.btn-outline-jumbo:focus, .btn-outline-jumbo.focus {
+  box-shadow: 0 0 0 0.2rem rgba(253, 197, 19, 0.5);
+}
+/* line 76, /app/app/assets/stylesheets/_buttons.scss */
+.btn-outline-jumbo.disabled, .btn-outline-jumbo:disabled {
+  color: #fdc513;
+  background-color: transparent;
+}
+/* line 82, /app/app/assets/stylesheets/_buttons.scss */
+.btn-outline-jumbo:not(:disabled):not(.disabled):active, .btn-outline-jumbo:not(:disabled):not(.disabled).active, .show > .btn-outline-jumbo.dropdown-toggle {
+  color: #5f6468;
+  background-color: #fdc513;
+  border-color: #fdc513;
+}
+/* line 89, /app/app/assets/stylesheets/_buttons.scss */
+.btn-outline-jumbo:not(:disabled):not(.disabled):active:focus, .btn-outline-jumbo:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-jumbo.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(253, 197, 19, 0.5);
 }
 
 
@@ -397,11 +461,11 @@ a.bg-danger:hover {
 }
 
 .card-link {
-  color: #007bff;
+  color: #fdc513;
 }
 
 .card-link:hover, .card-link:focus {
-  color: #0056b3;
+  color: #dba702;
   text-decoration: underline;
 }
 
@@ -612,7 +676,7 @@ a.bg-danger:hover {
 }
 
 .dropdown-item.active, .dropdown-item:active {
-  background-color: rgb(253, 197, 19);
+  background-color: #fdc513;
   color: #5f6468;
 }
 
