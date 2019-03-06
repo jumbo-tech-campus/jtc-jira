@@ -23,6 +23,11 @@ module Jira
             next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != subteam
           end
 
+          if @records[value['id']]
+            issues << @records[value['id']]
+            next
+          end
+
           issue = Factory.for(:issue).create_from_jira(value)
           issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
 
@@ -38,6 +43,7 @@ module Jira
 
           issue.state_changed_events.concat(state_changed_events.sort_by{ |event| event.created })
 
+          @records[issue.id] = issue
           issues << issue
         end
 
