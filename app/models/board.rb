@@ -39,4 +39,13 @@ class Board < ActiveModelSerializers::Model
       memo
     end
   end
+
+  def cycle_times
+    issues_with_cycle_time = issues.select{ |issue| issue.cycle_time }
+    issues_with_cycle_time.sort_by!{ |issue| issue.done_date }
+
+    cycle_array = issues_with_cycle_time.map do |issue|
+      [issue.key, issue.in_progress_date, issue.done_date, issue.cycle_time]
+    end
+  end
 end

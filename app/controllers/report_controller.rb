@@ -10,6 +10,16 @@ class ReportController < ApplicationController
     end
   end
 
+  def cycle_time
+    @board = Repository.for(:board).find(params[:board_id])
+    @table = CycleTimeReportService.for_board(@board)
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data to_csv(@table), filename: "cycle_time_report_team_#{@board.team.name}.csv" }
+    end
+  end
+
   private
   def set_dates
     week_number = DateTime.now.strftime('%W').to_i
