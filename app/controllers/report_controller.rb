@@ -1,7 +1,5 @@
 class ReportController < ApplicationController
-
   def portfolio
-    @report_type = "Portfolio"
     @dates = set_dates.reverse
     @selected_date = params[:date]&.to_datetime || @dates.last
     @table = PortfolioReportService.for_sprints_on(@selected_date)
