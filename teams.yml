@@ -45,3 +45,15 @@
   :name: Optimize Prime
   :project_key: RJC
   :board_id: 217
+- smdx:
+  :name: SMDX
+  :project_key: SAP2
+  :board_id: 14
+- sap_marines:
+  :name: SAP Marines
+  :project_key: SAP5
+  :board_id: 199
+- musketiers:
+  :name: Musketiers
+  :project_key: FMCO3
+  :board_id: 309
