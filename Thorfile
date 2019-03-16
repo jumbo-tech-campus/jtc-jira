@@ -17,12 +17,13 @@ class Cache < Thor
     $stdout.flush
     board_repo = ::Cache::BoardRepository.new(redis_client)
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
+    number_of_cached_sprints = YAML.load_file(Rails.root.join('config.yml'))[:number_of_cached_sprints]
 
     boards.each do |board|
       puts "Cache board #{board.id} for team #{board.team.name}"
       board_repo.save(board)
       $stdout.flush
-      board.recent_sprints(6).each do |sprint|
+      board.recent_sprints(number_of_cached_sprints).each do |sprint|
         puts "Caching sprint #{sprint.name}"
         sprint_repo.save(sprint)
         $stdout.flush
