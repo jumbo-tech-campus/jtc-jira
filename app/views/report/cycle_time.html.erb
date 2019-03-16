@@ -15,12 +15,61 @@
      </div>
      <div class="card box-shadow mb-4">
        <div class="card-header">
+         <strong><%= @board.team.name %>: Cycle time scatter plot</strong><br>
+       </div>
+       <div class="scatter-plot m-4"></div>
+     </div>
+
+     <script>
+       $.getJSON('<%= cycle_time_report_path(board_id: @board.id, format: 'json') %>', function(data){
+         cycle_time_data = data.slice(1).reduce(function(memo, cycle_time_record){
+           memo[0].push(cycle_time_record[2]);
+           memo[1].push(cycle_time_record[3]);
+           return memo;
+         }, [['cycle_time_x'], ['cycle_time']]);
+
+         var chart = c3.generate({
+           padding: {
+              right: 40,
+              left: 40
+           },
+           bindto: d3.select('.scatter-plot'),
+           data: {
+             xs: {
+               cycle_time: 'cycle_time_x'
+             },
+             columns: cycle_time_data,
+             type: 'scatter'
+           },
+           axis: {
+             y: {
+               min: 0,
+               padding: { top: 5, bottom:0 }
+             },
+             x: {
+               type: 'timeseries',
+               tick: {
+                fit: true,
+                count: 6,
+                format: '%d-%m-%Y'
+               }
+             }
+           },
+           point: {
+             r: 5
+           }
+         });
+
+       });
+    </script>
+
+     <div class="card box-shadow mb-4">
+       <div class="card-header">
          <a href="<%= cycle_time_report_path(board_id: @board.id, format: 'csv') %>"
            class="card-link float-right">
            Download as csv file
          </a>
-         <strong>Cycle time report for team <%= @board.team.name %></strong><br>
-         <small class="text-muted small"></small>
+         <strong><%= @board.team.name %>: Cycle time overview</strong><br>
        </div>
        <div class="card-body">
          <table class="table table-bordered">

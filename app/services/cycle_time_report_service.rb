@@ -5,7 +5,7 @@ class CycleTimeReportService
     table << header
 
     board.cycle_times.each do |row|
-      table << [row[0], row[1].strftime('%Y-%m-%d'), row[2].strftime('%Y-%m-%d'), row[3].round(1)]
+      table << [row[0], row[1].strftime('%Y-%m-%d'), row[2].strftime('%Y-%m-%d'), row[3].round(2)]
     end
 
     table

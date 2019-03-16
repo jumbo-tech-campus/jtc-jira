@@ -17,6 +17,7 @@ class ReportController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { send_data to_csv(@table), filename: "cycle_time_report_team_#{@board.team.name}.csv" }
+      format.json { send_data @table.to_json }
     end
   end
 
