@@ -57,3 +57,7 @@
   :name: Musketiers
   :project_key: FMCO3
   :board_id: 309
+- pim:
+  :name: Pim
+  :project_key: PIM
+  :board_id: 262
