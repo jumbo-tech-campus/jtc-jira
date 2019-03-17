@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'jira-ruby'
 gem 'thor'
+gem 'eps'
 
 ruby '~> 2.6.0'
 

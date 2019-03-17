@@ -14,10 +14,12 @@ class ReportController < ApplicationController
     @board = Repository.for(:board).find(params[:board_id])
     @table = CycleTimeReportService.for_board(@board)
 
+    stats = { table: @table, regression: CycleTimeReportService.linear_regression_for_board(@board)}
+
     respond_to do |format|
       format.html
       format.csv { send_data to_csv(@table), filename: "cycle_time_report_team_#{@board.team.name}.csv" }
-      format.json { send_data @table.to_json }
+      format.json { send_data stats.to_json }
     end
   end
 

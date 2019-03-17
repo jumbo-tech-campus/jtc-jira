@@ -22,11 +22,20 @@
 
      <script>
        $.getJSON('<%= cycle_time_report_path(board_id: @board.id, format: 'json') %>', function(data){
-         cycle_time_data = data.slice(1).reduce(function(memo, cycle_time_record){
+         cycle_time_data = data.table.slice(1).reduce(function(memo, cycle_time_record){
            memo[0].push(cycle_time_record[2]);
            memo[1].push(cycle_time_record[3]);
            return memo;
-         }, [['cycle_time_x'], ['cycle_time']]);
+         }, [['cycle_time_x'], ['cycle time']]);
+
+         regression_data = data.regression.reduce(function(memo, regression_record){
+           memo[0].push(regression_record[0]);
+           memo[1].push(regression_record[1]);
+           return memo;
+         }, [['trendline_x'], ['trendline']]);
+
+         chart_data = cycle_time_data.concat(regression_data);
+         console.log(chart_data);
 
          var chart = c3.generate({
            padding: {
@@ -36,10 +45,14 @@
            bindto: d3.select('.scatter-plot'),
            data: {
              xs: {
-               cycle_time: 'cycle_time_x'
+               'cycle time': 'cycle_time_x',
+               trendline: 'trendline_x'
              },
-             columns: cycle_time_data,
-             type: 'scatter'
+             columns: chart_data,
+             type: 'scatter',
+             types: {
+               trendline: 'line'
+             }
            },
            axis: {
              y: {
@@ -56,7 +69,8 @@
              }
            },
            point: {
-             r: 5
+             r: 5,
+             show: false
            }
          });
 
