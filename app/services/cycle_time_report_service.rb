@@ -16,7 +16,6 @@ class CycleTimeReportService
       { date: row[2].to_time.to_i, cycle_time: row[3] }
     end
     model = Eps::Regressor.new(data, target: :cycle_time)
-    puts model.summary
 
     [prediction(model, board.cycle_times.first[2]), prediction(model, board.cycle_times.last[2])]
   end
