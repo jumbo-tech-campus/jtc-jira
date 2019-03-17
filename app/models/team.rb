@@ -8,6 +8,14 @@ class Team < ActiveModelSerializers::Model
     @name, @board_id, @subteam = name, board_id, subteam
   end
 
+  def is_scrum_team?
+    board.is_a? ScrumBoard
+  end
+
+  def board
+    Repository.for(:board).find(board_id)
+  end
+
   def_delegator :@project, :avatars
   def_delegator :@project, :name, :project_name
   def_delegator :@project, :key, :project_key

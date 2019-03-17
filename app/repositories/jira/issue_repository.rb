@@ -3,6 +3,8 @@ module Jira
     def find_by(options)
       if options[:sprint]
         find_by_sprint(options[:sprint])
+      elsif options[:board]
+        find_by_board(options[:board])
       end
     end
 
@@ -49,6 +51,47 @@ module Jira
 
         start_at += response['maxResults']
         break if response['maxResults'] > response['issues'].length
+      end
+
+      issues
+    end
+
+    def find_by_board(board)
+      issues = []
+
+      subteam = board.team.subteam
+      response = @client.Board.find(board.id).issues(expand: 'changelog')
+
+      response.each do |value|
+        #filter out subtasks
+        next if value['fields']['issuetype']['subtask']
+        #filter on subteam
+        if subteam
+          next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != subteam
+        end
+
+        if @records[value['id']]
+          issues << @records[value['id']]
+          next
+        end
+
+        issue = Factory.for(:issue).create_from_jira(value)
+        issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
+
+        state_changed_events = []
+        value['changelog']['histories'].each do |history|
+          history['items'].each do |item|
+            if item['fieldId'] == 'status'
+              state_changed_events << Factory.for(:state_changed_event).create_from_jira(history)
+              break
+            end
+          end
+        end
+
+        issue.state_changed_events.concat(state_changed_events.sort_by{ |event| event.created })
+
+        @records[issue.id] = issue
+        issues << issue
       end
 
       issues

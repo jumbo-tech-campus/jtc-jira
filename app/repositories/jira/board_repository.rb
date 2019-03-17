@@ -23,7 +23,7 @@ module Jira
     private
     def load_board(id)
       board = Factory.for(:board).create_from_jira(@client.Board.find(id))
-      load_sprints(board)
+      load_sprints(board) if board.is_a? ScrumBoard
       board
     end
 

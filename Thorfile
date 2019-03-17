@@ -27,7 +27,7 @@ class Cache < Thor
         puts "Caching sprint #{sprint.name}"
         sprint_repo.save(sprint)
         $stdout.flush
-      end
+      end if board.is_a? ScrumBoard
     end
   end
 end

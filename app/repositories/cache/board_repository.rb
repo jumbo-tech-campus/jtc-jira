@@ -10,7 +10,13 @@ module Cache
     end
 
     def save(board)
-      @client.set("board.#{board.id}", ActiveModelSerializers::SerializableResource.new(board, include: ['team.**', 'sprints']).to_json)
+      if board.is_a? ScrumBoard
+        included = ['team.**', 'sprints']
+      elsif board.is_a? KanbanBoard
+        included = ['team.**', 'issues']
+      end
+
+      @client.set("board.#{board.id}", ActiveModelSerializers::SerializableResource.new(board, include: included).to_json)
     end
   end
 end
