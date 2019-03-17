@@ -14,7 +14,11 @@ class ReportController < ApplicationController
     @board = Repository.for(:board).find(params[:board_id])
     @table = CycleTimeReportService.for_board(@board)
 
-    stats = { table: @table, regression: CycleTimeReportService.linear_regression_for_board(@board)}
+    stats = {
+      table: @table,
+      regression: CycleTimeReportService.linear_regression_for_board(@board),
+      moving_averages: CycleTimeReportService.moving_averages_for_board(@board)
+    }
 
     respond_to do |format|
       format.html

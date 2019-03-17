@@ -21,6 +21,24 @@ class CycleTimeReportService
     [prediction(model, board.cycle_times.first[2]), prediction(model, board.cycle_times.last[2])]
   end
 
+  def self.moving_averages_for_board(board)
+    date =  board.cycle_times.first[2]
+    end_date = board.cycle_times.last[2]
+    moving_averages = []
+
+    loop do
+      moving_averages << [date.strftime('%Y-%m-%d'), board.cycle_time_moving_average_on(date)]
+
+      date = date + 1.week
+      if date >= end_date
+        moving_averages << [end_date.strftime('%Y-%m-%d'), board.cycle_time_moving_average_on(end_date)]
+        break
+      end
+    end
+
+    moving_averages
+  end
+
   private
   def self.prediction(model, date)
     [date.strftime('%Y-%m-%d'), model.predict(date: date.to_time.to_i)]
