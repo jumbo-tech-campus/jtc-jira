@@ -1,10 +1,20 @@
 class BoardFactory
-  def create_from_jira(board)
-    if board.type == 'scrum'
-      ScrumBoard.new(board.id, board.type)
-    elsif board.type == 'kanban'
-      KanbanBoard.new(board.id, board.type)
+  def create_from_jira(jira_board)
+    team = Repository.for(:team).find_by(board_id: jira_board.id).first
+
+    if jira_board.type == 'scrum'
+      board = ScrumBoard.new(jira_board.id, jira_board.type)
+      board.team = team
+      sprints = Repository.for(:sprint).find_by(board: board)
+      board.sprints.concat(sprints)
+    elsif jira_board.type == 'kanban'
+      board = KanbanBoard.new(jira_board.id, jira_board.type)
+      board.team = team
+
+      issues = Repository.for(:issue).find_by(board: board)
+      board.issues.concat(issues)
     end
+    board
   end
 
   def create_from_json(json)
