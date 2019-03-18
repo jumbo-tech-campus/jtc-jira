@@ -21,6 +21,7 @@
      </div>
 
      <script>
+     $(function() {
        getCycleTimeChartData('<%= cycle_time_report_path(board_id: @board.id, format: 'json') %>').done(function(chart_data) {
          return chart = c3.generate({
            padding: {
@@ -62,6 +63,7 @@
          });
 
        });
+     });
     </script>
 
      <div class="card box-shadow mb-4">
