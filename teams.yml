@@ -61,3 +61,11 @@
   :name: Pim
   :project_key: PIM
   :board_id: 262
+- xecm:
+  :name: xECM
+  :project_key: XECM
+  :board_id: 313
+- esb:
+  :name: ESB
+  :project_key: ESB
+  :board_id: 168
