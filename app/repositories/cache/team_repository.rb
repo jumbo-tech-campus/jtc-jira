@@ -1,9 +1,5 @@
 module Cache
-  class TeamRepository
-    def initialize(client)
-      @client = client
-    end
-
+  class TeamRepository < Cache::CacheRepository
     def all
       JSON.parse(@client.get("teams")).map do |team|
         Factory.for(:team).create_from_json(team)

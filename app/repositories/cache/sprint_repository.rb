@@ -1,10 +1,5 @@
 module Cache
-  class SprintRepository
-    def initialize(client)
-      @client = client
-      @records = {}
-    end
-
+  class SprintRepository < Cache::CacheRepository
     def find_by(options)
       if options[:id]
         @records[uid(options)] ||= Factory.for(:sprint).create_from_json(JSON.parse(@client.get("sprint.#{uid(options)}")), options[:board])

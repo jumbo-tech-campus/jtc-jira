@@ -1,10 +1,5 @@
 module Cache
-  class BoardRepository
-    def initialize(client)
-      @client = Cache::RedisClient.new
-      @records = {}
-    end
-
+  class BoardRepository < Cache::CacheRepository
     def find(id)
       @records[id] ||= Factory.for(:board).create_from_json(JSON.parse(@client.get("board.#{id}")))
     end

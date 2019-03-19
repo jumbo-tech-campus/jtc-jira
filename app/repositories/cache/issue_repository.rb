@@ -1,10 +1,5 @@
 module Cache
-  class IssueRepository
-    def initialize(client)
-      @client = client
-      @records = {}
-    end
-
+  class IssueRepository < Cache::CacheRepository
     def find_by(options)
       if options[:sprint]
         sprint = options[:sprint]
