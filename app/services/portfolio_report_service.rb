@@ -1,7 +1,5 @@
 class PortfolioReportService
-  def self.for_sprints_on(date)
-    teams = Repository.for(:team).all.select{ |team| team.is_scrum_team? }
-
+  def self.for(teams, date)
     team_sprint_parent_epics = teams.inject({}) do |memo, team|
       sprint = Repository.for(:board).find(team.board_id).sprint_for(date)
       memo[team.name] = sprint&.sprint_parent_epics || []

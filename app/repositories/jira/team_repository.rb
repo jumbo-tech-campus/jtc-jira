@@ -1,17 +1,16 @@
 module Jira
   class TeamRepository < Jira::JiraRepository
     def all
-      teams_config = YAML.load_file(Rails.root.join('teams.yml'))
-      teams_config.map do |config|
-        team = Team.new(config[:name], config[:board_id], config[:subteam])
-        team.project = Repository.for(:project).find(config[:project_key])
-        team
+      @all ||= YAML.load_file(Rails.root.join('teams.yml')).map do |config|
+        Factory.for(:team).create_from_hash(config)
       end
     end
 
     def find_by(options)
       if options[:board_id]
         all.select{ |team| team.board_id == options[:board_id]}
+      elsif options[:department_id]
+        all.select{ |team| team.department.id == options[:department_id]}
       end
     end
   end

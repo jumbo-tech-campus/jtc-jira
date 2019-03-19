@@ -25,6 +25,7 @@ class CacheService
     Repository.register(:sprint, Cache::SprintRepository.new(@redis_client))
     Repository.register(:issue, Cache::IssueRepository.new(@redis_client))
     Repository.register(:team, Cache::TeamRepository.new(@redis_client))
+    Repository.register(:department, Cache::DepartmentRepository.new(@redis_client))
   end
 
   def reset_repositories

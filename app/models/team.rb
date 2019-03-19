@@ -2,7 +2,7 @@ class Team < ActiveModelSerializers::Model
   extend Forwardable
 
   attr_reader :name, :board_id, :subteam
-  attr_accessor :project
+  attr_accessor :project, :department
 
   def initialize(name, board_id, subteam)
     @name, @board_id, @subteam = name, board_id, subteam

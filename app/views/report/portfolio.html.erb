@@ -6,7 +6,7 @@
         <% @dates.each do |date| %>
         <li class="nav-item">
           <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if date == @selected_date %>"
-            href="<%= portfolio_report_path(date: date.to_date) %>">
+            href="<%= portfolio_report_path(date: date.to_date, department_id: @department.id, ) %>">
             Week <%= "#{date.cweek} & #{date.cweek + 1}" %>
           </a>
         </li>
@@ -15,15 +15,15 @@
      </div>
      <div class="card box-shadow mb-4">
        <div class="card-header">
-         <a href="<%= portfolio_report_path(date: @selected_date, format: 'csv') %>"
+         <a href="<%= portfolio_report_path(date: @selected_date, department_id: @department.id, format: 'csv') %>"
            class="card-link float-right">
            Download as csv file
          </a>
-         <strong>Portfolio report week <%= "#{@selected_date.cweek} & #{@selected_date.cweek + 1}" %></strong><br>
+         <strong>Portfolio report <%= @department.name %> for week <%= "#{@selected_date.cweek} & #{@selected_date.cweek + 1}" %></strong><br>
          <small class="text-muted small">Percentage of work per team per portfolio epic in sprints that span across these weeks</small>
        </div>
        <div class="card-body">
-         <table class="table table-responsive table-bordered">
+         <table class="table table-bordered">
              <thead>
                <tr class="small">
                  <% @table[0].each do |header_item| %>

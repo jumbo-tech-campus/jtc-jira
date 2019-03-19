@@ -1,71 +1,88 @@
 - mob_a_team:
   :name: A-team
+  :department_id: 1
   :project_key: JMBMOB
   :board_id: 230
   :subteam: A-team
 - mob_baywatch:
   :name: Baywatch
+  :department_id: 1
   :project_key: JMBMOB
   :board_id: 231
   :subteam: Baywatch
 - food_csi:
   :name: CSI
+  :department_id: 1
   :project_key: FOOD
   :board_id: 294
   :subteam: CSI
 - exp:
   :name: Experience
+  :department_id: 1
   :project_key: EXP
   :board_id: 261
 - oms:
   :name: OMS
+  :department_id: 1
   :project_key: OMS
   :board_id: 259
 - cto:
   :name: Check this out
+  :department_id: 1
   :project_key: CTO
   :board_id: 260
 - b2b:
   :name: B2B
+  :department_id: 1
   :project_key: B2BJTC
   :board_id: 258
 - aem:
   :name: AEM
+  :department_id: 1
   :project_key: JMBAEM
   :board_id: 228
 - winkelapp:
   :name: Winkelapp
+  :department_id: 1
   :project_key: APP
   :board_id: 43
 - find_it:
   :name: Find it
+  :department_id: 1
   :project_key: FI
   :board_id: 267
 - optimize_prime:
   :name: Optimize Prime
+  :department_id: 1
   :project_key: RJC
   :board_id: 217
 - smdx:
   :name: SMDX
+  :department_id: 2
   :project_key: SAP2
   :board_id: 14
 - sap_marines:
   :name: SAP Marines
+  :department_id: 2
   :project_key: SAP5
   :board_id: 199
 - musketiers:
   :name: Musketiers
+  :department_id: 2
   :project_key: FMCO3
   :board_id: 309
 - pim:
   :name: Pim
+  :department_id: 2
   :project_key: PIM
   :board_id: 262
 - xecm:
   :name: xECM
+  :department_id: 2
   :project_key: XECM
   :board_id: 313
 - esb:
   :name: ESB
+  :department_id: 2
   :project_key: ESB
   :board_id: 168
