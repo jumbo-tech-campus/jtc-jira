@@ -460,11 +460,11 @@ a.bg-danger:hover {
   margin: 0;
 }
 
-.card-link {
+a {
   color: #fdc513;
 }
 
-.card-link:hover, .card-link:focus {
+a:hover, a:focus {
   color: #dba702;
   text-decoration: underline;
 }
