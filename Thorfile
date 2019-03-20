@@ -11,7 +11,6 @@ class Cache < Thor
     boards = teams.map{ |team| Repository.for(:board).find(team.board_id)}
 
     redis_client = ::Cache::RedisClient.new
-    puts "Redis keys #{redis_client.keys}"
     puts "Caching #{teams.size} teams"
     ::Cache::TeamRepository.new(redis_client).save(teams)
     $stdout.flush
