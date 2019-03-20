@@ -86,3 +86,13 @@
   :department_id: 2
   :project_key: ESB
   :board_id: 168
+- sc_core:
+  :name: SC Core systems
+  :department_id: 2
+  :project_key: SCC
+  :board_id: 301
+- sap_1:
+  :name: SAP1 SCM
+  :department_id: 2
+  :project_key: SAP1
+  :board_id: 312
