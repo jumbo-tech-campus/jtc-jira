@@ -4,6 +4,9 @@ require_relative 'config/environment.rb'
 class Cache < Thor
   desc "cache data", "Extract boards from JIRA and store in Redis cache"
   def all
+    statsd_client = StatsdClient.new
+    start = Time.now
+
     # first make sure we use the Jira repositories to fetch data
     JiraService.new.register_jira_repositories
 
@@ -28,5 +31,10 @@ class Cache < Thor
         $stdout.flush
       end if board.is_a? ScrumBoard
     end
+
+    statsd_client.timing('thor.cache',
+      (Time.now - started) * 1000,
+      tags: ["action:all"]
+    )
   end
 end
