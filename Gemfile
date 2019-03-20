@@ -5,6 +5,7 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'jira-ruby'
 gem 'thor'
 gem 'eps'
+gem 'dogstatsd-ruby'
 
 ruby '~> 2.6.0'
 
