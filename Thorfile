@@ -5,7 +5,7 @@ class Cache < Thor
   desc "cache data", "Extract boards from JIRA and store in Redis cache"
   def all
     statsd_client = StatsdClient.new
-    start = Time.now
+    started = Time.now
 
     # first make sure we use the Jira repositories to fetch data
     JiraService.new.register_jira_repositories
