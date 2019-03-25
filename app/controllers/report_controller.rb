@@ -29,6 +29,22 @@ class ReportController < ApplicationController
     end
   end
 
+  def deployment
+    @deployment_project = Repository.for(:project).find(params[:deployment_project_key])
+    @table = DeploymentReportService.for_project(@deployment_project)
+
+    stats = {
+      table: @table,
+      regression: DeploymentReportService.linear_regression_for_project(@deployment_project),
+    }
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data to_csv(@table), filename: "deployment_project_report_#{@deployment_project.key}.csv" }
+      format.json { send_data stats.to_json }
+    end
+  end
+
   private
   def set_dates
     week_number = DateTime.now.strftime('%W').to_i

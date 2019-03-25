@@ -40,6 +40,18 @@
             <% end %>
           </div>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Deployments
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
+            <% @deployment_projects.each do |deployment_project| %>
+            <a class="dropdown-item <%= 'active' if action_name == 'deployment' && @deployment_project.id == deployment_project.id %>" href="<%= deployment_report_path(deployment_project_key: deployment_project.key) %>">
+              <%= deployment_project.name %>
+            </a>
+            <% end %>
+          </div>
+        </li>
       </ul>
       <%= link_to 'Refresh data', sprint_report_refresh_path(board_id: @board.id), method: :post, class: 'btn btn-secondary', data: { disable_with: "In progress..." } if @board %>
     </div>

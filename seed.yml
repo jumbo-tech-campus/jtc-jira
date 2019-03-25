@@ -1,3 +1,4 @@
+:teams:
 - mob_a_team:
   :name: A-team
   :department_id: 1
@@ -96,3 +97,13 @@
   :department_id: 2
   :project_key: SAP1
   :board_id: 312
+:departments:
+- digital:
+  :name: JTC Digital
+  :id: 1
+- core:
+  :name: JTC Core
+  :id: 2
+:deployment_projects:
+- digital:
+  :key: JDD

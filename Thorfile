@@ -11,11 +11,15 @@ class Cache < Thor
     JiraService.new.register_jira_repositories
 
     teams = Repository.for(:team).all
+    projects = Repository.for(:project).all
     boards = teams.map{ |team| Repository.for(:board).find(team.board_id)}
 
     redis_client = ::Cache::RedisClient.new
     puts "Caching #{teams.size} teams"
     ::Cache::TeamRepository.new(redis_client).save(teams)
+    $stdout.flush
+    puts "Caching #{projects.size} projects"
+    ::Cache::ProjectRepository.new(redis_client).save(projects)
     $stdout.flush
     board_repo = ::Cache::BoardRepository.new(redis_client)
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
