@@ -1,11 +1,11 @@
 <%= render 'shared/nav_bar' %>
 <main role="main" class="container-fluid">
   <div class="main">
-    <div class="row pl-3">
+    <div class="row pl-3 mb-3">
       <ul class="nav">
         <% @teams.each do |team| %>
         <li class="nav-item">
-          <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if @board.id == team.board_id %>"
+          <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-1 mr-2 <%= 'active' if @board.id == team.board_id %>"
             href="<%= cycle_time_report_path(board_id: team.board_id) %>">
             <%= team.name %>
           </a>
