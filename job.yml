@@ -29,6 +29,10 @@ spec:
                   key: JIRA_SITE
             - name: REDIS_HOST
               value: "redis"
+            - name: RAILS_RELATIVE_URL_ROOT
+              value: "/jira"
+            - name: URL_PREFIX
+              value: "/jira"
             - name: RAILS_ENV
               value: "production"
             - name: RAILS_LOG_TO_STDOUT
@@ -37,5 +41,7 @@ spec:
               value: "true"
             - name: RAILS_MASTER_KEY
               value: "237dd1fee65d1b2fcf463c446daa16e6"
+            - name: STATSD_HOST
+              value: "dogstatsd.datadog.svc.cluster.local"
       restartPolicy: Never
   backoffLimit: 1

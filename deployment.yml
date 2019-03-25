@@ -109,6 +109,10 @@ spec:
                   key: JIRA_SITE
             - name: REDIS_HOST
               value: "redis"
+            - name: RAILS_RELATIVE_URL_ROOT
+              value: "/jira"
+            - name: URL_PREFIX
+              value: "/jira"
             - name: RAILS_ENV
               value: "production"
             - name: RAILS_LOG_TO_STDOUT
