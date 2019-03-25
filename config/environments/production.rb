@@ -92,5 +92,5 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  config.middleware.insert_before ActionDispatch::Static, StatsdMonitor
+  config.middleware.insert_before ActionDispatch::Executor, StatsdMonitor
 end
