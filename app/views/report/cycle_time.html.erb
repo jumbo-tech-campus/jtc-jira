@@ -16,6 +16,7 @@
      <div class="card box-shadow mb-4">
        <div class="card-header">
          <strong><%= @board.team.name %>: Cycle time scatter plot</strong><br>
+         <small class="text-muted small">Cycle time is calculated from the first transition to 'In progress' to the last transition to 'Done'</small>
        </div>
        <div class="scatter-plot m-4"></div>
      </div>

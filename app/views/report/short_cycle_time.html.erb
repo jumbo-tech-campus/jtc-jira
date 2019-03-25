@@ -16,6 +16,7 @@
      <div class="card box-shadow mb-4">
        <div class="card-header">
          <strong><%= @board.team.name %>: Short cycle time scatter plot</strong><br>
+         <small class="text-muted small">Short cycle time is calculated from the first transition to 'In progress' to the last transition to 'Ready for prod'</small>
        </div>
        <div class="scatter-plot m-4"></div>
      </div>
