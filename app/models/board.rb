@@ -6,17 +6,17 @@ class Board < ActiveModelSerializers::Model
     @id, @type = id, type
   end
 
-  def cycle_times
-    issues_with_cycle_time = issues.select{ |issue| issue.cycle_time }
-    issues_with_cycle_time.sort_by!{ |issue| issue.done_date }
+  def cycle_times(done_type = :done_date)
+    issues_with_cycle_time = issues.select{ |issue| issue.cycle_time(done_type) }
+    issues_with_cycle_time.sort_by!{ |issue| issue.send(done_type) }
 
-    @cycle_array ||= issues_with_cycle_time.map do |issue|
-      [issue.key, issue.in_progress_date, issue.done_date, issue.cycle_time]
+    issues_with_cycle_time.map do |issue|
+      [issue.key, issue.in_progress_date, issue.send(done_type), issue.cycle_time(done_type)]
     end
   end
 
-  def cycle_time_moving_average_on(date, period = 4.weeks)
-    cycle_time_array = cycle_times.inject([]) do |memo, cycle_time|
+  def cycle_time_moving_average_on(date, done_type = :done_date, period = 4.weeks)
+    cycle_time_array = cycle_times(done_type).inject([]) do |memo, cycle_time|
       memo << cycle_time[3] if cycle_time[2].between?(date.end_of_day - period, date.end_of_day)
       memo
     end

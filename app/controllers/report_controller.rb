@@ -14,7 +14,7 @@ class ReportController < ApplicationController
 
   def cycle_time
     @board = Repository.for(:board).find(params[:board_id])
-    @table = CycleTimeReportService.for_board(@board)
+    @table = CycleTimeReportService.cycle_time_for_board(@board)
 
     stats = {
       table: @table,
@@ -25,6 +25,23 @@ class ReportController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { send_data to_csv(@table), filename: "cycle_time_report_team_#{@board.team.name}.csv" }
+      format.json { send_data stats.to_json }
+    end
+  end
+
+  def short_cycle_time
+    @board = Repository.for(:board).find(params[:board_id])
+    @table = CycleTimeReportService.short_cycle_time_for_board(@board)
+
+    stats = {
+      table: @table,
+      regression: CycleTimeReportService.linear_regression_for_board(@board, :ready_for_prod_date),
+      moving_averages: CycleTimeReportService.moving_averages_for_board(@board, :ready_for_prod_date)
+    }
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data to_csv(@table), filename: "short_cycle_time_report_team_#{@board.team.name}.csv" }
       format.json { send_data stats.to_json }
     end
   end

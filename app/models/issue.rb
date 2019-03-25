@@ -24,13 +24,15 @@ class Issue < ActiveModelSerializers::Model
   end
 
   def ready_for_prod_date
+    return nil if status != 'Done' && status != "Ready for prod"
+
     @ready_for_prod_date ||= @state_changed_events.reverse.find{ |event| event.to_state == "Ready for prod" }&.created
   end
 
-  def cycle_time
-    return nil unless done_date && in_progress_date
+  def cycle_time(done_type = :done_date)
+    return nil unless send(done_type) && in_progress_date
 
-    (done_date - in_progress_date).to_f
+    (send(done_type) - in_progress_date).to_f
   end
 
   def ==(issue)

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get 'sprint_report/sprint', to: 'sprint_report#sprint', as: :sprint_report
     get 'report/portfolio', to: 'report#portfolio', as: :portfolio_report
     get 'report/cycle_time', to: 'report#cycle_time', as: :cycle_time_report
+    get 'report/short_cycle_time', to: 'report#short_cycle_time', as: :short_cycle_time_report
     get 'report/deployment', to: 'report#deployment', as: :deployment_report
     post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data', as: :sprint_report_refresh
   end
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
   get 'sprint_report/last_sprint', to: 'sprint_report#last_sprint'
   get 'report/portfolio', to: 'report#portfolio'
   get 'report/cycle_time', to: 'report#cycle_time'
+  get 'report/short_cycle_time', to: 'report#short_cycle_time'
   get 'report/deployment', to: 'report#deployment'
   get 'sprint_report/sprint', to: 'sprint_report#sprint'
   post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data'
