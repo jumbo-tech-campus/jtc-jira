@@ -5,6 +5,8 @@ module Jira
         find_by_sprint(options[:sprint])
       elsif options[:board]
         find_by_board(options[:board])
+      elsif options[:project]
+        find_by_project(options[:project])
       end
     end
 
@@ -33,17 +35,7 @@ module Jira
           issue = Factory.for(:issue).create_from_jira(value)
           issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
 
-          state_changed_events = []
-          value['changelog']['histories'].each do |history|
-            history['items'].each do |item|
-              if item['fieldId'] == 'status'
-                state_changed_events << Factory.for(:state_changed_event).create_from_jira(history)
-                break
-              end
-            end
-          end
-
-          issue.state_changed_events.concat(state_changed_events.sort_by{ |event| event.created })
+          issue.state_changed_events.concat(get_state_changed_events(value).sort_by{ |event| event.created })
 
           @records[issue.id] = issue
           issues << issue
@@ -78,23 +70,51 @@ module Jira
         issue = Factory.for(:issue).create_from_jira(value)
         issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
 
-        state_changed_events = []
-        value['changelog']['histories'].each do |history|
-          history['items'].each do |item|
-            if item['fieldId'] == 'status'
-              state_changed_events << Factory.for(:state_changed_event).create_from_jira(history)
-              break
-            end
-          end
-        end
-
-        issue.state_changed_events.concat(state_changed_events.sort_by{ |event| event.created })
+        issue.state_changed_events.concat(get_state_changed_events(value).sort_by{ |event| event.created })
 
         @records[issue.id] = issue
         issues << issue
       end
 
       issues
+    end
+
+    def find_by_project(project)
+      issues = []
+
+      response = @client.Project.find(project.key).issues(expand: 'changelog')
+
+      response.each do |value|
+        #filter out subtasks
+        next if value['fields']['issuetype']['subtask']
+
+        if @records[value['id']]
+          issues << @records[value['id']]
+          next
+        end
+
+        issue = Factory.for(:issue).create_from_jira(value)
+        issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
+
+        issue.state_changed_events.concat(get_state_changed_events(value).sort_by{ |event| event.created })
+
+        @records[issue.id] = issue
+        issues << issue
+      end
+
+      issues
+    end
+
+    def get_state_changed_events(value)
+      value['changelog']['histories'].inject([]) do |memo, history|
+        history['items'].each do |item|
+          if item['fieldId'] == 'status'
+            memo << Factory.for(:state_changed_event).create_from_jira(history)
+            break
+          end
+        end
+        memo
+      end
     end
   end
 end
