@@ -24,17 +24,23 @@ class CycleTimeReportService
   end
 
   def self.linear_regression_for_board(board, done_type = :done_date)
-    data = board.cycle_times(done_type).map do |row|
+    cycle_times = board.cycle_times(done_type)
+    return [] if cycle_times.size <= 2
+
+    data = cycle_times.map do |row|
       { date: row[2].to_time.to_i, cycle_time: row[3] }
     end
     model = Eps::Regressor.new(data, target: :cycle_time)
 
-    [prediction(model, board.cycle_times(done_type).first[2]), prediction(model, board.cycle_times(done_type).last[2])]
+    [prediction(model, cycle_times.first[2]), prediction(model, cycle_times.last[2])]
   end
 
   def self.moving_averages_for_board(board, done_type = :done_date)
-    date =  board.cycle_times(done_type).first[2]
-    end_date = board.cycle_times(done_type).last[2]
+    cycle_times = board.cycle_times(done_type)
+    return [] if cycle_times.size <= 2
+
+    date =  cycle_times.first[2]
+    end_date = cycle_times.last[2]
     moving_averages = []
 
     loop do
