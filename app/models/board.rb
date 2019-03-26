@@ -10,7 +10,7 @@ class Board < ActiveModelSerializers::Model
     issues_with_cycle_time = issues.select{ |issue| issue.cycle_time(done_type) }
     issues_with_cycle_time.sort_by!{ |issue| issue.send(done_type) }
 
-    issues_with_cycle_time.map do |issue|
+    issues_with_cycle_time.reverse.map do |issue|
       [issue.key, issue.in_progress_date, issue.send(done_type), issue.cycle_time(done_type)]
     end
   end
