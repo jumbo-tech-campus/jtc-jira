@@ -2,7 +2,8 @@ class ReportController < ApplicationController
   def portfolio
     @dates = set_dates.reverse
     @selected_date = params[:date]&.to_datetime || @dates.last
-    @department = Repository.for(:department).find(params[:department_id].to_i)
+    department_id = params[:department_id] || '1'
+    @department = Repository.for(:department).find(department_id.to_i)
 
     @table = PortfolioReportService.for(@department.scrum_teams, @selected_date)
 
