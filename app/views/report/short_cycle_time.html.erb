@@ -23,8 +23,8 @@
 
      <script>
      $(function() {
-       getCycleTimeChartData('<%= short_cycle_time_report_path(board_id: @board.id, format: 'json') %>').done(function(chart_data) {
-         return chart = c3.generate({
+       var chart_data = convertToCycleTimeChartData(JSON.parse('<%= raw(@stats.to_json) %>'));
+       c3.generate({
            padding: {
               right: 40,
               left: 40
@@ -62,8 +62,6 @@
              show: false
            }
          });
-
-       });
      });
     </script>
 

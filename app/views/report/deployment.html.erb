@@ -10,9 +10,8 @@
 
      <script>
      $(function() {
-
-       getDeploymentChartData('<%= deployment_report_path(deployment_project_key: @deployment_project.key, format: 'json') %>').done(function(chart_data) {
-         return chart = c3.generate({
+       var chart_data = convertToDeploymentChartData(JSON.parse('<%= raw(@stats.to_json) %>'));
+       c3.generate({
            padding: {
               right: 40,
               left: 40
@@ -52,9 +51,7 @@
               },
               space: 2
           }
-         });
-
-       });
+        });
      });
     </script>
 

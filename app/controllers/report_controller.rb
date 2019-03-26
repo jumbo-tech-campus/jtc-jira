@@ -17,7 +17,7 @@ class ReportController < ApplicationController
     @board = Repository.for(:board).find(params[:board_id])
     @table = CycleTimeReportService.cycle_time_for_board(@board)
 
-    stats = {
+    @stats = {
       table: @table,
       regression: CycleTimeReportService.linear_regression_for_board(@board),
       moving_averages: CycleTimeReportService.moving_averages_for_board(@board)
@@ -26,7 +26,7 @@ class ReportController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { send_data to_csv(@table), filename: "cycle_time_report_team_#{@board.team.name}.csv" }
-      format.json { send_data stats.to_json }
+      format.json { send_data @stats.to_json }
     end
   end
 
@@ -34,7 +34,7 @@ class ReportController < ApplicationController
     @board = Repository.for(:board).find(params[:board_id])
     @table = CycleTimeReportService.short_cycle_time_for_board(@board)
 
-    stats = {
+    @stats = {
       table: @table,
       regression: CycleTimeReportService.linear_regression_for_board(@board, :ready_for_prod_date),
       moving_averages: CycleTimeReportService.moving_averages_for_board(@board, :ready_for_prod_date)
@@ -43,7 +43,7 @@ class ReportController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { send_data to_csv(@table), filename: "short_cycle_time_report_team_#{@board.team.name}.csv" }
-      format.json { send_data stats.to_json }
+      format.json { send_data @stats.to_json }
     end
   end
 
@@ -51,7 +51,7 @@ class ReportController < ApplicationController
     @deployment_project = Repository.for(:project).find(params[:deployment_project_key])
     @table = DeploymentReportService.for_project(@deployment_project)
 
-    stats = {
+    @stats = {
       table: @table,
       regression: DeploymentReportService.linear_regression_for_project(@deployment_project),
     }
@@ -59,7 +59,7 @@ class ReportController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { send_data to_csv(@table), filename: "deployment_project_report_#{@deployment_project.key}.csv" }
-      format.json { send_data stats.to_json }
+      format.json { send_data @stats.to_json }
     end
   end
 
