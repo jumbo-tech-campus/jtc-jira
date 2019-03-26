@@ -4,7 +4,7 @@ class CycleTimeReportService
     header = ["Key", "In progress date", "Done date", "Cycle time (days)"]
     table << header
 
-    board.cycle_times.each do |row|
+    board.cycle_times.reverse.each do |row|
       table << [row[0], row[1].strftime('%Y-%m-%d'), row[2].strftime('%Y-%m-%d'), row[3].round(2)]
     end
 
@@ -16,7 +16,7 @@ class CycleTimeReportService
     header = ["Key", "In progress date", "Ready for prod date", "Short cycle time (days)"]
     table << header
 
-    board.cycle_times(:ready_for_prod_date).each do |row|
+    board.cycle_times(:ready_for_prod_date).reverse.each do |row|
       table << [row[0], row[1].strftime('%Y-%m-%d'), row[2].strftime('%Y-%m-%d'), row[3].round(2)]
     end
 
