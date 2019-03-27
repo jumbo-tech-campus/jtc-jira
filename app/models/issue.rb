@@ -29,10 +29,10 @@ class Issue < ActiveModelSerializers::Model
     @ready_for_prod_date ||= @state_changed_events.reverse.find{ |event| event.to_state == "Ready for prod" }&.created
   end
 
-  def cycle_time(done_type = :done_date)
-    return nil unless send(done_type) && in_progress_date
+  def cycle_time
+    return nil unless done_date && in_progress_date
 
-    (send(done_type) - in_progress_date).to_f
+    (done_date - in_progress_date).to_f
   end
 
   def short_cycle_time
