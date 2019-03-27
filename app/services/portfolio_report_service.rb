@@ -2,7 +2,15 @@ class PortfolioReportService
   def self.for(teams, date)
     team_sprint_parent_epics = teams.inject({}) do |memo, team|
       sprint = Repository.for(:board).find(team.board_id).sprint_for(date)
+
       memo[team.name] = sprint&.sprint_parent_epics || []
+      memo
+    end
+
+    team_wbso_percentages = teams.inject({}) do |memo, team|
+      sprint = Repository.for(:board).find(team.board_id).sprint_for(date)
+
+      memo[team.name] = sprint&.wbso_percentage_of_issues_closed || 0
       memo
     end
 
@@ -38,6 +46,12 @@ class PortfolioReportService
       table << row
     end
 
+    wbso_row = ['WBSO - Issues eligible for WBSO subsidy', nil]
+    team_wbso_percentages.each do |team_name, percentage|
+      wbso_row  << percentage.round(1)
+    end
+
+    table << wbso_row
     table
   end
 end
