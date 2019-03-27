@@ -7,11 +7,11 @@ class Board < ActiveModelSerializers::Model
   end
 
   def issues_with_cycle_time
-    @issues_with_cycle_time ||= issues.select{ |issue| issue.cycle_time }.sort_by{ |issue| issue.done_date }
+    @issues_with_cycle_time ||= issues.select(&:cycle_time).sort_by(&:done_date)
   end
 
   def issues_with_short_cycle_time
-    @issues_with_short_cycle_time ||= issues.select{ |issue| issue.short_cycle_time }.sort_by{ |issue| issue.ready_for_prod_date }
+    @issues_with_short_cycle_time ||= issues.select(&:short_cycle_time).sort_by(&:ready_for_prod_date)
   end
 
   def cycle_time_moving_average_on(date, period = 4.weeks)

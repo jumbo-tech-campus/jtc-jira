@@ -15,11 +15,11 @@ class ScrumBoard < Board
   end
 
   def recent_closed_sprints(n)
-    closed_sprints.sort_by{ |sprint| sprint.end_date }.reverse.take(n)
+    closed_sprints.sort_by(&:end_date).reverse.take(n)
   end
 
   def recent_sprints(n)
-    sprints.sort_by{ |sprint| sprint.end_date }.reverse.take(n)
+    sprints.sort_by(&:end_date).reverse.take(n)
   end
 
   def last_closed_sprint

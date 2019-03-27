@@ -82,7 +82,7 @@ class Sprint < ActiveModelSerializers::Model
   end
 
   def average_cycle_time
-    issues_with_cycle_time = done_issues.select{ |issue| issue.cycle_time }
+    issues_with_cycle_time = done_issues.select(&:cycle_time)
     return nil if issues_with_cycle_time.size == 0
 
     total_cycle_time = issues_with_cycle_time.reduce(0){ |memo, issue| memo += issue.cycle_time }

@@ -10,7 +10,7 @@ class Department < ActiveModelSerializers::Model
   end
 
   def scrum_teams
-    teams.select{ |team| team.is_scrum_team? }
+    teams.select(&:is_scrum_team?)
   end
 
   def ==(department)
