@@ -6,16 +6,6 @@ class Board < ActiveModelSerializers::Model
     @id, @type = id, type
   end
 
-  def cycle_times(done_type = :done_date)
-    issues_with_cycle_time = issues.select{ |issue| issue.cycle_time }
-    issues_with_cycle_time.sort_by!{ |issue| issue.done_date }
-
-    issues_with_cycle_time.map do |issue|
-      [issue.key, issue.in_progress_date, issue.ready_for_prod_date, issue.done_date,
-        issue.cycle_time, issue.short_cycle_time, issue.cycle_time_delta]
-    end
-  end
-
   def issues_with_cycle_time
     @issues_with_cycle_time ||= issues.select{ |issue| issue.cycle_time }.sort_by{ |issue| issue.done_date }
   end
