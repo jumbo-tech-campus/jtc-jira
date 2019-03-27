@@ -21,6 +21,8 @@ class ReportController < ApplicationController
       table: @table,
       cycle_trendline: CycleTimeReportService.cycle_time_linear_regression(@board),
       cycle_averages: CycleTimeReportService.cycle_time_moving_averages(@board),
+      cycle_delta_trendline: CycleTimeReportService.cycle_time_delta_linear_regression(@board),
+      cycle_delta_averages: CycleTimeReportService.cycle_time_delta_moving_averages(@board),
       short_cycle_trendline: CycleTimeReportService.short_cycle_time_linear_regression(@board),
       short_cycle_averages: CycleTimeReportService.short_cycle_time_moving_averages(@board)
     }

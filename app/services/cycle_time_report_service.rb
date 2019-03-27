@@ -35,12 +35,25 @@ class CycleTimeReportService
     return [] if board.issues_with_short_cycle_time.size <= 2
 
     data = board.issues_with_short_cycle_time.map do |issue|
-      { date: issue.ready_for_prod_date.to_time.to_i, cycle_time: issue.short_cycle_time }
+      { date: issue.ready_for_prod_date.to_time.to_i, short_cycle_time: issue.short_cycle_time }
     end
-    model = Eps::Regressor.new(data, target: :cycle_time)
+    model = Eps::Regressor.new(data, target: :short_cycle_time)
 
     [prediction(model, board.issues_with_short_cycle_time.first.ready_for_prod_date),
       prediction(model, board.issues_with_short_cycle_time.last.ready_for_prod_date)]
+  end
+
+
+  def self.cycle_time_delta_linear_regression(board)
+    return [] if board.issues_with_cycle_time_delta.size <= 2
+
+    data = board.issues_with_cycle_time_delta.map do |issue|
+      { date: issue.done_date.to_time.to_i, cycle_time_delta: issue.cycle_time_delta }
+    end
+    model = Eps::Regressor.new(data, target: :cycle_time_delta)
+
+    [prediction(model, board.issues_with_cycle_time_delta.first.done_date),
+      prediction(model, board.issues_with_cycle_time_delta.last.done_date)]
   end
 
   def self.cycle_time_moving_averages(board)
@@ -76,6 +89,26 @@ class CycleTimeReportService
       date = date + 1.week
       if date >= end_date
         moving_averages << [end_date.strftime('%Y-%m-%d'), board.short_cycle_time_moving_average_on(end_date)]
+        break
+      end
+    end
+
+    moving_averages
+  end
+
+  def self.cycle_time_delta_moving_averages(board)
+    return [] if board.issues_with_cycle_time_delta.size <= 2
+
+    date =  board.issues_with_cycle_time_delta.first.done_date
+    end_date = board.issues_with_cycle_time_delta.last.done_date
+    moving_averages = []
+
+    loop do
+      moving_averages << [date.strftime('%Y-%m-%d'), board.cycle_time_delta_moving_average_on(date)]
+
+      date = date + 1.week
+      if date >= end_date
+        moving_averages << [end_date.strftime('%Y-%m-%d'), board.cycle_time_delta_moving_average_on(end_date)]
         break
       end
     end

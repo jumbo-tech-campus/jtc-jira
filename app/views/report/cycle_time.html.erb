@@ -118,6 +118,61 @@
     });
    </script>
 <% end %>
+
+<% if @stats[:cycle_delta_trendline].any? %>
+
+ <div class="card box-shadow mb-4">
+   <div class="card-header">
+     <strong><%= @board.team.name %>: Cycle time delta scatter plot</strong><br>
+     <small class="text-muted small">Cycle time delta is calculated as the difference between cycle and short cycle time</small>
+   </div>
+   <div class="scatter-plot-3 m-4"></div>
+ </div>
+
+ <script>
+ $(function() {
+   var chart_data = convertToCycleTimeDeltaChartData(JSON.parse('<%= raw(@stats.to_json) %>'));
+   c3.generate({
+       padding: {
+          right: 40,
+          left: 40
+       },
+       bindto: d3.select('.scatter-plot-3'),
+       data: {
+         xs: {
+           'cycle time delta': 'cycle_time_x',
+           trendline: 'trendline_x',
+           'moving average': 'moving_average_x'
+         },
+         columns: chart_data,
+         type: 'scatter',
+         types: {
+           trendline: 'line',
+           'moving average': 'line'
+         }
+       },
+       axis: {
+         y: {
+           min: 0,
+           padding: { top: 5, bottom:0 }
+         },
+         x: {
+           type: 'timeseries',
+           tick: {
+            fit: true,
+            count: 6,
+            format: '%d-%m-%Y'
+           }
+         }
+       },
+       point: {
+         r: 5,
+         show: false
+       }
+     });
+ });
+</script>
+<% end %>
      <div class="card box-shadow mb-4">
        <div class="card-header">
          <a href="<%= cycle_time_report_path(board_id: @board.id, format: 'csv') %>"
