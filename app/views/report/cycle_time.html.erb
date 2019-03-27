@@ -24,44 +24,7 @@
      <script>
      $(function() {
        var chart_data = convertToCycleTimeChartData(JSON.parse('<%= raw(@stats.to_json) %>'));
-       c3.generate({
-           padding: {
-              right: 40,
-              left: 40
-           },
-           bindto: d3.select('.scatter-plot'),
-           data: {
-             xs: {
-               'cycle time': 'cycle_time_x',
-               trendline: 'trendline_x',
-               'moving average': 'moving_average_x'
-             },
-             columns: chart_data,
-             type: 'scatter',
-             types: {
-               trendline: 'line',
-               'moving average': 'line'
-             }
-           },
-           axis: {
-             y: {
-               min: 0,
-               padding: { top: 5, bottom:0 }
-             },
-             x: {
-               type: 'timeseries',
-               tick: {
-                fit: true,
-                count: 6,
-                format: '%d-%m-%Y'
-               }
-             }
-           },
-           point: {
-             r: 5,
-             show: false
-           }
-         });
+       generateScatterPlot(chart_data, '.scatter-plot', 'cycle time');
        });
     </script>
    <% if @stats[:short_cycle_trendline].any? %>
@@ -77,44 +40,7 @@
     <script>
     $(function() {
       var chart_data = convertToShortCycleTimeChartData(JSON.parse('<%= raw(@stats.to_json) %>'));
-      c3.generate({
-          padding: {
-             right: 40,
-             left: 40
-          },
-          bindto: d3.select('.scatter-plot-2'),
-          data: {
-            xs: {
-              'cycle time': 'cycle_time_x',
-              trendline: 'trendline_x',
-              'moving average': 'moving_average_x'
-            },
-            columns: chart_data,
-            type: 'scatter',
-            types: {
-              trendline: 'line',
-              'moving average': 'line'
-            }
-          },
-          axis: {
-            y: {
-              min: 0,
-              padding: { top: 5, bottom:0 }
-            },
-            x: {
-              type: 'timeseries',
-              tick: {
-               fit: true,
-               count: 6,
-               format: '%d-%m-%Y'
-              }
-            }
-          },
-          point: {
-            r: 5,
-            show: false
-          }
-        });
+      generateScatterPlot(chart_data, '.scatter-plot-2', 'cycle time');
     });
    </script>
 <% end %>
@@ -132,44 +58,7 @@
  <script>
  $(function() {
    var chart_data = convertToCycleTimeDeltaChartData(JSON.parse('<%= raw(@stats.to_json) %>'));
-   c3.generate({
-       padding: {
-          right: 40,
-          left: 40
-       },
-       bindto: d3.select('.scatter-plot-3'),
-       data: {
-         xs: {
-           'cycle time delta': 'cycle_time_x',
-           trendline: 'trendline_x',
-           'moving average': 'moving_average_x'
-         },
-         columns: chart_data,
-         type: 'scatter',
-         types: {
-           trendline: 'line',
-           'moving average': 'line'
-         }
-       },
-       axis: {
-         y: {
-           min: 0,
-           padding: { top: 5, bottom:0 }
-         },
-         x: {
-           type: 'timeseries',
-           tick: {
-            fit: true,
-            count: 6,
-            format: '%d-%m-%Y'
-           }
-         }
-       },
-       point: {
-         r: 5,
-         show: false
-       }
-     });
+   generateScatterPlot(chart_data, '.scatter-plot-3', 'cycle time delta');
  });
 </script>
 <% end %>

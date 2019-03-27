@@ -91,3 +91,45 @@ function convertToDeploymentChartData(data) {
 
   return deployments.concat(regression_data);
 }
+
+function generateScatterPlot(chart_data, css_selector, variable_name) {
+  xs = {};
+  xs[variable_name] = 'cycle_time_x';
+  xs['trendline'] = 'trendline_x';
+  xs['moving average'] = 'moving_average_x';
+
+  c3.generate({
+    padding: {
+       right: 40,
+       left: 40
+    },
+    bindto: d3.select(css_selector),
+    data: {
+      xs: xs,
+      columns: chart_data,
+      type: 'scatter',
+      types: {
+        trendline: 'line',
+        'moving average': 'line'
+      }
+    },
+    axis: {
+      y: {
+        min: 0,
+        padding: { top: 5, bottom:0 }
+      },
+      x: {
+        type: 'timeseries',
+        tick: {
+         fit: true,
+         count: 6,
+         format: '%d-%m-%Y'
+        }
+      }
+    },
+    point: {
+      r: 5,
+      show: false
+    }
+  });
+}
