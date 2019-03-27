@@ -35,6 +35,19 @@ class Issue < ActiveModelSerializers::Model
     (send(done_type) - in_progress_date).to_f
   end
 
+  def short_cycle_time
+    return nil unless ready_for_prod_date && in_progress_date
+
+    (ready_for_prod_date - in_progress_date).to_f
+  end
+
+  def cycle_time_delta
+    return nil unless done_date
+    return 0 unless ready_for_prod_date
+
+    (done_date - ready_for_prod_date).to_f
+  end
+
   def ==(issue)
     self.id == issue.id
   end
