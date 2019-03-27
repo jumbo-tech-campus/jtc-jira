@@ -16,14 +16,15 @@ class PortfolioReportService
     parent_epics.sort_by!{ |parent_epic| parent_epic.id }
 
     table = []
-    header = [nil]
+    header = [nil, 'WBSO']
     teams.each do |team|
       header << team.name
     end
     table << header
 
     parent_epics.each do |parent_epic|
-      row = [parent_epic.description]
+      wbso = 'x' if parent_epic.wbso_project.present?
+      row = [parent_epic.description, wbso]
 
       team_sprint_parent_epics.values.each do |sprint_parent_epics|
         row_value = nil

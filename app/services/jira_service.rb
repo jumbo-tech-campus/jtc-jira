@@ -11,5 +11,6 @@ class JiraService
     Repository.register(:project, ::Jira::ProjectRepository.new(@jira_client))
     Repository.register(:team, ::Jira::TeamRepository.new(@jira_client))
     Repository.register(:department, ::Jira::DepartmentRepository.new(@jira_client))
+    Repository.register(:parent_epic, ::Jira::ParentEpicRepository.new(@jira_client))
   end
 end

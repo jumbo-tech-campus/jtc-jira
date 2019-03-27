@@ -18,12 +18,22 @@ module SprintIssueAbilities
     closed_issues.size / issues.size.to_f * 100
   end
 
+  def wbso_percentage_of_issues_closed
+    return 0 if sprint.points_closed == 0
+
+    wbso_points_closed / sprint.points_closed.to_f * 100
+  end
+
   def closed_issues
     issues.select{ |issue| closed_in_sprint?(issue) }
   end
 
   def open_issues
     issues.select{ |issue| !closed_in_sprint?(issue) }
+  end
+
+  def wbso_issues
+    issues.select{ |issue| issue.epic&.parent_epic&.wbso_project.present? }
   end
 
   def closed_in_sprint?(issue)
@@ -40,5 +50,15 @@ module SprintIssueAbilities
 
   def points_total
     issues.reduce(0){ |sum, issue| sum + issue.estimation }
+  end
+
+  def wbso_points_closed
+    wbso_issues.reduce(0) do |sum, issue|
+      if closed_in_sprint?(issue)
+        sum + issue.estimation
+      else
+        sum
+      end
+    end
   end
 end
