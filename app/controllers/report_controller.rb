@@ -15,22 +15,16 @@ class ReportController < ApplicationController
 
   def cycle_time
     @board = Repository.for(:board).find(params[:board_id])
-    @table = CycleTimeReportService.cycle_time_for(@board)
+    @end_date = ApplicationHelper.safe_parse(params[:end_date]) || Date.today
+    @start_date = ApplicationHelper.safe_parse(params[:start_date]) || Date.today - 2.months
 
-    @stats = {
-      table: @table,
-      cycle_trendline: CycleTimeReportService.cycle_time_linear_regression(@board),
-      cycle_averages: CycleTimeReportService.cycle_time_moving_averages(@board),
-      cycle_delta_trendline: CycleTimeReportService.cycle_time_delta_linear_regression(@board),
-      cycle_delta_averages: CycleTimeReportService.cycle_time_delta_moving_averages(@board),
-      short_cycle_trendline: CycleTimeReportService.short_cycle_time_linear_regression(@board),
-      short_cycle_averages: CycleTimeReportService.short_cycle_time_moving_averages(@board)
-    }
+    @report = CycleTimeReportService.new(@board, @start_date, @end_date).cycle_time_report
+    @table = @report[:table]
 
     respond_to do |format|
       format.html
       format.csv { send_data to_csv(@table), filename: "cycle_time_report_team_#{@board.team.name}.csv" }
-      format.json { send_data @stats.to_json }
+      format.json { send_data @report.to_json }
     end
   end
 

@@ -16,6 +16,10 @@ class Team < ActiveModelSerializers::Model
     Repository.for(:board).find(board_id)
   end
 
+  def ==(team)
+    self.board_id == team.board_id
+  end
+
   def_delegator :@project, :avatars
   def_delegator :@project, :name, :project_name
   def_delegator :@project, :key, :project_key
