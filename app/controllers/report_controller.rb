@@ -64,6 +64,12 @@ class ReportController < ApplicationController
     end
   end
 
+  def p1
+    respond_to do |format|
+      format.html
+    end
+  end
+
   private
   def set_dates
     week_number = DateTime.now.strftime('%W').to_i
