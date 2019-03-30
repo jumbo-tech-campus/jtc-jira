@@ -7,98 +7,117 @@
   :project_key: JMBMOB
   :board_id: 230
   :subteam: A-team
+  :deployment_constraint_id: 1
 - mob_baywatch:
   :name: Baywatch
   :department_id: 1
   :project_key: JMBMOB
   :board_id: 231
   :subteam: Baywatch
+  :deployment_constraint_id: 1
 - food_csi:
   :name: CSI
   :department_id: 1
   :project_key: FOOD
   :board_id: 294
   :subteam: CSI
+  :deployment_constraint_id: 1
 - exp:
   :name: Experience
   :department_id: 1
   :project_key: EXP
   :board_id: 261
+  :deployment_constraint_id: 3
 - oms:
   :name: OMS
   :department_id: 1
   :project_key: OMS
   :board_id: 259
+  :deployment_constraint_id: 3
 - cto:
   :name: Check this out
   :department_id: 1
   :project_key: CTO
   :board_id: 260
+  :deployment_constraint_id: 3
 - b2b:
   :name: B2B
   :department_id: 1
   :project_key: B2BJTC
   :board_id: 258
+  :deployment_constraint_id: 3
 - aem:
   :name: AEM
   :department_id: 1
   :project_key: JMBAEM
   :board_id: 228
+  :deployment_constraint_id: 3
 - winkelapp:
   :name: Winkelapp
   :department_id: 1
   :project_key: APP
   :board_id: 43
+  :deployment_constraint_id: 4
 - find_it:
   :name: Find it
   :department_id: 1
   :project_key: FI
   :board_id: 267
+  :deployment_constraint_id: 3
 - optimize_prime:
   :name: Optimize Prime
   :department_id: 1
   :project_key: RJC
   :board_id: 217
+  :deployment_constraint_id: 3
 - smdx:
   :name: SMDX
   :department_id: 2
   :project_key: SAP2
   :board_id: 14
+  :deployment_constraint_id: 2
 - sap_marines:
   :name: SAP Marines
   :department_id: 2
   :project_key: SAP5
   :board_id: 199
+  :deployment_constraint_id: 2
 - musketiers:
   :name: Musketiers
   :department_id: 2
   :project_key: FMCO3
   :board_id: 309
+  :deployment_constraint_id: 2
 - pim:
   :name: Pim
   :department_id: 2
   :project_key: PIM
   :board_id: 262
+  :deployment_constraint_id: 4
 - xecm:
   :name: xECM
   :department_id: 2
   :project_key: XECM
   :board_id: 313
+  :deployment_constraint_id: 2
 - esb:
   :name: ESB
   :department_id: 2
   :project_key: ESB
   :board_id: 168
+  :deployment_constraint_id: 2
 - sc_core:
   :name: SC Core systems
   :department_id: 2
   :project_key: SCC
   :board_id: 301
+  :deployment_constraint_id: 2
 - sap_1:
   :name: SAP1 SCM
   :department_id: 2
   :project_key: SAP1
   :board_id: 312
+  :deployment_constraint_id: 2
 :departments:
 - digital:
   :name: JTC Digital
@@ -110,15 +129,15 @@
 - digital:
   :key: JDD
 :deployment_constraints:
-- no_constraint:
-  :id: 1
-  :name: No constraint
 - app_deploy:
-  :id: 2
+  :id: 1
   :name: App deploy
 - cab:
-  :id: 3
+  :id: 2
   :name: CAB
+- no_constraint:
+  :id: 3
+  :name: No constraint
 - supplier:
   :id: 4
-  :name: Supplier
+  :name: Supplier bound

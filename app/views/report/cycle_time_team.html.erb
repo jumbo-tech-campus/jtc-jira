@@ -1,0 +1,130 @@
+<%= render 'shared/nav_bar' %>
+<main role="main" class="container-fluid">
+  <div class="main">
+     <div class="row pl-3">
+       <form class="form-inline" action="<%= cycle_time_report_path %>">
+         <div class="form-group mb-3">
+         <label for="teamsSelect" class="ml-3 mr-3">Team:</label>
+         <select class="form-control" id="teamsSelect" class="ml-3" name="board_id">
+            <% @teams.each do |team| %>
+            <option value="<%= team.board_id %>" <%= 'selected' if team == @board.team %>><%= team.name %></option>
+            <% end %>
+        </select>
+        </div>
+        <div class="form-group mb-3">
+         <label for="startDate" class="ml-3">Start date: </label>
+         <input id="startDate" name="start_date" width="276" class="ml-3" value="<%= @start_date.strftime('%Y-%m-%d') %>"/>
+         <label for="endDate" class="ml-3">End date: </label>
+         <input id="endDate" name="end_date" width="276" class="ml-3" value="<%= @end_date.strftime('%Y-%m-%d') %>"/>
+        </div>
+         <div class="form-group mb-3">
+         <button type="submit" class="btn btn-jumbo btn-sm shadow-sm ml-3">Show</button>
+        </div>
+
+       </form>
+     </div>
+     <script>
+         var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+         $('#startDate').datepicker({
+             uiLibrary: 'bootstrap4',
+             iconsLibrary: 'fontawesome',
+             maxDate: function () {
+                 return $('#endDate').val();
+             },
+             format: 'yyyy-mm-dd'
+         });
+         $('#endDate').datepicker({
+             uiLibrary: 'bootstrap4',
+             iconsLibrary: 'fontawesome',
+             minDate: function () {
+                 return $('#startDate').val();
+             },
+             maxDate: today,
+             format: 'yyyy-mm-dd'
+         });
+     </script>
+     <div class="card box-shadow mb-4">
+       <div class="card-header">
+         <strong><%= @board.team.name %>: Cycle time scatter plot</strong><br>
+         <small class="text-muted small">Cycle time is calculated from the first transition to 'In progress' to the last transition to 'Done'</small>
+       </div>
+       <div class="scatter-plot m-4"></div>
+     </div>
+
+     <script>
+     $(function() {
+       var chart_data = convertToCycleTimeChartData(JSON.parse('<%= raw(@report.to_json) %>'));
+       generateScatterPlot(chart_data,'<%= @start_date.strftime('%Y-%m-%d')%>' , '.scatter-plot', 'cycle time');
+       });
+    </script>
+   <% if @report[:short_cycle_trendline].any? %>
+
+    <div class="card box-shadow mb-4">
+      <div class="card-header">
+        <strong><%= @board.team.name %>: Short cycle time scatter plot</strong><br>
+        <small class="text-muted small">Short cycle time is calculated from the first transition to 'In progress' to the last transition to 'Ready for prod'</small>
+      </div>
+      <div class="scatter-plot-2 m-4"></div>
+    </div>
+
+    <script>
+    $(function() {
+      var chart_data = convertToShortCycleTimeChartData(JSON.parse('<%= raw(@report.to_json) %>'));
+      generateScatterPlot(chart_data,'<%= @start_date.strftime('%Y-%m-%d')%>' , '.scatter-plot-2', 'cycle time');
+    });
+   </script>
+<% end %>
+
+<% if @report[:cycle_delta_trendline].any? && @report[:short_cycle_trendline].any? %>
+
+ <div class="card box-shadow mb-4">
+   <div class="card-header">
+     <strong><%= @board.team.name %>: Cycle time delta scatter plot</strong><br>
+     <small class="text-muted small">Cycle time delta is calculated as the difference between cycle and short cycle time</small>
+   </div>
+   <div class="scatter-plot-3 m-4"></div>
+ </div>
+
+ <script>
+ $(function() {
+   var chart_data = convertToCycleTimeDeltaChartData(JSON.parse('<%= raw(@report.to_json) %>'));
+   generateScatterPlot(chart_data,'<%= @start_date.strftime('%Y-%m-%d')%>' , '.scatter-plot-3', 'cycle time delta');
+ });
+</script>
+<% end %>
+     <div class="card box-shadow mb-4">
+       <div class="card-header">
+         <a href="<%= cycle_time_report_path(board_id: @board.id, format: 'csv') %>"
+           class="card-link float-right">
+           Download as csv file
+         </a>
+         <strong><%= @board.team.name %>: Cycle time overview</strong><br>
+       </div>
+       <div class="card-body">
+         <table class="table table-bordered">
+             <thead>
+               <tr class="small">
+                 <% @table[0].each do |header_item| %>
+                 <th><%= header_item %></th>
+                 <% end %>
+               </tr>
+             </thead>
+             <tbody>
+               <% @table[1..-1].each do |row| %>
+               <tr class="small">
+                 <% row.each_with_index do |row_item, index| %>
+                <td class="<%= 'text-center' unless index == 0 %>">
+                  <% if index == 0 %>
+                  <a href="<%= URI.join(ENV['JIRA_SITE'], "browse/", row_item)%>" target="_blank"><%= row_item %></a>
+                  <% else %>
+                  <%= row_item %>
+                  <% end %>                </td>
+                <% end %>
+              </tr>
+              <% end %>
+             </tbody>
+         </table>
+       </div>
+    </div>
+  </div>
+</main>

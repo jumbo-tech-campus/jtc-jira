@@ -92,7 +92,7 @@ function convertToDeploymentChartData(data) {
   return deployments.concat(regression_data);
 }
 
-function generateScatterPlot(chart_data, css_selector, variable_name) {
+function generateScatterPlot(chart_data, start_date, css_selector, variable_name) {
   xs = {};
   xs[variable_name] = 'cycle_time_x';
   xs['trendline'] = 'trendline_x';
@@ -119,6 +119,7 @@ function generateScatterPlot(chart_data, css_selector, variable_name) {
         padding: { top: 5, bottom:0 }
       },
       x: {
+        min: Date.parse(start_date),
         type: 'timeseries',
         tick: {
          fit: true,

@@ -26,9 +26,10 @@ class CacheService
     Repository.register(:team, Cache::TeamRepository.new(redis_client))
     Repository.register(:department, Cache::DepartmentRepository.new(redis_client))
     Repository.register(:project, Cache::ProjectRepository.new(redis_client))
+    Repository.register(:deployment_constraint, Cache::DeploymentConstraintRepository.new(redis_client))
   end
 
-  def reset_repositories
+  def self.reset_repositories
     config = YAML.load_file(Rails.root.join('config.yml'))
     if config[:use_cached_data]
       self.register_repositories

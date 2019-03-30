@@ -11,11 +11,14 @@ module Cache
         all.select{ |team| team.board_id == options[:board_id]}
       elsif options[:department_id]
         all.select{ |team| team.department.id == options[:department_id]}
+      elsif options[:deployment_constraint_id]
+        all.select{ |team| team.deployment_constraint.id == options[:deployment_constraint_id]}
       end
     end
 
     def save(teams)
-      @client.set("teams", ActiveModelSerializers::SerializableResource.new(teams, include: ['project', 'department']).to_json)
+      @client.set("teams", ActiveModelSerializers::SerializableResource.
+        new(teams, include: ['project', 'department', 'deployment_constraint']).to_json)
     end
   end
 end

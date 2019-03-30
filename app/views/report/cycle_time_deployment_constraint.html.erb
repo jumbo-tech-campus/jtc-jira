@@ -4,10 +4,10 @@
      <div class="row pl-3">
        <form class="form-inline" action="<%= cycle_time_report_path %>">
          <div class="form-group mb-3">
-         <label for="teamsSelect" class="ml-3 mr-3">Team:</label>
-         <select class="form-control" id="teamsSelect" class="ml-3" name="board_id">
-            <% @teams.each do |team| %>
-            <option value="<%= team.board_id %>" <%= 'selected' if team == @board.team %>><%= team.name %></option>
+         <label for="teamsSelect" class="ml-3 mr-3">Deployment constraint:</label>
+         <select class="form-control" id="teamsSelect" class="ml-3" name="deployment_constraint_id">
+            <% @deployment_constraints.each do |deployment_constraint| %>
+            <option value="<%= deployment_constraint.id %>" <%= 'selected' if deployment_constraint == @deployment_constraint %>><%= deployment_constraint.name %></option>
             <% end %>
         </select>
         </div>
@@ -45,7 +45,7 @@
      </script>
      <div class="card box-shadow mb-4">
        <div class="card-header">
-         <strong><%= @board.team.name %>: Cycle time scatter plot</strong><br>
+         <strong>Cycle time scatter plot JTC teams with <%= @deployment_constraint.name %></strong><br>
          <small class="text-muted small">Cycle time is calculated from the first transition to 'In progress' to the last transition to 'Done'</small>
        </div>
        <div class="scatter-plot m-4"></div>
@@ -54,14 +54,14 @@
      <script>
      $(function() {
        var chart_data = convertToCycleTimeChartData(JSON.parse('<%= raw(@report.to_json) %>'));
-       generateScatterPlot(chart_data, '.scatter-plot', 'cycle time');
+       generateScatterPlot(chart_data,'<%= @start_date.strftime('%Y-%m-%d')%>' , '.scatter-plot', 'cycle time');
        });
     </script>
    <% if @report[:short_cycle_trendline].any? %>
 
     <div class="card box-shadow mb-4">
       <div class="card-header">
-        <strong><%= @board.team.name %>: Short cycle time scatter plot</strong><br>
+        <strong>Short cycle time scatter plot JTC teams with <%= @deployment_constraint.name %></strong><br>
         <small class="text-muted small">Short cycle time is calculated from the first transition to 'In progress' to the last transition to 'Ready for prod'</small>
       </div>
       <div class="scatter-plot-2 m-4"></div>
@@ -70,7 +70,7 @@
     <script>
     $(function() {
       var chart_data = convertToShortCycleTimeChartData(JSON.parse('<%= raw(@report.to_json) %>'));
-      generateScatterPlot(chart_data, '.scatter-plot-2', 'cycle time');
+      generateScatterPlot(chart_data,'<%= @start_date.strftime('%Y-%m-%d')%>' , '.scatter-plot-2', 'cycle time');
     });
    </script>
 <% end %>
@@ -79,7 +79,7 @@
 
  <div class="card box-shadow mb-4">
    <div class="card-header">
-     <strong><%= @board.team.name %>: Cycle time delta scatter plot</strong><br>
+     <strong>Cycle time delta scatter plot JTC teams with <%= @deployment_constraint.name %></strong><br>
      <small class="text-muted small">Cycle time delta is calculated as the difference between cycle and short cycle time</small>
    </div>
    <div class="scatter-plot-3 m-4"></div>
@@ -88,42 +88,20 @@
  <script>
  $(function() {
    var chart_data = convertToCycleTimeDeltaChartData(JSON.parse('<%= raw(@report.to_json) %>'));
-   generateScatterPlot(chart_data, '.scatter-plot-3', 'cycle time delta');
+   generateScatterPlot(chart_data,'<%= @start_date.strftime('%Y-%m-%d')%>' , '.scatter-plot-3', 'cycle time delta');
  });
 </script>
 <% end %>
      <div class="card box-shadow mb-4">
        <div class="card-header">
-         <a href="<%= cycle_time_report_path(board_id: @board.id, format: 'csv') %>"
+         <a href="<%= cycle_time_report_path(deployment_constraint_id: @deployment_constraint.id, format: 'csv') %>"
            class="card-link float-right">
            Download as csv file
          </a>
-         <strong><%= @board.team.name %>: Cycle time overview</strong><br>
+         <strong>Cycle time overview JTC teams with <%= @deployment_constraint.name %></strong><br>
        </div>
        <div class="card-body">
-         <table class="table table-bordered">
-             <thead>
-               <tr class="small">
-                 <% @table[0].each do |header_item| %>
-                 <th><%= header_item %></th>
-                 <% end %>
-               </tr>
-             </thead>
-             <tbody>
-               <% @table[1..-1].each do |row| %>
-               <tr class="small">
-                 <% row.each_with_index do |row_item, index| %>
-                <td class="<%= 'text-center' unless index == 0 %>">
-                  <% if index == 0 %>
-                  <a href="<%= URI.join(ENV['JIRA_SITE'], "browse/", row_item)%>" target="_blank"><%= row_item %></a>
-                  <% else %>
-                  <%= row_item %>
-                  <% end %>                </td>
-                <% end %>
-              </tr>
-              <% end %>
-             </tbody>
-         </table>
+
        </div>
     </div>
   </div>

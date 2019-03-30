@@ -14,16 +14,35 @@ class ReportController < ApplicationController
   end
 
   def cycle_time
-    @board = Repository.for(:board).find(params[:board_id])
     @end_date = ApplicationHelper.safe_parse(params[:end_date]) || Date.today
     @start_date = ApplicationHelper.safe_parse(params[:start_date]) || Date.today - 2.months
 
-    @report = CycleTimeReportService.new(@board, @start_date, @end_date).cycle_time_report
+    if params[:deployment_constraint_id]
+      cycle_time_deployment_constraint
+      return
+    end
+
+    @board = Repository.for(:board).find(params[:board_id])
+    @report = CycleTimeReportService.new([@board], @start_date, @end_date).cycle_time_report
     @table = @report[:table]
 
     respond_to do |format|
-      format.html
+      format.html { render :cycle_time_team }
       format.csv { send_data to_csv(@table), filename: "cycle_time_report_team_#{@board.team.name}.csv" }
+      format.json { send_data @report.to_json }
+    end
+  end
+
+  def cycle_time_deployment_constraint
+    @deployment_constraint = Repository.for(:deployment_constraint).find(params[:deployment_constraint_id].to_i)
+    @deployment_constraints = Repository.for(:deployment_constraint).all.sort_by(&:name)
+    boards = @deployment_constraint.teams.map(&:board)
+
+    @report = CycleTimeReportService.new(boards, @start_date, @end_date).cycle_time_report
+
+    respond_to do |format|
+      format.html { render :cycle_time_deployment_constraint }
+      format.csv { send_data to_csv(@report[:table]), filename: "cycle_time_report_constraint_#{@deployment_constraint.name}.csv" }
       format.json { send_data @report.to_json }
     end
   end
