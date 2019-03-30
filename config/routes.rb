@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  root 'teams#index'
+  root 'report#cycle_time'
   scope :jira do
-    get '/', to: 'teams#index', as: :home
+    get '/', to: 'report#cycle_time'
     resources :teams, only: [:index]
     get 'sprint_report/last_sprint', to: 'sprint_report#last_sprint', as: :last_sprint_report
     get 'sprint_report/sprint', to: 'sprint_report#sprint', as: :sprint_report
