@@ -30,9 +30,10 @@ module JtcJira
     config.to_prepare do
       config = YAML.load_file(Rails.root.join('config.yml'))
       if config[:use_cached_data]
-        CacheService.new.register_cache_repositories
+        CacheService.register_repositories
       else
-        JiraService.new.register_jira_repositories
+        JiraService.register_repositories
+        ConfigService.register_repositories
       end
 
       FactoryService.register_factories

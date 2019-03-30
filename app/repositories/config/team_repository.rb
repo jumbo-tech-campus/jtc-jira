@@ -1,7 +1,7 @@
-module Jira
-  class TeamRepository < Jira::JiraRepository
+module Config
+  class TeamRepository < Config::ConfigRepository
     def all
-      @all ||= YAML.load_file(Rails.root.join('seed.yml'))[:teams].map do |config|
+      @records ||= @client.get(:teams).map do |config|
         Factory.for(:team).create_from_hash(config)
       end
     end

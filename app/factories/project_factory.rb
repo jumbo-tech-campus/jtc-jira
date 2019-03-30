@@ -25,6 +25,6 @@ class ProjectFactory
 
   private
   def configured_deployment_projects
-    YAML.load_file(Rails.root.join('seed.yml'))[:deployment_projects]
+    YAML.load_file(Rails.root.join('config.yml'))[:deployment_projects]
   end
 end

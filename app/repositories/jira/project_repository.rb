@@ -11,7 +11,7 @@ module Jira
 
     def all
       projects = Repository.for(:team).all.map{ |team| team.project }
-      configured_deployment_projects.each do |config| 
+      configured_deployment_projects.each do |config|
         projects << find(config[:key])
       end
       projects
@@ -19,7 +19,7 @@ module Jira
 
     private
     def configured_deployment_projects
-      YAML.load_file(Rails.root.join('seed.yml'))[:deployment_projects]
+      YAML.load_file(Rails.root.join('config.yml'))[:deployment_projects]
     end
   end
 end

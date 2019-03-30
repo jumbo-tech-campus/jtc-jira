@@ -8,7 +8,8 @@ class Cache < Thor
     started = Time.now
 
     # first make sure we use the Jira repositories to fetch data
-    JiraService.new.register_jira_repositories
+    JiraService.register_repositories
+    ConfigService.register_repositories
 
     teams = Repository.for(:team).all
     projects = Repository.for(:project).all
