@@ -116,12 +116,6 @@
                              <%= @sprint.average_cycle_time&.round(1) %> days
                           </td>
                         </tr>
-                         <tr>
-                          <td class="small p-1"><strong>4 week moving average cycle time</strong></td>
-                          <td class="small p-1">
-                             <%= @board.cycle_time_moving_average_on(@sprint.end_date).round(1) %> days
-                          </td>
-                        </tr>
                           <tr>
                            <td class="small p-1"><strong>Percentage of points closed</strong></td>
                            <td class="small p-1">
