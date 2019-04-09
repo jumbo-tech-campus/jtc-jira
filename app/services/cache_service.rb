@@ -2,7 +2,6 @@ class CacheService
   def self.refresh_team_data(team)
     redis_client = Cache::RedisClient.new
     JiraService.register_repositories
-    CacheService.register_repositories
 
     board = Repository.for(:board).find(team.board_id)
     #use specific cache repositories to save to cache
@@ -32,7 +31,7 @@ class CacheService
   def self.reset_repositories
     config = YAML.load_file(Rails.root.join('config.yml'))
     if config[:use_cached_data]
-      self.register_repositories
+      register_repositories
     else
       JiraService.register_repositories
       ConfigService.register_repositories
