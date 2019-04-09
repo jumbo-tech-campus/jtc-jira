@@ -10,7 +10,7 @@ class SprintReportController < ApplicationController
   end
 
   def refresh_data
-    CacheService.new.refresh_team_data(@board.team)
+    CacheService.refresh_team_data(@board.team)
     redirect_to action: 'sprint', board_id: @board.id, id: @board.last_closed_sprint.id
   end
 
