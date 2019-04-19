@@ -90,7 +90,7 @@
   :deployment_constraint_id: 2
 - pim:
   :name: Pim
-  :department_id: 2
+  :department_id: 1
   :project_key: PIM
   :board_id: 262
   :deployment_constraint_id: 4
@@ -118,6 +118,66 @@
   :project_key: SAP1
   :board_id: 312
   :deployment_constraint_id: 2
+- ps:
+  :name: Performance & Stability
+  :department_id: 1
+  :project_key: PS
+  :board_id: 427
+  :deployment_constraint_id: 3
+- enablers:
+  :name: Enablers
+  :department_id: 1
+  :project_key: EN
+  :board_id: 306
+  :deployment_constraint_id: 3
+- cloud:
+  :name: Cloud Team
+  :department_id: 1
+  :project_key: CP
+  :board_id: 344
+  :deployment_constraint: 3
+- ish_upgrade:
+  :name: Intershop Upgrade
+  :department_id: 1
+  :project_key: UI
+  :board_id: 287
+  :deployment_constraint: 3
+- prometheus:
+  :name: Prometheus
+  :department_id: 3
+  :project_key: BI5
+  :board_id: 240
+  :deployment_constraint: 2
+- transformers:
+  :name: Transformers
+  :department_id: 3
+  :project_key: BI6
+  :board_id: 281
+  :deployment_constraint: 2
+- r10:
+  :name: Store-1 R10
+  :department_id: 3
+  :project_key: SAP4
+  :board_id: 18
+  :deployment_constraint: 2
+- cloudbusters:
+  :name: Cloud Busters
+  :department_id: 3
+  :project_key: JAF
+  :board_id: 353
+  :deployment_constraint: 2
+- dotcomdots:
+  :name: Dotcom Dots
+  :department_id: 3
+  :project_key: STL
+  :board_id: 192
+  :deployment_constraint: 2
+- iam:
+  :name: IAM
+  :department_id: 3
+  :project_key: IAMD
+  :board_id: 405
+  :deployment_constraint: 2
 :departments:
 - digital:
   :name: JTC Digital
@@ -125,6 +185,9 @@
 - core:
   :name: JTC Core
   :id: 2
+- data:
+  :name: JTC Data
+  :id: 3
 :deployment_projects:
 - digital:
   :key: JDD
