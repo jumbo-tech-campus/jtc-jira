@@ -135,49 +135,49 @@
   :department_id: 1
   :project_key: CP
   :board_id: 344
-  :deployment_constraint: 3
+  :deployment_constraint_id: 3
 - ish_upgrade:
   :name: Intershop Upgrade
   :department_id: 1
   :project_key: UI
   :board_id: 287
-  :deployment_constraint: 3
+  :deployment_constraint_id: 3
 - prometheus:
   :name: Prometheus
   :department_id: 3
   :project_key: BI5
   :board_id: 240
-  :deployment_constraint: 2
+  :deployment_constraint_id: 2
 - transformers:
   :name: Transformers
   :department_id: 3
   :project_key: BI6
   :board_id: 281
-  :deployment_constraint: 2
+  :deployment_constraint_id: 2
 - r10:
   :name: Store-1 R10
   :department_id: 3
   :project_key: SAP4
   :board_id: 18
-  :deployment_constraint: 2
+  :deployment_constraint_id: 2
 - cloudbusters:
   :name: Cloud Busters
   :department_id: 3
   :project_key: JAF
   :board_id: 353
-  :deployment_constraint: 2
+  :deployment_constraint_id: 2
 - dotcomdots:
   :name: Dotcom Dots
   :department_id: 3
   :project_key: STL
   :board_id: 192
-  :deployment_constraint: 2
+  :deployment_constraint_id: 2
 - iam:
   :name: IAM
   :department_id: 3
   :project_key: IAMD
   :board_id: 405
-  :deployment_constraint: 2
+  :deployment_constraint_id: 2
 :departments:
 - digital:
   :name: JTC Digital
