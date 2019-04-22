@@ -37,11 +37,18 @@
           <a class="nav-link dropdown-toggle <%= 'text-yellow' if controller_name == 'sprint_report' %>" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Sprints
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-            <% @scrum_teams.each do |team| %>
-              <a class="dropdown-item <%= 'active' if @board && team.name == @board.team.name && controller_name == 'sprint_report' %>" href="<%= last_sprint_report_path(board_id: team.board_id)%>"><%= team.name %></a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+            <% @departments.each do |department| %>
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" href="#"><%= department.name %></a>
+              <ul class="dropdown-menu">
+                <% department.scrum_teams.each do |team| %>
+                  <li><a class="dropdown-item <%= 'active' if @board && team.name == @board.team.name && controller_name == 'sprint_report' %>" href="<%= last_sprint_report_path(board_id: team.board_id)%>"><%= team.name %></a></li>
+                <% end %>
+              </ul>
+            </li>
             <% end %>
-          </div>
+          </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle <%= 'text-yellow' if action_name == 'deployment' %>" href="#" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
