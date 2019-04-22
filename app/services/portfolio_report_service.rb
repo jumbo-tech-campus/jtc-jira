@@ -23,6 +23,11 @@ class PortfolioReportService
 
     parent_epics.sort_by!{ |parent_epic| parent_epic.id }
 
+    wbso_projects = parent_epics.inject([]) do |memo, parent_epic|
+      memo << parent_epic.wbso_project unless memo.include?(parent_epic.wbso_project) || parent_epic.wbso_project.nil?
+      memo
+    end
+
     table = []
     header = [nil, 'WBSO']
     teams.each do |team|
@@ -46,12 +51,19 @@ class PortfolioReportService
       table << row
     end
 
-    wbso_row = ['WBSO - Issues eligible for WBSO subsidy', nil]
-    team_wbso_percentages.each do |team_name, percentage|
-      wbso_row  << percentage.round(1)
-    end
+    wbso_projects.each do |wbso_project|
+      wbso_row = ["WBSO - #{wbso_project}", nil]
 
-    table << wbso_row
+      teams.inject({}) do |memo, team|
+        sprint = Repository.for(:board).find(team.board_id).sprint_for(date)
+        if sprint && sprint.wbso_issues.size > 0
+          wbso_row  << sprint.wbso_percentage_of_points_closed_per_wbso_project[wbso_project]&.round(1)
+        else
+          wbso_row << nil
+        end
+      end
+      table << wbso_row
+    end
     table
   end
 end
