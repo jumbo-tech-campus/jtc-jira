@@ -1,6 +1,6 @@
 class ReportController < ApplicationController
   def portfolio
-    @dates = set_dates.reverse
+    set_dates
     @selected_date = params[:date]&.to_datetime || @dates.last
     department_id = params[:department_id] || '1'
     @department = Repository.for(:department).find(department_id.to_i)
@@ -72,13 +72,15 @@ class ReportController < ApplicationController
 
   private
   def set_dates
-    week_number = DateTime.now.strftime('%W').to_i
-    week_number = week_number - 1 if week_number % 2 == 0
-    # always select a Friday, no sprints ever start on Friday at JTC
-    begin_date = DateTime.commercial(DateTime.now.year, week_number) + 4.days
-    dates = []
-    5.times { |count| dates << (begin_date - (count * 2).weeks) }
-    dates
+    date = DateTime.new(2019, 1, 4)
+    @dates = [date]
+
+    loop do
+      date = date + 2.weeks
+      break if date > DateTime.now
+
+      @dates << date
+    end
   end
 
   def to_csv(table)
