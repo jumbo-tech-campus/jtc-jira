@@ -1,5 +1,5 @@
 :use_cached_data: true
-:number_of_cached_sprints: 10
+:number_of_cached_sprints: 14
 :teams:
 - mob_a_team:
   :name: A-team
