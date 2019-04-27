@@ -54,7 +54,15 @@ class CycleTimeReportService
     header = ["Key", "In progress date", "Ready for prod date", "Done date", "Cycle time (days)", "Short cycle time (days)", "Delta"]
     table << header
 
-    issues.reverse.each do |issue|
+    sorted_issues = issues.sort do |a, b|
+      if a.cycle_time.nil? || b.cycle_time.nil?
+        1
+      else
+        a.cycle_time <=> b.cycle_time
+      end
+    end
+
+    sorted_issues.reverse.each do |issue|
       table << [
         issue.key,
         issue.in_progress_date.strftime('%Y-%m-%d'),
