@@ -77,7 +77,7 @@ function getDeploymentChartData(url) {
 }
 
 function convertToDeploymentChartData(data) {
-  var deployments = data.table.slice(1).reduce(function(memo, deployment_record){
+  var deployments = data.data.reduce(function(memo, deployment_record){
     memo[0].push(deployment_record[0]);
     memo[1].push(deployment_record[1]);
     return memo;

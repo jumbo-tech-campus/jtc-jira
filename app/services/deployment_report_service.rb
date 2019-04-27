@@ -1,10 +1,14 @@
 class DeploymentReportService
   def self.for_project(project)
     table = []
-    header = ["Date", "Number of deployments"]
+    header = ["Key", "Date", "Title"]
     table << header
-    issue_count_per_day(project).each do |key, value|
-      table << [key, value]
+    project.sorted_issues.reverse.each do |issue|
+      table << [
+        issue.key,
+        issue.created.strftime('%Y-%m-%d'),
+        issue.summary
+      ]
     end
 
     table
@@ -37,13 +41,8 @@ class DeploymentReportService
     moving_averages
   end
 
-  private
-  def self.prediction(model, date)
-    [date.strftime('%Y-%m-%d'), model.predict(date: date.to_time.to_i)]
-  end
-
   def self.issue_count_per_day(project)
-    project.issues.map.inject({}) do |memo, issue|
+    project.issues.inject({}) do |memo, issue|
       date = issue.created.strftime('%Y-%m-%d')
       if memo[date]
         memo[date] += 1
@@ -52,5 +51,10 @@ class DeploymentReportService
       end
       memo
     end
+  end
+
+  private
+  def self.prediction(model, date)
+    [date.strftime('%Y-%m-%d'), model.predict(date: date.to_time.to_i)]
   end
 end

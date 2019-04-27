@@ -112,13 +112,14 @@
              <tbody>
                <% @table[1..-1].each do |row| %>
                <tr class="small">
-                 <% row.each_with_index do |row_item, index| %>
+                <% row.each_with_index do |row_item, index| %>
                 <td class="<%= 'text-center' unless index == 0 %>">
                   <% if index == 0 %>
                   <a href="<%= URI.join(ENV['JIRA_SITE'], "browse/", row_item)%>" target="_blank"><%= row_item %></a>
                   <% else %>
                   <%= row_item %>
-                  <% end %>                </td>
+                  <% end %>
+                </td>
                 <% end %>
               </tr>
               <% end %>

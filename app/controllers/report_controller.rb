@@ -54,6 +54,7 @@ class ReportController < ApplicationController
 
     @stats = {
       table: @table,
+      data: DeploymentReportService.issue_count_per_day(@deployment_project).to_a,
       regression: DeploymentReportService.linear_regression_for_project(@deployment_project),
     }
 
