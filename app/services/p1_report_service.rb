@@ -5,7 +5,8 @@ class P1ReportService
       open_issues: table(open_p1_issues),
       issue_count_per_week: issue_count_per_week.to_a,
       trend_count_per_week: linear_regression_for_issue_count,
-      trend_resolution_time: linear_regression_for_resolution_time
+      trend_resolution_time: linear_regression_for_resolution_time,
+      resolution_averages: resolution_time_moving_averages
     }
   end
 
@@ -67,6 +68,39 @@ class P1ReportService
     model = Eps::Regressor.new(data, target: :resolution_time)
 
     [predict_time(model, closed_p1_issues.first.resolution_date), predict_time(model, closed_p1_issues.last.resolution_date)]
+  end
+
+  def resolution_time_moving_averages
+    return [] if closed_p1_issues.size <= 2
+
+    date =  closed_p1_issues.first.created
+    end_date = closed_p1_issues.last.created
+    moving_averages = []
+
+    loop do
+      moving_averages << [date.strftime('%Y-%m-%d'), resolution_time_moving_average_on(date)]
+
+      date = date + 1.week
+      if date >= end_date
+        moving_averages << [end_date.strftime('%Y-%m-%d'), resolution_time_moving_average_on(end_date)]
+        break
+      end
+    end
+
+    moving_averages
+  end
+
+  def resolution_time_moving_average_on(date, period = 2.weeks)
+    resolution_time_array = closed_p1_issues.inject([]) do |memo, issue|
+      memo << issue.resolution_time if issue.created.between?(date.end_of_day - period, date.end_of_day)
+      memo
+    end
+
+    if resolution_time_array.size > 0
+      resolution_time_array.inject(:+) / resolution_time_array.size.to_f
+    else
+      0
+    end
   end
 
   def retrieve_p1_issues

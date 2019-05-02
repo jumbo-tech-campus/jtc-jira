@@ -65,7 +65,7 @@
   $(function() {
     var chart_data = convertToResolutionTimeChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
     generateScatterPlot(chart_data,'<%= @report[:closed_issues].last[1]%>' , '.scatter-plot', 'resolution time');
-    });
+  });
   </script>
   <div class="card box-shadow mb-4">
     <div class="card-header">

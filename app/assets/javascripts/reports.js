@@ -121,7 +121,13 @@ function convertToResolutionTimeChartData(data) {
     return memo;
   }, [['trendline_x'], ['trendline']]);
 
-  return resolution_time_data.concat(regression_data);
+  var moving_averages_data = data.resolution_averages.reduce(function(memo, average_record){
+    memo[0].push(average_record[0]);
+    memo[1].push(average_record[1]);
+    return memo;
+  }, [['moving_average_x'], ['moving average']]);
+
+  return resolution_time_data.concat(regression_data).concat(moving_averages_data);
 }
 
 function generateScatterPlot(chart_data, start_date, css_selector, variable_name) {
