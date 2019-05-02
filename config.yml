@@ -216,3 +216,8 @@
 - supplier:
   :id: 4
   :name: Supplier bound
+:issue_collections:
+- p1_2019:
+  :id: 1
+  :name: P1 issues 2019
+  :jira_filter: 24279

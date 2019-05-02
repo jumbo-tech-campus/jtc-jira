@@ -66,6 +66,8 @@ class ReportController < ApplicationController
   end
 
   def p1
+    @report = P1ReportService.new().p1_report
+
     respond_to do |format|
       format.html
     end

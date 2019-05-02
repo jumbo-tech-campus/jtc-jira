@@ -1,23 +1,59 @@
 <%= render 'shared/nav_bar' %>
 <main role="main" class="container-fluid">
   <div class="main">
-	  <div class="row">
-	  	<div class="col-3">
-		     <div class="card box-shadow mb-4">
-		       <div class="card-header">
-		         <strong>Open P1s</strong><br>
-		       </div>
-		       <div class="bar-chart m-4"></div>
-		     </div>
-	     </div>
-	  	<div class="col">
-		     <div class="card box-shadow mb-4">
-		       <div class="card-header">
-		         <strong>Overview</strong><br>
-		       </div>
-		       <div class="bar-chart m-4"></div>
-		     </div>
-	     </div>
-	  </div>
-    </div>
+    <div class="card box-shadow mb-4">
+      <div class="card-header">
+        <strong>Open P1s</strong><br>
+      </div>
+      <div class="card-body">
+        <%= render partial: 'shared/issue_table', locals: { table: @report[:open_issues] } %>
+      </div>
+   </div>
+   <div class="card box-shadow mb-4">
+     <div class="card-header">
+       <strong>P1 issues per week</strong><br>
+     </div>
+     <div class="bar-chart m-4"></div>
+   </div>
+
+   <script>
+   $(function() {
+     var chart_data = convertToP1IssueCountChartData(JSON.parse('<%= raw(@report[:stats].to_json) %>'));
+     c3.generate({
+         padding: {
+            right: 40,
+            left: 40
+         },
+         bindto: d3.select('.bar-chart'),
+         data: {
+           xs: {
+             'issues per week': 'issue_count_x',
+             trendline: 'trendline_x'
+           },
+           columns: chart_data,
+           type: 'bar',
+           types: {
+             trendline: 'line'
+           }
+         },
+         axis: {
+           y: {
+             min: 0,
+             padding: { top: 5, bottom:0 }
+           },
+           x: {
+           }
+         },
+         point: {
+           show: false
+         },
+         bar: {
+            width: {
+                ratio: 0.03
+            },
+            space: 2
+        }
+      });
+   });
+  </script>
 </main>

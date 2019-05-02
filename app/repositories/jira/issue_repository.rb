@@ -7,6 +7,8 @@ module Jira
         find_by_board(options[:board])
       elsif options[:project]
         find_by_project(options[:project])
+      elsif options[:filter]
+        find_by_filter(options[:filter])
       end
     end
 
@@ -83,6 +85,31 @@ module Jira
       issues = []
 
       response = @client.Project.find(project.key).issues(expand: 'changelog')
+
+      response.each do |value|
+        #filter out subtasks
+        next if value['fields']['issuetype']['subtask']
+
+        if @records[value['id']]
+          issues << @records[value['id']]
+          next
+        end
+
+        issue = Factory.for(:issue).create_from_jira(value)
+        issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
+
+        issue.state_changed_events.concat(get_state_changed_events(value).sort_by{ |event| event.created })
+
+        @records[issue.id] = issue
+        issues << issue
+      end
+
+      issues
+    end
+
+    def find_by_filter(filter)
+      issues = []
+      response = @client.Issue.jql("filter=#{filter}", expand: 'changelog')
 
       response.each do |value|
         #filter out subtasks

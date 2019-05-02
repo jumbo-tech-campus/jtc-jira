@@ -13,6 +13,7 @@ class Cache < Thor
 
     teams = Repository.for(:team).all
     projects = Repository.for(:project).all
+    issue_collections = Repository.for(:issue_collection).all
     boards = teams.map{ |team| Repository.for(:board).find(team.board_id)}
 
     redis_client = ::Cache::RedisClient.new
@@ -21,6 +22,10 @@ class Cache < Thor
     $stdout.flush
     puts "Caching #{projects.size} projects"
     ::Cache::ProjectRepository.new(redis_client).save(projects)
+    $stdout.flush
+    puts "Caching #{issue_collections.size} issue collections"
+    issue_collection_repo = ::Cache::IssueCollectionRepository.new(redis_client)
+    issue_collections.each{ |issue_collection| issue_collection_repo.save(issue_collection) }
     $stdout.flush
     board_repo = ::Cache::BoardRepository.new(redis_client)
     sprint_repo = ::Cache::SprintRepository.new(redis_client)

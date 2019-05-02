@@ -92,6 +92,22 @@ function convertToDeploymentChartData(data) {
   return deployments.concat(regression_data);
 }
 
+function convertToP1IssueCountChartData(data) {
+  var p1count = data.issue_count_per_week.reduce(function(memo, issue_count){
+    memo[0].push(issue_count[0]);
+    memo[1].push(issue_count[1]);
+    return memo;
+  }, [['issue_count_x'], ['issues per week']]);
+
+  var regression_data = data.trend_count_per_week.reduce(function(memo, regression_record){
+    memo[0].push(regression_record[0]);
+    memo[1].push(regression_record[1]);
+    return memo;
+  }, [['trendline_x'], ['trendline']]);
+
+  return p1count.concat(regression_data);
+}
+
 function generateScatterPlot(chart_data, start_date, css_selector, variable_name) {
   xs = {};
   xs[variable_name] = 'cycle_time_x';

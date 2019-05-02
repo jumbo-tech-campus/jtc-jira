@@ -10,5 +10,6 @@ class FactoryService
     Factory.register(:state_changed_event, StateChangedEventFactory.new)
     Factory.register(:department, DepartmentFactory.new)
     Factory.register(:deployment_constraint, DeploymentConstraintFactory.new)
+    Factory.register(:issue_collection, IssueCollectionFactory.new)
   end
 end
