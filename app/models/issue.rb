@@ -48,7 +48,7 @@ class Issue < ActiveModelSerializers::Model
     (done_date - ready_for_prod_date).to_f
   end
 
-  def closed
+  def closed?
     resolution_date.present?
   end
 

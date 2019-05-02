@@ -13,18 +13,23 @@ class P1ReportService
   end
 
   def open_p1_issues
-    p1_issues.select{ |issue| !issue.closed }
+    p1_issues.select{ |issue| !issue.closed? }
+  end
+
+  def closed_p1_issues
+    p1_issues.select{ |issue| issue.closed? }
   end
 
   def table(issues)
     table = []
-    header = ["Key", "Date", "Title"]
+    header = ["Key", "Date", "Title", "Resolution time (days)"]
     table << header
     issues.reverse.each do |issue|
       table << [
         issue.key,
         issue.created.strftime('%Y-%m-%d'),
-        issue.summary
+        issue.summary,
+        issue.resolution_time&.round(2)
       ]
     end
 
