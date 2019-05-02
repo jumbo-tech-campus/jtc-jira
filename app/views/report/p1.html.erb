@@ -53,7 +53,20 @@
       });
    });
   </script>
+  <div class="card box-shadow mb-4">
+    <div class="card-header">
+      <strong>P1 resolution time scatter plot</strong><br>
+      <small class="text-muted small">Resolution time is calculated from the issue creation date to the date of resolution</small>
+    </div>
+    <div class="scatter-plot m-4"></div>
+  </div>
 
+  <script>
+  $(function() {
+    var chart_data = convertToResolutionTimeChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
+    generateScatterPlot(chart_data,'<%= @report[:closed_issues].last[1]%>' , '.scatter-plot', 'resolution time');
+    });
+  </script>
   <div class="card box-shadow mb-4">
     <div class="card-header">
       <strong>Closed P1 issues</strong><br>

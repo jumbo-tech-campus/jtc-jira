@@ -52,6 +52,12 @@ class Issue < ActiveModelSerializers::Model
     resolution_date.present?
   end
 
+  def resolution_time
+    return nil unless closed?
+
+    (resolution_date - created).to_f
+  end
+
   def ==(issue)
     self.id == issue.id
   end

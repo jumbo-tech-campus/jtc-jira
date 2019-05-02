@@ -4,7 +4,8 @@ class P1ReportService
       closed_issues: table(closed_p1_issues),
       open_issues: table(open_p1_issues),
       issue_count_per_week: issue_count_per_week.to_a,
-      trend_count_per_week: linear_regression_for_issue_count
+      trend_count_per_week: linear_regression_for_issue_count,
+      trend_resolution_time: linear_regression_for_resolution_time
     }
   end
 
@@ -54,7 +55,18 @@ class P1ReportService
     end
     model = Eps::Regressor.new(data, target: :issue_count)
 
-    [prediction(model, 1), prediction(model, p1_issues.last.created.cweek)]
+    [predict_count(model, 1), predict_count(model, p1_issues.last.created.cweek)]
+  end
+
+  def linear_regression_for_resolution_time
+    return [] if closed_p1_issues.size <= 2
+
+    data = closed_p1_issues.map do |issue|
+      { date: issue.resolution_date.to_time.to_i, resolution_time: issue.resolution_time }
+    end
+    model = Eps::Regressor.new(data, target: :resolution_time)
+
+    [predict_time(model, closed_p1_issues.first.resolution_date), predict_time(model, closed_p1_issues.last.resolution_date)]
   end
 
   def retrieve_p1_issues
@@ -68,7 +80,11 @@ class P1ReportService
   end
 
   private
-  def prediction(model, week)
+  def predict_count(model, week)
     [week, model.predict(week: week)]
+  end
+
+  def predict_time(model, date)
+    [date.strftime('%Y-%m-%d'), model.predict(date: date.to_time.to_i)]
   end
 end

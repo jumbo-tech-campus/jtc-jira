@@ -108,6 +108,22 @@ function convertToP1IssueCountChartData(data) {
   return p1count.concat(regression_data);
 }
 
+function convertToResolutionTimeChartData(data) {
+  var resolution_time_data = data.closed_issues.slice(1).reduce(function(memo, resolution_time_record){
+    memo[0].push(resolution_time_record[1]);
+    memo[1].push(resolution_time_record[3]);
+    return memo;
+  }, [['cycle_time_x'], ['resolution time']]);
+
+  var regression_data = data.trend_resolution_time.reduce(function(memo, regression_record){
+    memo[0].push(regression_record[0]);
+    memo[1].push(regression_record[1]);
+    return memo;
+  }, [['trendline_x'], ['trendline']]);
+
+  return resolution_time_data.concat(regression_data);
+}
+
 function generateScatterPlot(chart_data, start_date, css_selector, variable_name) {
   xs = {};
   xs[variable_name] = 'cycle_time_x';
