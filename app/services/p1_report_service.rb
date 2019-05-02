@@ -1,8 +1,8 @@
 class P1ReportService
   def p1_report
     {
-      closed_issues: table(closed_p1_issues),
-      open_issues: table(open_p1_issues),
+      closed_issues: closed_issues_table,
+      open_issues: open_issues_table,
       issue_count_per_week: issue_count_per_week.to_a,
       trend_count_per_week: linear_regression_for_issue_count,
       trend_resolution_time: linear_regression_for_resolution_time,
@@ -22,16 +22,32 @@ class P1ReportService
     p1_issues.select{ |issue| issue.closed? }
   end
 
-  def table(issues)
+  def closed_issues_table
     table = []
     header = ["Key", "Date", "Title", "Resolution time (days)"]
     table << header
-    issues.reverse.each do |issue|
+    closed_p1_issues.reverse.each do |issue|
       table << [
         issue.key,
         issue.created.strftime('%Y-%m-%d'),
         issue.summary,
         issue.resolution_time&.round(2)
+      ]
+    end
+
+    table
+  end
+
+  def open_issues_table
+    table = []
+    header = ["Key", "Date", "Title", "Assignee"]
+    table << header
+    open_p1_issues.reverse.each do |issue|
+      table << [
+        issue.key,
+        issue.created.strftime('%Y-%m-%d'),
+        issue.summary,
+        issue.assignee
       ]
     end
 

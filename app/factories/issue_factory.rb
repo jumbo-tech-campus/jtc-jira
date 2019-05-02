@@ -1,12 +1,14 @@
 class IssueFactory
   def create_from_jira(json)
-    Issue.new(json['key'], json['fields']['summary'],
+    issue = Issue.new(json['key'], json['fields']['summary'],
       json['id'], json['fields']['customfield_10014'] || 0,
       ApplicationHelper.safe_parse(json['fields']['created']),
       json['fields']['status']['name'],
       ApplicationHelper.safe_parse(json['fields']['resolutiondate']),
       nil, nil, nil
     )
+    issue.assignee = json['fields']['assignee']['displayName'] if json['fields']['assignee']
+    issue
   end
 
   def create_from_json(json)
@@ -19,6 +21,7 @@ class IssueFactory
       ApplicationHelper.safe_parse(json['done_date']),
       ApplicationHelper.safe_parse(json['ready_for_prod_date'])
     )
+    issue.assignee = json['assignee']
     issue.epic = Factory.for(:epic).create_from_json(json['epic'])
     issue
   end

@@ -1,7 +1,7 @@
 class Issue < ActiveModelSerializers::Model
   attr_reader :key, :summary, :id, :estimation, :created,  :status, :resolution_date,
     :state_changed_events, :in_progress_date, :done_date, :ready_for_prod_date
-  attr_accessor :epic
+  attr_accessor :epic, :assignee
 
   def initialize(key, summary, id, estimation, created, status, resolution_date, in_progress_date, done_date, ready_for_prod_date)
     @key, @summary, @id, @estimation, @created, @status  = key, summary, id, estimation, created, status
