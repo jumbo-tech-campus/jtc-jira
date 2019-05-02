@@ -11,14 +11,14 @@
    </div>
    <div class="card box-shadow mb-4">
      <div class="card-header">
-       <strong>P1 issues per week</strong><br>
+       <strong>Number of P1 issues per week</strong><br>
      </div>
      <div class="bar-chart m-4"></div>
    </div>
 
    <script>
    $(function() {
-     var chart_data = convertToP1IssueCountChartData(JSON.parse('<%= raw(@report[:stats].to_json) %>'));
+     var chart_data = convertToP1IssueCountChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
      c3.generate({
          padding: {
             right: 40,

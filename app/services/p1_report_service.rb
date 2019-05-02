@@ -1,12 +1,10 @@
 class P1ReportService
   def p1_report
     {
-      issues: table(p1_issues),
+      closed_issues: table(closed_p1_issues),
       open_issues: table(open_p1_issues),
-      stats: {
-        issue_count_per_week: issue_count_per_week.to_a,
-        trend_count_per_week: linear_regression_for_issue_count
-      }
+      issue_count_per_week: issue_count_per_week.to_a,
+      trend_count_per_week: linear_regression_for_issue_count
     }
   end
 

@@ -10,7 +10,7 @@
 
      <script>
      $(function() {
-       var chart_data = convertToDeploymentChartData(JSON.parse('<%= raw(@stats.to_json) %>'));
+       var chart_data = convertToDeploymentChartData(JSON.parse('<%= escape_javascript raw(@stats.to_json) %>'));
        c3.generate({
            padding: {
               right: 40,
