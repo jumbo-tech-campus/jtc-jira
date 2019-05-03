@@ -51,16 +51,9 @@
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle <%= 'text-yellow' if action_name == 'deployment' %>" href="#" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link <%= 'text-yellow' if action_name == 'deployment' %>" href="<%= deployment_report_path(deployment_project_key: 'JDD') %>">
             Deployments
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
-            <% @deployment_projects.each do |deployment_project| %>
-            <a class="dropdown-item <%= 'active' if action_name == 'deployment' && @deployment_project.id == deployment_project.id %>" href="<%= deployment_report_path(deployment_project_key: deployment_project.key) %>">
-              <%= deployment_project.name %>
-            </a>
-            <% end %>
-          </div>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link <%= 'text-yellow' if action_name == 'p1' %>" href="<%= p1_report_path %>">
