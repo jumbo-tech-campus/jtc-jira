@@ -77,13 +77,13 @@ function getDeploymentChartData(url) {
 }
 
 function convertToDeploymentChartData(data) {
-  var deployments = data.data.reduce(function(memo, deployment_record){
+  var deployments = data.issue_count_per_day.reduce(function(memo, deployment_record){
     memo[0].push(deployment_record[0]);
     memo[1].push(deployment_record[1]);
     return memo;
   }, [['deployment_x'], ['deployments']]);
 
-  var regression_data = data.regression.reduce(function(memo, regression_record){
+  var regression_data = data.trend_count_per_week.reduce(function(memo, regression_record){
     memo[0].push(regression_record[0]);
     memo[1].push(regression_record[1]);
     return memo;

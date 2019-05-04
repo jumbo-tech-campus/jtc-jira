@@ -101,30 +101,7 @@
          <strong><%= @board.team.name %>: Cycle time overview</strong><br>
        </div>
        <div class="card-body">
-         <table class="table table-bordered">
-             <thead>
-               <tr class="small">
-                 <% @table[0].each do |header_item| %>
-                 <th><%= header_item %></th>
-                 <% end %>
-               </tr>
-             </thead>
-             <tbody>
-               <% @table[1..-1].each do |row| %>
-               <tr class="small">
-                <% row.each_with_index do |row_item, index| %>
-                <td class="<%= 'text-center' unless index == 0 %>">
-                  <% if index == 0 %>
-                  <a href="<%= URI.join(ENV['JIRA_SITE'], "browse/", row_item)%>" target="_blank"><%= row_item %></a>
-                  <% else %>
-                  <%= row_item %>
-                  <% end %>
-                </td>
-                <% end %>
-              </tr>
-              <% end %>
-             </tbody>
-         </table>
+         <%= render partial: 'shared/issue_table', locals: { table: @table } %>
        </div>
     </div>
   </div>

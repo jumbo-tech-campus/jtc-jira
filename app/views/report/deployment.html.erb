@@ -3,14 +3,14 @@
   <div class="main">
      <div class="card box-shadow mb-4">
        <div class="card-header">
-         <strong><%= @deployment_project.name %>: Automated deployment issues</strong><br>
+         <strong>Number of deployment issues per day</strong><br>
        </div>
        <div class="bar-chart m-4"></div>
      </div>
 
      <script>
      $(function() {
-       var chart_data = convertToDeploymentChartData(JSON.parse('<%= escape_javascript raw(@stats.to_json) %>'));
+       var chart_data = convertToDeploymentChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
        c3.generate({
            padding: {
               right: 40,
@@ -57,14 +57,14 @@
 
      <div class="card box-shadow mb-4">
        <div class="card-header">
-         <a href="<%= deployment_report_path(deployment_project_key: @deployment_project.key, format: 'csv') %>"
+         <a href="<%= deployment_report_path(format: 'csv') %>"
            class="card-link float-right">
            Download as csv file
          </a>
-         <strong><%= @deployment_project.name %>: Automated deployment issues</strong><br>
+         <strong>JTC digital deployment issues 2019</strong><br>
        </div>
        <div class="card-body">
-         <%= render partial: 'shared/issue_table', locals: { table: @table } %>
+         <%= render partial: 'shared/issue_table', locals: { table: @report[:issues_table] } %>
        </div>
     </div>
   </div>

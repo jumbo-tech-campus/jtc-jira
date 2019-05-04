@@ -200,9 +200,6 @@
 - data:
   :name: JTC Data
   :id: 3
-:deployment_projects:
-- digital:
-  :key: JDD
 :deployment_constraints:
 - app_deploy:
   :id: 1
@@ -221,3 +218,7 @@
   :id: 1
   :name: P1 issues 2019
   :jira_filter: 24279
+- jdd:
+  :id: 2
+  :name: JTC Digital Deployment issues 2019
+  :jira_filter: 24369

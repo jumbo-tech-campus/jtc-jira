@@ -49,27 +49,22 @@ class ReportController < ApplicationController
   end
 
   def deployment
-    @deployment_project = Repository.for(:project).find(params[:deployment_project_key])
-    @table = DeploymentReportService.for_project(@deployment_project)
-
-    @stats = {
-      table: @table,
-      data: DeploymentReportService.issue_count_per_day(@deployment_project).to_a,
-      regression: DeploymentReportService.linear_regression_for_project(@deployment_project),
-    }
+    @report = DeploymentReportService.new.deployment_report
 
     respond_to do |format|
       format.html
-      format.csv { send_data to_csv(@table), filename: "deployment_project_report_#{@deployment_project.key}.csv" }
-      format.json { send_data @stats.to_json }
+      format.csv { send_data to_csv(@report[:issues_table]), filename: "deployment_project_report.csv" }
+      format.json { send_data @report.to_json }
     end
   end
 
   def p1
-    @report = P1ReportService.new().p1_report
+    @report = P1ReportService.new.p1_report
 
     respond_to do |format|
       format.html
+      format.csv { send_data to_csv(@report[:closed_issues_table]), filename: "closed_p1_issues.csv" }
+      format.json { send_data @report.to_json }
     end
   end
 

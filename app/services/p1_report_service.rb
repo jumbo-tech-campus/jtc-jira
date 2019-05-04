@@ -119,6 +119,7 @@ class P1ReportService
     end
   end
 
+  private
   def retrieve_p1_issues
     ConfigService.register_repositories
     JiraService.register_repositories
@@ -129,7 +130,6 @@ class P1ReportService
     issues
   end
 
-  private
   def predict_count(model, week)
     [week, model.predict(week: week)]
   end

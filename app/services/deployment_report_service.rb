@@ -1,9 +1,17 @@
 class DeploymentReportService
-  def self.for_project(project)
+  def deployment_report
+    {
+      issues_table: issues_table,
+      issue_count_per_day: issue_count_per_day.to_a,
+      trend_count_per_week: linear_regression_for_issue_count
+    }
+  end
+
+  def issues_table
     table = []
     header = ["Key", "Date", "Title"]
     table << header
-    project.sorted_issues.reverse.each do |issue|
+    issues.reverse.each do |issue|
       table << [
         issue.key,
         issue.created.strftime('%Y-%m-%d'),
@@ -14,35 +22,21 @@ class DeploymentReportService
     table
   end
 
-  def self.linear_regression_for_project(project)
-    data = issue_count_per_day(project).map do |key, value|
+  def issues
+    @p1_issues ||= retrieve_deployment_issues
+  end
+
+  def linear_regression_for_issue_count
+    data = issue_count_per_day.map do |key, value|
       { date: Time.parse(key).to_i, deployments: value }
     end
     model = Eps::Regressor.new(data, target: :deployments)
 
-    [prediction(model, project.sorted_issues.first.created), prediction(model, project.sorted_issues.last.created)]
+    [prediction(model, issues.first.created), prediction(model, issues.last.created)]
   end
 
-  def self.moving_averages_for_project(project)
-    date =  project.sorted_issues.first.created
-    end_date = project.sorted_issues.last.created
-    moving_averages = []
-
-    loop do
-      moving_averages << [date.strftime('%Y-%m-%d'), project.cycle_time_moving_average_on(date)]
-
-      date = date + 1.week
-      if date >= end_date
-        moving_averages << [end_date.strftime('%Y-%m-%d'), project.cycle_time_moving_average_on(end_date)]
-        break
-      end
-    end
-
-    moving_averages
-  end
-
-  def self.issue_count_per_day(project)
-    project.issues.inject({}) do |memo, issue|
+  def issue_count_per_day
+    issues.inject({}) do |memo, issue|
       date = issue.created.strftime('%Y-%m-%d')
       if memo[date]
         memo[date] += 1
@@ -54,7 +48,17 @@ class DeploymentReportService
   end
 
   private
-  def self.prediction(model, date)
+  def prediction(model, date)
     [date.strftime('%Y-%m-%d'), model.predict(date: date.to_time.to_i)]
+  end
+
+  def retrieve_deployment_issues
+    ConfigService.register_repositories
+    JiraService.register_repositories
+
+    issues = Repository.for(:issue_collection).find_by(name: 'JTC Digital Deployment issues 2019').sorted_issues
+
+    CacheService.register_repositories
+    issues
   end
 end
