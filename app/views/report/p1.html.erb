@@ -6,7 +6,7 @@
         <strong>Open P1 issues</strong><br>
       </div>
       <div class="card-body">
-        <%= render partial: 'shared/issue_table', locals: { table: @report[:open_issues] } %>
+        <%= render partial: 'shared/issue_table', locals: { table: @report[:open_issues_table] } %>
       </div>
    </div>
    <div class="card box-shadow mb-4">
@@ -64,7 +64,7 @@
   <script>
   $(function() {
     var chart_data = convertToResolutionTimeChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
-    generateScatterPlot(chart_data,'<%= @report[:closed_issues].last[1]%>' , '.scatter-plot', 'resolution time');
+    generateScatterPlot(chart_data,'<%= @report[:closed_issues_table].last[1]%>' , '.scatter-plot', 'resolution time');
   });
   </script>
   <div class="card box-shadow mb-4">
@@ -76,7 +76,7 @@
       <strong>Closed P1 issues</strong><br>
     </div>
     <div class="card-body">
-      <%= render partial: 'shared/issue_table', locals: { table: @report[:closed_issues] } %>
+      <%= render partial: 'shared/issue_table', locals: { table: @report[:closed_issues_table] } %>
     </div>
  </div>
 </main>
