@@ -17,6 +17,7 @@ module Cache
         @client.get(key)
       rescue
         result = "result:failure"
+        raise
       ensure
         @statsd_client.timing('cache.duration',
           (Time.now - started) * 1000,
