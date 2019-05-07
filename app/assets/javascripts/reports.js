@@ -109,7 +109,7 @@ function convertToP1IssueCountChartData(data) {
 }
 
 function convertToResolutionTimeChartData(data) {
-  var resolution_time_data = data.closed_issues.slice(1).reduce(function(memo, resolution_time_record){
+  var resolution_time_data = data.closed_issues_table.slice(1).reduce(function(memo, resolution_time_record){
     memo[0].push(resolution_time_record[1]);
     memo[1].push(resolution_time_record[3]);
     return memo;
