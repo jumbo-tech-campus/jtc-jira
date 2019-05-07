@@ -1,5 +1,5 @@
 class Issue < ActiveModelSerializers::Model
-  attr_reader :key, :summary, :id, :estimation, :created,  :status, :resolution_date,
+  attr_reader :key, :summary, :id, :estimation, :created,  :status,
     :state_changed_events, :in_progress_date, :done_date, :ready_for_prod_date
   attr_accessor :epic, :assignee
 
@@ -27,6 +27,12 @@ class Issue < ActiveModelSerializers::Model
     return nil if status != 'Done' && status != "Ready for prod"
 
     @ready_for_prod_date ||= @state_changed_events.reverse.find{ |event| event.to_state == "Ready for prod" }&.created
+  end
+
+  def resolution_date
+    return ready_for_prod_date if ready_for_prod_date.present?
+    return done_date if done_date.present?
+    return @resolution_date
   end
 
   def cycle_time
