@@ -56,7 +56,7 @@ class DeploymentReportService
     ConfigService.register_repositories
     JiraService.register_repositories
 
-    issues = Repository.for(:issue_collection).find_by(name: 'JTC Digital Deployment issues 2019').sorted_issues
+    issues = Repository.for(:issue_collection).find(2).sorted_issues
 
     CacheService.register_repositories
     issues

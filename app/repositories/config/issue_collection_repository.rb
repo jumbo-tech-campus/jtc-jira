@@ -7,7 +7,14 @@ module Config
     end
 
     def find(id)
-      all.find{ |issue_collection| issue_collection.id == id }
+      @records = {} if @records.nil?
+      return @records[id] if @records[id]
+
+      config = @client.get(:issue_collections).find do |config_hash|
+         config_hash[:id] == id
+      end
+
+      @records[id] = Factory.for(:issue_collection).create_from_hash(config)
     end
 
     def find_by(options)

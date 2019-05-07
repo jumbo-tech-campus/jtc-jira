@@ -124,7 +124,7 @@ class P1ReportService
     ConfigService.register_repositories
     JiraService.register_repositories
 
-    issues = Repository.for(:issue_collection).find_by(name: 'P1 issues 2019').sorted_issues
+    issues = Repository.for(:issue_collection).find(1).sorted_issues
 
     CacheService.register_repositories
     issues
