@@ -98,7 +98,7 @@
   :name: xECM
   :department_id: 2
   :project_key: XECM
-  :board_id: 313
+  :board_id: 526
   :deployment_constraint_id: 2
 - esb:
   :name: ESB
