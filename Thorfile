@@ -32,6 +32,8 @@ class Cache < Thor
     number_of_cached_sprints = YAML.load_file(Rails.root.join('config.yml'))[:number_of_cached_sprints]
 
     boards.each do |board|
+      next if board.nil?
+
       puts "Cache board #{board.id} for team #{board.team.name}"
       board_repo.save(board)
       $stdout.flush

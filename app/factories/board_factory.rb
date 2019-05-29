@@ -1,5 +1,7 @@
 class BoardFactory
   def create_from_jira(jira_board)
+    return nil unless jira_board.respond_to? :type
+
     team = Repository.for(:team).find_by(board_id: jira_board.id).first
 
     if jira_board.type == 'scrum'
