@@ -8,6 +8,9 @@ class IssueFactory
       nil, nil, nil
     )
     issue.assignee = json['fields']['assignee']['displayName'] if json['fields']['assignee']
+    issue.epic = Repository.for(:epic).find(json['fields']['epic']['key']) if json['fields']['epic']
+    issue.state_changed_events.concat(get_state_changed_events(json))
+
     issue
   end
 
@@ -24,5 +27,18 @@ class IssueFactory
     issue.assignee = json['assignee']
     issue.epic = Factory.for(:epic).create_from_json(json['epic'])
     issue
+  end
+
+  private
+  def get_state_changed_events(json)
+    json['changelog']['histories'].inject([]) do |memo, history|
+      history['items'].each do |item|
+        if item['fieldId'] == 'status'
+          memo << Factory.for(:state_changed_event).create_from_jira(history)
+          break
+        end
+      end
+      memo
+    end.sort_by{ |event| event.created }
   end
 end

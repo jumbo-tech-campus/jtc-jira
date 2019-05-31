@@ -35,9 +35,6 @@ module Jira
           end
 
           issue = Factory.for(:issue).create_from_jira(value)
-          issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
-
-          issue.state_changed_events.concat(get_state_changed_events(value).sort_by{ |event| event.created })
 
           @records[issue.id] = issue
           issues << issue
@@ -70,9 +67,6 @@ module Jira
         end
 
         issue = Factory.for(:issue).create_from_jira(value)
-        issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
-
-        issue.state_changed_events.concat(get_state_changed_events(value).sort_by{ |event| event.created })
 
         @records[issue.id] = issue
         issues << issue
@@ -96,9 +90,6 @@ module Jira
         end
 
         issue = Factory.for(:issue).create_from_jira(value)
-        issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
-
-        issue.state_changed_events.concat(get_state_changed_events(value).sort_by{ |event| event.created })
 
         @records[issue.id] = issue
         issues << issue
@@ -121,27 +112,12 @@ module Jira
         end
 
         issue = Factory.for(:issue).create_from_jira(value)
-        issue.epic = Repository.for(:epic).find(value['fields']['epic']['key']) if value['fields']['epic']
-
-        issue.state_changed_events.concat(get_state_changed_events(value).sort_by{ |event| event.created })
 
         @records[issue.id] = issue
         issues << issue
       end
 
       issues
-    end
-
-    def get_state_changed_events(value)
-      value['changelog']['histories'].inject([]) do |memo, history|
-        history['items'].each do |item|
-          if item['fieldId'] == 'status'
-            memo << Factory.for(:state_changed_event).create_from_jira(history)
-            break
-          end
-        end
-        memo
-      end
     end
   end
 end
