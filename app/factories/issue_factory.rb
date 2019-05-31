@@ -1,5 +1,7 @@
 class IssueFactory
   def create_from_jira(json)
+    return Factory.for(:parent_epic).create_from_jira(json) if json['fields']['issuetype']['id'] == '10600'
+
     issue = Issue.new(json['key'], json['fields']['summary'],
       json['id'], json['fields']['customfield_10014'] || 0,
       ApplicationHelper.safe_parse(json['fields']['created']),
