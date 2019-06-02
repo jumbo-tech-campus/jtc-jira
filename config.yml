@@ -240,3 +240,7 @@
   :id: 2
   :name: JTC Digital Deployment issues 2019
   :jira_filter: 24369
+- portfolio:
+  :id: 3
+  :name: Portfolio epics 2019
+  :jira_filter: 24445
