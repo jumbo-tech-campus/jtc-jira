@@ -195,19 +195,19 @@
   :department_id: 3
   :board_id: 16
   :project_key: BI1
-  :deployment_constraint: 3
+  :deployment_constraint_id: 3
 - bi2:
   :name: BI Trailblazers
   :department_id: 3
   :board_id: 8
   :project_key: BI2
-  :deployment_constraint: 3
+  :deployment_constraint_id: 3
 - bi3:
   :name: BI3
   :department_id: 3
   :board_id: 97
   :project_key: BI3
-  :deployment_constraint: 3
+  :deployment_constraint_id: 3
 :departments:
 - digital:
   :name: JTC Digital
