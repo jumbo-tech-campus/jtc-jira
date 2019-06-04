@@ -208,6 +208,13 @@
   :board_id: 97
   :project_key: BI3
   :deployment_constraint_id: 3
+- mob_csi:
+  :name: CSI mobile
+  :department_id: 1
+  :board_id: 535
+  :project_key: JMBMOB
+  :deployment_constraint_id: 1
+  :subteam: CSI
 :departments:
 - digital:
   :name: JTC Digital
