@@ -10,7 +10,7 @@ class Department < ActiveModelSerializers::Model
   end
 
   def scrum_teams
-    teams.select(&:is_scrum_team?)
+    teams.select(&:is_scrum_team?).sort_by(&:name)
   end
 
   def ==(department)
