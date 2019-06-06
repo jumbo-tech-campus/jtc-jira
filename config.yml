@@ -215,6 +215,12 @@
   :project_key: JMBMOB
   :deployment_constraint_id: 1
   :subteam: CSI
+- loyal:
+  :name: Loyal team
+  :department_id: 1
+  :board_id: 518
+  :project_key: HJ
+  :deployment_constraint_id: 3
 :departments:
 - digital:
   :name: JTC Digital
