@@ -229,7 +229,7 @@
   :name: JTC Core
   :id: 2
 - data:
-  :name: JTC Data
+  :name: JTC Data & Store
   :id: 3
 :deployment_constraints:
 - app_deploy:
