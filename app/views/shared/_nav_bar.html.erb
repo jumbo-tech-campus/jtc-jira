@@ -20,7 +20,7 @@
               Teams
             </a></li>
             <li class="dropdown-submenu">
-                <a class="dropdown-item dropdown-toggle" href="#">Overview</a>
+                <a class="dropdown-item dropdown-toggle" href="#">2-week overview</a>
                 <ul class="dropdown-menu">
                   <% @deployment_constraints.each do |deployment_constraint| %>
                     <li><a class="dropdown-item <%= 'active' if @deployment_constraint && @deployment_constraint.id == deployment_constraint.id && action_name == 'overview' %>" href="<%= cycle_time_overview_path(deployment_constraint_id: deployment_constraint.id)%>"><%= deployment_constraint.name %></a></li>
