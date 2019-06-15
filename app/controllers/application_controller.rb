@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :set_teams
   before_action :set_departments
+  before_action :set_deployment_constraints
 
   protected
   def set_week_dates
@@ -37,5 +38,9 @@ class ApplicationController < ActionController::Base
 
   def set_departments
     @departments = Repository.for(:department).all
+  end
+
+  def set_deployment_constraints
+    @deployment_constraints = Repository.for(:deployment_constraint).all.sort_by(&:name)
   end
 end

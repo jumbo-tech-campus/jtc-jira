@@ -1,6 +1,6 @@
 class CycleTimeReportController < ApplicationController
   before_action :set_dates
-  before_action :set_deployment_constraint, only: [:deployment_constraint]
+  before_action :set_deployment_constraint, only: [:overview, :deployment_constraint]
 
   def team
     @board = Repository.for(:board).find(params[:board_id])
@@ -15,7 +15,6 @@ class CycleTimeReportController < ApplicationController
   end
 
   def deployment_constraint
-    @deployment_constraints = Repository.for(:deployment_constraint).all.sort_by(&:name)
     boards = @deployment_constraint.teams.map(&:board)
 
     @report = CycleTimeReportService.new(boards, @start_date, @end_date).cycle_time_report
@@ -23,6 +22,17 @@ class CycleTimeReportController < ApplicationController
     respond_to do |format|
       format.html { render :deployment_constraint }
       format.csv { send_data to_csv(@report[:table]), filename: "cycle_time_report_constraint_#{@deployment_constraint.name}.csv" }
+      format.json { send_data @report.to_json }
+    end
+  end
+
+  def overview
+    boards = @deployment_constraint.teams.map(&:board)
+    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 3, 1), DateTime.now).report
+
+    respond_to do |format|
+      format.html { render :overview }
+      format.csv { send_data to_csv(@report), filename: "cycle_time_report_#{@deployment_constraint.name}.csv" }
       format.json { send_data @report.to_json }
     end
   end
