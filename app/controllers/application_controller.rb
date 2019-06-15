@@ -2,6 +2,33 @@ class ApplicationController < ActionController::Base
   before_action :set_teams
   before_action :set_departments
 
+  protected
+  def set_week_dates
+    date = DateTime.new(2019, 1, 4)
+    @dates = [date]
+
+    loop do
+      date = date + 2.weeks
+      break if date > DateTime.now
+
+      @dates << date
+    end
+    @selected_date = params[:date]&.to_datetime || @dates.last
+  end
+
+  def set_dates
+    @end_date = ApplicationHelper.safe_parse(params[:end_date]) || Date.today
+    @start_date = ApplicationHelper.safe_parse(params[:start_date]) || Date.today - 2.months
+  end
+
+  def to_csv(table)
+    ::CSV.generate(headers: true) do |csv|
+      table.each do |row|
+        csv << row
+      end
+    end
+  end
+
   private
   def set_teams
     @teams = Repository.for(:team).all.sort_by(&:name)
