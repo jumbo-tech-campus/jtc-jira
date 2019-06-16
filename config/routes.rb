@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     match 'cycle_time_report/team', to: 'cycle_time_report#team', as: :cycle_time_team, via: [:get, :post]
     match 'cycle_time_report/deployment_constraint', to: 'cycle_time_report#deployment_constraint', as: :cycle_time_deployment_constraint, via: [:get, :post]
     get 'cycle_time_report/overview', to: 'cycle_time_report#overview', as: :cycle_time_overview
-    get 'report/deployment', to: 'report#deployment', as: :deployment_report
+    get 'deployment_report/overview', to: 'deployment_report#overview', as: :deployment_report
     get 'p1_report/overview', to: 'p1_report#overview', as: :p1_report
     post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data', as: :sprint_report_refresh
   end
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   match 'cycle_time_report/team', to: 'cycle_time_report#team', via: [:get, :post]
   match 'cycle_time_report/deployment_constraint', to: 'cycle_time_report#deployment_constraint', via: [:get, :post]
   get 'cycle_time_report/overview', to: 'cycle_time_report#overview'
-  get 'report/deployment', to: 'report#deployment'
+  get 'deployment_report/overview', to: 'deployment_report#overview'
   get 'p1_report/overview', to: 'p1_report#overview'
   get 'sprint_report/sprint', to: 'sprint_report#sprint'
   post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data'
