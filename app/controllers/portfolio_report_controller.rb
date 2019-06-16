@@ -1,7 +1,7 @@
-class ReportController < ApplicationController
+class PortfolioReportController < ApplicationController
   before_action :set_week_dates
 
-  def portfolio
+  def overview
     department_id = params[:department_id] || '1'
     @department = Repository.for(:department).find(department_id.to_i)
 

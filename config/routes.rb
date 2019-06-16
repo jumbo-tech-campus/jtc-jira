@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :teams, only: [:index]
     get 'sprint_report/last_sprint', to: 'sprint_report#last_sprint', as: :last_sprint_report
     get 'sprint_report/sprint', to: 'sprint_report#sprint', as: :sprint_report
-    get 'report/portfolio', to: 'report#portfolio', as: :portfolio_report
+    get 'portfolio_report/overview', to: 'portfolio_report#overview', as: :portfolio_report
     match 'cycle_time_report/team', to: 'cycle_time_report#team', as: :cycle_time_team, via: [:get, :post]
     match 'cycle_time_report/deployment_constraint', to: 'cycle_time_report#deployment_constraint', as: :cycle_time_deployment_constraint, via: [:get, :post]
     get 'cycle_time_report/overview', to: 'cycle_time_report#overview', as: :cycle_time_overview
@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   resources :teams, only: [:index]
   get 'sprint_report/last_sprint', to: 'sprint_report#last_sprint'
-  get 'report/portfolio', to: 'report#portfolio'
+  get 'portfolio_report/overview', to: 'portfolio_report#overview'
   match 'cycle_time_report/team', to: 'cycle_time_report#team', via: [:get, :post]
   match 'cycle_time_report/deployment_constraint', to: 'cycle_time_report#deployment_constraint', via: [:get, :post]
   get 'cycle_time_report/overview', to: 'cycle_time_report#overview'
