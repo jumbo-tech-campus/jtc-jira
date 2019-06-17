@@ -23,7 +23,15 @@
                 <a class="dropdown-item dropdown-toggle" href="#">2-week overview</a>
                 <ul class="dropdown-menu">
                   <% @deployment_constraints.each do |deployment_constraint| %>
-                    <li><a class="dropdown-item <%= 'active' if @deployment_constraint && @deployment_constraint.id == deployment_constraint.id && action_name == 'overview' %>" href="<%= cycle_time_overview_path(deployment_constraint_id: deployment_constraint.id)%>"><%= deployment_constraint.name %></a></li>
+                    <li><a class="dropdown-item <%= 'active' if @deployment_constraint && @deployment_constraint.id == deployment_constraint.id && action_name == 'two_week_overview' %>" href="<%= cycle_time_two_week_overview_path(deployment_constraint_id: deployment_constraint.id)%>"><%= deployment_constraint.name %></a></li>
+                  <% end %>
+                </ul>
+            </li>
+            <li class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#">4-week overview</a>
+                <ul class="dropdown-menu">
+                  <% @deployment_constraints.each do |deployment_constraint| %>
+                    <li><a class="dropdown-item <%= 'active' if @deployment_constraint && @deployment_constraint.id == deployment_constraint.id && action_name == 'four_week_overview' %>" href="<%= cycle_time_four_week_overview_path(deployment_constraint_id: deployment_constraint.id)%>"><%= deployment_constraint.name %></a></li>
                   <% end %>
                 </ul>
             </li>

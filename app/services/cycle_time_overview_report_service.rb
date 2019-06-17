@@ -1,10 +1,10 @@
 class CycleTimeOverviewReportService
-  def initialize(boards, start_date, end_date)
-    @boards, @start_date, @end_date = boards, start_date, end_date
+  def initialize(boards, start_date, end_date, period)
+    @boards, @start_date, @end_date, @period = boards, start_date, end_date, period
   end
 
   def report
-    periods = Period.create_periods(@start_date, @end_date, 2.weeks)
+    periods = Period.create_periods(@start_date, @end_date, @period)
 
     table = []
 

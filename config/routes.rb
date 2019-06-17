@@ -8,7 +8,8 @@ Rails.application.routes.draw do
     get 'portfolio_report/overview', to: 'portfolio_report#overview', as: :portfolio_report
     match 'cycle_time_report/team', to: 'cycle_time_report#team', as: :cycle_time_team, via: [:get, :post]
     match 'cycle_time_report/deployment_constraint', to: 'cycle_time_report#deployment_constraint', as: :cycle_time_deployment_constraint, via: [:get, :post]
-    get 'cycle_time_report/overview', to: 'cycle_time_report#overview', as: :cycle_time_overview
+    get 'cycle_time_report/four_week_overview', to: 'cycle_time_report#four_week_overview', as: :cycle_time_four_week_overview
+    get 'cycle_time_report/two_week_overview', to: 'cycle_time_report#two_week_overview', as: :cycle_time_two_week_overview
     get 'deployment_report/overview', to: 'deployment_report#overview', as: :deployment_report
     get 'p1_report/overview', to: 'p1_report#overview', as: :p1_report
     post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data', as: :sprint_report_refresh
@@ -19,7 +20,8 @@ Rails.application.routes.draw do
   get 'portfolio_report/overview', to: 'portfolio_report#overview'
   match 'cycle_time_report/team', to: 'cycle_time_report#team', via: [:get, :post]
   match 'cycle_time_report/deployment_constraint', to: 'cycle_time_report#deployment_constraint', via: [:get, :post]
-  get 'cycle_time_report/overview', to: 'cycle_time_report#overview'
+  get 'cycle_time_report/four_week_overview', to: 'cycle_time_report#four_week_overview'
+  get 'cycle_time_report/two_week_overview', to: 'cycle_time_report#two_week_overview'
   get 'deployment_report/overview', to: 'deployment_report#overview'
   get 'p1_report/overview', to: 'p1_report#overview'
   get 'sprint_report/sprint', to: 'sprint_report#sprint'
