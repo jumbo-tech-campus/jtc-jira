@@ -1,4 +1,9 @@
 class P1ReportService
+  def initialize(start_date, end_date)
+    @start_date = start_date
+    @end_date = end_date
+  end
+
   def p1_report
     {
       closed_issues_table: closed_issues_table,
@@ -55,13 +60,18 @@ class P1ReportService
   end
 
   def issue_count_per_week
-    p1_issues.inject({}) do |memo, issue|
-      week = issue.created.cweek
-      if memo[week]
-        memo[week] += 1
-      else
-        memo[week] = 1
-      end
+    date = @start_date
+    count_per_week = {}
+
+    loop do
+      break if date >= @end_date
+
+      count_per_week[date.cweek] = 0
+      date = date + 1.week
+    end
+
+    p1_issues.inject(count_per_week) do |memo, issue|
+      memo[issue.created.cweek] += 1
       memo
     end
   end
@@ -72,7 +82,7 @@ class P1ReportService
     end
     model = Eps::Regressor.new(data, target: :issue_count)
 
-    [predict_count(model, 1), predict_count(model, p1_issues.last.created.cweek)]
+    [predict_count(model, @start_date.cweek), predict_count(model, @end_date.cweek)]
   end
 
   def linear_regression_for_resolution_time
@@ -83,22 +93,21 @@ class P1ReportService
     end
     model = Eps::Regressor.new(data, target: :resolution_time)
 
-    [predict_time(model, closed_p1_issues.first.resolution_date), predict_time(model, closed_p1_issues.last.resolution_date)]
+    [predict_time(model, @start_date), predict_time(model, @end_date)]
   end
 
   def resolution_time_moving_averages
     return [] if closed_p1_issues.size <= 2
 
-    date =  closed_p1_issues.first.created
-    end_date = closed_p1_issues.last.created
+    date =  @start_date
     moving_averages = []
 
     loop do
       moving_averages << [date.strftime('%Y-%m-%d'), resolution_time_moving_average_on(date)]
 
       date = date + 1.week
-      if date >= end_date
-        moving_averages << [end_date.strftime('%Y-%m-%d'), resolution_time_moving_average_on(end_date)]
+      if date >= @end_date
+        moving_averages << [@end_date.strftime('%Y-%m-%d'), resolution_time_moving_average_on(@end_date)]
         break
       end
     end
