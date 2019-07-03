@@ -22,20 +22,20 @@
   :board_id: 294
   :subteam: CSI
   :deployment_constraint_id: 1
-- exp:
-  :name: Experience
+- selling:
+  :name: Selling
   :department_id: 1
-  :project_key: EXP
+  :project_key: SEL
   :board_id: 261
   :deployment_constraint_id: 3
-- oms:
-  :name: OMS
+- collect_pay:
+  :name: Collect & pay
   :department_id: 1
   :project_key: OMS
   :board_id: 259
   :deployment_constraint_id: 3
-- cto:
-  :name: Check this out
+- ordering:
+  :name: Ordering
   :department_id: 1
   :project_key: CTO
   :board_id: 260
@@ -46,10 +46,10 @@
   :project_key: B2BJTC
   :board_id: 258
   :deployment_constraint_id: 3
-- aem:
-  :name: AEM
+- inspiration:
+  :name: Inspiration
   :department_id: 1
-  :project_key: JMBAEM
+  :project_key: INS
   :board_id: 228
   :deployment_constraint_id: 3
 - winkelapp:
