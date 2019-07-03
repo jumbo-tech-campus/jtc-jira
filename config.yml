@@ -227,6 +227,24 @@
   :board_id: 518
   :project_key: HJ
   :deployment_constraint_id: 3
+- medewerker_app:
+  :name: Medewerker app
+  :department_id: 1
+  :board_id: 336
+  :project_key: MA
+  :deployment_constraint_id: 1
+- service_platform:
+  :name: Service platform
+  :department_id: 1
+  :board_id: 489
+  :project_key: SP
+  :deployment_constraint_id: 3
+- predict_it:
+  :name: Predict it
+  :department_id: 1
+  :board_id: 348
+  :project_key: PI
+  :deployment_constraint_id: 3
 :departments:
 - digital:
   :name: JTC Digital
