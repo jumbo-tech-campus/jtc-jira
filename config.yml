@@ -220,7 +220,7 @@
   :department_id: 1
   :board_id: 229
   :project_key: JMBMOB
-  :deployment_constraint_id: 1
+  :deployment_constraint_id: 5
 - loyal:
   :name: Loyal team
   :department_id: 1
@@ -268,6 +268,9 @@
 - supplier:
   :id: 4
   :name: Supplier bound
+- exclude:
+  :id: 5
+  :name: Exclude from reporting
 :issue_collections:
 - p1_2019:
   :id: 1

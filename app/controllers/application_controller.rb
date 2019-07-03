@@ -41,6 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_deployment_constraints
-    @deployment_constraints = Repository.for(:deployment_constraint).all.sort_by(&:name)
+    @deployment_constraints = Repository.for(:deployment_constraint).all.
+      sort_by(&:name).delete_if{ |deployment_constraint| deployment_constraint.id == 5 }
   end
 end
