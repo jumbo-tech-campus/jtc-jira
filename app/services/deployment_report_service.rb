@@ -1,4 +1,9 @@
 class DeploymentReportService
+  def initialize(start_date, end_date)
+    @start_date = start_date
+    @end_date = end_date
+  end
+
   def deployment_report
     {
       issues_table: issues_table,
@@ -32,17 +37,23 @@ class DeploymentReportService
     end
     model = Eps::Regressor.new(data, target: :deployments)
 
-    [prediction(model, issues.first.created), prediction(model, issues.last.created)]
+    [prediction(model, @start_date), prediction(model, @end_date)]
   end
 
   def issue_count_per_day
-    issues.inject({}) do |memo, issue|
+    date = @start_date
+    count_per_day = {}
+
+    loop do
+      break if date > @end_date
+
+      count_per_day[date.strftime('%Y-%m-%d')] = 0
+      date = date + 1.day
+    end
+
+    issues.inject(count_per_day) do |memo, issue|
       date = issue.created.strftime('%Y-%m-%d')
-      if memo[date]
-        memo[date] += 1
-      else
-        memo[date] = 1
-      end
+      memo[date] += 1
       memo
     end
   end

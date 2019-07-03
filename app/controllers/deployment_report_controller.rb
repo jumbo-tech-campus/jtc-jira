@@ -1,6 +1,6 @@
 class DeploymentReportController < ApplicationController
   def overview
-    @report = DeploymentReportService.new.deployment_report
+    @report = DeploymentReportService.new(DateTime.new(2019,1.1), DateTime.now).deployment_report
 
     respond_to do |format|
       format.html

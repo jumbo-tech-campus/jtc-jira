@@ -64,7 +64,7 @@ class P1ReportService
     count_per_week = {}
 
     loop do
-      break if date >= @end_date
+      break if date > @end_date
 
       count_per_week[date.cweek] = 0
       date = date + 1.week
