@@ -2,14 +2,14 @@
 :number_of_cached_sprints: 14
 :teams:
 - mob_a_team:
-  :name: A-team
+  :name: Mobile-order
   :department_id: 1
   :project_key: JMBMOB
   :board_id: 230
   :subteam: A-team
   :deployment_constraint_id: 1
 - mob_baywatch:
-  :name: Baywatch
+  :name: Mobile-orientation
   :department_id: 1
   :project_key: JMBMOB
   :board_id: 231
@@ -209,12 +209,18 @@
   :project_key: BI3
   :deployment_constraint_id: 2
 - mob_csi:
-  :name: CSI mobile
+  :name: Mobile-inspiration
   :department_id: 1
   :board_id: 535
   :project_key: JMBMOB
   :deployment_constraint_id: 1
   :subteam: CSI
+- mob_all:
+  :name: Mobile (all teams)
+  :department_id: 1
+  :board_id: 229
+  :project_key: JMBMOB
+  :deployment_constraint_id: 1
 - loyal:
   :name: Loyal team
   :department_id: 1
