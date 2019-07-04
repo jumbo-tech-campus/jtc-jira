@@ -37,7 +37,7 @@
 - ordering:
   :name: Ordering
   :department_id: 1
-  :project_key: CTO
+  :project_key: ORD
   :board_id: 260
   :deployment_constraint_id: 3
 - b2b:
