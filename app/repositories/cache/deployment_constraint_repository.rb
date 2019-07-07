@@ -1,10 +1,7 @@
 module Cache
   class DeploymentConstraintRepository < Cache::CacheRepository
     def all
-      @all ||= Repository.for(:team).all.inject([]) do |memo, team|
-        memo << team.deployment_constraint unless memo.include?(team.deployment_constraint)
-        memo
-      end
+      @all ||= Repository.for(:team).all.map(&:deployment_constraint).uniq
     end
 
     def find(id)

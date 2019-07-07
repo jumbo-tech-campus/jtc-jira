@@ -1,10 +1,7 @@
 module Cache
   class DepartmentRepository < Cache::CacheRepository
     def all
-      @all ||= Repository.for(:team).all.inject([]) do |memo, team|
-        memo << team.department unless memo.include?(team.department)
-        memo
-      end
+      @all ||= Repository.for(:team).all.map(&:department).uniq
     end
 
     def find(id)
