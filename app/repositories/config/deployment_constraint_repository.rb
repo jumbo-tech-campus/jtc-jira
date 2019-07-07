@@ -1,13 +1,11 @@
 module Config
   class DeploymentConstraintRepository < Config::ConfigRepository
-    def all
-      @records ||= @client.get(:deployment_constraints).map do |config_hash|
-        Factory.for(:deployment_constraint).create_from_hash(config_hash)
-      end
+    def config_key
+      :deployment_constraints
     end
 
-    def find(id)
-      all.find{ |deployment_constraint| deployment_constraint.id == id }
+    def object_type
+      :deployment_constraint
     end
   end
 end

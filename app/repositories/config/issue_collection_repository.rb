@@ -1,20 +1,11 @@
 module Config
   class IssueCollectionRepository < Config::ConfigRepository
-    def all
-      @records ||= @client.get(:issue_collections).map do |config_hash|
-        Factory.for(:issue_collection).create_from_hash(config_hash)
-      end
+    def config_key
+      :issue_collections
     end
 
-    def find(id)
-      @records = {} if @records.nil?
-      return @records[id] if @records[id]
-
-      config = @client.get(:issue_collections).find do |config_hash|
-         config_hash[:id] == id
-      end
-
-      @records[id] = Factory.for(:issue_collection).create_from_hash(config)
+    def object_type
+      :issue_collection
     end
 
     def find_by(options)

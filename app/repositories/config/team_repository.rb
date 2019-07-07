@@ -1,9 +1,11 @@
 module Config
   class TeamRepository < Config::ConfigRepository
-    def all
-      @records ||= @client.get(:teams).map do |config|
-        Factory.for(:team).create_from_hash(config)
-      end
+    def config_key
+      :teams
+    end
+
+    def object_type
+      :team
     end
 
     def find_by(options)
