@@ -17,6 +17,8 @@ class IssueFactory
   end
 
   def create_from_json(json)
+    return Factory.for(:parent_epic).create_from_json(json) if json.has_key?('wbso_project')
+
     issue = Issue.new(json['key'], json['summary'],
       json['id'], json['estimation'],
       ApplicationHelper.safe_parse(json['created']),

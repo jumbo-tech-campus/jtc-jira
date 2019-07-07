@@ -12,8 +12,18 @@ class Cache < Thor
     ConfigService.register_repositories
 
     teams = Repository.for(:team).all
+    puts "Retrieved #{teams.size} teams"
+
     projects = Repository.for(:project).all
+    puts "Retrieved #{projects.size} projects"
+    $stdout.flush
     issue_collections = Repository.for(:issue_collection).all
+    puts "Retrieved #{issue_collections.size} issue collections"
+    $stdout.flush
+    # for the parent epic reporting we need to cache all epics per parent epic
+    ParentEpicService.new.associate_epics_to_parent_epic
+    puts "Retrieved all epics for parent_epics"
+    $stdout.flush
     boards = teams.map{ |team| Repository.for(:board).find(team.board_id)}
 
     redis_client = ::Cache::RedisClient.new

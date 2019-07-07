@@ -1,8 +1,8 @@
 class EpicFactory
-  def create_from_jira(issue)
-    epic = Epic.new(issue.key, issue.summary, issue.id.to_i, issue.fields['customfield_10018'])
-    if issue.fields['customfield_11200']['data']
-      epic.parent_epic = Repository.for(:parent_epic).find(issue.fields['customfield_11200']['data']['key'])
+  def create_from_jira(json)
+    epic = Epic.new(json['key'], json['fields']['summary'], json['id'].to_i, json['fields']['customfield_10018'])
+    if json['fields']['customfield_11200']['data']
+      epic.parent_epic = Repository.for(:parent_epic).find(json['fields']['customfield_11200']['data']['key'])
     end
     epic
   end

@@ -41,13 +41,21 @@
           <a class="nav-link dropdown-toggle <%= 'text-yellow' if action_name == 'portfolio' %>" href="#" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Portfolio
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-            <% @departments.each do |department| %>
-            <a class="dropdown-item <%= 'active' if action_name == 'portfolio' && @department.id == department.id %>" href="<%= portfolio_report_path(department_id: department.id) %>">
-              <%= department.name %>
-            </a>
-            <% end %>
-          </div>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
+            <li><a class="dropdown-item <%= 'active' if action_name == 'epics_overview' %>" href="<%= portfolio_epics_path %>">
+              Epics
+            </a></li>
+            <li class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#">Report</a>
+                <ul class="dropdown-menu">
+                  <% @departments.each do |department| %>
+                  <li><a class="dropdown-item <%= 'active' if action_name == 'portfolio' && @department.id == department.id %>" href="<%= portfolio_report_path(department_id: department.id) %>">
+                    <%= department.name %>
+                  </a></li>
+                  <% end %>
+                </ul>
+            </li>
+          </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle <%= 'text-yellow' if controller_name == 'sprint_report' %>" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

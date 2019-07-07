@@ -1,3 +1,4 @@
+<% options = options || {} %>
 <table class="table table-bordered">
     <thead>
       <tr class="small">
@@ -10,7 +11,7 @@
       <% table[1..-1].each do |row| %>
       <tr class="small">
         <% row.each_with_index do |row_item, index| %>
-       <td class="<%= 'text-center' unless index == 0 %>">
+       <td class="<%= 'text-center' unless index == 0 || options[:align] == :left %>">
          <%= row_item %>
        </td>
        <% end %>

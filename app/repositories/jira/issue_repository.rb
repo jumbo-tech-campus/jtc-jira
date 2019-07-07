@@ -29,14 +29,14 @@ module Jira
             next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != subteam
           end
 
-          if @records[value['id']]
-            issues << @records[value['id']]
+          if @records[value['key']]
+            issues << @records[value['key']]
             next
           end
 
           issue = Factory.for(:issue).create_from_jira(value)
 
-          @records[issue.id] = issue
+          @records[issue.key] = issue
           issues << issue
         end
 
@@ -61,14 +61,14 @@ module Jira
           next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != subteam
         end
 
-        if @records[value['id']]
-          issues << @records[value['id']]
+        if @records[value['key']]
+          issues << @records[value['key']]
           next
         end
 
         issue = Factory.for(:issue).create_from_jira(value)
 
-        @records[issue.id] = issue
+        @records[issue.key] = issue
         issues << issue
       end
 
@@ -84,14 +84,14 @@ module Jira
         #filter out subtasks
         next if value['fields']['issuetype']['subtask']
 
-        if @records[value['id']]
-          issues << @records[value['id']]
+        if @records[value['key']]
+          issues << @records[value['key']]
           next
         end
 
         issue = Factory.for(:issue).create_from_jira(value)
 
-        @records[issue.id] = issue
+        @records[issue.key] = issue
         issues << issue
       end
 
@@ -106,14 +106,14 @@ module Jira
         #filter out subtasks
         next if value['fields']['issuetype']['subtask']
 
-        if @records[value['id']]
-          issues << @records[value['id']]
+        if @records[value['key']]
+          issues << @records[value['key']]
           next
         end
 
         issue = Factory.for(:issue).create_from_jira(value)
 
-        @records[issue.id] = issue
+        @records[issue.key] = issue
         issues << issue
       end
 

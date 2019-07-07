@@ -5,7 +5,7 @@ module Cache
     end
 
     def save(issue_collection)
-      @client.set("issue_collection.#{issue_collection.id}", ActiveModelSerializers::SerializableResource.new(issue_collection, include: 'issues').to_json)
+      @client.set("issue_collection.#{issue_collection.id}", ActiveModelSerializers::SerializableResource.new(issue_collection, include: ['issues', 'issues.epics']).to_json)
     end
   end
 end

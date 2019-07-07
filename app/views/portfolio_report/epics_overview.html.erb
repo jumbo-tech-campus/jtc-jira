@@ -1,0 +1,29 @@
+<%= render 'shared/nav_bar' %>
+<main role="main" class="container-fluid">
+  <div class="main">
+    <div class="row pl-3">
+      <ul class="nav">
+        <% @fix_versions.each do |fix_version| %>
+        <li class="nav-item">
+          <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if fix_version == @fix_version %>"
+            href="<%= portfolio_epics_path(fix_version: fix_version) %>">
+            <%= fix_version %>
+          </a>
+        </li>
+       <% end %>
+      </ul>
+    </div>
+    <div class="card box-shadow mb-4">
+      <div class="card-header">
+        <a href="<%= portfolio_epics_path(fix_version: @fix_version, format: 'csv') %>"
+          class="card-link float-right">
+          Download as csv file
+        </a>
+        <strong>Overview of epics & portfolio epics for: <%= @fix_version %></strong><br>
+      </div>
+      <div class="card-body">
+        <%= render partial: 'shared/table', locals: { table: @report[:table], options: { align: :left} } %>
+      </div>
+   </div>
+ </div>
+</main>

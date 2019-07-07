@@ -1,7 +1,7 @@
 module Jira
   class JiraRepository
-    def initialize(jira_client)
-      @records = {}
+    def initialize(jira_client, records = {})
+      @records = records
       @client = jira_client
     end
   end
