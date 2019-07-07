@@ -33,7 +33,7 @@ module SprintIssueAbilities
   end
 
   def wbso_issues
-    issues.select{ |issue| issue.epic&.parent_epic&.wbso_project.present? }
+    issues.select{ |issue| issue.parent_epic&.wbso_project.present? }
   end
 
   def issues_per_wbso_project

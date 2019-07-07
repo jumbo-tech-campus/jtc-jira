@@ -195,9 +195,9 @@
                                     <td>
                                       <%= issue.summary %><br>
                                       <small class="text-muted"><%= issue.epic&.description %></small><br>
-                                      <small class="text-muted"><%= issue.epic&.parent_epic&.description %></small>
-                                      <% if issue.epic&.parent_epic&.wbso_project %>
-                                      <br><small class="text-muted">WBSO - <%= issue.epic&.parent_epic&.wbso_project %></small>
+                                      <small class="text-muted"><%= issue.parent_epic&.description %></small>
+                                      <% if issue.parent_epic&.wbso_project %>
+                                      <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
                                       <% end %>
                                     </td>
                                     <td><%= issue.estimation %></td>
@@ -226,9 +226,9 @@
                                      <td>
                                       <%= issue.summary %><br>
                                       <small class="text-muted"><%= issue.epic&.description %></small><br>
-                                      <small class="text-muted"><%= issue.epic&.parent_epic&.description %></small>
-                                      <% if issue.epic&.parent_epic&.wbso_project %>
-                                      <br><small class="text-muted">WBSO - <%= issue.epic&.parent_epic&.wbso_project %></small>
+                                      <small class="text-muted"><%= issue.parent_epic&.description %></small>
+                                      <% if issue.parent_epic&.wbso_project %>
+                                      <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
                                       <% end %>
                                     </td>
                                     <td><%= issue.estimation %></td>
@@ -257,9 +257,9 @@
                                     <td>
                                       <%= issue.summary %><br>
                                       <small class="text-muted"><%= issue.epic&.description %></small><br>
-                                      <small class="text-muted"><%= issue.epic&.parent_epic&.description %></small>
-                                      <% if issue.epic&.parent_epic&.wbso_project %>
-                                      <br><small class="text-muted">WBSO - <%= issue.epic&.parent_epic&.wbso_project %></small>
+                                      <small class="text-muted"><%= issue.parent_epic&.description %></small>
+                                      <% if issue.parent_epic&.wbso_project %>
+                                      <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
                                       <% end %>
                                     </td>
                                     <td><%= issue.estimation %></td>

@@ -64,6 +64,10 @@ class Issue < ActiveModelSerializers::Model
     (resolution_date - created).to_f
   end
 
+  def parent_epic
+    epic&.parent_epic
+  end
+
   def ==(issue)
     self.id == issue.id
   end
