@@ -16,11 +16,11 @@ class ParentEpicService
     end
   end
 
-  private
   def parent_epics
     @parent_epics ||= retrieve_parent_epics
   end
 
+  private
   def retrieve_parent_epics
     parent_epics = Repository.for(:issue_collection).find(3).issues
     parent_epics = parent_epics.select{ |parent_epic| parent_epic.fix_version == @fix_version } if @fix_version

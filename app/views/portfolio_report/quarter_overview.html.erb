@@ -1,0 +1,37 @@
+<%= render 'shared/nav_bar' %>
+<main role="main" class="container-fluid">
+  <div class="main">
+    <div class="row pl-3">
+      <ul class="nav">
+        <% @quarters.each do |quarter| %>
+        <li class="nav-item">
+          <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if quarter.fix_version == @quarter.fix_version %>"
+            href="<%= portfolio_quarter_path(fix_version: quarter.fix_version) %>">
+            <%= quarter.name %>
+          </a>
+        </li>
+       <% end %>
+      </ul>
+    </div>
+    <div class="card box-shadow mb-4">
+      <div class="card-header">
+        <a href="<%= portfolio_quarter_path(fix_version: @quarter.fix_version, format: 'csv') %>"
+          class="card-link float-right">
+          Download as csv file
+        </a>
+        <strong>Overview of epics & portfolio epics for: <%= @quarter.name %></strong><br>
+      </div>
+      <div class="card-body">
+        <%= render partial: 'shared/table', locals: { table: @report[:table], options: { align: :left} } %>
+      </div>
+   </div>
+   <div class="card box-shadow mb-4">
+     <div class="card-header">
+       <strong>Overview of unplanned epics for: <%= @quarter.name %></strong><br>
+     </div>
+     <div class="card-body">
+       <%= render partial: 'shared/table', locals: { table: @report[:unplanned_table], options: { align: :left} } %>
+     </div>
+  </div>
+ </div>
+</main>

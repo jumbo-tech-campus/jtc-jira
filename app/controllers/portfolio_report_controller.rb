@@ -1,6 +1,6 @@
 class PortfolioReportController < ApplicationController
   before_action :set_week_dates, only: :overview
-  before_action :set_quarters, only: :epics_overview
+  before_action :set_quarters, only: [:epics_overview, :quarter_overview]
 
   def overview
     department_id = params[:department_id] || '1'
@@ -22,6 +22,17 @@ class PortfolioReportController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { send_data to_csv(@report[:table]), filename: "portfolio_epics_#{@fix_version}.csv" }
+    end
+  end
+
+  def quarter_overview
+    @quarter = Repository.for(:quarter).find_by(fix_version: params[:fix_version]) || @quarters.first
+
+    @report = PortfolioQuarterReportService.new(@quarter).quarter_report
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data to_csv(@report[:table]), filename: "portfolio_quarter_#{@quarter.fix_version}.csv" }
     end
   end
 

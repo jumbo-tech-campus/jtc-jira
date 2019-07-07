@@ -4,4 +4,8 @@ class Quarter < ActiveModelSerializers::Model
   def initialize(start_week, end_week, fix_version)
     @start_week, @end_week, @fix_version = start_week, end_week, fix_version
   end
+
+  def name
+    fix_version.chomp(' plan')
+  end
 end
