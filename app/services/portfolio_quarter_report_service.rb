@@ -18,7 +18,9 @@ class PortfolioQuarterReportService
 
     @issues = @boards.inject([]) do |memo, board|
       board_issues = board.issues.select do |issue|
-        issue.done_date && issue.done_date.cweek >= @quarter.start_week && issue.done_date.cweek <= @quarter.end_week
+        issue.done_date && issue.done_date.year == @quarter.year &&
+          issue.done_date.cweek >= @quarter.start_week &&
+          issue.done_date.cweek <= @quarter.end_week
       end
       memo.concat(board_issues)
       memo
@@ -132,6 +134,8 @@ class PortfolioQuarterReportService
     table = []
     header = ["Key", "Title", "Issues closed", "Points closed"]
     table << header
+
+    return table unless issues_per_portfolio_epic['DEV']
 
     issues_per_epic = issues_per_portfolio_epic['DEV'].inject({}) do |memo, issue|
       key = issue.epic&.key || "DEV"
