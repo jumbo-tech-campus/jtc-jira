@@ -284,3 +284,20 @@
   :id: 3
   :name: Portfolio epics 2019
   :jira_filter: 24445
+:quarters:
+- q1_2019:
+  :start_week: 1
+  :end_week: 16
+  :fix_version: Q1 2019 plan
+- q2_2019:
+  :start_week: 17
+  :end_week: 28
+  :fix_version: Q2 2019 plan
+- q3_2019:
+  :start_week: 29
+  :end_week: 40
+  :fix_version: Q3 2019 plan
+- q4_2019:
+  :start_week: 41
+  :end_week: 52
+  :fix_version: Q4 2019 plan

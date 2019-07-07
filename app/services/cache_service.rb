@@ -27,6 +27,7 @@ class CacheService
     Repository.register(:project, Cache::ProjectRepository.new(redis_client))
     Repository.register(:deployment_constraint, Cache::DeploymentConstraintRepository.new(redis_client))
     Repository.register(:issue_collection, Cache::IssueCollectionRepository.new(redis_client))
+    Repository.register(:quarter, Cache::QuarterRepository.new(redis_client))
   end
 
   def self.reset_repositories

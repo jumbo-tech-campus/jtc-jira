@@ -17,6 +17,9 @@ class Cache < Thor
     projects = Repository.for(:project).all
     puts "Retrieved #{projects.size} projects"
     $stdout.flush
+    quarters = Repository.for(:quarter).all
+    puts "Retrieved #{quarters.size} quarters"
+    $stdout.flush
     issue_collections = Repository.for(:issue_collection).all
     puts "Retrieved #{issue_collections.size} issue collections"
     $stdout.flush
@@ -32,6 +35,9 @@ class Cache < Thor
     $stdout.flush
     puts "Caching #{projects.size} projects"
     ::Cache::ProjectRepository.new(redis_client).save(projects)
+    $stdout.flush
+    puts "Caching #{quarters.size} quarters"
+    ::Cache::QuarterRepository.new(redis_client).save(quarters)
     $stdout.flush
     puts "Caching #{issue_collections.size} issue collections"
     issue_collection_repo = ::Cache::IssueCollectionRepository.new(redis_client)
