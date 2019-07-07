@@ -8,6 +8,12 @@ module Config
       :team
     end
 
+    def all
+      @client.get(config_key).map do |config_hash|
+        Factory.for(object_type).create_from_hash(config_hash)
+      end
+    end
+
     def find_by(options)
       if options[:board_id]
         all.select{ |team| team.board_id == options[:board_id]}
