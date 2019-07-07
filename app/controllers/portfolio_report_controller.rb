@@ -1,6 +1,6 @@
 class PortfolioReportController < ApplicationController
   before_action :set_week_dates, only: :overview
-  before_action :set_fix_versions, only: :epics_overview
+  before_action :set_quarters, only: :epics_overview
 
   def overview
     department_id = params[:department_id] || '1'
@@ -15,7 +15,7 @@ class PortfolioReportController < ApplicationController
   end
 
   def epics_overview
-    @fix_version = params[:fix_version] || @fix_versions.first
+    @fix_version = params[:fix_version] || @quarters.first.fix_version
 
     @report = ParentEpicService.new(@fix_version).epics_report
 
@@ -26,7 +26,7 @@ class PortfolioReportController < ApplicationController
   end
 
   private
-  def set_fix_versions
-    @fix_versions = Repository.for(:issue_collection).find(3).issues.map(&:fix_version).compact.uniq.sort
+  def set_quarters
+    @quarters = Repository.for(:quarter).all.sort_by(&:fix_version)
   end
 end

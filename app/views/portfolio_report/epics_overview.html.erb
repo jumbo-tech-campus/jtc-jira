@@ -3,11 +3,11 @@
   <div class="main">
     <div class="row pl-3">
       <ul class="nav">
-        <% @fix_versions.each do |fix_version| %>
+        <% @quarters.each do |quarter| %>
         <li class="nav-item">
-          <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if fix_version == @fix_version %>"
-            href="<%= portfolio_epics_path(fix_version: fix_version) %>">
-            <%= fix_version %>
+          <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if quarter.fix_version == @fix_version %>"
+            href="<%= portfolio_epics_path(fix_version: quarter.fix_version) %>">
+            <%= quarter.fix_version %>
           </a>
         </li>
        <% end %>
