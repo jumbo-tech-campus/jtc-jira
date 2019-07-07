@@ -7,10 +7,9 @@ class CacheService
     #use specific cache repositories to save to cache
     board_repo = ::Cache::BoardRepository.new(redis_client)
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
-    number_of_cached_sprints = YAML.load_file(Rails.root.join('config.yml'))[:number_of_cached_sprints]
 
     board_repo.save(board)
-    board.recent_sprints(number_of_cached_sprints).each do |sprint|
+    board.sprints_in_year(2019).each do |sprint|
       sprint_repo.save(sprint)
     end
 

@@ -1,5 +1,4 @@
 :use_cached_data: true
-:number_of_cached_sprints: 14
 :teams:
 - mob_a_team:
   :name: Mobile-order
