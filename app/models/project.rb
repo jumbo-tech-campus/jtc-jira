@@ -4,4 +4,8 @@ class Project < ActiveModelSerializers::Model
   def initialize(key, name, avatars)
     @key, @name, @avatars = key, name, avatars
   end
+
+  def ==(project)
+    self.key == project.key
+  end
 end

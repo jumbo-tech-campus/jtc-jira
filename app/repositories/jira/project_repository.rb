@@ -5,7 +5,11 @@ module Jira
     end
 
     def all
-      Repository.for(:team).all.map{ |team| team.project }
+      projects = Repository.for(:team).all.map{ |team| team.project }.uniq
+      projects.each do |project|
+        @records[project.key] = project
+      end
+      projects
     end
   end
 end
