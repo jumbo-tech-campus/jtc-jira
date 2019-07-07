@@ -3,6 +3,20 @@ class ParentEpicService
     @fix_version = fix_version
   end
 
+  def epics_report
+    {
+      table: epics_report_table
+    }
+  end
+
+  def associate_epics_to_parent_epic
+    parent_epics.each do |parent_epic|
+      epics = Repository.for(:epic).find_by(parent_epic: parent_epic)
+      parent_epic.epics.concat(epics)
+    end
+  end
+
+  private
   def parent_epics
     @parent_epics ||= retrieve_parent_epics
   end
@@ -13,13 +27,7 @@ class ParentEpicService
     parent_epics
   end
 
-  def epics_report
-    {
-      table: table
-    }
-  end
-
-  def table
+  def epics_report_table
     table = []
     header = ["Assignee", "Key", "Title", "Summary"]
     table << header
@@ -41,14 +49,5 @@ class ParentEpicService
     end
 
     table
-  end
-
-  def associate_epics_to_parent_epic
-    parent_epics.each do |parent_epic|
-      puts "Retrieving epics for parent epic #{parent_epic.key}"
-      $stdout.flush
-      epics = Repository.for(:epic).find_by(parent_epic: parent_epic)
-      parent_epic.epics.concat(epics)
-    end
   end
 end
