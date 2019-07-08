@@ -23,7 +23,7 @@
         <small class="text-muted small">Based on issues moved to 'Done' in the period from week <%= @quarter.start_week %> to <%= @quarter.end_week %></small>
       </div>
       <div class="card-body">
-        <%= render partial: 'shared/table', locals: { table: @report[:table], options: { align: :left} } %>
+        <%= render partial: 'shared/issue_table', locals: { table: @report[:table], options: { align: :left, key_index: 1 } } %>
       </div>
    </div>
    <div class="card box-shadow mb-4">
@@ -32,7 +32,7 @@
        <small class="text-muted small">Based on issues & epics not related to portfolio epics, which were moved to 'Done' in the period from week <%= @quarter.start_week %> to <%= @quarter.end_week %></small>
      </div>
      <div class="card-body">
-       <%= render partial: 'shared/table', locals: { table: @report[:unplanned_table], options: { align: :left} } %>
+       <%= render partial: 'shared/issue_table', locals: { table: @report[:unplanned_table], options: { align: :left, key_index: 0 } } %>
      </div>
   </div>
  </div>

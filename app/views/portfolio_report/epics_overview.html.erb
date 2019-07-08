@@ -22,7 +22,7 @@
         <strong>Overview of epics & portfolio epics for: <%= @fix_version %></strong><br>
       </div>
       <div class="card-body">
-        <%= render partial: 'shared/table', locals: { table: @report[:table], options: { align: :left} } %>
+        <%= render partial: 'shared/issue_table', locals: { table: @report[:table], options: { align: :left, key_index: 1 } } %>
       </div>
    </div>
  </div>
