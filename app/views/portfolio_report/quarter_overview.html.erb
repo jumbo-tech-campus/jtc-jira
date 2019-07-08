@@ -20,6 +20,7 @@
           Download as csv file
         </a>
         <strong>Overview of epics & portfolio epics for: <%= @quarter.name %></strong><br>
+        <small class="text-muted small">Based on issues moved to 'Done' in the period from week <%= @quarter.start_week %> to <%= @quarter.end_week %></small>
       </div>
       <div class="card-body">
         <%= render partial: 'shared/table', locals: { table: @report[:table], options: { align: :left} } %>
@@ -27,7 +28,8 @@
    </div>
    <div class="card box-shadow mb-4">
      <div class="card-header">
-       <strong>Overview of unplanned epics for: <%= @quarter.name %></strong><br>
+       <strong>Overview of uncategorized epics for: <%= @quarter.name %></strong><br>
+       <small class="text-muted small">Based on issues & epics not related to portfolio epics, which were moved to 'Done' in the period from week <%= @quarter.start_week %> to <%= @quarter.end_week %></small>
      </div>
      <div class="card-body">
        <%= render partial: 'shared/table', locals: { table: @report[:unplanned_table], options: { align: :left} } %>
