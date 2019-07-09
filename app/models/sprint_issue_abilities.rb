@@ -53,15 +53,15 @@ module SprintIssueAbilities
   end
 
   def points_closed
-    closed_issues.reduce(0){ |sum, issue| sum + issue.estimation }
+    closed_issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
   end
 
   def points_open
-    open_issues.reduce(0){ |sum, issue| sum + issue.estimation }
+    open_issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
   end
 
   def points_total
-    issues.reduce(0){ |sum, issue| sum + issue.estimation }
+    issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
   end
 
   def wbso_points_closed
