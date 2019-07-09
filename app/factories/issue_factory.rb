@@ -10,6 +10,7 @@ class IssueFactory
       nil, nil, nil
     )
     issue.assignee = json['fields']['assignee']['displayName'] if json['fields']['assignee']
+    issue.resolution = json['fields']['resolution']['name'] if json['fields']['resolution']
     issue.epic = Repository.for(:epic).find(json['fields']['epic']['key']) if json['fields']['epic']
     issue.state_changed_events.concat(get_state_changed_events(json))
 
@@ -29,6 +30,7 @@ class IssueFactory
       ApplicationHelper.safe_parse(json['ready_for_prod_date'])
     )
     issue.assignee = json['assignee']
+    issue.resolution = json['resolution']
     issue.epic = Factory.for(:epic).create_from_json(json['epic'])
     issue
   end
