@@ -17,17 +17,11 @@ module Jira
       start_at = 0
       issues = []
 
-      subteam = sprint.board.team.subteam
       loop do
         response = @client.Agile.get_sprint_issues(sprint.id, {startAt: start_at, expand: 'changelog'})
 
         response['issues'].each do |value|
-          #filter out subtasks
-          next if value['fields']['issuetype']['subtask']
-          #filter on subteam
-          if subteam
-            next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != subteam
-          end
+          next if filter_out_issue?(value, sprint.board)
 
           if @records[value['key']]
             issues << @records[value['key']]
@@ -50,16 +44,10 @@ module Jira
     def find_by_board(board)
       issues = []
 
-      subteam = board.team.subteam
       response = @client.Board.find(board.id).issues(expand: 'changelog')
 
       response.each do |value|
-        #filter out subtasks
-        next if value['fields']['issuetype']['subtask']
-        #filter on subteam
-        if subteam
-          next if value['fields']['customfield_12613'] && value['fields']['customfield_12613']['value'] != subteam
-        end
+        next if filter_out_issue?(value, board)
 
         if @records[value['key']]
           issues << @records[value['key']]
@@ -81,8 +69,7 @@ module Jira
       response = @client.Project.find(project.key).issues(expand: 'changelog')
 
       response.each do |value|
-        #filter out subtasks
-        next if value['fields']['issuetype']['subtask']
+        next if filter_out_issue?(value)
 
         if @records[value['key']]
           issues << @records[value['key']]
@@ -103,8 +90,7 @@ module Jira
       response = @client.Issue.jql("filter=#{filter}", expand: 'changelog')
 
       response.each do |value|
-        #filter out subtasks
-        next if value['fields']['issuetype']['subtask']
+        next if filter_out_issue?(value)
 
         if @records[value['key']]
           issues << @records[value['key']]
@@ -118,6 +104,17 @@ module Jira
       end
 
       issues
+    end
+
+    def filter_out_issue?(issue_json, board = nil)
+      #filter out subtasks
+      return true if issue_json['fields']['issuetype']['subtask']
+      #filter on subteam
+      if board && board.team.subteam
+        return true if issue_json['fields']['customfield_12613'] && issue_json['fields']['customfield_12613']['value'] != board.team.subteam
+      end
+
+      return false
     end
   end
 end
