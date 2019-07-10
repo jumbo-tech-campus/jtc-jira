@@ -66,14 +66,23 @@ class PortfolioQuarterReportService
     table = []
     header = ["Assignee", "Key", "Title", "Plan", "Issues closed", "Points closed"]
     table << header
+
+    total_issues = 0
+    total_points = 0
+
     @parent_epics.each do |parent_epic|
+      issue_count = planned_issues_per_portfolio_epic[parent_epic.key]&.size
+      points_count = planned_issues_per_portfolio_epic[parent_epic.key]&.sum(&:estimation)
+      total_issues += issue_count || 0
+      total_points += points_count || 0
+
       table << [
-        parent_epic.assignee,
+        assignee(parent_epic),
         parent_epic.key,
         parent_epic.summary,
         parent_epic.fix_version,
-        planned_issues_per_portfolio_epic[parent_epic.key]&.size,
-        planned_issues_per_portfolio_epic[parent_epic.key]&.sum(&:estimation)
+        issue_count,
+        points_count
       ]
       parent_epic.epics.each do |epic|
         issues_for_epic = planned_issues_per_portfolio_epic[parent_epic.key].select do |issue|
@@ -96,13 +105,18 @@ class PortfolioQuarterReportService
 
       parent_epic = issues.first.parent_epic
 
+      issue_count = issues.size
+      points_count = issues.sum(&:estimation)
+      total_issues += issue_count || 0
+      total_points += points_count || 0
+
       table << [
-        parent_epic.assignee,
+        assignee(parent_epic),
         parent_epic.key,
         parent_epic.summary,
         parent_epic.fix_version,
-        issues.size,
-        issues.sum(&:estimation)
+        issue_count,
+        points_count
       ]
 
       issues_per_epic = issues.inject({}) do |memo, issue|
@@ -127,6 +141,15 @@ class PortfolioQuarterReportService
       end
     end
 
+    table << [
+      nil,
+      "",
+      "Total",
+      nil,
+      total_issues,
+      total_points
+    ]
+
     table
   end
 
@@ -147,15 +170,39 @@ class PortfolioQuarterReportService
       memo
     end
 
+    total_issues = 0
+    total_points = 0
+
     issues_per_epic.each do |key, epic_issues|
+      issues_per_epic = epic_issues.size
+      points_per_epic = epic_issues.sum(&:estimation)
+
+      total_issues += issues_per_epic || 0
+      total_points += points_per_epic || 0
+
       table << [
         key,
         epic_issues.first.epic&.name || "Issues not assigned to an epic",
-        epic_issues.size,
-        epic_issues.sum(&:estimation)
+        issues_per_epic,
+        points_per_epic
       ]
     end
 
+    table << [
+      "",
+      "Total",
+      total_issues,
+      total_points
+    ]
+
     table
+  end
+
+  def assignee(parent_epic)
+    if parent_epic.assignee.blank?
+      "Unassigned"
+    else
+      parent_epic.assignee
+    end
   end
 end
