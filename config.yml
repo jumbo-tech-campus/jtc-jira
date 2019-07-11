@@ -10,9 +10,9 @@
 - mob_baywatch:
   :name: Mobile-orientation
   :department_id: 1
-  :project_key: Mob-Orientation
+  :project_key: JMBMOB
   :board_id: 231
-  :subteam: Baywatch
+  :subteam: Mob-Orientation
   :deployment_constraint_id: 1
 - food_csi:
   :name: CSI
