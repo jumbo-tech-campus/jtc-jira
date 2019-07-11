@@ -5,12 +5,12 @@
   :department_id: 1
   :project_key: JMBMOB
   :board_id: 230
-  :subteam: A-team
+  :subteam: Mob-Order
   :deployment_constraint_id: 1
 - mob_baywatch:
   :name: Mobile-orientation
   :department_id: 1
-  :project_key: JMBMOB
+  :project_key: Mob-Orientation
   :board_id: 231
   :subteam: Baywatch
   :deployment_constraint_id: 1
@@ -213,7 +213,7 @@
   :board_id: 535
   :project_key: JMBMOB
   :deployment_constraint_id: 1
-  :subteam: CSI
+  :subteam: Mob-Inspiration
 - mob_all:
   :name: Mobile (all teams)
   :department_id: 1
