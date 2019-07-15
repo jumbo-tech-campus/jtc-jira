@@ -1,9 +1,9 @@
 class Epic < ActiveModelSerializers::Model
-  attr_reader :key, :summary, :id, :name
+  attr_reader :key, :summary, :id, :name, :status
   attr_accessor :parent_epic
 
-  def initialize(key, summary, id, name)
-    @key, @summary, @id, @name = key, summary, id, name
+  def initialize(key, summary, id, name, status)
+    @key, @summary, @id, @name, @status = key, summary, id, name, status
   end
 
   def description
