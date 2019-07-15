@@ -64,7 +64,7 @@ class PortfolioQuarterReportService
 
   def table
     table = []
-    header = ["Assignee", "Key", "Title", "Plan", "Issues closed", "Points closed"]
+    header = ["Assignee", "Key", "Title", "Plan", "Status", "Issues closed", "Points closed"]
     table << header
 
     total_issues = 0
@@ -81,6 +81,7 @@ class PortfolioQuarterReportService
         parent_epic.key,
         parent_epic.summary,
         parent_epic.fix_version,
+        parent_epic.status,
         issue_count,
         points_count
       ]
@@ -94,6 +95,7 @@ class PortfolioQuarterReportService
           epic.key,
           epic.name,
           parent_epic.fix_version,
+          epic.status,
           issues_for_epic&.size,
           issues_for_epic&.sum(&:estimation)
         ]
@@ -115,6 +117,7 @@ class PortfolioQuarterReportService
         parent_epic.key,
         parent_epic.summary,
         parent_epic.fix_version,
+        parent_epic.status,
         issue_count,
         points_count
       ]
@@ -130,11 +133,13 @@ class PortfolioQuarterReportService
       end
 
       issues_per_epic.each do |key, epic_issues|
+        issue = epic_issues.first
         table << [
           nil,
           key,
-          epic_issues.first.epic.name,
-          epic_issues.first.parent_epic.fix_version,
+          issue.epic.name,
+          issue.parent_epic.fix_version,
+          issue.epic.status,
           epic_issues.size,
           epic_issues.sum(&:estimation)
         ]
@@ -155,7 +160,7 @@ class PortfolioQuarterReportService
 
   def unplanned_table
     table = []
-    header = ["Key", "Title", "Issues closed", "Points closed"]
+    header = ["Key", "Title", "Status", "Issues closed", "Points closed"]
     table << header
 
     return table unless issues_per_portfolio_epic['DEV']
@@ -183,6 +188,7 @@ class PortfolioQuarterReportService
       table << [
         key,
         epic_issues.first.epic&.name || "Issues not assigned to an epic",
+        epic_issues.first.epic&.status,
         issues_per_epic,
         points_per_epic
       ]
