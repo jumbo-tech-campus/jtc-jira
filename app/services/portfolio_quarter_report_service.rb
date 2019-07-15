@@ -151,6 +151,7 @@ class PortfolioQuarterReportService
       "",
       "Total",
       nil,
+      nil,
       total_issues,
       total_points
     ]
@@ -197,6 +198,7 @@ class PortfolioQuarterReportService
     table << [
       "",
       "Total",
+      nil,
       total_issues,
       total_points
     ]
