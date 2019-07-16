@@ -28,7 +28,7 @@ class Sprint < ActiveModelSerializers::Model
   def sprint_epics
     return @sprint_epics if @sprint_epics
 
-    no_sprint_epic = SprintEpic.new(self, Epic.new('DEV', 'Issues without epic', 0, 'Issues without epic'))
+    no_sprint_epic = SprintEpic.new(self, Epic.new('DEV', 'Issues without epic', 0, 'Issues without epic', nil))
 
     @sprint_epics = issues.inject([]) do |memo, issue|
       if issue.epic
