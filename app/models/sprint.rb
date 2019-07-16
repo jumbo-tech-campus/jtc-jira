@@ -53,7 +53,7 @@ class Sprint < ActiveModelSerializers::Model
   def sprint_parent_epics
     return @sprint_parent_epics if @sprint_parent_epics
 
-    no_sprint_parent_epic = SprintParentEpic.new(self, ParentEpic.new(0, 'DEV', 'Issues without portfolio epic', nil, nil, nil))
+    no_sprint_parent_epic = SprintParentEpic.new(self, ParentEpic.new(0, 'DEV', 'Issues without portfolio epic', nil, nil, nil, nil))
 
     @sprint_parent_epics = sprint_epics.inject([]) do |memo, sprint_epic|
       if sprint_epic.parent_epic
