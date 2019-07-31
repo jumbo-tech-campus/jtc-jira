@@ -2,8 +2,6 @@ require 'redis'
 
 module Cache
   class RedisClient
-    extend Forwardable
-
     def initialize
       @client = Redis.new(host: ENV['REDIS_HOST'])
       @statsd_client = StatsdClient.new
