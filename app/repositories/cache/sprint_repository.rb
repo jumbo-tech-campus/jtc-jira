@@ -7,6 +7,9 @@ module Cache
     end
 
     def save(sprint)
+      # skip sprints that have no issues
+      return if sprint.issues.size == 0
+
       @client.set("sprint.#{sprint.uid}", ActiveModelSerializers::SerializableResource.new(sprint, include: ['issues', 'issues.epic', 'issues.epic.parent_epic']).to_json)
     end
 
