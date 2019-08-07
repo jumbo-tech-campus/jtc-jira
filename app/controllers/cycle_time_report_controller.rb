@@ -28,7 +28,7 @@ class CycleTimeReportController < ApplicationController
 
   def two_week_overview
     boards = @deployment_constraint.teams.map(&:board)
-    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 3, 1), DateTime.now, 2.weeks).report
+    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 3, 4), DateTime.now, 2.weeks).report
 
     respond_to do |format|
       format.html
@@ -39,7 +39,7 @@ class CycleTimeReportController < ApplicationController
 
   def four_week_overview
     boards = @deployment_constraint.teams.map(&:board)
-    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 3, 1), DateTime.now, 4.weeks).report
+    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 3, 4), DateTime.now, 4.weeks).report
 
     respond_to do |format|
       format.html
