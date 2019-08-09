@@ -51,7 +51,8 @@ class CycleTimeReportService
 
   def cycle_time
     table = []
-    header = ["Key", "In progress date", "Ready for prod date", "Done date", "Cycle time (days)", "Short cycle time (days)", "Delta"]
+    header = ["Key", "Resolution", "In progress date", "Ready for prod date",
+      "Done date", "Cycle time (days)", "Short cycle time (days)", "Delta"]
     table << header
 
     sorted_issues = issues.sort do |a, b|
@@ -65,6 +66,7 @@ class CycleTimeReportService
     sorted_issues.reverse.each do |issue|
       table << [
         issue.key,
+        issue.resolution,
         issue.in_progress_date.strftime('%Y-%m-%d'),
         issue.ready_for_prod_date&.strftime('%Y-%m-%d'),
         issue.done_date&.strftime('%Y-%m-%d'),
