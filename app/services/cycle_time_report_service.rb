@@ -51,7 +51,8 @@ class CycleTimeReportService
 
   def cycle_time
     table = []
-    header = ["Key", "In progress date", "Ready for prod date", "Done date", "Cycle time (days)", "Short cycle time (days)", "Delta"]
+    header = ["Key", "In progress date", "Ready for prod date", "Done date",
+      "Cycle time (days)", "Short cycle time (days)", "Delta", "Resolution"]
     table << header
 
     sorted_issues = issues.sort do |a, b|
@@ -70,7 +71,8 @@ class CycleTimeReportService
         issue.done_date&.strftime('%Y-%m-%d'),
         issue.cycle_time&.round(2),
         issue.short_cycle_time&.round(2),
-        issue.cycle_time_delta&.round(2)
+        issue.cycle_time_delta&.round(2),
+        issue.resolution
       ]
     end
 
