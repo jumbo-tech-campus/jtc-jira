@@ -31,8 +31,14 @@ class ScrumBoard < Board
   end
 
   def sprint_for(date)
-    sprints.find{ |sprint| date.between?(sprint.start_date, sprint.end_date)} ||
-      sprints.find{ |sprint| date.between?(sprint.start_date, sprint.complete_date)}
+    sprints.find{ |sprint| is_date_between?(date, sprint.start_date, sprint.end_date)} ||
+      sprints.find{ |sprint| is_date_between?(date, sprint.start_date, sprint.complete_date)}
+  end
+
+  def is_date_between?(date, start_date, end_date)
+    return false if start_date.nil? || end_date.nil?
+
+    date.between?(start_date, end_date)
   end
 
   def issues
