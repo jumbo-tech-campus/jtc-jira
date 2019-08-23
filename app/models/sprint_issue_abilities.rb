@@ -81,7 +81,7 @@ module SprintIssueAbilities
         end
         sum
       end
-      memo[wbso_project] = total  / points_closed.to_f * 100
+      memo[wbso_project] = total  / points_closed.to_f * 100 if points_closed > 0
       memo
     end
   end
