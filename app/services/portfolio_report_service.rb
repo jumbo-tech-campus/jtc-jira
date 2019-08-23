@@ -43,7 +43,7 @@ class PortfolioReportService
         row_value = nil
         sprint_parent_epics.each do |sprint_parent_epic|
           if sprint_parent_epic.parent_epic == parent_epic && sprint_parent_epic.percentage_of_points_closed > 0
-            row_value = sprint_parent_epic.percentage_of_points_closed.round(1)
+            row_value = sprint_parent_epic.percentage_of_points_closed.round
           end
         end
         row << row_value
@@ -57,7 +57,7 @@ class PortfolioReportService
       teams.inject({}) do |memo, team|
         sprint = Repository.for(:board).find(team.board_id).sprint_for(date)
         if sprint && sprint.wbso_issues.size > 0
-          wbso_row  << sprint.wbso_percentage_of_points_closed_per_wbso_project[wbso_project]&.round(1)
+          wbso_row  << sprint.wbso_percentage_of_points_closed_per_wbso_project[wbso_project]&.round
         else
           wbso_row << nil
         end
