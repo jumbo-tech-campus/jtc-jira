@@ -23,7 +23,7 @@
          <small class="text-muted small">Percentage of work per team per portfolio epic in sprints that span across these weeks</small>
        </div>
        <div class="card-body">
-         <%= render partial: 'shared/table', locals: { table: @table } %>
+         <%= render partial: 'shared/table', locals: { table: @table, options: { table_class: 'portfolio-table'} } %>
        </div>
     </div>
   </div>

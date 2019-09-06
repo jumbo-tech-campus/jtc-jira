@@ -1,5 +1,5 @@
 <% options = options || {} %>
-<table class="table table-bordered">
+<table class="table table-bordered <%= options[:table_class] %>">
     <thead>
       <tr class="small">
         <% table[0].each do |header_item| %>
