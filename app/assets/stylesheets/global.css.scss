@@ -853,7 +853,11 @@ a.download-list-item:focus {
   background: #fff;
 }
 
-.portfolio-table {
+.portfolio-table th {
+  padding: .25rem;
+}
+
+.portfolio-table td {
   padding: .25rem;
 }
 
