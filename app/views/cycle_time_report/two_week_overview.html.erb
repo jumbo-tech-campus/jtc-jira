@@ -11,7 +11,7 @@
         <small class="text-muted small">Average cycle time per two week period calculated from the issues moved to 'Done' in that period</small>
       </div>
       <div class="card-body">
-        <%= render partial: 'shared/table', locals: { table: @report } %>
+        <%= render partial: 'shared/table', locals: { table: @report, options: { table_class: 'narrow-table'} } %>
       </div>
    </div>
  </div>
