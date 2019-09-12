@@ -22,11 +22,11 @@ class CycleTimeOverviewReportService
 
       periods.each do |period|
         issues = cycle_issues([board], period.start_date, period.end_date)
-        row << cycle_time_average(issues)&.round(2)
+        row << cycle_time_average(issues)&.round(1)
       end
 
       issues = cycle_issues([board], @start_date, @end_date)
-      row << cycle_time_average(issues)&.round(2)
+      row << cycle_time_average(issues)&.round(1)
 
       table << row
     end
@@ -35,7 +35,7 @@ class CycleTimeOverviewReportService
 
     periods.each do |period|
       issues = cycle_issues(@boards, period.start_date, period.end_date)
-      row << cycle_time_average(issues)&.round(2)
+      row << cycle_time_average(issues)&.round(1)
     end
     table << row
 
