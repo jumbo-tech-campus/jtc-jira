@@ -164,7 +164,7 @@
   :department_id: 3
   :project_key: JAF
   :board_id: 353
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 3
 - dotcomdots:
   :name: Dotcom Dots
   :department_id: 3
