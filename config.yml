@@ -80,19 +80,19 @@
   :department_id: 2
   :project_key: SAP2
   :board_id: 14
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - sap_marines:
   :name: SAP Marines
   :department_id: 2
   :project_key: SAP5
   :board_id: 199
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - musketiers:
   :name: Musketiers
   :department_id: 2
   :project_key: FMCO3
   :board_id: 309
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - pim:
   :name: Pim
   :department_id: 1
@@ -104,25 +104,25 @@
   :department_id: 2
   :project_key: XECM
   :board_id: 526
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - esb:
   :name: ESB
   :department_id: 2
   :project_key: ESB
   :board_id: 168
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - sc_core:
   :name: SC Core systems
   :department_id: 2
   :project_key: SCC
   :board_id: 301
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 4
 - sap_1:
   :name: SAP1 SCM
   :department_id: 2
   :project_key: SAP1
   :board_id: 312
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - ps:
   :name: Performance & Stability
   :department_id: 1
@@ -188,13 +188,13 @@
   :department_id: 2
   :project_key: SAP3
   :board_id: 141
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - rpa:
   :name: RPA
   :department_id: 2
   :project_key: FN
   :board_id: 470
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - bi1:
   :name: BI One
   :department_id: 3
@@ -276,6 +276,9 @@
 - exclude:
   :id: 5
   :name: Exclude from reporting
+- cap:
+  :id: 6
+  :name: CAP
 :issue_collections:
 - p1_2019:
   :id: 1
