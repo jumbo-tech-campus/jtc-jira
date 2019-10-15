@@ -21,15 +21,15 @@ class Issue < ActiveModelSerializers::Model
   end
 
   def release_date
-    return nil unless RELEASED_STATES.include(status)
+    return nil unless RELEASED_STATES.include?(status)
 
-    @release_date ||= @state_changed_events.reverse.find{ |event| RELEASED_STATES.include(event.to_state) }&.created
+    @release_date ||= @state_changed_events.reverse.find{ |event| RELEASED_STATES.include?(event.to_state) }&.created
   end
 
   def pending_release_date
-    return nil unless PENDING_RELEASE_STATES.include(status) || RELEASED_STATES.include(status)
+    return nil unless PENDING_RELEASE_STATES.include?(status) || RELEASED_STATES.include?(status)
 
-    @pending_release_date ||= @state_changed_events.reverse.find{ |event| PENDING_RELEASE_STATES.include(event.to_state) }&.created
+    @pending_release_date ||= @state_changed_events.reverse.find{ |event| PENDING_RELEASE_STATES.include?(event.to_state) }&.created
   end
 
   def resolution_date
