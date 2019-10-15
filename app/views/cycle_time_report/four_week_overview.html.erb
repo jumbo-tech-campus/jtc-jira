@@ -8,7 +8,7 @@
           Download as csv file
         </a>
         <strong>4-weekly cycle time averages overview for constraint group: <%= @deployment_constraint.name %></strong><br>
-        <small class="text-muted small">Average cycle time per four week period calculated from the issues moved to 'Done' in that period</small>
+        <small class="text-muted small">Average cycle time per four week period calculated from the issues moved to 'Released' in that period</small>
       </div>
       <div class="card-body">
         <%= render partial: 'shared/table', locals: { table: @report, options: { table_class: 'narrow-table'} } %>

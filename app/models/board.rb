@@ -7,14 +7,14 @@ class Board < ActiveModelSerializers::Model
   end
 
   def issues_with_cycle_time
-    @issues_with_cycle_time ||= issues.select(&:cycle_time).sort_by(&:done_date)
+    @issues_with_cycle_time ||= issues.select(&:cycle_time).sort_by(&:release_date)
   end
 
   def issues_with_short_cycle_time
-    @issues_with_short_cycle_time ||= issues.select(&:short_cycle_time).sort_by(&:ready_for_prod_date)
+    @issues_with_short_cycle_time ||= issues.select(&:short_cycle_time).sort_by(&:pending_release_date)
   end
 
   def issues_with_cycle_time_delta
-    @issues_with_cycle_time_delta ||= issues.select(&:cycle_time_delta).sort_by(&:done_date)
+    @issues_with_cycle_time_delta ||= issues.select(&:cycle_time_delta).sort_by(&:release_date)
   end
 end

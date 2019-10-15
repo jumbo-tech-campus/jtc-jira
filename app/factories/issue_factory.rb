@@ -26,8 +26,8 @@ class IssueFactory
       json['status'],
       ApplicationHelper.safe_parse(json['resolution_date']),
       ApplicationHelper.safe_parse(json['in_progress_date']),
-      ApplicationHelper.safe_parse(json['done_date']),
-      ApplicationHelper.safe_parse(json['ready_for_prod_date'])
+      ApplicationHelper.safe_parse(json['release_date']),
+      ApplicationHelper.safe_parse(json['pending_release_date'])
     )
     issue.assignee = json['assignee']
     issue.resolution = json['resolution']

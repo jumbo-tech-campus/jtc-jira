@@ -18,9 +18,9 @@ class PortfolioQuarterReportService
 
     @issues = @boards.inject([]) do |memo, board|
       board_issues = board.issues.select do |issue|
-        issue.done_date && issue.done_date.year == @quarter.year &&
-          issue.done_date.cweek >= @quarter.start_week &&
-          issue.done_date.cweek <= @quarter.end_week
+        issue.release_date && issue.release_date.year == @quarter.year &&
+          issue.release_date.cweek >= @quarter.start_week &&
+          issue.release_date.cweek <= @quarter.end_week
       end
       memo.concat(board_issues)
       memo

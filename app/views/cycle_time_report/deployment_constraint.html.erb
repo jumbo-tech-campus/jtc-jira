@@ -46,7 +46,7 @@
      <div class="card box-shadow mb-4">
        <div class="card-header">
          <strong>Cycle time scatter plot JTC teams with <%= @deployment_constraint.name %></strong><br>
-         <small class="text-muted small">Cycle time is calculated from the first transition to 'In progress' to the last transition to 'Done'</small>
+         <small class="text-muted small">Cycle time is calculated from the first transition to 'In progress' to the last transition to 'Released'</small>
        </div>
        <div class="scatter-plot m-4"></div>
      </div>
@@ -62,7 +62,7 @@
     <div class="card box-shadow mb-4">
       <div class="card-header">
         <strong>Short cycle time scatter plot JTC teams with <%= @deployment_constraint.name %></strong><br>
-        <small class="text-muted small">Short cycle time is calculated from the first transition to 'In progress' to the last transition to 'Ready for prod'</small>
+        <small class="text-muted small">Short cycle time is calculated from the first transition to 'In progress' to the last transition to 'Pending release'</small>
       </div>
       <div class="scatter-plot-2 m-4"></div>
     </div>

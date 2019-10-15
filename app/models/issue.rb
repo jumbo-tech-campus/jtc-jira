@@ -1,11 +1,14 @@
 class Issue < ActiveModelSerializers::Model
   attr_reader :key, :summary, :id, :estimation, :created,  :status,
-    :state_changed_events, :in_progress_date, :done_date, :ready_for_prod_date
+    :state_changed_events, :in_progress_date
   attr_accessor :epic, :assignee, :resolution
 
-  def initialize(key, summary, id, estimation, created, status, resolution_date, in_progress_date, done_date, ready_for_prod_date)
+  RELEASED_STATES = ['Done', 'Released']
+  PENDING_RELEASE_STATES = ['Ready for prod', 'Pending release']
+
+  def initialize(key, summary, id, estimation, created, status, resolution_date, in_progress_date, release_date, pending_release_date)
     @key, @summary, @id, @estimation, @created, @status  = key, summary, id, estimation, created, status
-    @resolution_date, @in_progress_date, @done_date, @ready_for_prod_date = resolution_date, in_progress_date, done_date, ready_for_prod_date
+    @resolution_date, @in_progress_date, @release_date, @pending_release_date = resolution_date, in_progress_date, release_date, pending_release_date
     @state_changed_events = []
   end
 
@@ -14,44 +17,44 @@ class Issue < ActiveModelSerializers::Model
   end
 
   def in_progress_date
-    @in_progress_date ||= @state_changed_events.find{ |event| event.to_state == "In Progress" }&.created
+    @in_progress_date ||= @state_changed_events.find{ |event| event.to_state == 'In Progress' }&.created
   end
 
-  def done_date
-    return nil if status != 'Done'
+  def release_date
+    return nil unless RELEASED_STATES.include(status)
 
-    @done_date ||= @state_changed_events.reverse.find{ |event| event.to_state == "Done" }&.created
+    @release_date ||= @state_changed_events.reverse.find{ |event| RELEASED_STATES.include(event.to_state) }&.created
   end
 
-  def ready_for_prod_date
-    return nil if status != 'Done' && status != "Ready for prod"
+  def pending_release_date
+    return nil unless PENDING_RELEASE_STATES.include(status) || RELEASED_STATES.include(status)
 
-    @ready_for_prod_date ||= @state_changed_events.reverse.find{ |event| event.to_state == "Ready for prod" }&.created
+    @pending_release_date ||= @state_changed_events.reverse.find{ |event| PENDING_RELEASE_STATES.include(event.to_state) }&.created
   end
 
   def resolution_date
-    return ready_for_prod_date if ready_for_prod_date.present?
-    return done_date if done_date.present?
+    return pending_release_date if pending_release_date.present?
+    return release_date if release_date.present?
     return @resolution_date
   end
 
   def cycle_time
-    return nil unless done_date && in_progress_date
+    return nil unless release_date && in_progress_date
 
-    (done_date - in_progress_date).to_f
+    (release_date - in_progress_date).to_f
   end
 
   def short_cycle_time
-    return nil unless ready_for_prod_date && in_progress_date
+    return nil unless pending_release_date && in_progress_date
 
-    (ready_for_prod_date - in_progress_date).to_f
+    (pending_release_date - in_progress_date).to_f
   end
 
   def cycle_time_delta
-    return nil unless done_date
-    return 0 unless ready_for_prod_date
+    return nil unless release_date
+    return 0 unless pending_release_date
 
-    (done_date - ready_for_prod_date).to_f
+    (release_date - pending_release_date).to_f
   end
 
   def closed?

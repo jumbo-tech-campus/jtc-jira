@@ -76,7 +76,7 @@ class Sprint < ActiveModelSerializers::Model
 
   def done_issues
     @issues_done ||= @board.issues.inject([]) do |memo, issue|
-      memo << issue if issue.done_date && issue.done_date.between?(self.start_date, self.complete_date || self.end_date)
+      memo << issue if issue.release_date && issue.release_date.between?(self.start_date, self.complete_date || self.end_date)
       memo
     end
   end
