@@ -39,5 +39,9 @@ module Cache
         )
       end
     end
+
+    def flushall
+      @client.flushall
+    end
   end
 end
