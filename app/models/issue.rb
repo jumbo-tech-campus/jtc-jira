@@ -6,9 +6,9 @@ class Issue < ActiveModelSerializers::Model
   RELEASED_STATES = ['Done', 'Released']
   PENDING_RELEASE_STATES = ['Ready for prod', 'Pending release']
 
-  def initialize(key, summary, id, estimation, created, status, resolution_date, in_progress_date, release_date, pending_release_date)
+  def initialize(key, summary, id, estimation, created, status, resolution_date, in_progress_date, release_date, pending_release_date, done_date)
     @key, @summary, @id, @estimation, @created, @status  = key, summary, id, estimation, created, status
-    @resolution_date, @in_progress_date, @release_date, @pending_release_date = resolution_date, in_progress_date, release_date, pending_release_date
+    @resolution_date, @in_progress_date, @release_date, @pending_release_date, @done_date = resolution_date, in_progress_date, release_date, pending_release_date, done_date
     @state_changed_events = []
   end
 
@@ -28,7 +28,9 @@ class Issue < ActiveModelSerializers::Model
   end
 
   def done_date
-    @state_changed_events.reverse.find{ |event| event.to_state == 'Done' }&.created
+    return nil unless RELEASED_STATES.include?(status)
+
+    @done_date || @state_changed_events.reverse.find{ |event| event.to_state == 'Done' }&.created
   end
 
   def pending_release_date

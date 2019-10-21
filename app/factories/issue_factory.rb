@@ -7,7 +7,7 @@ class IssueFactory
       ApplicationHelper.safe_parse(json['fields']['created']),
       json['fields']['status']['name'],
       ApplicationHelper.safe_parse(json['fields']['resolutiondate']),
-      nil, nil, nil
+      nil, nil, nil, nil
     )
     issue.assignee = json['fields']['assignee']['displayName'] if json['fields']['assignee']
     issue.resolution = json['fields']['resolution']['name'] if json['fields']['resolution']
@@ -27,7 +27,8 @@ class IssueFactory
       ApplicationHelper.safe_parse(json['resolution_date']),
       ApplicationHelper.safe_parse(json['in_progress_date']),
       ApplicationHelper.safe_parse(json['release_date']),
-      ApplicationHelper.safe_parse(json['pending_release_date'])
+      ApplicationHelper.safe_parse(json['pending_release_date']),
+      ApplicationHelper.safe_parse(json['done_date'])
     )
     issue.assignee = json['assignee']
     issue.resolution = json['resolution']
