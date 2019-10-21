@@ -22,8 +22,13 @@ class Issue < ActiveModelSerializers::Model
 
   def release_date
     return nil unless RELEASED_STATES.include?(status)
+    return done_date if done_date
 
     @release_date ||= @state_changed_events.reverse.find{ |event| RELEASED_STATES.include?(event.to_state) }&.created
+  end
+
+  def done_date
+    @state_changed_events.reverse.find{ |event| event.to_state == 'Done' }&.created
   end
 
   def pending_release_date
