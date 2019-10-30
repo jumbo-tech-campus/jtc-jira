@@ -46,26 +46,36 @@ class Issue < ActiveModelSerializers::Model
   end
 
   def cycle_time
-    return nil unless release_date && in_progress_date
+    return nil unless released? && in_progress_date.present?
 
     (release_date - in_progress_date).to_f
   end
 
   def short_cycle_time
-    return nil unless pending_release_date && in_progress_date
+    return nil unless pending_release_date.present? && in_progress_date.present? && resolution == 'Done'
 
     (pending_release_date - in_progress_date).to_f
   end
 
   def cycle_time_delta
-    return nil unless release_date
-    return 0 unless pending_release_date
+    return nil unless released?
+    return 0 unless pending_release_date.present?
 
     (release_date - pending_release_date).to_f
   end
 
   def closed?
     resolution_date.present?
+  end
+
+  def released?
+    release_date.present? && resolution == 'Done'
+  end
+
+  def pending_release?
+    return false if released?
+
+    pending_release_date.present? && resolution == 'Done'
   end
 
   def resolution_time
