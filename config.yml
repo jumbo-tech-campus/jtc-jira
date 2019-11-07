@@ -117,12 +117,12 @@
   :project_key: SCC
   :board_id: 301
   :deployment_constraint_id: 4
-- sap_1:
-  :name: SAP1 SCM
-  :department_id: 2
-  :project_key: SAP1
-  :board_id: 312
-  :deployment_constraint_id: 6
+# - sap_1:
+#   :name: SAP1 SCM
+#   :department_id: 2
+#   :project_key: SAP1
+#   :board_id: 312
+#   :deployment_constraint_id: 6
 - ps:
   :name: Performance & Stability
   :department_id: 1
