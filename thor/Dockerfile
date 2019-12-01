@@ -1,4 +1,4 @@
-FROM ruby:2.6
+FROM ruby:2.6.5
 
 # Installation of dependencies
 RUN apt-get update -qq \

@@ -2,9 +2,9 @@ development:
   adapter: async
 
 test:
-  adapter: async
+  adapter: test
 
 production:
   adapter: redis
-  url: <%= ENV.fetch("REDIS_HOST") { "redis://redis:6379/1" } %>
-  channel_prefix: jtc-jira_production
+  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  channel_prefix: jtc_jira_production
