@@ -49,7 +49,7 @@ module SprintIssueAbilities
   end
 
   def closed_in_sprint?(issue)
-    issue.resolution_date && issue.resolution_date <= (sprint.complete_date || sprint.end_date)
+    issue.closed? && issue.resolution_date <= (sprint.complete_date || sprint.end_date)
   end
 
   def points_closed
