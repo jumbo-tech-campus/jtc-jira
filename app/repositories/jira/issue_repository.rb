@@ -9,6 +9,8 @@ module Jira
         find_by_project(options[:project])
       elsif options[:filter]
         find_by_filter(options[:filter])
+      elsif options[:query]
+        find_by_query(options[:query])
       end
     end
 
@@ -31,6 +33,11 @@ module Jira
 
     def find_by_filter(filter)
       response = @client.Issue.jql("filter=#{filter}", expand: 'changelog')
+      extract_issues(response)
+    end
+
+    def find_by_query(query)
+      response = @client.Issue.jql(query, expand: 'changelog')
       extract_issues(response)
     end
 

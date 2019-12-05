@@ -280,10 +280,6 @@
   :id: 6
   :name: CAP
 :issue_collections:
-- p1_2019:
-  :id: 1
-  :name: P1 issues 2019
-  :jira_filter: 24652
 - jdd2019:
   :id: 2
   :name: JTC Digital Deployment issues 2019
@@ -296,10 +292,6 @@
   :id: 4
   :name: JTC Digital Deployment issues 2020
   :jira_filter: 24714
-- p1_2020:
-  :id: 5
-  :name: P1 issues 2020
-  :jira_filter: 24716
 :quarters:
 - q1_2019:
   :start_week: 1

@@ -82,7 +82,10 @@ class P1ReportService
     end
     model = Eps::Regressor.new(data, target: :issue_count)
 
-    [predict_count(model, @start_date.cweek), predict_count(model, @end_date.cweek)]
+    # NOTE: sometimes the last days of the year are in week 1 of the next year
+    # using %W will always report week 52 in that case
+    # however, it will also report week 0 if you use it for start_date
+    [predict_count(model, @start_date.cweek), predict_count(model, @end_date.strftime('%W').to_i)]
   end
 
   def linear_regression_for_resolution_time
@@ -133,7 +136,11 @@ class P1ReportService
     ConfigService.register_repositories
     JiraService.register_repositories
 
-    issues = Repository.for(:issue_collection).find(1).sorted_issues
+    issues = Repository.for(:issue).find_by(query: "priority = 'P1 - Urgent' AND
+      (issuetype = Incident AND reporter in (servicedesk.it, engin.keyif) AND
+      created > #{@start_date.strftime('%Y-%m-%d')} OR project = UI AND created > 2019-09-29) AND
+      created < #{@end_date.strftime('%Y-%m-%d')} ORDER BY created ASC, key DESC"
+    )
 
     CacheService.register_repositories
     issues
