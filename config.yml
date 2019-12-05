@@ -284,7 +284,7 @@
   :id: 1
   :name: P1 issues 2019
   :jira_filter: 24652
-- jdd:
+- jdd2019:
   :id: 2
   :name: JTC Digital Deployment issues 2019
   :jira_filter: 24369
@@ -292,6 +292,14 @@
   :id: 3
   :name: Portfolio epics 2019
   :jira_filter: 24445
+- jdd2020:
+  :id: 4
+  :name: JTC Digital Deployment issues 2020
+  :jira_filter: 24714
+- p1_2020:
+  :id: 5
+  :name: P1 issues 2020
+  :jira_filter: 24716
 :quarters:
 - q1_2019:
   :start_week: 1
@@ -313,3 +321,23 @@
   :end_week: 52
   :year: 2019
   :fix_version: Q4 2019 plan
+- q1_2020:
+  :start_week: 1
+  :end_week: 16
+  :year: 2020
+  :fix_version: Q1 2020 plan
+- q2_2020:
+  :start_week: 17
+  :end_week: 28
+  :year: 2020
+  :fix_version: Q2 2020 plan
+- q3_2020:
+  :start_week: 29
+  :end_week: 40
+  :year: 2020
+  :fix_version: Q3 2020 plan
+- q4_2020:
+  :start_week: 41
+  :end_week: 52
+  :year: 2020
+  :fix_version: Q4 2020 plan
