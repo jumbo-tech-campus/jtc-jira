@@ -36,7 +36,7 @@ build:
 
 deploy_dev:
   stage: deploy
-  image: lachlanevenson/k8s-kubectl:v1.10.4
+  image:  gcr.io/google-containers/hyperkube-amd64:v1.14.9
   variables:
     FQDN: internal.dev.cloud.jumbo.com
   script:
@@ -52,7 +52,7 @@ deploy_dev:
 
 run_once:
   stage: deploy
-  image: lachlanevenson/k8s-kubectl:v1.10.4
+  image:  gcr.io/google-containers/hyperkube-amd64:v1.14.9
   variables:
     FQDN: internal.dev.cloud.jumbo.com
   script:
