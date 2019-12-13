@@ -22,6 +22,11 @@ class ApplicationController < ActionController::Base
     @start_date = ApplicationHelper.safe_parse(params[:start_date]) || Date.today - 2.months
   end
 
+  def set_year_dates
+    @end_date = ApplicationHelper.safe_parse(params[:end_date]) || DateTime.new(Date.today.year,12,31)
+    @start_date = ApplicationHelper.safe_parse(params[:start_date]) || DateTime.new(Date.today.year,1,1)
+  end
+
   def to_csv(table)
     ::CSV.generate(headers: true) do |csv|
       table.each do |row|
