@@ -280,18 +280,10 @@
   :id: 6
   :name: CAP
 :issue_collections:
-- jdd2019:
-  :id: 2
-  :name: JTC Digital Deployment issues 2019
-  :jira_filter: 24369
 - portfolio:
   :id: 3
-  :name: Portfolio epics 2019
+  :name: Portfolio epics
   :jira_filter: 24445
-- jdd2020:
-  :id: 4
-  :name: JTC Digital Deployment issues 2020
-  :jira_filter: 24714
 :quarters:
 - q1_2019:
   :start_week: 1

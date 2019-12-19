@@ -67,7 +67,10 @@ class DeploymentReportService
     ConfigService.register_repositories
     JiraService.register_repositories
 
-    issues = Repository.for(:issue_collection).find(2).sorted_issues
+    issues = Repository.for(:issue).find_by(query: "project = JDD AND
+      created > #{@start_date.strftime('%Y-%m-%d')} AND
+      created <= #{@end_date.strftime('%Y-%m-%d')} ORDER BY created ASC, key DESC"
+    )
 
     CacheService.register_repositories
     issues
