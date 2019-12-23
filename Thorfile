@@ -31,6 +31,8 @@ class Cache < Thor
 
     redis_client = ::Cache::RedisClient.new
     redis_client.flushall
+
+    puts "Redis database flushed - database size is now #{redis_client.dbsize}"
     puts "Caching #{teams.size} teams"
     ::Cache::TeamRepository.new(redis_client).save(teams)
     $stdout.flush

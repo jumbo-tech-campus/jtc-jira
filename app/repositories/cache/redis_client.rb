@@ -2,6 +2,8 @@ require 'redis'
 
 module Cache
   class RedisClient
+    extend Forwardable
+
     def initialize
       @client = Redis.new(host: ENV['REDIS_HOST'])
       @statsd_client = StatsdClient.new
@@ -40,8 +42,6 @@ module Cache
       end
     end
 
-    def flushall
-      @client.flushall
-    end
+    def_delegators :@client, :flushall, :dbsize
   end
 end
