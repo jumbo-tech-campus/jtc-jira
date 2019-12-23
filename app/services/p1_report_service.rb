@@ -139,7 +139,7 @@ class P1ReportService
     issues = Repository.for(:issue).find_by(query: "priority = 'P1 - Urgent' AND
       (issuetype = Incident AND reporter in (servicedesk.it, engin.keyif) AND
       created > #{@start_date.strftime('%Y-%m-%d')} OR project = UI AND created > 2019-09-29) AND
-      created < #{@end_date.strftime('%Y-%m-%d')} ORDER BY created ASC, key DESC"
+      created <= #{@end_date.strftime('%Y-%m-%d')} ORDER BY created ASC, key DESC"
     )
 
     CacheService.register_repositories
