@@ -1,6 +1,8 @@
 class DeploymentReportController < ApplicationController
+  before_action :set_year_dates
+
   def overview
-    @report = DeploymentReportService.new(DateTime.new(2019,1.1), DateTime.now).deployment_report
+    @report = DeploymentReportService.new(@start_date, @end_date).deployment_report
 
     respond_to do |format|
       format.html

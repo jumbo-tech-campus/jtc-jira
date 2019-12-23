@@ -1,39 +1,7 @@
 <%= render 'shared/nav_bar' %>
 <main role="main" class="container-fluid">
   <div class="main">
-    <div class="row pl-3">
-      <form class="form-inline" action="<%= p1_report_path %>">
-       <div class="form-group mb-3">
-        <label for="startDate" class="ml-3">Start date: </label>
-        <input id="startDate" name="start_date" width="276" class="ml-3" value="<%= @start_date.strftime('%Y-%m-%d') %>"/>
-        <label for="endDate" class="ml-3">End date: </label>
-        <input id="endDate" name="end_date" width="276" class="ml-3" value="<%= @end_date.strftime('%Y-%m-%d') %>"/>
-       </div>
-        <div class="form-group mb-3">
-        <button type="submit" class="btn btn-jumbo btn-sm shadow-sm ml-3">Show</button>
-       </div>
-
-      </form>
-    </div>
-    <script>
-        var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-        $('#startDate').datepicker({
-            uiLibrary: 'bootstrap4',
-            iconsLibrary: 'fontawesome',
-            maxDate: function () {
-                return $('#endDate').val();
-            },
-            format: 'yyyy-mm-dd'
-        });
-        $('#endDate').datepicker({
-            uiLibrary: 'bootstrap4',
-            iconsLibrary: 'fontawesome',
-            minDate: function () {
-                return $('#startDate').val();
-            },
-            format: 'yyyy-mm-dd'
-        });
-    </script>
+    <%= render partial: 'shared/date_selector_year', locals: { path: p1_report_path } %>
     <div class="card box-shadow mb-4">
       <div class="card-header">
         <strong>Open P1 issues</strong><br>
