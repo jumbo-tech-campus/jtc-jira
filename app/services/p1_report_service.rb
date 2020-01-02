@@ -136,10 +136,14 @@ class P1ReportService
     ConfigService.register_repositories
     JiraService.register_repositories
 
+    ish_live_date = DateTime.new(2019,9,29)
+    ish_live_date = @start_date if ish_live_date < @start_date
+
     issues = Repository.for(:issue).find_by(query: "priority = 'P1 - Urgent' AND
+      created <= #{@end_date.strftime('%Y-%m-%d')} AND
       (issuetype = Incident AND reporter in (servicedesk.it, engin.keyif) AND
-      created > #{@start_date.strftime('%Y-%m-%d')} OR project = UI AND created > 2019-09-29) AND
-      created <= #{@end_date.strftime('%Y-%m-%d')} ORDER BY created ASC, key DESC"
+      created > #{@start_date.strftime('%Y-%m-%d')} OR project = UI AND created > #{ish_live_date.strftime('%Y-%m-%d')}) AND
+      ORDER BY created ASC, key DESC"
     )
 
     CacheService.register_repositories
