@@ -27,7 +27,14 @@ class Cache < Thor
     ParentEpicService.new.associate_epics_to_parent_epic
     puts "Retrieved all epics for parent_epics"
     $stdout.flush
-    boards = teams.map{ |team| Repository.for(:board).find(team.board_id)}
+    boards = teams.map do |team|
+      begin
+        Repository.for(:board).find(team.board_id)
+      rescue
+        puts "Board for team #{team.name} not found. Removing team from teams set and continuing."
+        teams.delete(team)
+      end
+    end
 
     redis_client = ::Cache::RedisClient.new
     redis_client.flushall
