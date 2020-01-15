@@ -31,7 +31,7 @@ class Cache < Thor
       begin
         Repository.for(:board).find(team.board_id)
       rescue
-        puts "Board #{team.board_id} xfor team #{team.name} not found. Removing team from teams set and continuing."
+        puts "Board #{team.board_id} for team #{team.name} not found. Removing team from teams set and continuing."
         teams.delete(team)
         nil
       end
