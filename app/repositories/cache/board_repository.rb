@@ -1,7 +1,16 @@
 module Cache
   class BoardRepository < Cache::CacheRepository
     def find(id)
-      @records[id] ||= Factory.for(:board).create_from_json(JSON.parse(@client.get("board.#{id}")))
+      return @records[id] if @records[id]
+
+      board_json = @client.get("board.#{id}")
+
+      if board_json
+        @records[id] = Factory.for(:board).create_from_json(JSON.parse(board_json))
+      else
+        Rails.logger.error("No board found for id: #{id}")
+        nil
+      end
     end
 
     def save(board)

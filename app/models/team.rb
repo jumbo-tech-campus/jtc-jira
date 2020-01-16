@@ -9,7 +9,7 @@ class Team < ActiveModelSerializers::Model
   end
 
   def is_scrum_team?
-    board.is_a? ScrumBoard
+    board&.is_a? ScrumBoard
   end
 
   def board
