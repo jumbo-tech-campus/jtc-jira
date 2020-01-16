@@ -13,7 +13,7 @@ class CacheService
       sprint_repo.save(sprint)
     end
 
-    reset_repositories
+    register_repositories
   end
 
   def self.register_repositories
@@ -27,15 +27,5 @@ class CacheService
     Repository.register(:deployment_constraint, Cache::DeploymentConstraintRepository.new(redis_client))
     Repository.register(:issue_collection, Cache::IssueCollectionRepository.new(redis_client))
     Repository.register(:quarter, Cache::QuarterRepository.new(redis_client))
-  end
-
-  def self.reset_repositories
-    config = YAML.load_file(Rails.root.join('config.yml'))
-    if config[:use_cached_data]
-      register_repositories
-    else
-      JiraService.register_repositories
-      ConfigService.register_repositories
-    end
   end
 end

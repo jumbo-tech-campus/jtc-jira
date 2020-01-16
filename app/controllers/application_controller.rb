@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_action :reset_cache_repositories
   before_action :set_teams
   before_action :set_departments
   before_action :set_deployment_constraints
@@ -48,5 +49,9 @@ class ApplicationController < ActionController::Base
   def set_deployment_constraints
     @deployment_constraints = Repository.for(:deployment_constraint).all.
       sort_by(&:name).delete_if{ |deployment_constraint| deployment_constraint.id == 5 }
+  end
+
+  def reset_cache_repositories
+    CacheService.register_repositories
   end
 end

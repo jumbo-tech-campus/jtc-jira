@@ -30,14 +30,7 @@ module JtcJira
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.to_prepare do
-      config = YAML.load_file(Rails.root.join('config.yml'))
-      if config[:use_cached_data]
-        CacheService.register_repositories
-      else
-        JiraService.register_repositories
-        ConfigService.register_repositories
-      end
-
+      CacheService.register_repositories
       FactoryService.register_factories
     end
   end
