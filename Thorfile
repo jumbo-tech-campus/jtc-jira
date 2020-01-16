@@ -63,7 +63,7 @@ class Cache < Thor
       puts "Cache board #{board.id} for team #{board.team.name}"
       board_repo.save(board)
       $stdout.flush
-      board.sprints_in_year(2019).each do |sprint|
+      board.sprints_from(2019).each do |sprint|
         puts "Caching sprint #{sprint.name}"
         sprint_repo.save(sprint)
         $stdout.flush

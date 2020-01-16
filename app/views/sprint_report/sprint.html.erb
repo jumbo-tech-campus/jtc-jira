@@ -4,7 +4,7 @@
     <div class="row mb-3">
       <div class="col-xl-12">
         <ul class="nav">
-          <% @board.sprints_in_year(2019).each do |sprint| %>
+          <% @board.sprints_from(2019).each do |sprint| %>
           <li class="nav-item">
             <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-1 mr-2 <%= 'active' if sprint == @sprint %>" href="<%= sprint_report_path(id: sprint.id, board_id: @board.id)%>">
               <%= sprint.name %><%= " (current sprint)" unless sprint.complete_date %>

@@ -9,7 +9,7 @@ class CacheService
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
 
     board_repo.save(board)
-    board.sprints_in_year(2019).each do |sprint|
+    board.sprints_from(2019).each do |sprint|
       sprint_repo.save(sprint)
     end
 

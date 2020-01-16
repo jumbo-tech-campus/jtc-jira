@@ -22,8 +22,8 @@ class ScrumBoard < Board
     sprints.sort_by(&:end_date).reverse.take(n)
   end
 
-  def sprints_in_year(year)
-    sprints.select{ |sprint| sprint.end_date > DateTime.new(year, 1, 1) && sprint.end_date.year == year }.sort_by(&:end_date)
+  def sprints_from(year)
+    sprints.select{ |sprint| sprint.end_date > DateTime.new(year, 1, 1) }.sort_by(&:end_date)
   end
 
   def last_closed_sprint
