@@ -3,16 +3,17 @@
   <div class="col-md-12 col-xl-12 main">
     <div class="row mb-3">
       <div class="col-xl-12">
-        <ul class="nav">
-          <% @board.sprints_from(2019).each do |sprint| %>
-          <li class="nav-item">
-            <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-1 mr-2 <%= 'active' if sprint == @sprint %>" href="<%= sprint_report_path(id: sprint.id, board_id: @board.id)%>">
-              <%= sprint.name %><%= " (current sprint)" unless sprint.complete_date %>
-            </a>
-          </li>
-         <% end %>
-        </ul>
-        </div>
+        <form class="form-inline" action="<%= sprint_report_path(board_id: @board.id) %>">
+          <div class="form-group mb-3">
+          <label for="sprintSelect" class="ml-3 mr-3">Sprint:</label>
+          <select class="form-control" id="sprintSelect" class="ml-3" name="id" onchange="this.form.submit()">
+             <% @board.sprints_from(2019).each do |sprint|  %>
+             <option value="<%= sprint.id %>" <%= 'selected' if sprint == @sprint %>><%= sprint.name %><%= " (current sprint)" unless sprint.complete_date %></option>
+             <% end %>
+         </select>
+         </div>
+        </form>
+      </div>
      </div>
      <div class="row">
        <div class="col-xl-6">
