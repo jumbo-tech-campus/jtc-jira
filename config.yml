@@ -81,13 +81,13 @@
   :board_id: 14
   :deployment_constraint_id: 6
 - sap_marines:
-  :name: SAP Marines
+  :name: Yellow SAP Marines
   :department_id: 2
   :project_key: SAP5
   :board_id: 199
   :deployment_constraint_id: 6
 - musketiers:
-  :name: Musketiers
+  :name: FMCO team 2
   :department_id: 2
   :project_key: FMCO3
   :board_id: 309
@@ -249,6 +249,12 @@
   :board_id: 348
   :project_key: PI
   :deployment_constraint_id: 3
+- mdm:
+  :name: MDM
+  :department_id: 2
+  :board_id: 484
+  :project_key: MDM
+  :deployment_constraint_id: 6
 :departments:
 - digital:
   :name: JTC Digital
