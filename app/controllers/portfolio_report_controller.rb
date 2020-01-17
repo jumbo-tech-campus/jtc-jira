@@ -15,7 +15,7 @@ class PortfolioReportController < ApplicationController
   end
 
   def epics_overview
-    @fix_version = params[:fix_version] || @quarters.first.fix_version
+    @fix_version = params[:fix_version] || @quarters[4].fix_version
 
     @report = ParentEpicService.new(@fix_version).epics_report
 
@@ -26,7 +26,7 @@ class PortfolioReportController < ApplicationController
   end
 
   def quarter_overview
-    @quarter = Repository.for(:quarter).find_by(fix_version: params[:fix_version]) || @quarters.first
+    @quarter = Repository.for(:quarter).find_by(fix_version: params[:fix_version]) || @quarters[4]
 
     @report = PortfolioQuarterReportService.new(@quarter).quarter_report
 
