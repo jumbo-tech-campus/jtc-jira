@@ -3,7 +3,8 @@
   <div class="col-md-12 col-xl-12 main">
     <div class="row mb-3">
       <div class="col-xl-12">
-        <form class="form-inline" action="<%= sprint_report_path(board_id: @board.id) %>">
+        <form class="form-inline" action="<%= sprint_report_path %>">
+          <input type="hidden" name="board_id" value="<%= @board.id %>"/>
           <div class="form-group mb-3">
           <label for="sprintSelect" class="ml-3 mr-3">Sprint:</label>
           <select class="form-control" id="sprintSelect" class="ml-3" name="id" onchange="this.form.submit()">
