@@ -25,12 +25,6 @@
   :project_key: OMS
   :board_id: 259
   :deployment_constraint_id: 3
-- ordering:
-  :name: Ordering
-  :department_id: 1
-  :project_key: ORD
-  :board_id: 260
-  :deployment_constraint_id: 3
 - ordering_rc:
   :name: Ordering RC
   :department_id: 1
