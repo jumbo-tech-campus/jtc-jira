@@ -267,6 +267,12 @@
   :board_id: 615
   :project_key: CPR
   :deployment_constraint_id: 3
+- intershop:
+  :name: Intershop
+  :department_id: 1
+  :board_id: 606
+  :project_key: ISH
+  :deployment_constraint_id: 3
 :departments:
 - digital:
   :name: JTC Digital
