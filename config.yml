@@ -26,7 +26,7 @@
   :board_id: 259
   :deployment_constraint_id: 3
 - ordering_rc:
-  :name: Ordering RC
+  :name: Ordering
   :department_id: 1
   :project_key: RC
   :board_id: 579
