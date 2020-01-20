@@ -9,6 +9,8 @@ module Cache
     def find_by(options)
       if options[:fix_version]
         all.find{ |quarter| quarter.fix_version == options[:fix_version] }
+      elsif options[:date]
+        all.find{ |quarter| options[:date].cweek >= quarter.start_week && options[:date].cweek <= quarter.end_week && quarter.year == options[:date].year }
       end
     end
 
