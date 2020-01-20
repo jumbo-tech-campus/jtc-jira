@@ -55,12 +55,6 @@
   :project_key: FI
   :board_id: 267
   :deployment_constraint_id: 3
-- optimize_prime:
-  :name: Optimize Prime
-  :department_id: 1
-  :project_key: RJC
-  :board_id: 217
-  :deployment_constraint_id: 3
 - smdx:
   :name: SMDX
   :department_id: 2
