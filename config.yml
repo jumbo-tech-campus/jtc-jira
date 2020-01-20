@@ -255,6 +255,12 @@
   :board_id: 484
   :project_key: MDM
   :deployment_constraint_id: 6
+- foodcoach_cust:
+  :name: Foodcoach customers
+  :department_id: 1
+  :board_id: 591
+  :project_key: FDCCH
+  :deployment_constraint_id: 1
 :departments:
 - digital:
   :name: JTC Digital
