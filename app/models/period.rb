@@ -16,6 +16,8 @@ class Period
       "Week #{start_date.cweek} - #{start_date.cweek + 3}"
     elsif duration == 1.month
       "Week #{start_date.strftime("%B")}"
+    elsif duration == 1.year
+      start_date.strftime("%Y")
     end
   end
 
@@ -24,9 +26,9 @@ class Period
 
     loop do
       start_date = start_date + interval
-      break if start_date > end_date
-
       periods << Period.new(start_date, interval)
+
+      break if start_date > end_date
     end
 
     periods
