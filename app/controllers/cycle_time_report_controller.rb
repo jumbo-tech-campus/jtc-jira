@@ -15,7 +15,7 @@ class CycleTimeReportController < ApplicationController
   end
 
   def deployment_constraint
-    boards = @deployment_constraint.teams.map(&:board)
+    boards = @deployment_constraint.teams.map(&:board).compact
 
     @report = CycleTimeReportService.new(boards, @start_date, @end_date).cycle_time_report
 
@@ -27,7 +27,7 @@ class CycleTimeReportController < ApplicationController
   end
 
   def two_week_overview
-    boards = @deployment_constraint.teams.map(&:board)
+    boards = @deployment_constraint.teams.map(&:board).compact
     @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 2, 25), DateTime.now, 2.weeks).report
 
     respond_to do |format|
@@ -38,7 +38,7 @@ class CycleTimeReportController < ApplicationController
   end
 
   def four_week_overview
-    boards = @deployment_constraint.teams.map(&:board)
+    boards = @deployment_constraint.teams.map(&:board).compact
     @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 2, 25), DateTime.now, 4.weeks).report
 
     respond_to do |format|
