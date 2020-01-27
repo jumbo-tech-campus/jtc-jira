@@ -26,9 +26,10 @@ class Period
 
     loop do
       start_date = start_date + interval
-      periods << Period.new(start_date, interval)
 
       break if start_date > end_date
+
+      periods << Period.new(start_date, interval)
     end
 
     periods
