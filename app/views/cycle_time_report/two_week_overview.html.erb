@@ -1,13 +1,25 @@
 <%= render 'shared/nav_bar' %>
 <main role="main" class="container-fluid">
   <div class="main">
+    <div class="row pl-3">
+      <ul class="nav">
+        <% @years.each do |year| %>
+        <li class="nav-item">
+          <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if year == @year %>"
+            href="<%= cycle_time_two_week_overview_path(deployment_constraint_id: @deployment_constraint.id, year: year) %>">
+            <%= year %>
+          </a>
+        </li>
+       <% end %>
+      </ul>
+    </div>
     <div class="card box-shadow mb-4">
       <div class="card-header">
-        <a href="<%= cycle_time_two_week_overview_path(deployment_constraint_id: @deployment_constraint.id, format: 'csv') %>"
+        <a href="<%= cycle_time_two_week_overview_path(deployment_constraint_id: @deployment_constraint.id, year: @year, format: 'csv') %>"
           class="card-link float-right">
           Download as csv file
         </a>
-        <strong>2-weekly cycle time averages overview for constraint group: <%= @deployment_constraint.name %></strong><br>
+        <strong>2-weekly cycle time averages overview for constraint group: <%= @deployment_constraint.name %> in <%= @year %></strong><br>
         <small class="text-muted small">Average cycle time per two week period calculated from the issues moved to 'Released' in that period</small>
       </div>
       <div class="card-body">

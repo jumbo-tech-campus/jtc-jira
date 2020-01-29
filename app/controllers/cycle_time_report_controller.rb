@@ -1,6 +1,7 @@
 class CycleTimeReportController < ApplicationController
   before_action :set_dates
   before_action :set_deployment_constraint, only: [:two_week_overview, :four_week_overview, :deployment_constraint]
+  before_action :set_years, only: [:two_week_overview, :four_week_overview]
 
   def team
     @board = Repository.for(:board).find(params[:board_id])
@@ -28,7 +29,7 @@ class CycleTimeReportController < ApplicationController
 
   def two_week_overview
     boards = @deployment_constraint.teams.map(&:board).compact
-    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 2, 25), DateTime.now, 2.weeks).report
+    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(@year, 1, 1), DateTime.new(@year, 12, 31), 2.weeks).report
 
     respond_to do |format|
       format.html
@@ -39,7 +40,7 @@ class CycleTimeReportController < ApplicationController
 
   def four_week_overview
     boards = @deployment_constraint.teams.map(&:board).compact
-    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 2, 25), DateTime.now, 4.weeks).report
+    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(@year, 1, 1), DateTime.new(@year, 12, 31), 4.weeks).report
 
     respond_to do |format|
       format.html
@@ -52,5 +53,20 @@ class CycleTimeReportController < ApplicationController
   def set_deployment_constraint
     deployment_constraint_id = params[:deployment_constraint_id] || '1'
     @deployment_constraint = Repository.for(:deployment_constraint).find(deployment_constraint_id.to_i)
+  end
+
+  def set_years
+    year = params[:year] || DateTime.now.year
+    @year = year.to_i
+
+    date = DateTime.now
+    @years = [date.year]
+
+    loop do
+      date = date - 1.year
+      @years << date.year
+
+      break if date.year == 2019
+    end
   end
 end
