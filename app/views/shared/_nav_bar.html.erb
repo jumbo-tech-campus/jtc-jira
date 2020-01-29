@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle <%= 'text-yellow' if controller_name == 'department'%>" href="#" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle <%= 'text-yellow' if controller_name == 'department_report'%>" href="#" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Department
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
@@ -35,7 +35,7 @@
 
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle <%= 'text-yellow' if action_name == 'cycle_time' || action_name == 'short_cycle_time' %>" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle <%= 'text-yellow' if controller_name == 'cycle_time_report' %>" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Cycle time
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
@@ -64,7 +64,7 @@
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle <%= 'text-yellow' if action_name == 'portfolio' %>" href="#" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle <%= 'text-yellow' if controller_name == 'portfolio_report' %>" href="#" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Portfolio
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
@@ -104,12 +104,12 @@
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link <%= 'text-yellow' if action_name == 'deployment' %>" href="<%= deployment_report_path %>">
+          <a class="nav-link <%= 'text-yellow' if controller_name == 'deployment_report' %>" href="<%= deployment_report_path %>">
             Deployments
           </a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link <%= 'text-yellow' if action_name == 'p1' %>" href="<%= p1_report_path %>">
+          <a class="nav-link <%= 'text-yellow' if controller_name == 'p1_report' %>" href="<%= p1_report_path %>">
             P1 Overview
           </a>
         </li>
