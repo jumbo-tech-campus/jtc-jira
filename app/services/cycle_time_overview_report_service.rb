@@ -3,7 +3,7 @@ class CycleTimeOverviewReportService
     @boards, @start_date, @end_date, @period = boards, start_date, end_date, period
   end
 
-  def report
+  def report(include_percentages = false)
     periods = Period.create_periods(@start_date, @end_date, @period)
 
     table = []
@@ -11,6 +11,8 @@ class CycleTimeOverviewReportService
     header = ["Team", "Constraint"]
     periods.each do |period|
       header << period.name
+
+      header << "Rel %" if include_percentages && period != periods.first
     end
     header << "Total avg"
 
@@ -19,10 +21,21 @@ class CycleTimeOverviewReportService
     @boards.each do |board|
       team = board.team
       row = [team.name, team.deployment_constraint.name]
+      prev_period_avg = nil
 
       periods.each do |period|
         issues = cycle_issues([board], period.start_date, period.end_date)
-        row << cycle_time_average(issues)&.round(1)
+        avg = cycle_time_average(issues)&.round(1)
+        row << avg
+
+        next unless include_percentages
+
+        if prev_period_avg && avg
+          row << "#{(((avg - prev_period_avg) /  prev_period_avg) * 100.0).round}%"
+        elsif period != periods.first
+          row << nil
+        end
+        prev_period_avg = avg
       end
 
       issues = cycle_issues([board], @start_date, @end_date)
@@ -33,9 +46,20 @@ class CycleTimeOverviewReportService
 
     row = ["Total", nil]
 
+    prev_period_avg = nil
     periods.each do |period|
       issues = cycle_issues(@boards, period.start_date, period.end_date)
-      row << cycle_time_average(issues)&.round(1)
+      avg = cycle_time_average(issues)&.round(1)
+      row << avg
+
+      next unless include_percentages
+
+      if prev_period_avg && avg
+        row << "#{(((avg - prev_period_avg) /  prev_period_avg) * 100.0).round}%"
+      elsif period != periods.first
+        row << nil
+      end
+      prev_period_avg = avg
     end
     table << row
 

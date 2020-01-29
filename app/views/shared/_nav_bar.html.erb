@@ -9,6 +9,32 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle <%= 'text-yellow' if controller_name == 'department'%>" href="#" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Department
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
+            <!--<li><a class="dropdown-item <%= 'active' if action_name == 'index' %>" href="<%= cycle_time_deployment_constraint_path(deployment_constraint_id: 1) %>">
+              Dashboard
+            </a></li>
+            <li><a class="dropdown-item <%= 'active' if action_name == 'overview' %>" href="<%= cycle_time_team_path(board_id: @teams.first.board_id) %>">
+              Cycle time
+            </a></li>-->
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" href="#">Cycle time overview</a>
+              <ul class="dropdown-menu">
+                <% @departments.each do |department| %>
+                <li><a class="dropdown-item <%= 'active' if action_name == 'cycle_time_overview' && @department.id == department.id %>" href="<%= department_cycle_time_overview_path(department_id: department.id) %>">
+                  <%= department.name %>
+                </a></li>
+                <% end %>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+
+
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle <%= 'text-yellow' if action_name == 'cycle_time' || action_name == 'short_cycle_time' %>" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Cycle time
           </a>
