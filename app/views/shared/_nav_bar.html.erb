@@ -48,7 +48,7 @@
             <li><a class="dropdown-item <%= 'active' if action_name == 'two_week_overview' %>" href="<%= cycle_time_two_week_overview_path(deployment_constraint_id: 1) %>">
               2-week overview
             </a></li>
-            <li><a class="dropdown-item <%= 'active' if action_name == 'four_week_overview' %>" href="<%= cycle_time_four_week_overview_path %>">
+            <li><a class="dropdown-item <%= 'active' if action_name == 'four_week_overview' %>" href="<%= cycle_time_four_week_overview_path(deployment_constraint_id: 1) %>">
               4-week overview
             </a></li>
           </ul>
