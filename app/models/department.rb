@@ -10,7 +10,7 @@ class Department < ActiveModelSerializers::Model
   end
 
   def active_teams
-    teams.select{ |team| team.deployment_constraint.id != 5 }
+    teams.select(&:is_active?)
   end
 
   def scrum_teams

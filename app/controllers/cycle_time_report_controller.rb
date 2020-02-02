@@ -69,7 +69,7 @@ class CycleTimeReportController < ApplicationController
     elsif @deployment_constraint
       @deployment_constraint.teams
     else
-      []
+      Repository.for(:team).all.select(&:is_active?)
     end
   end
 

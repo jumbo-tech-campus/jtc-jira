@@ -16,6 +16,10 @@ class Team < ActiveModelSerializers::Model
     Repository.for(:board).find(board_id)
   end
 
+  def is_active?
+    deployment_constraint.id != 5
+  end
+
   def ==(team)
     self.board_id == team.board_id
   end
