@@ -4,6 +4,9 @@ class CycleTimeReportController < ApplicationController
   before_action :set_department, only: [:two_week_overview, :four_week_overview]
   before_action :set_years, only: [:two_week_overview, :four_week_overview]
 
+  caches_action :two_week_overview, expires_in: 12.hours, cache_path: :cycle_time_overview_cache_path
+  caches_action :four_week_overview, expires_in: 12.hours, cache_path: :cycle_time_overview_cache_path
+
   def team
     @board = Repository.for(:board).find(params[:board_id])
     @report = CycleTimeReportService.new([@board], @start_date, @end_date).cycle_time_report
@@ -48,6 +51,11 @@ class CycleTimeReportController < ApplicationController
       format.csv { send_data to_csv(@report), filename: "cycle_time_4_weekly_report_#{@deployment_constraint.name}.csv" }
       format.json { send_data @report.to_json }
     end
+  end
+
+  protected
+  def cycle_time_overview_cache_path
+    { department_id: params[:department_id], deployment_constraint_id: params[:deployment_constraint_id], year: params[:year] }
   end
 
   private
