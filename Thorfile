@@ -70,6 +70,8 @@ class Cache < Thor
       end if board.is_a? ScrumBoard
     end
 
+    Rails.cache.clear
+
     statsd_client.timing('thor.cache',
       (Time.now - started) * 1000,
       tags: ["action:all"]

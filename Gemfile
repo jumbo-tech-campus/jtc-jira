@@ -30,7 +30,9 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
+gem 'hiredis'
 gem 'active_model_serializers'
+gem 'actionpack-action_caching'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
