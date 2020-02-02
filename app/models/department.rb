@@ -9,11 +9,15 @@ class Department < ActiveModelSerializers::Model
     @teams ||= Repository.for(:team).find_by(department_id: id)
   end
 
+  def active_teams
+    teams.select{ |team| team.deployment_constraint.id != 5 }
+  end
+
   def scrum_teams
     teams.select(&:is_scrum_team?).sort_by(&:name)
   end
 
   def ==(department)
-    self.id == department.id
+    self.id == department&.id
   end
 end

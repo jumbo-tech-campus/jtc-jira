@@ -1,6 +1,7 @@
 class CycleTimeReportController < ApplicationController
   before_action :set_dates
   before_action :set_deployment_constraint, only: [:two_week_overview, :four_week_overview, :deployment_constraint]
+  before_action :set_department, only: [:two_week_overview, :four_week_overview]
   before_action :set_years, only: [:two_week_overview, :four_week_overview]
 
   def team
@@ -28,7 +29,7 @@ class CycleTimeReportController < ApplicationController
   end
 
   def two_week_overview
-    boards = @deployment_constraint.teams.map(&:board).compact
+    boards = teams.map(&:board).compact
     @report = CycleTimeOverviewReportService.new(boards, DateTime.new(@year, 1, 1), DateTime.new(@year, 12, 31), 2.weeks).report
 
     respond_to do |format|
@@ -39,7 +40,7 @@ class CycleTimeReportController < ApplicationController
   end
 
   def four_week_overview
-    boards = @deployment_constraint.teams.map(&:board).compact
+    boards = teams.map(&:board).compact
     @report = CycleTimeOverviewReportService.new(boards, DateTime.new(@year, 1, 1), DateTime.new(@year, 12, 31), 4.weeks).report
 
     respond_to do |format|
@@ -51,8 +52,25 @@ class CycleTimeReportController < ApplicationController
 
   private
   def set_deployment_constraint
-    deployment_constraint_id = params[:deployment_constraint_id] || '1'
+    deployment_constraint_id = params[:deployment_constraint_id]
     @deployment_constraint = Repository.for(:deployment_constraint).find(deployment_constraint_id.to_i)
+  end
+
+  def set_department
+    department_id = params[:department_id]
+    @department = Repository.for(:department).find(department_id.to_i)
+  end
+
+  def teams
+    if @department && @deployment_constraint
+      @department.active_teams.select{ |team| team.deployment_constraint == @deployment_constraint }
+    elsif @department
+      @department.active_teams
+    elsif @deployment_constraint
+      @deployment_constraint.teams
+    else
+      []
+    end
   end
 
   def set_years

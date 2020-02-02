@@ -10,6 +10,6 @@ class DeploymentConstraint < ActiveModelSerializers::Model
   end
 
   def ==(deployment_constraint)
-    self.id == deployment_constraint.id
+    self.id == deployment_constraint&.id
   end
 end

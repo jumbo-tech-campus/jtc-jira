@@ -1,0 +1,33 @@
+<div class="row pl-3">
+  <form class="form-inline" action="<%= path %>">
+    <div class="form-group mb-3">
+    <label for="teamsSelect" class="ml-3 mr-3">Deployment constraint:</label>
+    <select class="form-control" id="teamsSelect" class="ml-3" name="deployment_constraint_id">
+      <option value="0" <%= 'selected' unless @deployment_constraint %>></option>
+       <% @deployment_constraints.each do |deployment_constraint| %>
+       <option value="<%= deployment_constraint.id %>" <%= 'selected' if deployment_constraint == @deployment_constraint %>><%= deployment_constraint.name %></option>
+       <% end %>
+   </select>
+   </div>
+   <div class="form-group mb-3">
+   <label for="teamsSelect" class="ml-3 mr-3">Department:</label>
+   <select class="form-control" id="teamsSelect" class="ml-3" name="department_id">
+     <option value="0" <%= 'selected' unless @department %>></option>
+      <% @departments.each do |department| %>
+      <option value="<%= department.id %>" <%= 'selected' if department == @department %>><%= department.name %></option>
+      <% end %>
+  </select>
+ </div>
+ <div class="form-group mb-3">
+   <label for="teamsSelect" class="ml-3 mr-3">Year:</label>
+   <select class="form-control" id="teamsSelect" class="ml-3" name="year">
+      <% @years.each do |year| %>
+      <option value="<%= year %>" <%= 'selected' if year == @year %>><%= year %></option>
+      <% end %>
+  </select>
+ </div>
+ <div class="form-group mb-3">
+ <button type="submit" class="btn btn-jumbo btn-sm shadow-sm ml-3">Show</button>
+</div>
+  </form>
+</div>
