@@ -3,7 +3,7 @@
     <div class="form-group mb-3">
     <label for="teamsSelect" class="ml-3 mr-3">Deployment constraint:</label>
     <select class="form-control" id="teamsSelect" class="ml-3" name="deployment_constraint_id">
-      <option value="0" <%= 'selected' unless @deployment_constraint %>></option>
+      <option value="0" <%= 'selected' unless @deployment_constraint %>>All</option>
        <% @deployment_constraints.each do |deployment_constraint| %>
        <option value="<%= deployment_constraint.id %>" <%= 'selected' if deployment_constraint == @deployment_constraint %>><%= deployment_constraint.name %></option>
        <% end %>
@@ -12,7 +12,7 @@
    <div class="form-group mb-3">
    <label for="teamsSelect" class="ml-3 mr-3">Department:</label>
    <select class="form-control" id="teamsSelect" class="ml-3" name="department_id">
-     <option value="0" <%= 'selected' unless @department %>></option>
+     <option value="0" <%= 'selected' unless @department %>>All</option>
       <% @departments.each do |department| %>
       <option value="<%= department.id %>" <%= 'selected' if department == @department %>><%= department.name %></option>
       <% end %>
