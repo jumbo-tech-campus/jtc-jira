@@ -14,6 +14,7 @@ class CacheService
     end
 
     register_repositories
+    Rails.cache.clear
   end
 
   def self.register_repositories

@@ -2,6 +2,10 @@ class PortfolioReportController < ApplicationController
   before_action :set_week_dates, only: :overview
   before_action :set_quarters, only: [:epics_overview, :quarter_overview]
 
+  caches_action :overview, expires_in: 12.hours, cache_path: :department_date_cache_path
+  caches_action :epics_overview, expires_in: 12.hours, cache_path: :fix_version_cache_path
+  caches_action :quarter_overview, expires_in: 12.hours, cache_path: :fix_version_cache_path
+
   def overview
     department_id = params[:department_id] || '1'
     @department = Repository.for(:department).find(department_id.to_i)
@@ -34,6 +38,15 @@ class PortfolioReportController < ApplicationController
       format.html
       format.csv { send_data to_csv(@report[:table]), filename: "portfolio_quarter_#{@quarter.fix_version}.csv" }
     end
+  end
+
+  protected
+  def department_date_cache_path
+    { department_id: params[:department_id], date: params[:date] }
+  end
+
+  def fix_version_cache_path
+    { fix_version: params[:fix_version] }
   end
 
   private
