@@ -26,6 +26,7 @@ ADD Gemfile* ./
 RUN bundle install
 
 ADD . .
+RUN yarn upgrade
 RUN yarn install
 
 RUN bundle exec rails assets:clobber

@@ -64,7 +64,7 @@ class Cache < Thor
       board_repo.save(board)
       $stdout.flush
       board.sprints_from(2019).each do |sprint|
-        puts "Caching sprint #{sprint.name}"
+        puts "#{board.team.name}: Caching sprint #{sprint.name}"
         sprint_repo.save(sprint)
         $stdout.flush
       end if board.is_a? ScrumBoard
