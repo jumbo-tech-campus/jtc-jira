@@ -20,8 +20,9 @@ module Cache
 
       begin
         @client.get(key)
-      rescue
+      rescue StandardError => e
         result = "result:failure"
+        Rails.logger.error("Error in Redis get. \nRedis client: #{@client.inspect}\n#{e.backtrace}")
         raise
       ensure
         @statsd_client.timing('cache.duration',
@@ -37,8 +38,10 @@ module Cache
 
       begin
         @client.set(key, value)
-      rescue
+      rescue StandardError => e
         result = "result:failure"
+        Rails.logger.error("Error in Redis get. \nRedis client: #{@client.inspect}\n#{e.backtrace}")
+        raise
       ensure
         @statsd_client.timing('cache.duration',
           (Time.now - started) * 1000,
