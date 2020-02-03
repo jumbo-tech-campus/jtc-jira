@@ -8,7 +8,7 @@
         <label for="weeksSelect" class="ml-3 mr-3">Week</label>
         <select class="form-control" id="weeksSelect" class="ml-3" name="date" onchange="this.form.submit()">
            <% @dates.each do |date| %>
-           <option value="<%= date.to_date %>" <%= 'selected' if date == @date %>>Week <%= "#{date.cweek} & #{date.cweek + 1}" %></option>
+           <option value="<%= date.to_date %>" <%= 'selected' if date == @date %>>Week <%= "#{date.cweek} & #{date.cweek + 1} #{date.year}" %></option>
            <% end %>
        </select>
        </div>
