@@ -2,16 +2,17 @@
 <main role="main" class="container-fluid">
   <div class="main">
     <div class="row pl-3">
-      <ul class="nav">
-        <% @dates.each do |date| %>
-        <li class="nav-item">
-          <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if date == @selected_date %>"
-            href="<%= portfolio_report_path(date: date.to_date, department_id: @department.id, ) %>">
-            Week <%= "#{date.cweek} & #{date.cweek + 1}" %>
-          </a>
-        </li>
-       <% end %>
-      </ul>
+      <form class="form-inline" action="<%= portfolio_report_path %>">
+        <input type="hidden" name="department_id" value="<%= @department.id %>"/>
+        <div class="form-group mb-3">
+        <label for="weeksSelect" class="ml-3 mr-3">Week</label>
+        <select class="form-control" id="weeksSelect" class="ml-3" name="date" onchange="this.form.submit()">
+           <% @dates.each do |date| %>
+           <option value="<%= date.to_date %>" <%= 'selected' if date == @date %>>Week <%= "#{date.cweek} & #{date.cweek + 1}" %></option>
+           <% end %>
+       </select>
+       </div>
+      </form>
      </div>
      <div class="card box-shadow mb-4">
        <div class="card-header">
