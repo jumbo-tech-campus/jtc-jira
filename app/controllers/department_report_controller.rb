@@ -11,6 +11,6 @@ class DepartmentReportController < ApplicationController
 
   protected
   def department_cache_path
-    { :department_id: params[:department_id] }
+    { department_id: params[:department_id] }
   end
 end
