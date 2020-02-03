@@ -6,7 +6,7 @@ class DeploymentConstraint < ActiveModelSerializers::Model
   end
 
   def teams
-    @teams ||= Repository.for(:team).find_by(deployment_constraint_id: id)
+    @teams ||= Repository.for(:team).find_by(deployment_constraint_id: id).sort_by(&:name)
   end
 
   def ==(deployment_constraint)

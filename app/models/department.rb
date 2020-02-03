@@ -6,7 +6,7 @@ class Department < ActiveModelSerializers::Model
   end
 
   def teams
-    @teams ||= Repository.for(:team).find_by(department_id: id)
+    @teams ||= Repository.for(:team).find_by(department_id: id).sort_by(&:name)
   end
 
   def active_teams
@@ -14,7 +14,7 @@ class Department < ActiveModelSerializers::Model
   end
 
   def scrum_teams
-    teams.select(&:is_scrum_team?).sort_by(&:name)
+    teams.select(&:is_scrum_team?)
   end
 
   def ==(department)
