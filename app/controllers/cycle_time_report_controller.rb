@@ -20,6 +20,7 @@ class CycleTimeReportController < ApplicationController
   end
 
   def deployment_constraint
+    @deployment_constraint = Repository.for(:deployment_constraint).find(1) unless @deployment_constraint
     boards = @deployment_constraint.teams.map(&:board).compact
 
     @report = CycleTimeReportService.new(boards, @start_date, @end_date).cycle_time_report
