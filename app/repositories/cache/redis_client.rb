@@ -6,7 +6,7 @@ module Cache
 
     def initialize
       if Rails.env.production?
-        @client = Redis.new(url: "rediss://#{ENV['REDIS_PASSWORD']}@#{ENV['REDIS_HOST']}:6379")
+        @client = Redis.new(url: "rediss://#{ENV['REDIS_PASSWORD']}@#{ENV['REDIS_HOST']}")
       else
         @client = Redis.new(host: ENV['REDIS_HOST'])
       end
