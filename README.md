@@ -5,7 +5,7 @@ Ruby on Rails web application to report the results of sprints from JIRA, based 
 ## Configuration
 
 ### Configuration: JIRA
-The application uses the JIRA API to retrieve data for sprints. Get your API token from https://id.atlassian.com/manage-profile/security. Copy the [env.example](./.env.example) file to `.env` and fill in the username, api token, redis host and JIRA url. If you use the docker-compose setup, the REDIS_HOST will be `redis`.
+The application uses the JIRA API to retrieve data for sprints. Get your API token from https://id.atlassian.com/manage-profile/security. Copy the [env.example](./.env.example) file to `.env` and fill in the username, api token, redis host and JIRA url. If you use the docker-compose setup, the REDIS_HOST will be `redis`. In Kubernetes, the REDIS_HOST will be an AWS Elasticache instance, so it will be configured with a REDIS_PASSWORD as well.
 
 ### Configuration:
 The application expects a [config.yml](./config.yml) file in the root folder containing the teams you would like to see reports from. If you want to add a team, make sure the board_id, name, department_id, deployment_constraint_id and project_key are filled in. NOTE: You can find the `board_id` and `project_key` by going to a board of the team's project in JIRA. The URL will look like this: https://yourcompany.atlassian.net/secure/RapidBoard.jspa?rapidView=42&projectKey=EXP. The `board_id` is the `rapidView` parameter and the `project_key` is (of course) the `projectKey` parameter.
