@@ -5,7 +5,11 @@ module Cache
     extend Forwardable
 
     def initialize
-      @client = Redis.new(host: ENV['REDIS_HOST'])
+      if Rails.env.production?
+        @client = Redis.new(url: "rediss://#{ENV['REDIS_PASSWORD']}@#{ENV['REDIS_HOST']}:6379")
+      else
+        @client = Redis.new(host: ENV['REDIS_HOST'])
+
       @statsd_client = StatsdClient.new
     end
 
