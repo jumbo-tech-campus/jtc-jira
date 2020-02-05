@@ -26,7 +26,7 @@ class CacheService
     Repository.register(:department, Cache::DepartmentRepository.new(redis_client))
     Repository.register(:project, Cache::ProjectRepository.new(redis_client))
     Repository.register(:deployment_constraint, Cache::DeploymentConstraintRepository.new(redis_client))
-    Repository.register(:issue_collection, Cache::IssueCollectionRepository.new(redis_client))
     Repository.register(:quarter, Cache::QuarterRepository.new(redis_client))
+    Repository.register(:parent_epic, Cache::ParentEpicRepository.new(redis_client))
   end
 end

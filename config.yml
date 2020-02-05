@@ -284,11 +284,6 @@
 - cap:
   :id: 6
   :name: CAP
-:issue_collections:
-- portfolio:
-  :id: 3
-  :name: Portfolio epics
-  :jira_filter: 24445
 :quarters:
 - q1_2019:
   :start_week: 1

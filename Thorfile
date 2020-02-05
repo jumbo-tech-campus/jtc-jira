@@ -20,12 +20,9 @@ class Cache < Thor
     quarters = Repository.for(:quarter).all
     puts "Retrieved #{quarters.size} quarters"
     $stdout.flush
-    issue_collections = Repository.for(:issue_collection).all
-    puts "Retrieved #{issue_collections.size} issue collections"
-    $stdout.flush
     # for the parent epic reporting we need to cache all epics per parent epic
-    ParentEpicService.new.associate_epics_to_parent_epic
-    puts "Retrieved all epics for parent_epics"
+    parent_epics = Repository.for(:parent_epic).all
+    puts "Retrieved all parent_epics"
     $stdout.flush
     boards = teams.map do |team|
       begin
@@ -50,9 +47,8 @@ class Cache < Thor
     puts "Caching #{quarters.size} quarters"
     ::Cache::QuarterRepository.new(redis_client).save(quarters)
     $stdout.flush
-    puts "Caching #{issue_collections.size} issue collections"
-    issue_collection_repo = ::Cache::IssueCollectionRepository.new(redis_client)
-    issue_collections.each{ |issue_collection| issue_collection_repo.save(issue_collection) }
+    puts "Caching #{parent_epics.size} parent_epics"
+    ::Cache::ParentEpicRepository.new(redis_client).save(parent_epics)
     $stdout.flush
     board_repo = ::Cache::BoardRepository.new(redis_client)
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
