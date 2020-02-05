@@ -20,9 +20,8 @@ class Cache < Thor
     quarters = Repository.for(:quarter).all
     puts "Retrieved #{quarters.size} quarters"
     $stdout.flush
-    # for the parent epic reporting we need to cache all epics per parent epic
     parent_epics = Repository.for(:parent_epic).all
-    puts "Retrieved all parent_epics"
+    puts "Retrieved #{parent_epics.size} parent_epics"
     $stdout.flush
     boards = teams.map do |team|
       begin
@@ -33,6 +32,7 @@ class Cache < Thor
         nil
       end
     end
+    puts "Retrieved #{boards.size} boards for the teams"
 
     redis_client = ::Cache::RedisClient.new
     redis_client.flushall
