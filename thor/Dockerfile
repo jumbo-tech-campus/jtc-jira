@@ -1,4 +1,4 @@
-FROM ruby:2.6.5
+FROM ruby:2.7
 
 # Installation of dependencies
 RUN apt-get update -qq \
@@ -19,6 +19,7 @@ RUN apt-get update -qq \
 WORKDIR /app
 
 ADD Gemfile* ./
+RUN gem install bundler:2.1.4
 RUN bundle install
 
 ADD . .

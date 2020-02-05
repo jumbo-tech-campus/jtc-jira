@@ -1,4 +1,4 @@
-FROM ruby:2.6.5
+FROM ruby:2.7
 
 ARG RAILS_RELATIVE_URL_ROOT
 
@@ -23,6 +23,7 @@ RUN apt-get clean autoclean \
 WORKDIR /app
 
 ADD Gemfile* ./
+RUN gem install bundler:2.1.4
 RUN bundle install
 
 ADD . .

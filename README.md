@@ -41,6 +41,6 @@ You can always try a restart of the containers (could work) or try to add an emp
 
 ## Development
 
-The application is built on Ruby on Rails 6, using Ruby 2.6. It follows a lot of the standard Rails development practices, except that it does not use ActiveRecord, but factory and repository patterns for object creation and persistence. The front-end is built with Bootstrap 4. It uses Docker containers in a docker-compose setup to make development and deployment easy. There are no unit tests yet, however adding them should be fairly simple and PR's containing tests will be welcomed.
+The application is built on Ruby on Rails 6, using Ruby 2.7. It follows a lot of the standard Rails development practices, except that it does not use ActiveRecord, but factory and repository patterns for object creation and persistence. The front-end is built with Bootstrap 4. It uses Docker containers in a docker-compose setup to make development and deployment easy. There are no unit tests yet, however adding them should be fairly simple and PR's containing tests will be welcomed.
 
 The application is a prototype to show how easy it can be to automate sprint reporting on portfolio epics if your team uses JIRA and consistently estimates the issues in a sprint. Even though the application does not change data in JIRA, use of this application is on your own risk. The authors nor Jumbo Supermarkten can be held responsible for any issues that may occur when using this application.
