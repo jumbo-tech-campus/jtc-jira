@@ -122,12 +122,6 @@
   :project_key: EN
   :board_id: 306
   :deployment_constraint_id: 3
-- cloud:
-  :name: Cloud Team
-  :department_id: 1
-  :project_key: CP
-  :board_id: 344
-  :deployment_constraint_id: 3
 - ish_upgrade:
   :name: Intershop Upgrade
   :department_id: 1
