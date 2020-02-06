@@ -67,6 +67,7 @@ class Cache < Thor
     end
 
     Rails.cache.clear
+    puts "Rails cache cleared. Caching job finished!"
 
     statsd_client.timing('thor.cache',
       (Time.now - started) * 1000,
