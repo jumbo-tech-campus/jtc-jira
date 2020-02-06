@@ -1,9 +1,10 @@
 class ParentEpic < ActiveModelSerializers::Model
-  attr_reader :id, :key, :summary, :wbso_project, :fix_version, :assignee, :epics, :status
+  attr_reader :id, :key, :summary, :wbso_project, :assignee, :fix_versions, :epics, :status
 
-  def initialize(id, key, summary, wbso_project, fix_version, assignee, status)
-    @id, @key, @summary, @wbso_project, @fix_version, @assignee, @status = id, key, summary, wbso_project, fix_version, assignee, status
+  def initialize(id, key, summary, wbso_project, assignee, status)
+    @id, @key, @summary, @wbso_project, @assignee, @status = id, key, summary, wbso_project, assignee, status
     @epics = []
+    @fix_versions = []
   end
 
   def ==(parent_epic)

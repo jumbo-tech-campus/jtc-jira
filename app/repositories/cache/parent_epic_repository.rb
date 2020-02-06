@@ -12,7 +12,7 @@ module Cache
 
     def find_by(options)
       if options[:fix_version]
-        all.select{ |parent_epic| parent_epic.fix_version == options[:fix_version] }
+        all.select{ |parent_epic| parent_epic.fix_versions.include?(options[:fix_version]) }
       end
     end
 
