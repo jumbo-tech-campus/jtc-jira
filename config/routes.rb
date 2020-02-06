@@ -5,7 +5,8 @@ Rails.application.routes.draw do
     resources :teams, only: [:index]
     get 'sprint_report/last_sprint', to: 'sprint_report#last_sprint', as: :last_sprint_report
     get 'sprint_report/sprint', to: 'sprint_report#sprint', as: :sprint_report
-    get 'portfolio_report/overview', to: 'portfolio_report#overview', as: :portfolio_report
+    get 'portfolio_report/teams_overview', to: 'portfolio_report#teams_overview', as: :portfolio_teams
+    get 'portfolio_report/export', to: 'portfolio_report#export', as: :portfolio_export
     get 'portfolio_report/epics_overview', to: 'portfolio_report#epics_overview', as: :portfolio_epics
     get 'portfolio_report/quarter_overview', to: 'portfolio_report#quarter_overview', as: :portfolio_quarter
     match 'cycle_time_report/team', to: 'cycle_time_report#team', as: :cycle_time_team, via: [:get, :post]
@@ -20,7 +21,8 @@ Rails.application.routes.draw do
 
   resources :teams, only: [:index]
   get 'sprint_report/last_sprint', to: 'sprint_report#last_sprint'
-  get 'portfolio_report/overview', to: 'portfolio_report#overview'
+  get 'portfolio_report/teams_overview', to: 'portfolio_report#teams_overview'
+  get 'portfolio_report/export', to: 'portfolio_report#export'
   get 'portfolio_report/epics_overview', to: 'portfolio_report#epics_overview'
   get 'portfolio_report/quarter_overview', to: 'portfolio_report#quarter_overview'
   match 'cycle_time_report/team', to: 'cycle_time_report#team', via: [:get, :post]

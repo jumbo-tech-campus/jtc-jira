@@ -1,22 +1,37 @@
 class PortfolioReportController < ApplicationController
-  before_action :set_week_dates, only: :overview
+  before_action :set_week_dates, only: [:teams_overview, :export]
   before_action :set_quarters, only: [:epics_overview, :quarter_overview]
 
   #caches_action :overview, expires_in: 12.hours, cache_path: :department_date_cache_path
   caches_action :epics_overview, expires_in: 12.hours, cache_path: :fix_version_cache_path
   caches_action :quarter_overview, expires_in: 12.hours, cache_path: :fix_version_cache_path
 
-  def overview
+  def teams_overview
     department_id = params[:department_id] || '1'
     @department = Repository.for(:department).find(department_id.to_i)
     portfolio_service = PortfolioReportService.new(@department.active_scrum_teams, @selected_date)
 
-    @teams_table = portfolio_service.team_report
-    @portfolio_export_table = portfolio_service.portfolio_export_report
+    @table = portfolio_service.team_report
 
     respond_to do |format|
       format.html
-      format.csv { send_data to_csv(@portfolio_export_table), filename: "portfolio_report_week_#{@selected_date.cweek}_#{@selected_date.cweek + 1}.csv" }
+      format.csv { send_data to_csv(@table), filename: "portfolio_team_report_week_#{@selected_date.cweek}_#{@selected_date.cweek + 1}_#{@department.name}.csv" }
+    end
+  end
+
+  def export
+    teams = Repository.for(:department).all.inject([]) do |memo, department|
+      memo.concat(department.active_scrum_teams)
+      memo
+    end
+
+    portfolio_service = PortfolioReportService.new(teams, @selected_date)
+
+    @table = portfolio_service.portfolio_export_report
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data to_csv(@table), filename: "portfolio_export_week_#{@selected_date.cweek}_#{@selected_date.cweek + 1}.csv" }
     end
   end
 
