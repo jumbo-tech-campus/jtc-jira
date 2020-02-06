@@ -100,7 +100,7 @@ class PortfolioReportService
         team_sprint_parent_epics.values.each do |sprint_parent_epics|
           row_value = 0
           sprint_parent_epics.each do |sprint_parent_epic|
-            if (sprint_parent_epic.parent_epic.id == 0 || sprint_parent_epic.parent_epic == @sprint_parent_epic) && sprint_parent_epic.percentage_of_points_closed > 0
+            if (sprint_parent_epic.parent_epic.id == 0 || sprint_parent_epic.parent_epic == @small_changes_epic) && sprint_parent_epic.percentage_of_points_closed > 0
               row_value += sprint_parent_epic.percentage_of_points_closed.round
             end
           end
