@@ -7,7 +7,7 @@ class ParentEpic < ActiveModelSerializers::Model
   end
 
   def ==(parent_epic)
-    self.id == parent_epic.id
+    self.key == parent_epic&.key
   end
 
   def description

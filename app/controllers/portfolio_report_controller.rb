@@ -2,19 +2,21 @@ class PortfolioReportController < ApplicationController
   before_action :set_week_dates, only: :overview
   before_action :set_quarters, only: [:epics_overview, :quarter_overview]
 
-  caches_action :overview, expires_in: 12.hours, cache_path: :department_date_cache_path
+  #caches_action :overview, expires_in: 12.hours, cache_path: :department_date_cache_path
   caches_action :epics_overview, expires_in: 12.hours, cache_path: :fix_version_cache_path
   caches_action :quarter_overview, expires_in: 12.hours, cache_path: :fix_version_cache_path
 
   def overview
     department_id = params[:department_id] || '1'
     @department = Repository.for(:department).find(department_id.to_i)
+    portfolio_service = PortfolioReportService.new(@department.active_scrum_teams, @selected_date)
 
-    @table = PortfolioReportService.for(@department.scrum_teams, @selected_date)
+    @teams_table = portfolio_service.team_report
+    @portfolio_export_table = portfolio_service.portfolio_export_report
 
     respond_to do |format|
       format.html
-      format.csv { send_data to_csv(@table), filename: "portfolio_report_week_#{@selected_date.cweek}_#{@selected_date.cweek + 1}.csv" }
+      format.csv { send_data to_csv(@portfolio_export_table), filename: "portfolio_report_week_#{@selected_date.cweek}_#{@selected_date.cweek + 1}.csv" }
     end
   end
 

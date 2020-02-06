@@ -17,6 +17,10 @@ class Department < ActiveModelSerializers::Model
     teams.select(&:is_scrum_team?)
   end
 
+  def active_scrum_teams
+    active_teams.select(&:is_scrum_team?)
+  end
+
   def ==(department)
     self.id == department&.id
   end
