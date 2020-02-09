@@ -2,7 +2,7 @@ class PortfolioQuarterReportService
   def initialize(quarter)
     @quarter = quarter
     @boards = Repository.for(:team).all.map(&:board).compact
-    @parent_epics = ParentEpicService.new(quarter.fix_version).parent_epics
+    @parent_epics = Repository.for(:parent_epic).find_by(fix_version: quarter.fix_version)
   end
 
   def quarter_report
