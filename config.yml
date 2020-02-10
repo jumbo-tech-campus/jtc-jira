@@ -146,28 +146,24 @@
   :project_key: BI5
   :board_id: 240
   :deployment_constraint_id: 2
-  :position: 21000
 - transformers:
   :name: Transformers
   :department_id: 3
   :project_key: BI6
   :board_id: 281
   :deployment_constraint_id: 2
-  :position: 22000
 - r10:
   :name: Store-1 R10
   :department_id: 3
   :project_key: SAP4
   :board_id: 18
   :deployment_constraint_id: 4
-  :position: 23000
 - cloudbusters:
   :name: Cloud Busters
   :department_id: 3
   :project_key: JAF
   :board_id: 353
   :deployment_constraint_id: 3
-  :position: 20000
 - dotcomdots:
   :name: Dotcom Dots
   :department_id: 3
@@ -198,21 +194,18 @@
   :board_id: 16
   :project_key: BI1
   :deployment_constraint_id: 2
-  :position: 16000
 - bi2:
   :name: Trailblazers
   :department_id: 3
   :board_id: 8
   :project_key: BI2
   :deployment_constraint_id: 2
-  :position: 17000
 - bi3:
   :name: BI Three
   :department_id: 3
   :board_id: 97
   :project_key: BI3
   :deployment_constraint_id: 2
-  :position: 18000
 - mob_csi:
   :name: Mobile-inspiration
   :department_id: 1
