@@ -2,7 +2,8 @@ class PortfolioReportController < ApplicationController
   before_action :set_week_dates, only: [:teams_overview, :export]
   before_action :set_quarters, only: [:epics_overview, :quarter_overview]
 
-  #caches_action :overview, expires_in: 12.hours, cache_path: :department_date_cache_path
+  caches_action :export, expires_in: 12.hours, cache_path: :department_date_cache_path
+  caches_action :teams_overview, expires_in: 12.hours, cache_path: :department_date_cache_path
   caches_action :epics_overview, expires_in: 12.hours, cache_path: :fix_version_cache_path
   caches_action :quarter_overview, expires_in: 12.hours, cache_path: :fix_version_cache_path
 
