@@ -80,7 +80,7 @@ class PortfolioQuarterReportService
         assignee(parent_epic),
         parent_epic.key,
         parent_epic.summary,
-        parent_epic.fix_versions.join(','),
+        parent_epic.fix_versions.join(', '),
         parent_epic.status,
         issue_count,
         points_count
@@ -94,7 +94,7 @@ class PortfolioQuarterReportService
           nil,
           epic.key,
           epic.name,
-          parent_epic.fix_versions.join(','),
+          parent_epic.fix_versions.join(', '),
           epic.status,
           issues_for_epic&.size,
           issues_for_epic&.sum(&:estimation)
@@ -116,7 +116,7 @@ class PortfolioQuarterReportService
         assignee(parent_epic),
         parent_epic.key,
         parent_epic.summary,
-        parent_epic.fix_versions.join(','),
+        parent_epic.fix_versions.join(', '),
         parent_epic.status,
         issue_count,
         points_count
@@ -138,7 +138,7 @@ class PortfolioQuarterReportService
           nil,
           key,
           issue.epic.name,
-          issue.parent_epic.fix_versions.join(','),
+          issue.parent_epic.fix_versions.join(', '),
           issue.epic.status,
           epic_issues.size,
           epic_issues.sum(&:estimation)
