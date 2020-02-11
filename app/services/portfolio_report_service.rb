@@ -8,8 +8,7 @@ class PortfolioReportService
 
   def team_report
     table = []
-    header = [nil]
-    header << 'WBSO'
+    header = [nil, 'Plan', 'WBSO']
     @teams.each do |team|
       header << team.name
     end
@@ -19,7 +18,7 @@ class PortfolioReportService
     parent_epic_rows(table, team_parent_epics.select{ |parent_epic| !@static_epics.include?(parent_epic) }, include_wbso: true)
 
     wbso_projects(team_parent_epics).each do |wbso_project|
-      wbso_row = ["WBSO - #{wbso_project}", nil]
+      wbso_row = ["WBSO - #{wbso_project}", nil, nil]
 
       @teams.inject({}) do |memo, team|
         sprint = Repository.for(:board).find(team.board_id).sprint_for(@date)
@@ -88,7 +87,7 @@ class PortfolioReportService
 
   def parent_epic_rows(table, parent_epics, options = {})
     parent_epics.each do |parent_epic|
-      row = [parent_epic.description]
+      row = [parent_epic.description, parent_epic.fix_versions_string]
       if parent_epic.wbso_project.present? && options[:include_wbso]
         row << 'x'
       elsif options[:include_wbso]

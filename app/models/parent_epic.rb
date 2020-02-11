@@ -11,6 +11,10 @@ class ParentEpic < ActiveModelSerializers::Model
     self.key == parent_epic&.key
   end
 
+  def fix_versions_string
+    fix_versions.map{|fix_version| fix_version.chomp(' plan')}.join(', ')
+  end
+
   def description
     "#{key} - #{summary}"
   end
