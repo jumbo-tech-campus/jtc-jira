@@ -7,7 +7,7 @@
         <li class="nav-item">
           <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if quarter.fix_version == @fix_version %>"
             href="<%= portfolio_epics_path(fix_version: quarter.fix_version) %>">
-            <%= quarter.fix_version %>
+            <%= quarter.name %>
           </a>
         </li>
        <% end %>
