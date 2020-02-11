@@ -15,7 +15,7 @@ class PortfolioReportService
     table << header
 
     parent_epic_rows(table, @static_epics, include_wbso: true)
-    parent_epic_rows(table, team_parent_epics.select{ |parent_epic| !@static_epics.include?(parent_epic) }, include_wbso: true)
+    parent_epic_rows(table, team_parent_epics.select{ |parent_epic| !@static_epics.include?(parent_epic) }, { include_wbso: true, include_fix_version: true })
 
     wbso_projects(team_parent_epics).each do |wbso_project|
       wbso_row = ["WBSO - #{wbso_project}", nil, nil]
@@ -46,7 +46,7 @@ class PortfolioReportService
     parent_epics = Repository.for(:parent_epic).find_by(fix_version: quarter.fix_version).sort_by{ |parent_epic| parent_epic.id }
     parent_epics = parent_epics - @static_epics
 
-    parent_epic_rows(table, @static_epics, { merge_no_epic_into_small_changes: true })
+    parent_epic_rows(table, @static_epics, { merge_no_epic_into_small_changes: true, include_fix_version: false })
     parent_epic_rows(table, parent_epics)
     table
   end
@@ -87,7 +87,8 @@ class PortfolioReportService
 
   def parent_epic_rows(table, parent_epics, options = {})
     parent_epics.each do |parent_epic|
-      row = [parent_epic.description, parent_epic.fix_versions_string]
+      row = [parent_epic.description]
+      row << parent_epic.fix_versions_string if options[:include_fix_version]
       if parent_epic.wbso_project.present? && options[:include_wbso]
         row << 'x'
       elsif options[:include_wbso]
