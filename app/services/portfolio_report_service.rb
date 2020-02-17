@@ -14,7 +14,7 @@ class PortfolioReportService
     end
     table << header
 
-    parent_epic_rows(table, @static_epics, include_wbso: true)
+    parent_epic_rows(table, @static_epics, { include_wbso: true, include_fix_version: true })
     parent_epic_rows(table, team_parent_epics.select{ |parent_epic| !@static_epics.include?(parent_epic) }, { include_wbso: true, include_fix_version: true })
 
     wbso_projects(team_parent_epics).each do |wbso_project|
