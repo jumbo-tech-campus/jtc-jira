@@ -4,6 +4,7 @@ class PortfolioReportService
     @date = date
     @small_changes_epic = Repository.for(:parent_epic).find('PK-246')
     @static_epics = [@small_changes_epic, Repository.for(:parent_epic).find('PK-341')]
+    @static_epics.each{ |epic| epic.fix_versions.clear }
   end
 
   def team_report
