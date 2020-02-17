@@ -22,7 +22,7 @@ class PortfolioReportController < ApplicationController
 
   def export
     teams = Repository.for(:department).all.inject([]) do |memo, department|
-      memo.concat(department.active_scrum_teams(@selected_date).select(&:has_position?))
+      memo.concat(department.active_teams(@selected_date).select(&:has_position?))
       memo
     end
 

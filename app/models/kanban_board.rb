@@ -5,4 +5,8 @@ class KanbanBoard < Board
     super
     @issues = []
   end
+
+  def sprint_for(date)
+    nil
+  end
 end
