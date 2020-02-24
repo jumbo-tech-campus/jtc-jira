@@ -96,12 +96,6 @@
   :project_key: PIM
   :board_id: 262
   :deployment_constraint_id: 4
-- xecm:
-  :name: xECM
-  :department_id: 2
-  :project_key: XECM
-  :board_id: 526
-  :deployment_constraint_id: 6
 - esb:
   :name: ESB
   :department_id: 2
@@ -275,6 +269,12 @@
   :project_key: ISH
   :deployment_constraint_id: 3
   :position: 3000
+- xecm_opentext:
+  :name: Open Tekst
+  :department_id: 2
+  :board_id: 526
+  :project_key: XECM
+  :deployment_constraint_id: 6
 :departments:
 - digital:
   :name: JTC Digital
