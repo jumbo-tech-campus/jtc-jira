@@ -5,6 +5,7 @@ class Issue < ActiveModelSerializers::Model
 
   RELEASED_STATES = ['Done', 'Released']
   PENDING_RELEASE_STATES = ['Ready for prod', 'Pending release']
+  IN_PROGRESS_STATES = ['In Progress', 'Development']
 
   def initialize(key, summary, id, estimation, created, status, resolution_date, in_progress_date, release_date, pending_release_date, done_date)
     @key, @summary, @id, @estimation, @created, @status  = key, summary, id, estimation, created, status
@@ -17,7 +18,7 @@ class Issue < ActiveModelSerializers::Model
   end
 
   def in_progress_date
-    @in_progress_date ||= @state_changed_events.find{ |event| event.to_state == 'In Progress' }&.created
+    @in_progress_date ||= @state_changed_events.find{ |event| IN_PROGRESS_STATES.include?(event.to_state) }&.created
   end
 
   def release_date
