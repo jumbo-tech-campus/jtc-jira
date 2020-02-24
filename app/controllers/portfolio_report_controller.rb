@@ -10,7 +10,7 @@ class PortfolioReportController < ApplicationController
   def teams_overview
     department_id = params[:department_id] || '1'
     @department = Repository.for(:department).find(department_id.to_i)
-    portfolio_service = PortfolioReportService.new(@department.active_scrum_teams(@selected_date), @selected_date)
+    portfolio_service = PortfolioReportService.new(@department.active_teams(@selected_date), @selected_date)
 
     @table = portfolio_service.team_report
 
