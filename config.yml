@@ -100,7 +100,7 @@
   :name: ESB
   :department_id: 2
   :project_key: ESB
-  :board_id: 168
+  :board_id: 626
   :deployment_constraint_id: 6
 - sc_core:
   :name: SC Core systems
