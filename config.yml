@@ -275,6 +275,12 @@
   :board_id: 526
   :project_key: XECM
   :deployment_constraint_id: 6
+- aps_hd:
+  :name: APS HD
+  :department_id: 1
+  :board_id: 644
+  :project_key: APSHD
+  :deployment_constraint_id: 3
 :departments:
 - digital:
   :name: JTC Digital
