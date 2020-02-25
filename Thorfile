@@ -10,9 +10,12 @@ class Cache < Thor
     # first make sure we use the Jira repositories to fetch data
     JiraService.register_repositories
     ConfigService.register_repositories
-
-    teams = Repository.for(:team).all
-    puts "Retrieved #{teams.size} teams"
+    begin
+      teams = Repository.for(:team).all
+      puts "Retrieved #{teams.size} teams"
+    rescue JIRA::HTTPError => e
+      puts "JIRA HTTP error:\n#{e.message}\nResponse from JIRA:\n#{e.response.inspect}"
+    end
 
     projects = Repository.for(:project).all
     puts "Retrieved #{projects.size} projects"
