@@ -14,6 +14,8 @@ class Cache < Thor
       teams = Repository.for(:team).all
       puts "Retrieved #{teams.size} teams"
     rescue JIRA::HTTPError => e
+      puts "JIRA username: #{ENV['JIRA_USERNAME']}"
+      puts "JIRA API key: #{ENV['JIRA_API_KEY']}"
       puts "JIRA HTTP error:\n#{e.message}\nResponse from JIRA:\n#{e.response.inspect}"
     end
 
