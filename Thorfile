@@ -18,7 +18,23 @@ class Cache < Thor
       puts "JIRA API key: #{ENV['JIRA_API_KEY']}"
       puts "JIRA HTTP error:\n#{e.message}\nResponse from JIRA:\n#{e.response.inspect}"
     end
+    $stdout.flush
+    boards = []
+    failed_teams = []
 
+    teams.each do |team|
+      begin
+        puts "Retrieving board #{team.board_id} for team #{team.name}"
+        boards << Repository.for(:board).find(team.board_id)
+      rescue
+        puts "Board #{team.board_id} for team #{team.name} not found. "
+        failed_teams << team
+      end
+    end
+    puts "Removing #{failed_teams.size} teams from teams set and continuing."
+    teams = teams - failed_teams
+    puts "Retrieved #{boards.size} boards for the teams"
+    $stdout.flush
     projects = Repository.for(:project).all
     puts "Retrieved #{projects.size} projects"
     $stdout.flush
@@ -28,16 +44,7 @@ class Cache < Thor
     parent_epics = Repository.for(:parent_epic).all
     puts "Retrieved #{parent_epics.size} parent_epics"
     $stdout.flush
-    boards = teams.map do |team|
-      begin
-        Repository.for(:board).find(team.board_id)
-      rescue
-        puts "Board #{team.board_id} for team #{team.name} not found. Removing team from teams set and continuing."
-        teams.delete(team)
-        nil
-      end
-    end
-    puts "Retrieved #{boards.size} boards for the teams"
+
 
     redis_client = ::Cache::RedisClient.new
     redis_client.flushall
@@ -59,8 +66,6 @@ class Cache < Thor
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
 
     boards.each do |board|
-      next if board.nil?
-
       puts "Cache board #{board.id} for team #{board.team.name}"
       board_repo.save(board)
       $stdout.flush
