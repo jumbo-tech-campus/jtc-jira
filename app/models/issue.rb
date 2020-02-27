@@ -5,7 +5,7 @@ class Issue < ActiveModelSerializers::Model
 
   RELEASED_STATES = ['Done', 'Released']
   PENDING_RELEASE_STATES = ['Ready for prod', 'Pending release']
-  IN_PROGRESS_STATES = ['In Progress', 'Development']
+  IN_PROGRESS_STATES = ['In Progress', 'Development', 'Specification']
 
   def initialize(key, summary, id, estimation, created, status, resolution_date, in_progress_date, release_date, pending_release_date, done_date)
     @key, @summary, @id, @estimation, @created, @status  = key, summary, id, estimation, created, status
