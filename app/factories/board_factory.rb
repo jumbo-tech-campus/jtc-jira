@@ -12,8 +12,12 @@ class BoardFactory
     elsif jira_board.type == 'kanban'
       board = KanbanBoard.new(jira_board.id, jira_board.type)
       board.team = team
-
-      issues = Repository.for(:issue).find_by(board: board)
+      # it seems that tickets are only associated to a KanbanBoard when they are on the board
+      # we need to have more history around this - also report on tickets that were on the board at some point
+      # we also see that teams switch from Scrum to Kanban, making it hard to report on historical data
+      # this aims to fix that by retrieving all issues from a project instead of the board
+      # TODO: also do this for teams that work in sprints
+      issues = Repository.for(:issue).find_by(project: board.team.project)
       board.issues.concat(issues)
     end
     board
