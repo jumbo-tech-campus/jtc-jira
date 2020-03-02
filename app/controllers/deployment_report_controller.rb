@@ -13,7 +13,7 @@ class DeploymentReportController < ApplicationController
 
   private
   def set_last_week_dates
-    @end_date = ApplicationHelper.safe_parse(params[:end_date]) || DateTime.now.beginning_of_week - 1.week
-    @start_date = ApplicationHelper.safe_parse(params[:start_date]) || DateTime.now.end_of_week - 1.week
+    @end_date = ApplicationHelper.safe_parse(params[:end_date]) || DateTime.now.end_of_week - 1.week
+    @start_date = ApplicationHelper.safe_parse(params[:start_date]) || DateTime.now.beginning_of_week - 1.week
   end
 end
