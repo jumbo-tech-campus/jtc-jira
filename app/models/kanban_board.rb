@@ -8,10 +8,42 @@ class KanbanBoard < Board
 
   def sprint_for(date)
     start_date = date.beginning_of_week
-    end_date = start_date + 2.weeks
+    # sprints always start on uneven weeks
+    if start_date.cweek.even?
+      start_date = start_date - 1.week
+    end
 
-    sprint = KanbanSprint.new(0, "Sprint #{start_date.cweek} #{start_date.year}", "", start_date, end_date, end_date)
+    end_date = start_date.end_of_week + 1.weeks
+
+    sprint = KanbanSprint.new(0, "Week #{start_date.cweek} & #{end_date.cweek} #{end_date.year}", "", start_date, end_date, end_date)
     sprint.board = self
     sprint
+  end
+
+  def last_closed_sprint
+    week_begin = Date.today.beginning_of_week
+    if week_begin.cweek.even?
+      start_date = week_begin - 3.weeks
+    else
+      start_date = week_begin - 2.weeks
+    end
+
+    sprint_for(start_date)
+  end
+
+  def sprints_from(year)
+    date = DateTime.new(year, 1, 1)
+    dates = [date]
+
+    loop do
+      date = date + 2.weeks
+      break if date > DateTime.now
+
+      dates << date
+    end
+
+    dates.map do |sprint_date|
+      sprint_for(sprint_date)
+    end
   end
 end

@@ -88,7 +88,7 @@
             <li class="dropdown-submenu">
               <a class="dropdown-item dropdown-toggle" href="#"><%= department.name %></a>
               <ul class="dropdown-menu">
-                <% department.scrum_teams.each do |team| %>
+                <% department.teams.each do |team| %>
                   <li><a class="dropdown-item <%= 'active' if @board && team.name == @board.team.name && controller_name == 'sprint_report' %>" href="<%= last_sprint_report_path(board_id: team.board_id)%>"><%= team.name %></a></li>
                 <% end %>
               </ul>

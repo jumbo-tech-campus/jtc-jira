@@ -6,7 +6,7 @@ class SprintReportController < ApplicationController
   end
 
   def sprint
-    @sprint = Repository.for(:sprint).find_by(id: params[:id].to_i, board: @board)
+    @sprint = Repository.for(:sprint).find_by(id: params[:id], board: @board)
   end
 
   def refresh_data
