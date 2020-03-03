@@ -17,7 +17,7 @@ module Cache
       if board.is_a? ScrumBoard
         included = ['team.**', 'sprints']
       elsif board.is_a? KanbanBoard
-        included = ['team.**', 'issues']
+        included = ['team.**', 'issues', 'issues.epic', 'issues.epic.parent_epic']
       end
 
       @client.set("board.#{board.id}", ActiveModelSerializers::SerializableResource.new(board, include: included).to_json)
