@@ -42,8 +42,8 @@ module Jira
     end
 
     def filter_out_issue?(issue_json, board)
-      #filter out subtasks
-      return true if issue_json['fields']['issuetype']['subtask']
+      #filter out subtasks and action requests
+      return true if issue_json['fields']['issuetype']['subtask'] || issue_json['fields']['issuetype']['name'] == 'Action Request'
 
       if board
         #filter out issues from other projects
