@@ -1,12 +1,12 @@
 class SprintReportController < ApplicationController
   before_action :set_board
 
-  def last_sprint
-    redirect_to action: 'sprint', board_id: @board.id, id: @board.last_closed_sprint.id
-  end
-
   def sprint
-    @sprint = Repository.for(:sprint).find_by(id: params[:id], board: @board)
+    if params[:id]
+      @sprint = Repository.for(:sprint).find_by(id: params[:id], board: @board)
+    else
+      @sprint = @board.current_sprint
+    end
   end
 
   def refresh_data

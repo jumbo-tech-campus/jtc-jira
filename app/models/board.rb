@@ -17,4 +17,8 @@ class Board < ActiveModelSerializers::Model
   def issues_with_cycle_time_delta
     @issues_with_cycle_time_delta ||= issues.select(&:cycle_time_delta).sort_by(&:release_date)
   end
+
+  def current_sprint
+    sprint_for(Date.today)
+  end
 end
