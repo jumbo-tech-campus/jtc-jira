@@ -281,6 +281,12 @@
   :board_id: 644
   :project_key: APSHD
   :deployment_constraint_id: 3
+- lp_bi:
+  :name: LP BI
+  :department_id: 3
+  :board_id: 621
+  :project_key: LPBI
+  :deployment_constraint_id: 2
 :departments:
 - digital:
   :name: JTC Digital
