@@ -48,7 +48,7 @@ class PortfolioReportService
     parent_epics = parent_epics - @static_epics
 
     parent_epic_rows(table, @static_epics, { merge_no_epic_into_small_changes: true, include_fix_version: false })
-    parent_epic_rows(table, parent_epics)
+    parent_epic_rows(table, parent_epics, { include_empty_lines: true })
     table
   end
 
@@ -122,7 +122,7 @@ class PortfolioReportService
           skip_row = false if row_value
         end
       end
-      table << row unless skip_row
+      table << row unless skip_row && !options[:include_empty_lines]
     end
   end
 end
