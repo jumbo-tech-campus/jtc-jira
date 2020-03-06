@@ -95,6 +95,7 @@ class PortfolioReportService
       elsif options[:include_wbso]
         row << nil
       end
+      skip_row = true
 
       if parent_epic == @small_changes_epic && options[:merge_no_epic_into_small_changes]
         #find both small changes epic and not defined epic
@@ -118,9 +119,10 @@ class PortfolioReportService
             end
           end
           row << row_value
+          skip_row = false if row_value
         end
       end
-      table << row
+      table << row unless skip_row
     end
   end
 end
