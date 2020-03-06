@@ -66,7 +66,11 @@ class Issue < ActiveModelSerializers::Model
   end
 
   def closed?
-    resolution_date.present?
+    resolution_date.present? && resolution == 'Done'
+  end
+
+  def rejected?
+    status == 'Rejected'
   end
 
   def released?

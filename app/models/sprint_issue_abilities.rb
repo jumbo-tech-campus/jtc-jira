@@ -36,6 +36,18 @@ module SprintIssueAbilities
     issues.select{ |issue| issue.parent_epic&.wbso_project.present? }
   end
 
+  def released_issues
+    issues.select{ |issue| released_in_sprint?(issue) }
+  end
+
+  def rejected_issues
+    issues.select{ |issue| issue.rejected? }
+  end
+
+  def resolved_issues
+    closed_issues + rejected_issues
+  end
+
   def issues_per_wbso_project
     wbso_issues.inject({}) do |memo, issue|
       wbso_project = issue.epic.parent_epic.wbso_project
@@ -52,8 +64,16 @@ module SprintIssueAbilities
     issue.closed? && issue.resolution_date <= (sprint.complete_date || sprint.end_date)
   end
 
+  def released_in_sprint?(issue)
+    issue.released? && issue.release_date <= (sprint.complete_date || sprint.end_date)
+  end
+
   def points_closed
     closed_issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
+  end
+
+  def points_released
+    released_issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
   end
 
   def points_open
@@ -62,6 +82,10 @@ module SprintIssueAbilities
 
   def points_total
     issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
+  end
+
+  def points_rejected
+    rejected_issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
   end
 
   def wbso_points_closed
