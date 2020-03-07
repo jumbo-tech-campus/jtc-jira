@@ -11,7 +11,7 @@ class IssueFactory
     )
     issue.assignee = json['fields']['assignee']['displayName'] if json['fields']['assignee']
     issue.resolution = json['fields']['resolution']['name'] if json['fields']['resolution']
-    issue.epic = Repository.for(:epic).find(json['fields']['customfield_10016']) if json['fields']['customfield_10016']
+    issue.epic = Repository.for(:epic)&.find(json['fields']['customfield_10016']) if json['fields']['customfield_10016']
     issue.state_changed_events.concat(get_state_changed_events(json))
 
     issue
