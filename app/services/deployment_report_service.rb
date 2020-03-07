@@ -28,7 +28,7 @@ class DeploymentReportService
   end
 
   def issues
-    @p1_issues ||= retrieve_deployment_issues
+    @issues ||= retrieve_deployment_issues
   end
 
   def linear_regression_for_issue_count
