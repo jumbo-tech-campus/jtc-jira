@@ -232,3 +232,7 @@
 .c3-drag-zoom .extent {
   fill-opacity: 0.1;
 }
+
+.c3-target-goal {
+  stroke-dasharray: 5,5;
+}

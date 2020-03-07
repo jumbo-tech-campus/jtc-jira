@@ -12,6 +12,13 @@ class DeploymentReportService
     }
   end
 
+  def overview
+    {
+      issue_count_per_day: cumulative_count_per_day,
+      count: issues.size
+    }
+  end
+
   def issues_table
     table = []
     header = ["Key", "Date", "Title"]
@@ -55,6 +62,14 @@ class DeploymentReportService
       date = issue.created.strftime('%Y-%m-%d')
       memo[date] += 1
       memo
+    end
+  end
+
+  def cumulative_count_per_day
+    accumulator = 0
+    issue_count_per_day.map do |day, count|
+      accumulator += count
+      [day, accumulator]
     end
   end
 

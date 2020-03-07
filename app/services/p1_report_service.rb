@@ -15,6 +15,13 @@ class P1ReportService
     }
   end
 
+  def overview
+    {
+      issue_count_per_week: issue_count_per_week.to_a,
+      count: issues.size
+    }
+  end
+
   def issues
     @issues ||= retrieve_p1_issues
   end

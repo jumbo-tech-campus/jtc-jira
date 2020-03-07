@@ -1,0 +1,52 @@
+<%= render 'shared/nav_bar' %>
+<main role="main" class="container-fluid">
+  <div class="main">
+     <div class="card box-shadow mb-4">
+       <div class="card-header">
+         <strong>Number of deployment issues per day</strong><br>
+       </div>
+       <div class="deploy-chart m-4"></div>
+     </div>
+</div>
+</main>
+
+<script>
+$(function() {
+  var chart_data = convertToDeploymentOverviewChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
+  c3.generate({
+      padding: {
+         right: 40,
+         left: 40
+      },
+      bindto: d3.select('.deploy-chart'),
+      data: {
+        xs: {
+          'previous_x': 'dates',
+          'current_x': 'dates',
+          'goal': 'min_max_dates'
+        },
+        columns: chart_data,
+        names: {
+          'previous_x': '<%= @last_year_quarter.name %>',
+          'current_x': '<%= @current_quarter.name %>'
+        }
+      },
+      axis: {
+        y: {
+          min: 0,
+          padding: { top: 5, bottom:0 }
+        },
+        x: {
+          type: 'timeseries',
+          tick: {
+           fit: true,
+           format: '%d-%m-%Y'
+          }
+        },
+      },
+      point: {
+        show: false
+      }
+   });
+});
+</script>

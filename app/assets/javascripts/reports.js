@@ -92,6 +92,29 @@ function convertToDeploymentChartData(data) {
   return deployments.concat(regression_data);
 }
 
+function convertToDeploymentOverviewChartData(data) {
+  var dates = data.current.map(function(x){
+    return x[0];
+  });
+
+  var min_max_dates = ['min_max_dates', dates[0], dates[dates.length - 1]];
+  var goal = ['goal', 0, 800];
+
+  dates = ['dates'].concat(dates);
+
+  var current = data.current.map(function(x){
+    return x[1];
+  });
+  current = ['current_x'].concat(current);
+
+  var previous = data.previous.map(function(x){
+    return x[1];
+  });
+  previous = ['previous_x'].concat(previous);
+
+  return [min_max_dates, dates, current, previous, goal];
+}
+
 function convertToP1IssueCountChartData(data) {
   var p1count = data.issue_count_per_week.reduce(function(memo, issue_count){
     memo[0].push(issue_count[0]);

@@ -8,4 +8,12 @@ class Quarter < ActiveModelSerializers::Model
   def name
     fix_version.chomp(' plan')
   end
+
+  def start_date
+    Date.commercial(year, start_week, 1)
+  end
+
+  def end_date
+    Date.commercial(year, end_week, 7)
+  end
 end
