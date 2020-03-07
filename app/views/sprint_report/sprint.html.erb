@@ -21,7 +21,7 @@
            <div class="card box-shadow mb-4">
                <div class="card-header">
                  <strong>Portfolio view</strong><br>
-                 <small class="text-muted small">Percentage of points closed per portfolio epic compared to total points closed in the sprint</small>
+                 <small class="text-muted">Percentage of points closed per portfolio epic compared to total points closed in the sprint. Between brackets the number of points per portfolio epic closed in this sprint versus planned in this sprint.</small>
                </div>
                 <% @sprint.sprint_parent_epics.each do |sprint_parent_epic| %>
                 <div class="card-body">
@@ -36,7 +36,7 @@
                      aria-valuemin="0"
                      aria-valuemax="100" style="width: <%= sprint_parent_epic.percentage_of_points_closed.round %>%;">
                      </div>
-                     <span class="progress-type"><%= sprint_parent_epic.description %></span>
+                     <span class="progress-type"><%= sprint_parent_epic.description %> (<%= sprint_parent_epic.points_closed.round %>/<%= sprint_parent_epic.points_total.round %>)</span>
                      <span class="progress-completed"><%= sprint_parent_epic.percentage_of_points_closed.round %>%</span>
                    </div>
                </div>
@@ -45,7 +45,7 @@
            <div class="card box-shadow mb-4">
                <div class="card-header">
                  <strong>Epic view</strong><br>
-                 <small class="text-muted small">Percentage of points closed per epic compared to total points closed in the sprint</small>
+                 <small class="text-muted">Percentage of points closed per epic compared to total points closed in the sprint. Between brackets the number of points per epic closed in this sprint versus planned in this sprint.</small>
                </div>
                 <% @sprint.sprint_epics.each do |sprint_epic| %>
                 <div class="card-body">
@@ -60,7 +60,7 @@
                      aria-valuemin="0"
                      aria-valuemax="100" style="width: <%= sprint_epic.percentage_of_points_closed.round %>%;">
                      </div>
-                     <span class="progress-type"><%= sprint_epic.description %></span>
+                     <span class="progress-type"><%= sprint_epic.description %> (<%= sprint_epic.points_closed.round %>/<%= sprint_epic.points_total.round %>)</span>
                      <span class="progress-completed"><%= sprint_epic.percentage_of_points_closed.round %>%</span>
                    </div>
                </div>
@@ -71,7 +71,7 @@
            <div class="card box-shadow">
                <div class="card-header">
                  <strong>Sprint view</strong><br>
-                 <small class="text-muted small">Overview of data and statistics of the sprint</small>
+                 <small class="text-muted">Overview of data and statistics of the sprint</small>
                </div>
                <div class="card-body">
                    <div>
@@ -97,13 +97,13 @@
                             <tr>
                              <td class="small p-1"><strong>Points closed</strong></td>
                              <td class="small p-1">
-                                <%= @sprint.points_closed %>
+                                <%= @sprint.points_closed.round %>
                              </td>
                            </tr>
                            <tr>
                             <td class="small p-1"><strong>Points open</strong></td>
                             <td class="small p-1">
-                               <%= @sprint.points_open %>
+                               <%= @sprint.points_open.round %>
                             </td>
                           </tr>
                           <tr>
@@ -123,11 +123,11 @@
                            <td class="small p-1">
                              <div class="progress">
                                <div class="progress-bar bg-yellow"
-                               role="progressbar" aria-valuenow="<%= @sprint.percentage_closed.round() %>"
+                               role="progressbar" aria-valuenow="<%= @sprint.percentage_closed.round %>"
                                aria-valuemin="0"
-                               aria-valuemax="100" style="width: <%= @sprint.percentage_closed.round() %>%;">
+                               aria-valuemax="100" style="width: <%= @sprint.percentage_closed.round %>%;">
                                </div>
-                               <span class="progress-completed"><%= @sprint.percentage_closed.round() %>%</span>
+                               <span class="progress-completed"><%= @sprint.percentage_closed.round %>%</span>
                              </div>
                            </td>
                           </tr>
@@ -136,11 +136,11 @@
                            <td class="small p-1">
                              <div class="progress">
                                <div class="progress-bar bg-yellow"
-                               role="progressbar" aria-valuenow="<%= @sprint.percentage_of_issues_closed.round() %>"
+                               role="progressbar" aria-valuenow="<%= @sprint.percentage_of_issues_closed.round %>"
                                aria-valuemin="0"
-                               aria-valuemax="100" style="width: <%= @sprint.percentage_of_issues_closed.round() %>%;">
+                               aria-valuemax="100" style="width: <%= @sprint.percentage_of_issues_closed.round %>%;">
                                </div>
-                               <span class="progress-completed"><%= @sprint.percentage_of_issues_closed.round() %>%</span>
+                               <span class="progress-completed"><%= @sprint.percentage_of_issues_closed.round %>%</span>
                              </div>
                            </td>
                           </tr>
@@ -149,11 +149,11 @@
                            <td class="small p-1">
                              <div class="progress">
                                <div class="progress-bar bg-yellow"
-                               role="progressbar" aria-valuenow="<%= @sprint.wbso_percentage_of_issues_closed.round() %>"
+                               role="progressbar" aria-valuenow="<%= @sprint.wbso_percentage_of_issues_closed.round %>"
                                aria-valuemin="0"
-                               aria-valuemax="100" style="width: <%= @sprint.wbso_percentage_of_issues_closed.round() %>%;">
+                               aria-valuemax="100" style="width: <%= @sprint.wbso_percentage_of_issues_closed.round %>%;">
                                </div>
-                               <span class="progress-completed"><%= @sprint.wbso_percentage_of_issues_closed.round() %>%</span>
+                               <span class="progress-completed"><%= @sprint.wbso_percentage_of_issues_closed.round %>%</span>
                              </div>
                            </td>
                           </tr>
@@ -202,7 +202,7 @@
                                       <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
                                       <% end %>
                                     </td>
-                                    <td><%= issue.estimation %></td>
+                                    <td><%= issue.estimation.round %></td>
                                     <td><%= issue.cycle_time&.round %></td>
                                   </tr>
                                   <% end %>
@@ -233,7 +233,7 @@
                                       <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
                                       <% end %>
                                     </td>
-                                    <td><%= issue.estimation %></td>
+                                    <td><%= issue.estimation.round %></td>
                                   </tr>
                                   <% end %>
                                </tbody>
@@ -264,7 +264,7 @@
                                       <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
                                       <% end %>
                                     </td>
-                                    <td><%= issue.estimation %></td>
+                                    <td><%= issue.estimation.round %></td>
                                     <td><%= issue.cycle_time&.round %></td>
                                   </tr>
                                   <% end %>
