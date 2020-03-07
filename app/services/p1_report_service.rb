@@ -15,16 +15,16 @@ class P1ReportService
     }
   end
 
-  def p1_issues
-    @p1_issues ||= retrieve_p1_issues
+  def issues
+    @issues ||= retrieve_p1_issues
   end
 
   def open_p1_issues
-    p1_issues.select{ |issue| !issue.closed? }
+    issues.select{ |issue| !issue.closed? }
   end
 
   def closed_p1_issues
-    p1_issues.select{ |issue| issue.closed? }
+    issues.select{ |issue| issue.closed? }
   end
 
   def closed_issues_table
@@ -70,7 +70,7 @@ class P1ReportService
       date = date + 1.week
     end
 
-    p1_issues.inject(count_per_week) do |memo, issue|
+    issues.inject(count_per_week) do |memo, issue|
       memo[issue.created.cweek] += 1
       memo
     end
