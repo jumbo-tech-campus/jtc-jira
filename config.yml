@@ -208,12 +208,6 @@
   :deployment_constraint_id: 1
   :subteam: Mob-Inspiration
   :position: 2000
-- mob_all:
-  :name: Mobile (all teams)
-  :department_id: 1
-  :board_id: 229
-  :project_key: JMBMOB
-  :deployment_constraint_id: 5
 - loyal:
   :name: Loyal
   :department_id: 1
