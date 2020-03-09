@@ -24,9 +24,13 @@ class CycleTimeOverviewReportService
       prev_period_avg = nil
 
       periods.each do |period|
-        issues = cycle_issues([board], period.start_date, period.end_date)
-        avg = cycle_time_average(issues)&.round(1)
-        row << avg
+        if team.is_active?(period.start_date)
+          issues = cycle_issues([board], period.start_date, period.end_date)
+          avg = cycle_time_average(issues)&.round(1)
+          row << avg
+        else
+          row << nil
+        end
 
         next unless include_percentages
 
@@ -48,7 +52,8 @@ class CycleTimeOverviewReportService
 
     prev_period_avg = nil
     periods.each do |period|
-      issues = cycle_issues(@boards, period.start_date, period.end_date)
+      boards = @boards.select{ |board| board.team.is_active?(period.start_date) }
+      issues = cycle_issues(boards, period.start_date, period.end_date)
       avg = cycle_time_average(issues)&.round(1)
       row << avg
 
