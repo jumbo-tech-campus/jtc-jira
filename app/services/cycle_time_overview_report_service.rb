@@ -42,7 +42,19 @@ class CycleTimeOverviewReportService
         prev_period_avg = avg
       end
 
-      issues = cycle_issues([board], @start_date, @end_date)
+      if team.started_at > @start_date
+        started = team.started_at
+      else
+        started = @start_date
+      end
+
+      if team.archived_at < @end_date
+        ended = team.archived_at
+      else
+        ended = @end_date
+      end
+
+      issues = cycle_issues([board], started, ended)
       row << cycle_time_average(issues)&.round(1)
 
       table << row
