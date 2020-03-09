@@ -2,7 +2,7 @@ class Team < ActiveModelSerializers::Model
   extend Forwardable
 
   attr_reader :name, :board_id, :subteam
-  attr_accessor :project, :department, :deployment_constraint, :position, :archived_at
+  attr_accessor :project, :department, :deployment_constraint, :position, :archived_at, :started_at
 
   def initialize(name, board_id, subteam)
     @name, @board_id, @subteam = name, board_id, subteam
@@ -18,6 +18,8 @@ class Team < ActiveModelSerializers::Model
 
   def is_active?(date = Date.today)
     if archived_at && archived_at <= date
+      false
+    elsif started_at && started_at > date
       false
     elsif deployment_constraint.id == 5
       false

@@ -235,6 +235,7 @@
   :project_key: SP
   :deployment_constraint_id: 5
   :position: 12000
+  :started_at: 11-03-2020
 - predict_it:
   :name: Predict IT
   :department_id: 1
