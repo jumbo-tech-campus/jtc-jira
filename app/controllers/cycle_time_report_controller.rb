@@ -74,7 +74,7 @@ class CycleTimeReportController < ApplicationController
     if @department && @deployment_constraint
       @department.active_teams_in(@year).select{ |team| team.deployment_constraint == @deployment_constraint }
     elsif @department
-      @department.active_teams_in(@year).
+      @department.active_teams_in(@year)
     elsif @deployment_constraint
       @deployment_constraint.active_teams_in(@year)
     else
