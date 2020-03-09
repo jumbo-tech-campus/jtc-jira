@@ -47,7 +47,7 @@ class PortfolioReportService
     parent_epics = Repository.for(:parent_epic).find_by(fix_version: quarter.fix_version).sort_by{ |parent_epic| parent_epic.id }
     parent_epics = parent_epics - @static_epics
 
-    parent_epic_rows(table, @static_epics, { merge_no_epic_into_small_changes: true, include_fix_version: false })
+    parent_epic_rows(table, @static_epics, { merge_no_epic_into_small_changes: true, include_fix_version: false, include_empty_lines: true })
     parent_epic_rows(table, parent_epics, { include_empty_lines: true })
     table
   end
