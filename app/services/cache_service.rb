@@ -1,6 +1,6 @@
 class CacheService
   def self.refresh_team_data(team)
-    team = Config::TeamRepository.find_by(board_id: team.board_id).first
+    team = Config::TeamRepository.new(Config::ConfigClient.new).find_by(board_id: team.board_id).first
 
     JiraService.register_repositories
     board = Repository.for(:board).find(team.board_id)
