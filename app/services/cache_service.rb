@@ -1,13 +1,18 @@
 class CacheService
   def self.refresh_team_data(team)
-    redis_client = Cache::RedisClient.new
+    team = Config::TeamRepository.find_by(board_id: team.board_id).first
+
     JiraService.register_repositories
-
     board = Repository.for(:board).find(team.board_id)
-    #use specific cache repositories to save to cache
-    board_repo = ::Cache::BoardRepository.new(redis_client)
-    sprint_repo = ::Cache::SprintRepository.new(redis_client)
 
+    redis_client = Cache::RedisClient.new
+
+    #use specific cache repositories to save to cache
+    team_repo = Cache::TeamRepository.new(redis_client)
+    board_repo = Cache::BoardRepository.new(redis_client)
+    sprint_repo = Cache::SprintRepository.new(redis_client)
+
+    team_repo.save(team)
     board_repo.save(board)
     board.sprints_from(2019).each do |sprint|
       sprint_repo.save(sprint)
