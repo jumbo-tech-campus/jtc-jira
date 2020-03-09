@@ -1,6 +1,6 @@
 class CacheService
   def self.refresh_team_data(team)
-    team = Config::TeamRepository.new(Config::ConfigClient.new).find_by(board_id: team.board_id).first
+    teams = Config::TeamRepository.new(Config::ConfigClient.new).all
 
     JiraService.register_repositories
     board = Repository.for(:board).find(team.board_id)
@@ -12,7 +12,7 @@ class CacheService
     board_repo = Cache::BoardRepository.new(redis_client)
     sprint_repo = Cache::SprintRepository.new(redis_client)
 
-    team_repo.save(team)
+    team_repo.save(teams)
     board_repo.save(board)
     board.sprints_from(2019).each do |sprint|
       sprint_repo.save(sprint)
