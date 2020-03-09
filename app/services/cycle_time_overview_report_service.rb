@@ -42,13 +42,13 @@ class CycleTimeOverviewReportService
         prev_period_avg = avg
       end
 
-      if team.started_at > @start_date
+      if team.started_at && team.started_at > @start_date
         started = team.started_at
       else
         started = @start_date
       end
 
-      if team.archived_at < @end_date
+      if team.archived_at && team.archived_at < @end_date
         ended = team.archived_at
       else
         ended = @end_date
