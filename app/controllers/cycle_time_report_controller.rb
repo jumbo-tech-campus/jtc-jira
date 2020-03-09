@@ -72,13 +72,13 @@ class CycleTimeReportController < ApplicationController
 
   def teams
     if @department && @deployment_constraint
-      @department.teams.select{ |team| team.deployment_constraint == @deployment_constraint }
+      @department.active_teams_in(@year).select{ |team| team.deployment_constraint == @deployment_constraint }
     elsif @department
-      @department.teams
+      @department.active_teams_in(@year).
     elsif @deployment_constraint
-      @deployment_constraint.teams
+      @deployment_constraint.active_teams_in(@year)
     else
-      Repository.for(:team).all
+      Repository.for(:team).all.select{ |team| team.is_active_in?(@year) }
     end
   end
 

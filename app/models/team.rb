@@ -28,6 +28,16 @@ class Team < ActiveModelSerializers::Model
     end
   end
 
+  def is_active_in?(year)
+    if archived_at && archived_at < Date.new(year, 1, 1)
+      false
+    elsif started_at && started_at > Date.new(year, 12, 31)
+      false
+    else
+      true
+    end
+  end
+
   def has_position?
     position.present?
   end

@@ -13,6 +13,10 @@ class Department < ActiveModelSerializers::Model
     teams.select{ |team| team.is_active?(date) }
   end
 
+  def active_teams_in(year = Date.today.year)
+    teams.select{ |team| team.is_active_in?(year) }
+  end
+
   def scrum_teams
     teams.select(&:is_scrum_team?)
   end
