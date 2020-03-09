@@ -1,31 +1,28 @@
-<%= render 'shared/nav_bar' %>
-<main role="main" class="container-fluid">
-  <div class="main">
-    <div class="row pl-3">
-      <form class="form-inline" action="<%= portfolio_teams_path %>">
-        <input type="hidden" name="department_id" value="<%= @department.id %>"/>
-        <div class="form-group mb-3">
-        <label for="weeksSelect" class="ml-3 mr-3">Week</label>
-        <select class="form-control" id="weeksSelect" class="ml-3" name="date" onchange="this.form.submit()">
-           <% @dates.each do |date| %>
-           <option value="<%= date.to_date %>" <%= 'selected' if date == @selected_date %>>Week <%= "#{date.cweek} & #{date.cweek + 1} #{date.year}" %></option>
-           <% end %>
-       </select>
-       </div>
-      </form>
+<div class="main">
+  <div class="row pl-3">
+    <form class="form-inline" action="<%= portfolio_teams_path %>">
+      <input type="hidden" name="department_id" value="<%= @department.id %>"/>
+      <div class="form-group mb-3">
+      <label for="weeksSelect" class="ml-3 mr-3">Week</label>
+      <select class="form-control" id="weeksSelect" class="ml-3" name="date" onchange="this.form.submit()">
+         <% @dates.each do |date| %>
+         <option value="<%= date.to_date %>" <%= 'selected' if date == @selected_date %>>Week <%= "#{date.cweek} & #{date.cweek + 1} #{date.year}" %></option>
+         <% end %>
+     </select>
      </div>
-     <div class="card box-shadow mb-4">
-       <div class="card-header">
-         <a href="<%= portfolio_teams_path(department_id: @department.id, date: @selected_date, format: 'csv') %>"
-           class="card-link float-right">
-           Download as csv file
-         </a>
-         <strong>Portfolio team report <%= @department.name %> for week <%= "#{@selected_date.cweek} & #{@selected_date.cweek + 1}" %></strong><br>
-         <small class="text-muted small">Percentage of work per team per portfolio epic in sprints that span across these weeks. Only epics that were worked on are included.</small>
-       </div>
-       <div class="card-body">
-         <%= render partial: 'shared/table', locals: { table: @table, options: { table_class: 'narrow-table'} } %>
-       </div>
-    </div>
+    </form>
+   </div>
+   <div class="card box-shadow mb-4">
+     <div class="card-header">
+       <a href="<%= portfolio_teams_path(department_id: @department.id, date: @selected_date, format: 'csv') %>"
+         class="card-link float-right">
+         Download as csv file
+       </a>
+       <strong>Portfolio team report <%= @department.name %> for week <%= "#{@selected_date.cweek} & #{@selected_date.cweek + 1}" %></strong><br>
+       <small class="text-muted small">Percentage of work per team per portfolio epic in sprints that span across these weeks. Only epics that were worked on are included.</small>
+     </div>
+     <div class="card-body">
+       <%= render partial: 'shared/table', locals: { table: @table, options: { table_class: 'narrow-table'} } %>
+     </div>
   </div>
-</main>
+</div>

@@ -1,19 +1,16 @@
-<%= render 'shared/nav_bar' %>
-<main role="main" class="container-fluid">
-  <div class="main">
-    <%= render partial: 'shared/deployment_constraint_department_selector', locals: { path: cycle_time_four_week_overview_path } %>
-    <div class="card box-shadow mb-4">
-      <div class="card-header">
-        <a href="<%= cycle_time_four_week_overview_path(deployment_constraint_id: @deployment_constraint&.id, department_id: @department&.id, year: @year, format: 'csv') %>"
-          class="card-link float-right">
-          Download as csv file
-        </a>
-        <strong>4-weekly cycle time averages overview in <%= @year %></strong><br>
-        <small class="text-muted small">Average cycle time per four week period calculated from the issues moved to 'Released' in that period</small>
-      </div>
-      <div class="card-body">
-        <%= render partial: 'shared/table', locals: { table: @report, options: { table_class: 'narrow-table'} } %>
-      </div>
-   </div>
+<div class="main">
+  <%= render partial: 'shared/deployment_constraint_department_selector', locals: { path: cycle_time_four_week_overview_path } %>
+  <div class="card box-shadow mb-4">
+    <div class="card-header">
+      <a href="<%= cycle_time_four_week_overview_path(deployment_constraint_id: @deployment_constraint&.id, department_id: @department&.id, year: @year, format: 'csv') %>"
+        class="card-link float-right">
+        Download as csv file
+      </a>
+      <strong>4-weekly cycle time averages overview in <%= @year %></strong><br>
+      <small class="text-muted small">Average cycle time per four week period calculated from the issues moved to 'Released' in that period</small>
+    </div>
+    <div class="card-body">
+      <%= render partial: 'shared/table', locals: { table: @report, options: { table_class: 'narrow-table'} } %>
+    </div>
  </div>
-</main>
+</div>

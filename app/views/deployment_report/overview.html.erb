@@ -1,71 +1,68 @@
-<%= render 'shared/nav_bar' %>
-<main role="main" class="container-fluid">
-  <div class="main">
-    <%= render partial: 'shared/date_selector_year', locals: { path: deployment_report_path } %>
-     <div class="card box-shadow mb-4">
-       <div class="card-header">
-         <strong>Number of deployment issues per day</strong><br>
-       </div>
-       <div class="bar-chart m-4"></div>
+<div class="main">
+  <%= render partial: 'shared/date_selector_year', locals: { path: deployment_report_path } %>
+   <div class="card box-shadow mb-4">
+     <div class="card-header">
+       <strong>Number of deployment issues per day</strong><br>
      </div>
+     <div class="bar-chart m-4"></div>
+   </div>
 
-     <script>
-     $(function() {
-       var chart_data = convertToDeploymentChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
-       c3.generate({
-           padding: {
-              right: 40,
-              left: 40
+   <script>
+   $(function() {
+     var chart_data = convertToDeploymentChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
+     c3.generate({
+         padding: {
+            right: 40,
+            left: 40
+         },
+         bindto: d3.select('.bar-chart'),
+         data: {
+           xs: {
+             deployments: 'deployment_x',
+             trendline: 'trendline_x'
            },
-           bindto: d3.select('.bar-chart'),
-           data: {
-             xs: {
-               deployments: 'deployment_x',
-               trendline: 'trendline_x'
-             },
-             columns: chart_data,
-             type: 'bar',
-             types: {
-               trendline: 'line'
+           columns: chart_data,
+           type: 'bar',
+           types: {
+             trendline: 'line'
+           }
+         },
+         axis: {
+           y: {
+             min: 0,
+             padding: { top: 5, bottom:0 }
+           },
+           x: {
+             type: 'timeseries',
+             tick: {
+              fit: true,
+              format: '%d-%m-%Y'
              }
-           },
-           axis: {
-             y: {
-               min: 0,
-               padding: { top: 5, bottom:0 }
-             },
-             x: {
-               type: 'timeseries',
-               tick: {
-                fit: true,
-                format: '%d-%m-%Y'
-               }
-             }
-           },
-           point: {
-             show: false
-           },
-           bar: {
-              width: {
-                  ratio: 0.75
-              },
-              space: 2
-          }
-        });
-     });
-    </script>
+           }
+         },
+         point: {
+           show: false
+         },
+         bar: {
+            width: {
+                ratio: 0.75
+            },
+            space: 2
+        }
+      });
+   });
+  </script>
 
-     <div class="card box-shadow mb-4">
-       <div class="card-header">
-         <a href="<%= deployment_report_path(format: 'csv') %>"
-           class="card-link float-right">
-           Download as csv file
-         </a>
-         <strong>JTC digital deployment issues</strong><br>
-       </div>
-       <div class="card-body">
-         <%= render partial: 'shared/issue_table', locals: { table: @report[:issues_table] } %>
-       </div>
-    </div>
+   <div class="card box-shadow mb-4">
+     <div class="card-header">
+       <a href="<%= deployment_report_path(format: 'csv') %>"
+         class="card-link float-right">
+         Download as csv file
+       </a>
+       <strong>JTC digital deployment issues</strong><br>
+     </div>
+     <div class="card-body">
+       <%= render partial: 'shared/issue_table', locals: { table: @report[:issues_table] } %>
+     </div>
   </div>
-</main>
+</div>

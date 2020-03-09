@@ -1,83 +1,80 @@
-<%= render 'shared/nav_bar' %>
-<main role="main" class="container-fluid">
-  <div class="main">
-    <%= render partial: 'shared/date_selector_year', locals: { path: p1_report_path } %>
-    <div class="card box-shadow mb-4">
-      <div class="card-header">
-        <strong>Open P1 issues</strong><br>
-      </div>
-      <div class="card-body">
-        <%= render partial: 'shared/issue_table', locals: { table: @report[:open_issues_table] } %>
-      </div>
-   </div>
-   <div class="card box-shadow mb-4">
-     <div class="card-header">
-       <strong>Number of P1 issues per week</strong><br>
-     </div>
-     <div class="bar-chart m-4"></div>
-   </div>
-
-   <script>
-   $(function() {
-     var chart_data = convertToP1IssueCountChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
-     c3.generate({
-         padding: {
-            right: 40,
-            left: 40
-         },
-         bindto: d3.select('.bar-chart'),
-         data: {
-           xs: {
-             'issues per week': 'issue_count_x',
-             trendline: 'trendline_x'
-           },
-           columns: chart_data,
-           type: 'bar',
-           types: {
-             trendline: 'line'
-           }
-         },
-         axis: {
-           y: {
-             min: 0,
-             padding: { top: 5, bottom:0 }
-           },
-           x: {
-           }
-         },
-         point: {
-           show: false
-         },
-         bar: {
-            space: 2
-        }
-      });
-   });
-  </script>
+<div class="main">
+  <%= render partial: 'shared/date_selector_year', locals: { path: p1_report_path } %>
   <div class="card box-shadow mb-4">
     <div class="card-header">
-      <strong>P1 resolution time scatter plot</strong><br>
-      <small class="text-muted small">Resolution time is calculated from the issue creation date to the date of resolution</small>
-    </div>
-    <div class="scatter-plot m-4"></div>
-  </div>
-
-  <script>
-  $(function() {
-    var chart_data = convertToResolutionTimeChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
-    generateScatterPlot(chart_data,'<%= @report[:closed_issues_table].last[1]%>' , '.scatter-plot', 'resolution time');
-  });
-  </script>
-  <div class="card box-shadow mb-4">
-    <div class="card-header">
-      <a href="<%= p1_report_path(format: 'csv') %>"
-        class="card-link float-right">
-        Download as csv file
-      </a>
-      <strong>Closed P1 issues</strong><br>
+      <strong>Open P1 issues</strong><br>
     </div>
     <div class="card-body">
-      <%= render partial: 'shared/issue_table', locals: { table: @report[:closed_issues_table] } %>
+      <%= render partial: 'shared/issue_table', locals: { table: @report[:open_issues_table] } %>
     </div>
  </div>
-</main>
+ <div class="card box-shadow mb-4">
+   <div class="card-header">
+     <strong>Number of P1 issues per week</strong><br>
+   </div>
+   <div class="bar-chart m-4"></div>
+ </div>
+
+ <script>
+ $(function() {
+   var chart_data = convertToP1IssueCountChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
+   c3.generate({
+       padding: {
+          right: 40,
+          left: 40
+       },
+       bindto: d3.select('.bar-chart'),
+       data: {
+         xs: {
+           'issues per week': 'issue_count_x',
+           trendline: 'trendline_x'
+         },
+         columns: chart_data,
+         type: 'bar',
+         types: {
+           trendline: 'line'
+         }
+       },
+       axis: {
+         y: {
+           min: 0,
+           padding: { top: 5, bottom:0 }
+         },
+         x: {
+         }
+       },
+       point: {
+         show: false
+       },
+       bar: {
+          space: 2
+      }
+    });
+ });
+</script>
+<div class="card box-shadow mb-4">
+  <div class="card-header">
+    <strong>P1 resolution time scatter plot</strong><br>
+    <small class="text-muted small">Resolution time is calculated from the issue creation date to the date of resolution</small>
+  </div>
+  <div class="scatter-plot m-4"></div>
+</div>
+
+<script>
+$(function() {
+  var chart_data = convertToResolutionTimeChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'));
+  generateScatterPlot(chart_data,'<%= @report[:closed_issues_table].last[1]%>' , '.scatter-plot', 'resolution time');
+});
+</script>
+<div class="card box-shadow mb-4">
+  <div class="card-header">
+    <a href="<%= p1_report_path(format: 'csv') %>"
+      class="card-link float-right">
+      Download as csv file
+    </a>
+    <strong>Closed P1 issues</strong><br>
+  </div>
+  <div class="card-body">
+    <%= render partial: 'shared/issue_table', locals: { table: @report[:closed_issues_table] } %>
+  </div>
+</div>

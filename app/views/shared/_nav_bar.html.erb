@@ -111,6 +111,11 @@
     </div>
   </nav>
 </header>
+<% if @updating_cache %>
+<div class="alert alert-warning" role="alert">
+  The application is updating it's data from JIRA at the moment. Data can be inconsistent or incorrect until the update has finished.
+</div>
+<% end %>
 <script>
   $().ready(function() {
     $('.dropdown-submenu').hover(function(e) {

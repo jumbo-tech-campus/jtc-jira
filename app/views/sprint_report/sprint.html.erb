@@ -1,280 +1,277 @@
-<%= render 'shared/nav_bar' %>
-<main role="main" class="container-fluid">
-  <div class="col-md-12 col-xl-12 main">
-    <div class="row mb-3">
-      <div class="col-xl-12">
-        <form class="form-inline" action="<%= sprint_report_path %>">
-          <input type="hidden" name="board_id" value="<%= @board.id %>"/>
-          <div class="form-group mb-3">
-          <label for="sprintSelect" class="ml-3 mr-3">Sprint:</label>
-          <select class="form-control" id="sprintSelect" class="ml-3" name="id" onchange="this.form.submit()">
-             <% @board.sprints_from(2019).each do |sprint|  %>
-             <option value="<%= sprint.id %>" <%= 'selected' if sprint == @sprint %>><%= sprint.name %><%= " (current sprint)" unless sprint.complete_date %></option>
-             <% end %>
-         </select>
-         </div>
-        </form>
-      </div>
-     </div>
-     <div class="row">
-       <div class="col-xl-6">
-           <div class="card box-shadow mb-4">
-               <div class="card-header">
-                 <strong>Portfolio view</strong><br>
-                 <small class="text-muted">Percentage of points closed per portfolio epic compared to total points closed in the sprint. Between brackets the number of points per portfolio epic closed in this sprint versus planned in this sprint.</small>
-               </div>
-                <% @sprint.sprint_parent_epics.each do |sprint_parent_epic| %>
-                <div class="card-body">
-                   <div class="progress">
-                     <div
-                     <% if sprint_parent_epic.parent_epic.id > 0 %>
-                      class="progress-bar bg-yellow"
-                      <% else %>
-                      class="progress-bar bg-orange"
-                      <% end %>
-                     role="progressbar" aria-valuenow="<%= sprint_parent_epic.percentage_of_points_closed.round %>"
-                     aria-valuemin="0"
-                     aria-valuemax="100" style="width: <%= sprint_parent_epic.percentage_of_points_closed.round %>%;">
-                     </div>
-                     <span class="progress-type"><%= sprint_parent_epic.description %> (<%= sprint_parent_epic.points_closed.round %>/<%= sprint_parent_epic.points_total.round %>)</span>
-                     <span class="progress-completed"><%= sprint_parent_epic.percentage_of_points_closed.round %>%</span>
-                   </div>
-               </div>
-               <% end %>
-           </div>
-           <div class="card box-shadow mb-4">
-               <div class="card-header">
-                 <strong>Epic view</strong><br>
-                 <small class="text-muted">Percentage of points closed per epic compared to total points closed in the sprint. Between brackets the number of points per epic closed in this sprint versus planned in this sprint.</small>
-               </div>
-                <% @sprint.sprint_epics.each do |sprint_epic| %>
-                <div class="card-body">
-                   <div class="progress">
-                     <div
-                     <% if sprint_epic.epic.id != 0 %>
-                     class="progress-bar bg-yellow"
-                     <% else %>
-                     class="progress-bar bg-orange"
-                     <% end %>
-                     role="progressbar" aria-valuenow="<%= sprint_epic.percentage_of_points_closed.round %>"
-                     aria-valuemin="0"
-                     aria-valuemax="100" style="width: <%= sprint_epic.percentage_of_points_closed.round %>%;">
-                     </div>
-                     <span class="progress-type"><%= sprint_epic.description %> (<%= sprint_epic.points_closed.round %>/<%= sprint_epic.points_total.round %>)</span>
-                     <span class="progress-completed"><%= sprint_epic.percentage_of_points_closed.round %>%</span>
-                   </div>
-               </div>
-               <% end %>
-           </div>
+<div class="col-md-12 col-xl-12 main">
+  <div class="row mb-3">
+    <div class="col-xl-12">
+      <form class="form-inline" action="<%= sprint_report_path %>">
+        <input type="hidden" name="board_id" value="<%= @board.id %>"/>
+        <div class="form-group mb-3">
+        <label for="sprintSelect" class="ml-3 mr-3">Sprint:</label>
+        <select class="form-control" id="sprintSelect" class="ml-3" name="id" onchange="this.form.submit()">
+           <% @board.sprints_from(2019).each do |sprint|  %>
+           <option value="<%= sprint.id %>" <%= 'selected' if sprint == @sprint %>><%= sprint.name %><%= " (current sprint)" unless sprint.complete_date %></option>
+           <% end %>
+       </select>
        </div>
-       <div class="col-xl-6">
-           <div class="card box-shadow">
-               <div class="card-header">
-                 <strong>Sprint view</strong><br>
-                 <small class="text-muted">Overview of data and statistics of the sprint</small>
-               </div>
-               <div class="card-body">
-                   <div>
-                     <table class="table table-borderless">
-                         <tbody>
-                             <tr>
-                              <td class="small p-1" width="30%"><strong>Team</strong></td>
-                              <td class="small p-1">
-                                <img src="<%= @board.team.avatars['24x24'] %>" alt="" class="mr-2 rounded" height="24" width="24">
-                                <%= @board.team.name %>
-                              </td>
-                            </tr>
-                            <tr>
-                             <td class="small p-1"><strong>Sprint</strong></td>
-                             <td class="small p-1">
-                               <% if @sprint.complete_date %>
-                                <%= "#{@sprint.name} (started: #{@sprint.start_date.strftime('%d-%m-%Y')}, ended: #{@sprint.complete_date.strftime('%d-%m-%Y')})" %>
-                               <% else %>
-                                <%= "Current sprint (started: #{@sprint.start_date.strftime('%d-%m-%Y')})" %>
-                               <% end %>
-                             </td>
-                            </tr>
-                            <tr>
-                             <td class="small p-1"><strong>Points closed</strong></td>
-                             <td class="small p-1">
-                                <%= @sprint.points_closed.round %>
-                             </td>
-                           </tr>
+      </form>
+    </div>
+   </div>
+   <div class="row">
+     <div class="col-xl-6">
+         <div class="card box-shadow mb-4">
+             <div class="card-header">
+               <strong>Portfolio view</strong><br>
+               <small class="text-muted">Percentage of points closed per portfolio epic compared to total points closed in the sprint. Between brackets the number of points per portfolio epic closed in this sprint versus planned in this sprint.</small>
+             </div>
+              <% @sprint.sprint_parent_epics.each do |sprint_parent_epic| %>
+              <div class="card-body">
+                 <div class="progress">
+                   <div
+                   <% if sprint_parent_epic.parent_epic.id > 0 %>
+                    class="progress-bar bg-yellow"
+                    <% else %>
+                    class="progress-bar bg-orange"
+                    <% end %>
+                   role="progressbar" aria-valuenow="<%= sprint_parent_epic.percentage_of_points_closed.round %>"
+                   aria-valuemin="0"
+                   aria-valuemax="100" style="width: <%= sprint_parent_epic.percentage_of_points_closed.round %>%;">
+                   </div>
+                   <span class="progress-type"><%= sprint_parent_epic.description %> (<%= sprint_parent_epic.points_closed.round %>/<%= sprint_parent_epic.points_total.round %>)</span>
+                   <span class="progress-completed"><%= sprint_parent_epic.percentage_of_points_closed.round %>%</span>
+                 </div>
+             </div>
+             <% end %>
+         </div>
+         <div class="card box-shadow mb-4">
+             <div class="card-header">
+               <strong>Epic view</strong><br>
+               <small class="text-muted">Percentage of points closed per epic compared to total points closed in the sprint. Between brackets the number of points per epic closed in this sprint versus planned in this sprint.</small>
+             </div>
+              <% @sprint.sprint_epics.each do |sprint_epic| %>
+              <div class="card-body">
+                 <div class="progress">
+                   <div
+                   <% if sprint_epic.epic.id != 0 %>
+                   class="progress-bar bg-yellow"
+                   <% else %>
+                   class="progress-bar bg-orange"
+                   <% end %>
+                   role="progressbar" aria-valuenow="<%= sprint_epic.percentage_of_points_closed.round %>"
+                   aria-valuemin="0"
+                   aria-valuemax="100" style="width: <%= sprint_epic.percentage_of_points_closed.round %>%;">
+                   </div>
+                   <span class="progress-type"><%= sprint_epic.description %> (<%= sprint_epic.points_closed.round %>/<%= sprint_epic.points_total.round %>)</span>
+                   <span class="progress-completed"><%= sprint_epic.percentage_of_points_closed.round %>%</span>
+                 </div>
+             </div>
+             <% end %>
+         </div>
+     </div>
+     <div class="col-xl-6">
+         <div class="card box-shadow">
+             <div class="card-header">
+               <strong>Sprint view</strong><br>
+               <small class="text-muted">Overview of data and statistics of the sprint</small>
+             </div>
+             <div class="card-body">
+                 <div>
+                   <table class="table table-borderless">
+                       <tbody>
                            <tr>
-                            <td class="small p-1"><strong>Points open</strong></td>
+                            <td class="small p-1" width="30%"><strong>Team</strong></td>
                             <td class="small p-1">
-                               <%= @sprint.points_open.round %>
+                              <img src="<%= @board.team.avatars['24x24'] %>" alt="" class="mr-2 rounded" height="24" width="24">
+                              <%= @board.team.name %>
                             </td>
                           </tr>
                           <tr>
-                           <td class="small p-1"><strong>Stories moved to done</strong></td>
+                           <td class="small p-1"><strong>Sprint</strong></td>
                            <td class="small p-1">
-                              <%= @sprint.done_issues.size %>
+                             <% if @sprint.complete_date %>
+                              <%= "#{@sprint.name} (started: #{@sprint.start_date.strftime('%d-%m-%Y')}, ended: #{@sprint.complete_date.strftime('%d-%m-%Y')})" %>
+                             <% else %>
+                              <%= "Current sprint (started: #{@sprint.start_date.strftime('%d-%m-%Y')})" %>
+                             <% end %>
+                           </td>
+                          </tr>
+                          <tr>
+                           <td class="small p-1"><strong>Points closed</strong></td>
+                           <td class="small p-1">
+                              <%= @sprint.points_closed.round %>
                            </td>
                          </tr>
                          <tr>
-                          <td class="small p-1"><strong>Average cycle time</strong></td>
+                          <td class="small p-1"><strong>Points open</strong></td>
                           <td class="small p-1">
-                             <%= @sprint.average_cycle_time&.round(1) %> days
+                             <%= @sprint.points_open.round %>
                           </td>
                         </tr>
-                          <tr>
-                           <td class="small p-1"><strong>Percentage of points closed</strong></td>
-                           <td class="small p-1">
-                             <div class="progress">
-                               <div class="progress-bar bg-yellow"
-                               role="progressbar" aria-valuenow="<%= @sprint.percentage_closed.round %>"
-                               aria-valuemin="0"
-                               aria-valuemax="100" style="width: <%= @sprint.percentage_closed.round %>%;">
-                               </div>
-                               <span class="progress-completed"><%= @sprint.percentage_closed.round %>%</span>
+                        <tr>
+                         <td class="small p-1"><strong>Stories moved to done</strong></td>
+                         <td class="small p-1">
+                            <%= @sprint.done_issues.size %>
+                         </td>
+                       </tr>
+                       <tr>
+                        <td class="small p-1"><strong>Average cycle time</strong></td>
+                        <td class="small p-1">
+                           <%= @sprint.average_cycle_time&.round(1) %> days
+                        </td>
+                      </tr>
+                        <tr>
+                         <td class="small p-1"><strong>Percentage of points closed</strong></td>
+                         <td class="small p-1">
+                           <div class="progress">
+                             <div class="progress-bar bg-yellow"
+                             role="progressbar" aria-valuenow="<%= @sprint.percentage_closed.round %>"
+                             aria-valuemin="0"
+                             aria-valuemax="100" style="width: <%= @sprint.percentage_closed.round %>%;">
                              </div>
-                           </td>
-                          </tr>
-                          <tr>
-                           <td class="small p-1"><strong>Percentage of issues closed</strong></td>
-                           <td class="small p-1">
-                             <div class="progress">
-                               <div class="progress-bar bg-yellow"
-                               role="progressbar" aria-valuenow="<%= @sprint.percentage_of_issues_closed.round %>"
-                               aria-valuemin="0"
-                               aria-valuemax="100" style="width: <%= @sprint.percentage_of_issues_closed.round %>%;">
-                               </div>
-                               <span class="progress-completed"><%= @sprint.percentage_of_issues_closed.round %>%</span>
+                             <span class="progress-completed"><%= @sprint.percentage_closed.round %>%</span>
+                           </div>
+                         </td>
+                        </tr>
+                        <tr>
+                         <td class="small p-1"><strong>Percentage of issues closed</strong></td>
+                         <td class="small p-1">
+                           <div class="progress">
+                             <div class="progress-bar bg-yellow"
+                             role="progressbar" aria-valuenow="<%= @sprint.percentage_of_issues_closed.round %>"
+                             aria-valuemin="0"
+                             aria-valuemax="100" style="width: <%= @sprint.percentage_of_issues_closed.round %>%;">
                              </div>
-                           </td>
-                          </tr>
-                          <tr>
-                           <td class="small p-1"><strong>WBSO percentage</strong></td>
-                           <td class="small p-1">
-                             <div class="progress">
-                               <div class="progress-bar bg-yellow"
-                               role="progressbar" aria-valuenow="<%= @sprint.wbso_percentage_of_issues_closed.round %>"
-                               aria-valuemin="0"
-                               aria-valuemax="100" style="width: <%= @sprint.wbso_percentage_of_issues_closed.round %>%;">
-                               </div>
-                               <span class="progress-completed"><%= @sprint.wbso_percentage_of_issues_closed.round %>%</span>
+                             <span class="progress-completed"><%= @sprint.percentage_of_issues_closed.round %>%</span>
+                           </div>
+                         </td>
+                        </tr>
+                        <tr>
+                         <td class="small p-1"><strong>WBSO percentage</strong></td>
+                         <td class="small p-1">
+                           <div class="progress">
+                             <div class="progress-bar bg-yellow"
+                             role="progressbar" aria-valuenow="<%= @sprint.wbso_percentage_of_issues_closed.round %>"
+                             aria-valuemin="0"
+                             aria-valuemax="100" style="width: <%= @sprint.wbso_percentage_of_issues_closed.round %>%;">
                              </div>
-                           </td>
-                          </tr>
-                        </tbody>
-                     </table>
-                   </div>
+                             <span class="progress-completed"><%= @sprint.wbso_percentage_of_issues_closed.round %>%</span>
+                           </div>
+                         </td>
+                        </tr>
+                      </tbody>
+                   </table>
+                 </div>
 
-                   <ul class="nav nav-tabs" role="tablist">
-                       <li class="nav-item">
-                         <a href="#closed" id="closed-tab" role="tab" data-toggle="tab"
-                         class="nav-link active" aria-controls="closed" aria-expanded="true">Resolved issues (<%= @sprint.resolved_issues.size %>)</a>
-                       </li>
-                       <li class="nav-item">
-                         <a href="#open" id="open-tab" role="tab" data-toggle="tab"
-                         class="nav-link" aria-controls="open" aria-expanded="false">Open issues (<%= @sprint.open_issues.size %>)</a>
-                       </li>
-                       <li class="nav-item">
-                         <a href="#done" id="done-tab" role="tab" data-toggle="tab"
-                         class="nav-link" aria-controls="done" aria-expanded="false">Released issues (<%= @sprint.done_issues.size %>)</a>
-                       </li>
-                   </ul>
-                   <!-- Tab panes -->
-                   <div class="tab-content">
-                       <div class="tab-pane active" id="closed">
-                           <table class="table table-bordered">
-                               <thead>
-                                   <tr class="small">
-                                       <th>Link</th>
-                                       <th>Title</th>
-                                       <th>Est.</th>
-                                       <th>Cycle time (days)</th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-                                   <% @sprint.resolved_issues.each do |issue| %>
-                                   <tr class="small">
-                                    <td nowrap>
-                                      <%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %><br>
-                                      <small class="text-muted"><%= issue.status %></small><br>
-                                    </td>
-                                    <td>
-                                      <%= issue.summary %><br>
-                                      <small class="text-muted"><%= issue.epic&.description %></small><br>
-                                      <small class="text-muted"><%= issue.parent_epic&.description %></small>
-                                      <% if issue.parent_epic&.wbso_project %>
-                                      <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
-                                      <% end %>
-                                    </td>
-                                    <td><%= issue.estimation.round %></td>
-                                    <td><%= issue.cycle_time&.round %></td>
-                                  </tr>
-                                  <% end %>
-                               </tbody>
-                           </table>
-                       </div>
-                       <div class="tab-pane" id="open">
-                           <table class="table table-bordered">
-                               <thead>
-                                   <tr class="small">
-                                       <th>Link</th>
-                                       <th>Title</th>
-                                       <th>Est.</th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-                                   <% @sprint.open_issues.each do |issue| %>
-                                   <tr class="small">
-                                     <td nowrap>
-                                       <%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %><br>
-                                       <small class="text-muted"><%= issue.status %></small><br>
-                                     </td>
-                                     <td>
-                                      <%= issue.summary %><br>
-                                      <small class="text-muted"><%= issue.epic&.description %></small><br>
-                                      <small class="text-muted"><%= issue.parent_epic&.description %></small>
-                                      <% if issue.parent_epic&.wbso_project %>
-                                      <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
-                                      <% end %>
-                                    </td>
-                                    <td><%= issue.estimation.round %></td>
-                                  </tr>
-                                  <% end %>
-                               </tbody>
-                           </table>
-                       </div>
-                       <div class="tab-pane" id="done">
-                           <table class="table table-bordered">
-                               <thead>
-                                   <tr class="small">
-                                       <th>Link</th>
-                                       <th>Title</th>
-                                       <th>Est.</th>
-                                       <th>Cycle time (days)</th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-                                   <% @sprint.done_issues.each do |issue| %>
-                                   <tr class="small">
-                                    <td nowrap>
-                                      <%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %><br>
-                                      <small class="text-muted"><%= issue.status %></small><br>
-                                    </td>
-                                    <td>
-                                      <%= issue.summary %><br>
-                                      <small class="text-muted"><%= issue.epic&.description %></small><br>
-                                      <small class="text-muted"><%= issue.parent_epic&.description %></small>
-                                      <% if issue.parent_epic&.wbso_project %>
-                                      <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
-                                      <% end %>
-                                    </td>
-                                    <td><%= issue.estimation.round %></td>
-                                    <td><%= issue.cycle_time&.round %></td>
-                                  </tr>
-                                  <% end %>
-                               </tbody>
-                           </table>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </div>
+                 <ul class="nav nav-tabs" role="tablist">
+                     <li class="nav-item">
+                       <a href="#closed" id="closed-tab" role="tab" data-toggle="tab"
+                       class="nav-link active" aria-controls="closed" aria-expanded="true">Resolved issues (<%= @sprint.resolved_issues.size %>)</a>
+                     </li>
+                     <li class="nav-item">
+                       <a href="#open" id="open-tab" role="tab" data-toggle="tab"
+                       class="nav-link" aria-controls="open" aria-expanded="false">Open issues (<%= @sprint.open_issues.size %>)</a>
+                     </li>
+                     <li class="nav-item">
+                       <a href="#done" id="done-tab" role="tab" data-toggle="tab"
+                       class="nav-link" aria-controls="done" aria-expanded="false">Released issues (<%= @sprint.done_issues.size %>)</a>
+                     </li>
+                 </ul>
+                 <!-- Tab panes -->
+                 <div class="tab-content">
+                     <div class="tab-pane active" id="closed">
+                         <table class="table table-bordered">
+                             <thead>
+                                 <tr class="small">
+                                     <th>Link</th>
+                                     <th>Title</th>
+                                     <th>Est.</th>
+                                     <th>Cycle time (days)</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <% @sprint.resolved_issues.each do |issue| %>
+                                 <tr class="small">
+                                  <td nowrap>
+                                    <%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %><br>
+                                    <small class="text-muted"><%= issue.status %></small><br>
+                                  </td>
+                                  <td>
+                                    <%= issue.summary %><br>
+                                    <small class="text-muted"><%= issue.epic&.description %></small><br>
+                                    <small class="text-muted"><%= issue.parent_epic&.description %></small>
+                                    <% if issue.parent_epic&.wbso_project %>
+                                    <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
+                                    <% end %>
+                                  </td>
+                                  <td><%= issue.estimation.round %></td>
+                                  <td><%= issue.cycle_time&.round %></td>
+                                </tr>
+                                <% end %>
+                             </tbody>
+                         </table>
+                     </div>
+                     <div class="tab-pane" id="open">
+                         <table class="table table-bordered">
+                             <thead>
+                                 <tr class="small">
+                                     <th>Link</th>
+                                     <th>Title</th>
+                                     <th>Est.</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <% @sprint.open_issues.each do |issue| %>
+                                 <tr class="small">
+                                   <td nowrap>
+                                     <%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %><br>
+                                     <small class="text-muted"><%= issue.status %></small><br>
+                                   </td>
+                                   <td>
+                                    <%= issue.summary %><br>
+                                    <small class="text-muted"><%= issue.epic&.description %></small><br>
+                                    <small class="text-muted"><%= issue.parent_epic&.description %></small>
+                                    <% if issue.parent_epic&.wbso_project %>
+                                    <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
+                                    <% end %>
+                                  </td>
+                                  <td><%= issue.estimation.round %></td>
+                                </tr>
+                                <% end %>
+                             </tbody>
+                         </table>
+                     </div>
+                     <div class="tab-pane" id="done">
+                         <table class="table table-bordered">
+                             <thead>
+                                 <tr class="small">
+                                     <th>Link</th>
+                                     <th>Title</th>
+                                     <th>Est.</th>
+                                     <th>Cycle time (days)</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <% @sprint.done_issues.each do |issue| %>
+                                 <tr class="small">
+                                  <td nowrap>
+                                    <%= link_to issue.key, issue.jira_url.to_s, target: "_blank" %><br>
+                                    <small class="text-muted"><%= issue.status %></small><br>
+                                  </td>
+                                  <td>
+                                    <%= issue.summary %><br>
+                                    <small class="text-muted"><%= issue.epic&.description %></small><br>
+                                    <small class="text-muted"><%= issue.parent_epic&.description %></small>
+                                    <% if issue.parent_epic&.wbso_project %>
+                                    <br><small class="text-muted">WBSO - <%= issue.parent_epic&.wbso_project %></small>
+                                    <% end %>
+                                  </td>
+                                  <td><%= issue.estimation.round %></td>
+                                  <td><%= issue.cycle_time&.round %></td>
+                                </tr>
+                                <% end %>
+                             </tbody>
+                         </table>
+                     </div>
+                 </div>
+             </div>
+         </div>
      </div>
    </div>
-</main>
+ </div>

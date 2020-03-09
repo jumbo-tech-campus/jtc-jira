@@ -59,9 +59,8 @@ class Cache < Thor
 
 
     redis_client = ::Cache::RedisClient.new
-    redis_client.flushall
+    redis_client.set('updating_cache', true)
 
-    puts "Redis database flushed - database size is now #{redis_client.dbsize}"
     puts "Caching #{teams.size} teams"
     ::Cache::TeamRepository.new(redis_client).save(teams)
     $stdout.flush
@@ -93,6 +92,8 @@ class Cache < Thor
     end
 
     Rails.cache.clear
+    redis_client.set('updating_cache', false)
+
     puts "Rails cache cleared. Caching job finished!"
 
     statsd_client.timing('thor.cache',

@@ -1,39 +1,36 @@
-<%= render 'shared/nav_bar' %>
-<main role="main" class="container-fluid">
-  <div class="main">
-    <div class="row pl-3">
-      <ul class="nav">
-        <% @quarters.each do |quarter| %>
-        <li class="nav-item">
-          <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if quarter.fix_version == @quarter.fix_version %>"
-            href="<%= portfolio_quarter_path(fix_version: quarter.fix_version) %>">
-            <%= quarter.name %>
-          </a>
-        </li>
-       <% end %>
-      </ul>
-    </div>
-    <div class="card box-shadow mb-4">
-      <div class="card-header">
-        <a href="<%= portfolio_quarter_path(fix_version: @quarter.fix_version, format: 'csv') %>"
-          class="card-link float-right">
-          Download as csv file
+<div class="main">
+  <div class="row pl-3">
+    <ul class="nav">
+      <% @quarters.each do |quarter| %>
+      <li class="nav-item">
+        <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if quarter.fix_version == @quarter.fix_version %>"
+          href="<%= portfolio_quarter_path(fix_version: quarter.fix_version) %>">
+          <%= quarter.name %>
         </a>
-        <strong>Overview of epics & portfolio epics for: <%= @quarter.name %></strong><br>
-        <small class="text-muted small">Based on issues moved to 'Released' in the period from week <%= @quarter.start_week %> to <%= @quarter.end_week %></small>
-      </div>
-      <div class="card-body">
-        <%= render partial: 'shared/issue_table', locals: { table: @report[:table], options: { align: :left, key_index: 1 } } %>
-      </div>
-   </div>
-   <div class="card box-shadow mb-4">
-     <div class="card-header">
-       <strong>Overview of uncategorized epics for: <%= @quarter.name %></strong><br>
-       <small class="text-muted small">Based on issues & epics not related to portfolio epics, which were moved to 'Released' in the period from week <%= @quarter.start_week %> to <%= @quarter.end_week %></small>
-     </div>
-     <div class="card-body">
-       <%= render partial: 'shared/issue_table', locals: { table: @report[:unplanned_table], options: { align: :left, key_index: 0 } } %>
-     </div>
+      </li>
+     <% end %>
+    </ul>
   </div>
+  <div class="card box-shadow mb-4">
+    <div class="card-header">
+      <a href="<%= portfolio_quarter_path(fix_version: @quarter.fix_version, format: 'csv') %>"
+        class="card-link float-right">
+        Download as csv file
+      </a>
+      <strong>Overview of epics & portfolio epics for: <%= @quarter.name %></strong><br>
+      <small class="text-muted small">Based on issues moved to 'Released' in the period from week <%= @quarter.start_week %> to <%= @quarter.end_week %></small>
+    </div>
+    <div class="card-body">
+      <%= render partial: 'shared/issue_table', locals: { table: @report[:table], options: { align: :left, key_index: 1 } } %>
+    </div>
  </div>
-</main>
+ <div class="card box-shadow mb-4">
+   <div class="card-header">
+     <strong>Overview of uncategorized epics for: <%= @quarter.name %></strong><br>
+     <small class="text-muted small">Based on issues & epics not related to portfolio epics, which were moved to 'Released' in the period from week <%= @quarter.start_week %> to <%= @quarter.end_week %></small>
+   </div>
+   <div class="card-body">
+     <%= render partial: 'shared/issue_table', locals: { table: @report[:unplanned_table], options: { align: :left, key_index: 0 } } %>
+   </div>
+ </div>
+</div>

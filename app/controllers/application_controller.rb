@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :set_teams
   before_action :set_departments
   before_action :set_deployment_constraints
+  before_action :set_updating_cache
 
   protected
   def set_week_dates
@@ -49,6 +50,10 @@ class ApplicationController < ActionController::Base
   def set_deployment_constraints
     @deployment_constraints = Repository.for(:deployment_constraint).all.
       sort_by(&:name).delete_if{ |deployment_constraint| deployment_constraint.id == 5 }
+  end
+
+  def set_updating_cache
+    @updating_cache = Cache::RedisClient.new().get('updating_cache')
   end
 
   def reset_cache_repositories
