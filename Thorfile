@@ -57,6 +57,7 @@ class Cache < Thor
     puts "Retrieved #{parent_epics.size} parent_epics"
     $stdout.flush
 
+    Rails.cache.clear
 
     redis_client = ::Cache::RedisClient.new
     redis_client.set('updating_cache', true)
