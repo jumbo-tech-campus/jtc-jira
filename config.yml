@@ -233,7 +233,7 @@
   :department_id: 1
   :board_id: 489
   :project_key: SP
-  :deployment_constraint_id: 5
+  :deployment_constraint_id: 3
   :position: 12000
   :started_at: 11-03-2020
 - predict_it:
