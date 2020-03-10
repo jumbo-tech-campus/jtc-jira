@@ -60,7 +60,7 @@ class Cache < Thor
     Rails.cache.clear
 
     redis_client = ::Cache::RedisClient.new
-    redis_client.set('updating_cache', true)
+    redis_client.set('updating_cache_since', started.strftime('%Y-%m-%d %H:%M'))
 
     puts "Caching #{teams.size} teams"
     ::Cache::TeamRepository.new(redis_client).save(teams)
@@ -93,7 +93,7 @@ class Cache < Thor
     end
 
     Rails.cache.clear
-    redis_client.set('updating_cache', false)
+    redis_client.del('updating_cache_since')
 
     puts "Rails cache cleared. Caching job finished!"
 

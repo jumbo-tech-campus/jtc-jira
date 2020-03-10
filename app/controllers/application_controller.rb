@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_updating_cache
-    @updating_cache = Cache::RedisClient.new().get('updating_cache')
+    @updating_cache_since = ApplicationHelper.safe_parse(Cache::RedisClient.new().get('updating_cache_since'))
   end
 
   def reset_cache_repositories

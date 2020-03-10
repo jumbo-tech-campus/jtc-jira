@@ -111,9 +111,10 @@
     </div>
   </nav>
 </header>
-<% if @updating_cache %>
+<% if @updating_cache_since %>
 <div class="alert alert-warning" role="alert">
   The application is updating it's data from JIRA at the moment. Data can be inconsistent or incorrect until the update has finished.
+  Update expected to finish around <%= (@updating_cache_since + 90.minutes).strftime('%H:%M') %>
 </div>
 <% end %>
 <script>
