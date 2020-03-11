@@ -98,7 +98,7 @@ function convertToDeploymentOverviewChartData(data) {
   });
 
   var min_max_dates = ['min_max_dates', dates[0], dates[dates.length - 1]];
-  var goal = ['goal', 0, 800];
+  var goal = ['goal', 0, 1200];
 
   dates = ['dates'].concat(dates);
 

@@ -15,10 +15,10 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
             <!--<li><a class="dropdown-item <%= 'active' if action_name == 'index' %>" href="<%= cycle_time_deployment_constraint_path(deployment_constraint_id: 1) %>">
               Dashboard
-            </a></li>
-            <li><a class="dropdown-item <%= 'active' if action_name == 'overview' %>" href="<%= cycle_time_team_path(board_id: @teams.first.board_id) %>">
-              Cycle time
             </a></li>-->
+            <li><a class="dropdown-item <%= 'active' if action_name == 'deployments_overview' %>" href="<%= department_deployments_overview_path %>">
+              Deployments
+            </a></li>
             <li class="dropdown-submenu">
               <a class="dropdown-item dropdown-toggle" href="#">Cycle time overview</a>
               <ul class="dropdown-menu">
