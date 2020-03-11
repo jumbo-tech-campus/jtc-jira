@@ -265,6 +265,7 @@
   :project_key: ISH
   :deployment_constraint_id: 3
   :position: 3000
+  :started_at: 11-01-2020
 - xecm_opentext:
   :name: Open Tekst
   :department_id: 2
