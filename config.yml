@@ -222,6 +222,7 @@
   :project_key: MA
   :deployment_constraint_id: 1
   :position: 13000
+  :started_at: 11-03-2020
 - service_platform:
   :name: Aftercare
   :department_id: 1
