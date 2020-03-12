@@ -38,11 +38,12 @@
   :deployment_constraint_id: 3
   :position: 4000
 - ordering:
-  :name: Ordering
+  :name: Ordering (Archived)
   :department_id: 1
   :project_key: ORD
   :board_id: 260
   :deployment_constraint_id: 3
+  :archived_at: 26-09-2019
 - ordering_rc:
   :name: Ordering
   :department_id: 1
