@@ -92,13 +92,13 @@ function convertToDeploymentChartData(data) {
   return deployments.concat(regression_data);
 }
 
-function convertToDeploymentOverviewChartData(data) {
+function convertToCumulativeOverviewChartData(data, set_goal) {
   var dates = data.current.map(function(x){
     return x[0];
   });
 
   var min_max_dates = ['min_max_dates', dates[0], dates[dates.length - 1]];
-  var goal = ['goal', 0, 1200];
+  var goal = ['goal', 0, set_goal];
 
   dates = ['dates'].concat(dates);
 
