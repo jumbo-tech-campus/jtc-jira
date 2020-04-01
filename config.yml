@@ -30,13 +30,22 @@
   :board_id: 261
   :deployment_constraint_id: 3
   :position: 8000
-- collect_pay:
-  :name: Collect and Pay
+- collect_pay_old:
+  :name: Collect and Pay (Archived)
   :department_id: 1
   :project_key: OMS
   :board_id: 259
   :deployment_constraint_id: 3
   :position: 4000
+  :archived_at: 10-03-2020
+- collect_pay:
+  :name: Collect and Pay
+  :department_id: 1
+  :project_key: OMS
+  :board_id: 574
+  :deployment_constraint_id: 3
+  :position: 4000
+  :started_at: 11-03-2020
 - ordering:
   :name: Ordering (Archived)
   :department_id: 1
