@@ -1,4 +1,4 @@
-FROM ruby:2.7
+FROM ruby:2.7.1
 
 ARG RAILS_RELATIVE_URL_ROOT
 

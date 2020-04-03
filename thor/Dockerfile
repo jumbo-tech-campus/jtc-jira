@@ -1,4 +1,4 @@
-FROM ruby:2.7
+FROM ruby:2.7.1
 
 # Installation of dependencies
 RUN apt-get update -qq \
