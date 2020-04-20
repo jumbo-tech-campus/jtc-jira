@@ -16,4 +16,8 @@ class Quarter < ActiveModelSerializers::Model
   def end_date
     Date.commercial(year, end_week, 7)
   end
+
+  def number_of_days
+    end_date.mjd - start_date.mjd
+  end
 end

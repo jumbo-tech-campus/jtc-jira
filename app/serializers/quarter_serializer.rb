@@ -1,3 +1,3 @@
 class QuarterSerializer < ActiveModel::Serializer
-  attributes :start_week, :end_week, :fix_version, :year
+  attributes :id, :start_week, :end_week, :fix_version, :year
 end
