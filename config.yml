@@ -110,7 +110,7 @@
   :name: Pim
   :department_id: 1
   :project_key: PIM
-  :board_id: 262
+  :board_id: 466
   :deployment_constraint_id: 4
 - esb:
   :name: ESB
