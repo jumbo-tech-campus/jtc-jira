@@ -137,12 +137,6 @@
   :board_id: 427
   :deployment_constraint_id: 3
   :archived_at: 01-02-2020
-- enablers:
-  :name: Enablers
-  :department_id: 1
-  :project_key: EN
-  :board_id: 306
-  :deployment_constraint_id: 3
 - ish_upgrade:
   :name: Intershop Upgrade
   :department_id: 1
