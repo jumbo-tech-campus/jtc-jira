@@ -331,41 +331,49 @@
   :name: CAP
 :quarters:
 - q1_2019:
+  :id: 1
   :start_week: 1
   :end_week: 16
   :year: 2019
   :fix_version: Q1 2019 plan
 - q2_2019:
+  :id: 2
   :start_week: 17
   :end_week: 28
   :year: 2019
   :fix_version: Q2 2019 plan
 - q3_2019:
+  :id: 3
   :start_week: 29
   :end_week: 40
   :year: 2019
   :fix_version: Q3 2019 plan
 - q4_2019:
+  :id: 4
   :start_week: 41
   :end_week: 52
   :year: 2019
   :fix_version: Q4 2019 plan
 - q1_2020:
+  :id: 5
   :start_week: 1
   :end_week: 16
   :year: 2020
   :fix_version: Q1 2020 plan
 - q2_2020:
+  :id: 6
   :start_week: 17
   :end_week: 28
   :year: 2020
   :fix_version: Q2 2020 plan
 - q3_2020:
+  :id: 7
   :start_week: 29
   :end_week: 40
   :year: 2020
   :fix_version: Q3 2020 plan
 - q4_2020:
+  :id: 8
   :start_week: 41
   :end_week: 52
   :year: 2020
