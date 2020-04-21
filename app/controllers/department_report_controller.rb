@@ -1,11 +1,9 @@
 class DepartmentReportController < ApplicationController
   before_action :set_current_quarters
+  before_action :set_department
   caches_action :cycle_time_overview, expires_in: 12.hours, cache_path: :department_cache_path
 
   def cycle_time_overview
-    department_id = params[:department_id] || '1'
-    @department = Repository.for(:department).find(department_id.to_i)
-
     boards = @department.teams.map(&:board).compact
     @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 1, 1), DateTime.now, 1.year).report(true)
   end
@@ -21,9 +19,6 @@ class DepartmentReportController < ApplicationController
   end
 
   def issues_overview
-    department_id = params[:department_id] || '1'
-    @department = Repository.for(:department).find(department_id.to_i)
-
     boards = @department.teams.map(&:board).compact
     current_issues = IssueCountReportService.new(boards, @current_quarter.start_date, @current_quarter.end_date).overview
     last_year_issues = IssueCountReportService.new(boards, @last_year_quarter.start_date, @last_year_quarter.end_date).overview
@@ -47,5 +42,10 @@ class DepartmentReportController < ApplicationController
       @current_quarter = Repository.for(:quarter).find_by(date: Date.today)
     end
     @last_year_quarter = Repository.for(:quarter).find_by(date: Date.commercial(@current_quarter.year - 1, @current_quarter.start_week, 5))
+  end
+
+  def set_department
+    department_id = params[:department_id] || '1'
+    @department = Repository.for(:department).find(department_id.to_i)
   end
 end
