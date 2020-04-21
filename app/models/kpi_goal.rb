@@ -1,7 +1,7 @@
 require 'securerandom'
 
 class KpiGoal < ActiveModelSerializers::Model
-  TYPES = {deployments: 'Deployments', releases: 'Released issues', cycle_time: 'Cycle time', p1s: 'P1 incidents'}
+  TYPES = {deployments: 'Deployments', issues: 'Released issues', cycle_time: 'Cycle time', p1s: 'P1 incidents'}
 
   attr_reader :id, :quarter, :department
   attr_accessor :metric, :type

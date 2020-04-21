@@ -18,7 +18,11 @@ module Cache
 
     def find_by(options)
       if options[:department]
-        all.select{ |goal| goal.department == options[:department] }
+        goals = all.select{ |goal| goal.department == options[:department] }
+        if options[:type] && options[:quarter]
+          goals = goals.select{ |goal| goal.type.to_sym == options[:type] && goal.quarter == options[:quarter] }
+        end
+        goals
       end
     end
   end

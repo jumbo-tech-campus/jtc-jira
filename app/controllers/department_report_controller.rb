@@ -12,6 +12,8 @@ class DepartmentReportController < ApplicationController
     current_deploy = DeploymentReportService.new(@current_quarter.start_date, @current_quarter.end_date).overview
     last_year_deploy = DeploymentReportService.new(@last_year_quarter.start_date, @last_year_quarter.end_date).overview
 
+    @kpi_goal = Repository.for(:kpi_goal).find_by(department: @department, quarter: @current_quarter, type: :deployments).first
+
     @report = {
       current: current_deploy[:issue_count_per_day],
       previous: last_year_deploy[:issue_count_per_day]
@@ -22,6 +24,8 @@ class DepartmentReportController < ApplicationController
     boards = @department.teams.map(&:board).compact
     current_issues = IssueCountReportService.new(boards, @current_quarter.start_date, @current_quarter.end_date).overview
     last_year_issues = IssueCountReportService.new(boards, @last_year_quarter.start_date, @last_year_quarter.end_date).overview
+
+    @kpi_goal = Repository.for(:kpi_goal).find_by(department: @department, quarter: @current_quarter, type: :issues).first
 
     @report = {
       current: current_issues[:issue_count_per_day],

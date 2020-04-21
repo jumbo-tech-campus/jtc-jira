@@ -20,7 +20,7 @@
 </div>
 <script>
 $(function() {
-  var chart_data = convertToCumulativeOverviewChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'), 800);
+  var chart_data = convertToCumulativeOverviewChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'),  <%= @kpi_goal&.metric || 'null' %>);
   c3.generate({
       padding: {
          right: 40,
