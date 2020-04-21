@@ -1,4 +1,16 @@
 <div class="main">
+  <div class="row pl-3">
+    <ul class="nav">
+      <% @quarters.each do |quarter| %>
+      <li class="nav-item">
+        <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if quarter == @current_quarter %>"
+          href="<%= department_issues_overview_path(quarter_id: quarter.id) %>">
+          <%= quarter.name %>
+        </a>
+      </li>
+     <% end %>
+    </ul>
+  </div>
    <div class="card box-shadow mb-4">
      <div class="card-header">
        <strong>Number of released issues (cumulative)</strong><br>

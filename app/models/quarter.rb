@@ -20,4 +20,8 @@ class Quarter < ActiveModelSerializers::Model
   def number_of_days
     end_date.mjd - start_date.mjd
   end
+
+  def ==(quarter)
+    self.id == quarter.id
+  end
 end
