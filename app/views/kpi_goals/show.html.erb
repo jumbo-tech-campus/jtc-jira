@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @kpi_goal.type %>
+</p>
+
+<p>
+  <strong>Metric:</strong>
+  <%= @kpi_goal.metric %>
+</p>
+
+<%= link_to 'Edit', edit_kpi_goal_path(@kpi_goal) %> |
+<%= link_to 'Back', kpi_goals_path %>

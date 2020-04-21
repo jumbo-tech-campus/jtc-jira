@@ -16,6 +16,16 @@
             <!--<li><a class="dropdown-item <%= 'active' if action_name == 'index' %>" href="<%= cycle_time_deployment_constraint_path(deployment_constraint_id: 1) %>">
               Dashboard
             </a></li>-->
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" href="#">KPI goals</a>
+              <ul class="dropdown-menu">
+                <% @departments.each do |department| %>
+                <li><a class="dropdown-item <%= 'active' if controller_name == 'kpi_goals' && @department.id == department.id %>" href="<%= kpi_goals_path(department_id: department.id) %>">
+                  <%= department.name %>
+                </a></li>
+                <% end %>
+              </ul>
+            </li>
             <li><a class="dropdown-item <%= 'active' if action_name == 'deployments_overview' %>" href="<%= department_deployments_overview_path %>">
               Deployments
             </a></li>

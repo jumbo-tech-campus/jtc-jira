@@ -30,6 +30,6 @@ module Cache
       end
     end
 
-    def_delegators :@client, :flushall, :dbsize, :del
+    def_delegators :@client, :dbsize, :del,  :keys
   end
 end

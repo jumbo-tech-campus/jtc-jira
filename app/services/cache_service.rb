@@ -35,5 +35,6 @@ class CacheService
     Repository.register(:deployment_constraint, Cache::DeploymentConstraintRepository.new(redis_client))
     Repository.register(:quarter, Cache::QuarterRepository.new(redis_client))
     Repository.register(:parent_epic, Cache::ParentEpicRepository.new(redis_client))
+    Repository.register(:kpi_goal, Cache::KpiGoalRepository.new(redis_client))
   end
 end

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'cycle_time_report#deployment_constraint'
   scope :jira do
     get '/', to: 'cycle_time_report#deployment_constraint'
+    resources :kpi_goals
     resources :teams, only: [:index]
     get 'sprint_report/last_sprint', to: 'sprint_report#last_sprint', as: :last_sprint_report
     get 'sprint_report/sprint', to: 'sprint_report#sprint', as: :sprint_report
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
     post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data', as: :sprint_report_refresh
   end
 
+  resources :kpi_goals
   resources :teams, only: [:index]
   get 'sprint_report/last_sprint', to: 'sprint_report#last_sprint'
   get 'portfolio_report/teams_overview', to: 'portfolio_report#teams_overview'

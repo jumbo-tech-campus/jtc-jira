@@ -1,0 +1,34 @@
+<div class="main">
+  <div class="card box-shadow mb-4">
+    <div class="card-header">
+      <strong>KPI goals for <%= @department.name %></strong><br>
+      <small class="text-muted small"></small>
+    </div>
+    <div class="card-body">
+    <table class="table table-bordered">
+      <thead>
+      <tr class="small">
+        <th>Quarter</th>
+        <th>Type</th>
+        <th>Metric</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @kpi_goals.each do |kpi_goal| %>
+        <tr class="small">
+          <td><%= kpi_goal.quarter.name %></td>
+          <td><%= KpiGoal::TYPES[kpi_goal.type.to_sym] %></td>
+          <td><%= kpi_goal.metric %></td>
+          <td><%= link_to 'Edit', edit_kpi_goal_path(id: kpi_goal.id) %></td>
+          <td><%= link_to 'Destroy', kpi_goal_path(id: kpi_goal.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+</div>
+<%= link_to 'Create new KPI goal', new_kpi_goal_path(department_id: @department.id), class: 'btn btn-jumbo shadow-sm float-right', role: 'button'%>
+
+</div>

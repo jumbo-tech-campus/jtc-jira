@@ -11,5 +11,6 @@ class FactoryService
     Factory.register(:department, DepartmentFactory.new)
     Factory.register(:deployment_constraint, DeploymentConstraintFactory.new)
     Factory.register(:quarter, QuarterFactory.new)
+    Factory.register(:kpi_goal, KpiGoalFactory.new)
   end
 end
