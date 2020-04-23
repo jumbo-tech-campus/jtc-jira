@@ -18,7 +18,7 @@ class CycleTimeReportService
   def cycle_issues
     @boards.inject([]) do |memo, board|
       board_issues = board.issues_with_cycle_time.select do |issue|
-        issue.release_date.between?(@start_date, @end_date)
+        issue.release_date.between?(@start_date, @end_date) && board.team.is_active?(issue.release_date)
       end
       memo.concat(board_issues)
       memo
@@ -28,7 +28,7 @@ class CycleTimeReportService
   def short_cycle_issues
     @boards.inject([]) do |memo, board|
       board_issues = board.issues_with_short_cycle_time.select do |issue|
-        issue.pending_release_date.between?(@start_date, @end_date)
+        issue.pending_release_date.between?(@start_date, @end_date) && board.team.is_active?(issue.pending_release_date)
       end
       memo.concat(board_issues)
       memo
@@ -38,7 +38,7 @@ class CycleTimeReportService
   def cycle_delta_issues
     @boards.inject([]) do |memo, board|
       board_issues = board.issues_with_cycle_time_delta.select do |issue|
-        issue.release_date.between?(@start_date, @end_date)
+        issue.release_date.between?(@start_date, @end_date) && board.team.is_active?(issue.release_date)
       end
       memo.concat(board_issues)
       memo
