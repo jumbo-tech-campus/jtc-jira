@@ -12,13 +12,14 @@ class P1ReportService < BaseIssuesReportService
 
   def closed_issues_table
     table = []
-    header = ["Key", "Date", "Title", "Resolution time (days)"]
+    header = ["Key", "Date", "Title", "Labels", "Resolution time (days)"]
     table << header
     closed_issues.reverse.each do |issue|
       table << [
         issue.key,
         issue.created.strftime('%Y-%m-%d'),
         issue.summary,
+        issue.labels.join(', '),
         issue.resolution_time&.round(2)
       ]
     end

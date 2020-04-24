@@ -1,6 +1,6 @@
 class Issue < ActiveModelSerializers::Model
   attr_reader :key, :summary, :id, :estimation, :created,  :status,
-    :state_changed_events, :in_progress_date
+    :state_changed_events, :in_progress_date, :labels
   attr_accessor :epic, :assignee, :resolution
 
   RELEASED_STATES = ['Done', 'Released']
@@ -11,6 +11,7 @@ class Issue < ActiveModelSerializers::Model
     @key, @summary, @id, @estimation, @created, @status  = key, summary, id, estimation, created, status
     @resolution_date, @in_progress_date, @release_date, @pending_release_date, @done_date = resolution_date, in_progress_date, release_date, pending_release_date, done_date
     @state_changed_events = []
+    @labels = []
   end
 
   def jira_url

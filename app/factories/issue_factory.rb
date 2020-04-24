@@ -13,6 +13,9 @@ class IssueFactory
     issue.resolution = json['fields']['resolution']['name'] if json['fields']['resolution']
     issue.epic = Repository.for(:epic)&.find(json['fields']['customfield_10016']) if json['fields']['customfield_10016']
     issue.state_changed_events.concat(get_state_changed_events(json))
+    json['fields']['labels'].each do |label|
+      issue.labels << label
+    end
 
     issue
   end
@@ -33,6 +36,10 @@ class IssueFactory
     issue.assignee = json['assignee']
     issue.resolution = json['resolution']
     issue.epic = Factory.for(:epic).create_from_json(json['epic'])
+    json['labels'].each do |label|
+      issue.labels << label
+    end
+
     issue
   end
 
