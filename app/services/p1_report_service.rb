@@ -103,7 +103,7 @@ class P1ReportService < BaseIssuesReportService
     ish_live_date = DateTime.new(2019,9,29)
     ish_live_date = @start_date if ish_live_date < @start_date
 
-    query = "priority = 'P1 - Urgent' AND created <= #{@end_date.strftime('%Y-%m-%d')} AND (issuetype = Incident AND reporter in (servicedesk.it, engin.keyif) AND created > #{@start_date.strftime('%Y-%m-%d')}) OR (project = UI AND created > #{ish_live_date.strftime('%Y-%m-%d')}) ORDER BY created ASC, key DESC"
+    query = "(priority = 'P1 - Urgent' AND created <= #{@end_date.strftime('%Y-%m-%d')} AND issuetype = Incident AND reporter in (servicedesk.it, engin.keyif) AND created > #{@start_date.strftime('%Y-%m-%d')}) OR (priority = 'P1 - Urgent' AND created <= #{@end_date.strftime('%Y-%m-%d')} AND project = UI AND created > #{ish_live_date.strftime('%Y-%m-%d')}) ORDER BY created ASC, key DESC"
     # use Jira repository because we want real time data
     ::Jira::IssueRepository.new(::Jira::JiraClient.new).find_by(query: query)
   end

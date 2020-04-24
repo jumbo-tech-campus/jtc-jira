@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     get 'department_report/cycle_time_overview', to: 'department_report#cycle_time_overview', as: :department_cycle_time_overview
     get 'department_report/deployments_overview', to: 'department_report#deployments_overview', as: :department_deployments_overview
     get 'department_report/issues_overview', to: 'department_report#issues_overview', as: :department_issues_overview
+    get 'department_report/p1s_overview', to: 'department_report#p1s_overview', as: :department_p1s_overview
     post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data', as: :sprint_report_refresh
   end
 
@@ -39,5 +40,6 @@ Rails.application.routes.draw do
   get 'department_report/cycle_time_overview', to: 'department_report#cycle_time_overview'
   get 'department_report/deployments_overview', to: 'department_report#deployments_overview'
   get 'department_report/issues_overview', to: 'department_report#issues_overview'
+  get 'department_report/p1s_overview', to: 'department_report#p1s_overview'
   post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data'
 end

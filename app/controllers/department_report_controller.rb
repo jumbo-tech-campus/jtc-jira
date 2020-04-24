@@ -33,6 +33,18 @@ class DepartmentReportController < ApplicationController
     }
   end
 
+  def p1s_overview
+    current_p1s = P1ReportService.new(@current_quarter.start_date, @current_quarter.end_date).overview
+    last_year_p1s = P1ReportService.new(@last_year_quarter.start_date, @last_year_quarter.end_date).overview
+
+    @kpi_goal = Repository.for(:kpi_goal).find_by(department: @department, quarter: @current_quarter, type: :p1s).first
+
+    @report = {
+      current: current_p1s[:issue_count_per_day],
+      previous: last_year_p1s[:issue_count_per_day]
+    }
+  end
+
   protected
   def department_cache_path
     { department_id: params[:department_id] }
