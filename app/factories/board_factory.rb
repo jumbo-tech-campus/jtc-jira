@@ -18,7 +18,9 @@ class BoardFactory
       # this aims to fix that by retrieving all issues from a project instead of the board
       # TODO: also do this for teams that work in sprints
       issues = Repository.for(:issue).find_by(project: board.team.project)
-      board.issues.concat(issues)
+      # NOTE: the repository may return epics as well
+      # for the issues on the board we only want Issues, epics are already associated
+      board.issues.concat(issues.select{ |issue| issue.is_a? Issue })
     end
     board
   end

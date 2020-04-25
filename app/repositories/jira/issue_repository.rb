@@ -62,7 +62,6 @@ module Jira
 
       response.each do |value|
         next if filter_out_issue?(value, board)
-
         if @records[value['key']]
           issues << @records[value['key']]
           next
