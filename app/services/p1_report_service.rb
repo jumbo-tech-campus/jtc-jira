@@ -6,8 +6,31 @@ class P1ReportService < BaseIssuesReportService
       issue_count_per_week: issue_count_per_week.to_a,
       trend_count_per_week: linear_regression_for_issue_count,
       trend_resolution_time: linear_regression_for_resolution_time,
-      resolution_averages: resolution_time_moving_averages
+      resolution_averages: resolution_time_moving_averages,
+      cumulative_count_per_label_per_day: cumulative_count_per_label_per_day,
     }
+  end
+
+  def issues_per_label
+    issues.inject({}) do |memo, issue|
+      issue.labels.each do |label|
+        if memo[label]
+          memo[label] << issue
+        else
+          memo[label] = [issue]
+        end
+      end
+      memo
+    end
+  end
+
+  def cumulative_count_per_label_per_day
+    result = issues_per_label.map do |label, issues|
+      { label: label, issue_count: cumulative_count_per_day(issues).to_a }
+    end
+
+    result << { label: 'All', issue_count: cumulative_count_per_day.to_a }
+    result
   end
 
   def closed_issues_table

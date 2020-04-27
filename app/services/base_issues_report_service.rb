@@ -42,7 +42,8 @@ class BaseIssuesReportService
     issues.select{ |issue| !issue.closed? }
   end
 
-  def issue_count_per_week
+  def issue_count_per_week(issue_collection = nil)
+    issues_to_count = issue_collection || issues
     date = @start_date
     count_per_week = {}
 
@@ -53,13 +54,14 @@ class BaseIssuesReportService
       date = date + 1.week
     end
 
-    issues.inject(count_per_week) do |memo, issue|
+    issues_to_count.inject(count_per_week) do |memo, issue|
       memo[issue.send(issue_count_property).cweek] += 1
       memo
     end
   end
 
-  def issue_count_per_day
+  def issue_count_per_day(issue_collection = nil)
+    issues_to_count = issue_collection || issues
     date = @start_date
     count_per_day = {}
 
@@ -70,16 +72,16 @@ class BaseIssuesReportService
       date = date + 1.day
     end
 
-    issues.inject(count_per_day) do |memo, issue|
+    issues_to_count.inject(count_per_day) do |memo, issue|
       date = issue.send(issue_count_property).strftime('%Y-%m-%d')
       memo[date] += 1
       memo
     end
   end
 
-  def cumulative_count_per_day
+  def cumulative_count_per_day(issue_collection = nil)
     accumulator = 0
-    issue_count_per_day.map do |day, count|
+    issue_count_per_day(issue_collection).map do |day, count|
       accumulator += count
       [day, accumulator]
     end

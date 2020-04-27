@@ -54,6 +54,47 @@
 </script>
 <div class="card box-shadow mb-4">
   <div class="card-header">
+    <strong>Cumulative count of P1 issues per day</strong><br>
+    <small class="text-muted small">Includes cumulative count per label - note that P1 issues can have multiple labels</small>
+  </div>
+  <div class="bar-chart2 m-4"></div>
+</div>
+
+<script>
+$(function() {
+  var chart_data = convertToCumulativeP1ChartData(JSON.parse('<%= escape_javascript raw(@report.to_json) %>'), 'null');
+  c3.generate({
+      padding: {
+         right: 40,
+         left: 40
+      },
+      bindto: d3.select('.bar-chart2'),
+      data: {
+        x: 'dates',
+        columns: chart_data,
+      },
+      axis: {
+        y: {
+          min: 0,
+          padding: { top: 5, bottom:0 }
+        },
+        x: {
+          type: 'timeseries',
+          tick: {
+           fit: true,
+           format: '%d-%m-%Y'
+          }
+        },
+      },
+      point: {
+        show: false
+      }
+   });
+  });
+</script>
+
+<div class="card box-shadow mb-4">
+  <div class="card-header">
     <strong>P1 resolution time scatter plot</strong><br>
     <small class="text-muted small">Resolution time is calculated from the issue creation date to the date of resolution</small>
   </div>

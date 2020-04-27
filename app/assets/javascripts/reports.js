@@ -115,6 +115,22 @@ function convertToCumulativeOverviewChartData(data, set_goal) {
   return [min_max_dates, dates, current, previous, goal];
 }
 
+function convertToCumulativeP1ChartData(data, set_goal) {
+  var dates = data.cumulative_count_per_label_per_day[0].issue_count.map(function(x){
+    return x[0];
+  });
+
+  result = [['dates'].concat(dates)];
+
+  data.cumulative_count_per_label_per_day.forEach(function(hash){
+    data = hash.issue_count.map(function(x){
+      return x[1];
+    });
+    result.push([hash.label].concat(data));
+  })
+
+  return result;
+}
 function convertToP1IssueCountChartData(data) {
   var p1count = data.issue_count_per_week.reduce(function(memo, issue_count){
     memo[0].push(issue_count[0]);
