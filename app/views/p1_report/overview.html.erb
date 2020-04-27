@@ -2,7 +2,7 @@
   <%= render partial: 'shared/date_selector_year', locals: { path: p1_report_path } %>
   <div class="card box-shadow mb-4">
     <div class="card-header">
-      <strong>Open P1 issues</strong><br>
+      <strong>Open P1 issues (<%= @report[:open_issues_table].size - 1 %>)</strong><br>
     </div>
     <div class="card-body">
       <%= render partial: 'shared/issue_table', locals: { table: @report[:open_issues_table] } %>
@@ -113,7 +113,7 @@ $(function() {
       class="card-link float-right">
       Download as csv file
     </a>
-    <strong>Closed P1 issues</strong><br>
+    <strong>Closed P1 issues (<%= @report[:closed_issues_table].size - 1 %>)</strong><br>
   </div>
   <div class="card-body">
     <%= render partial: 'shared/issue_table', locals: { table: @report[:closed_issues_table] } %>
