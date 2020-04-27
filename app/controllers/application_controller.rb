@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_year_dates
-    @end_date = ApplicationHelper.safe_parse(params[:end_date]) || DateTime.new(Date.today.year,12,31)
+    @end_date = ApplicationHelper.safe_parse(params[:end_date]) || Date.today.year
     @start_date = ApplicationHelper.safe_parse(params[:start_date]) || DateTime.new(Date.today.year,1,1)
   end
 
