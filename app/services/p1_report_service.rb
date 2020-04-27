@@ -70,7 +70,7 @@ class P1ReportService < BaseIssuesReportService
     data = issue_count_per_week.map do |key, value|
       { week: key, issue_count: value }
     end
-    model = Eps::Regressor.new(data, target: :issue_count)
+    model = Eps::Model.new(data, target: :issue_count, algorithm: :linear_regression)
 
     # NOTE: sometimes the last days of the year are in week 1 of the next year
     # using %W will always report week 52 in that case
@@ -84,7 +84,7 @@ class P1ReportService < BaseIssuesReportService
     data = closed_issues.map do |issue|
       { date: issue.resolution_date.to_time.to_i, resolution_time: issue.resolution_time }
     end
-    model = Eps::Regressor.new(data, target: :resolution_time)
+    model = Eps::Model.new(data, target: :resolution_time, algorithm: :linear_regression)
 
     [predict_on_date(model, @start_date), predict_on_date(model, @end_date)]
   end

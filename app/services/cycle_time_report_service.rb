@@ -85,7 +85,7 @@ class CycleTimeReportService
     data = cycle_issues.map do |issue|
       { date: issue.release_date.to_time.to_i, cycle_time: issue.cycle_time }
     end
-    model = Eps::Regressor.new(data, target: :cycle_time)
+    model = Eps::Model.new(data, target: :cycle_time, algorithm: :linear_regression)
 
     [prediction(model, @start_date), prediction(model, @end_date)]
   end
@@ -96,7 +96,7 @@ class CycleTimeReportService
     data = short_cycle_issues.map do |issue|
       { date: issue.pending_release_date.to_time.to_i, short_cycle_time: issue.short_cycle_time }
     end
-    model = Eps::Regressor.new(data, target: :short_cycle_time)
+    model = Eps::Model.new(data, target: :short_cycle_time, algorithm: :linear_regression)
 
     [prediction(model, @start_date), prediction(model, @end_date)]
   end
@@ -108,7 +108,7 @@ class CycleTimeReportService
     data = cycle_delta_issues.map do |issue|
       { date: issue.release_date.to_time.to_i, cycle_time_delta: issue.cycle_time_delta }
     end
-    model = Eps::Regressor.new(data, target: :cycle_time_delta)
+    model = Eps::Model.new(data, target: :cycle_time_delta, algorithm: :linear_regression)
 
     [prediction(model, @start_date), prediction(model, @end_date)]
   end

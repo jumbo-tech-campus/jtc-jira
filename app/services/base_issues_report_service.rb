@@ -91,7 +91,7 @@ class BaseIssuesReportService
     data = issue_count_per_day.map do |key, value|
       { date: Time.parse(key).to_i, value: value }
     end
-    model = Eps::Regressor.new(data, target: :value)
+    model = Eps::Model.new(data, target: :value, algorithm: :linear_regression)
 
     [predict_on_date(model, @start_date), predict_on_date(model, @end_date)]
   end
