@@ -25,14 +25,14 @@ module Jira
       response = @client.Issue.jql("\"Parent Link\"=#{parent_epic.key}")
 
       response.each do |value|
-        if @records[value['id']]
-          epics << @records[value['id']]
+        if @records[value['key']]
+          epics << @records[value['key']]
           next
         end
 
         epic = Factory.for(:epic).create_from_jira(value)
 
-        @records[epic.id] = epic
+        @records[epic.key] = epic
         epics << epic
       end
 
