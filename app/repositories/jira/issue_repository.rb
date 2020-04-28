@@ -42,9 +42,8 @@ module Jira
     end
 
     def filter_out_issue?(issue_json, board)
-      #filter out subtasks and action requests
-      return true if issue_json['fields']['issuetype']['subtask'] || issue_json['fields']['issuetype']['name'] == 'Action Request'
-
+      #filter out subtasks, action requests, epics and parent epics
+      return true if issue_json['fields']['issuetype']['subtask'] || ['Action Request', 'Epic', 'Parent Epic'].include?(issue_json['fields']['issuetype']['name'])
       if board
         #filter out issues from other projects
         return true unless issue_json['fields']['project']['key'] == board.team.project_key
@@ -68,7 +67,6 @@ module Jira
         end
 
         issue = Factory.for(:issue).create_from_jira(value)
-        next unless issue.is_a? Issue
 
         @records[issue.key] = issue
         issues << issue

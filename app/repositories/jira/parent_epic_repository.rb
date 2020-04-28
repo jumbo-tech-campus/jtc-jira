@@ -6,12 +6,22 @@ module Jira
 
     def all
       query = "project = PK AND type = \"Parent Epic\" ORDER BY created DESC, key ASC"
-      parent_epics = Repository.for(:issue).find_by(query: query)
+      response = @client.Issue.jql(query)
 
-      parent_epics.each do |parent_epic|
+      parent_epics = []
+
+      response.each do |value|
+        if @records[value['key']]
+          parent_epics << @records[value['key']]
+          next
+        end
+
+        parent_epic = Factory.for(:parent_epic).create_from_jira(value)
         epics = Repository.for(:epic).find_by(parent_epic: parent_epic)
         parent_epic.epics.concat(epics)
+
         @records[parent_epic.key] = parent_epic
+        parent_epics << parent_epic
       end
 
       parent_epics
