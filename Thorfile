@@ -31,13 +31,13 @@ class Cache < Thor
         puts "Retrieving board #{team.board_id} for team #{team.name}"
         board = Repository.for(:board).find(team.board_id)
         if board.nil?
-          puts "Board #{team.board_id} for team #{team.name} not found. "
+          puts "Board #{team.board_id} for team #{team.name} nil - not found. "
           failed_teams << team
         else
           boards << board
         end
-      rescue
-        puts "Board #{team.board_id} for team #{team.name} not found. "
+      rescue StandardError => e
+        puts "Board #{team.board_id} for team #{team.name} exception #{e} - not found. "
         failed_teams << team
       end
       $stdout.flush
