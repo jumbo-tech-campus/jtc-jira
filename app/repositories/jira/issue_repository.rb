@@ -68,6 +68,7 @@ module Jira
         end
 
         issue = Factory.for(:issue).create_from_jira(value)
+        next unless issue.is_a? Issue
 
         @records[issue.key] = issue
         issues << issue
