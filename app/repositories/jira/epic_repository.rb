@@ -1,15 +1,15 @@
 module Jira
   class EpicRepository < Jira::JiraRepository
     def find(key)
-      unless @records[key]
-        jira_epic = @client.Issue.jql("key=#{key}").first
+      return @records[key] if @records[key]
 
-        if jira_epic
-          @records[key] = Factory.for(:epic).create_from_jira(jira_epic)
-        else
-          puts "No epic found for #{key}"
-        end
+      jira_epic = @client.Issue.jql("key=#{key}").first
+      if jira_epic
+        @records[key] = Factory.for(:epic).create_from_jira(jira_epic)
+      else
+        puts "No epic found for #{key}"
       end
+
       @records[key]
     end
 
