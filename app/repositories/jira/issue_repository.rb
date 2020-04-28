@@ -27,7 +27,7 @@ module Jira
     end
 
     def find_by_project(project)
-      response = @client.Project.find(project.key).issues(expand: 'changelog')
+      response = @client.Issue.jql("project=\"#{project.key}\"").issues(expand: 'changelog')
       extract_issues(response)
     end
 
