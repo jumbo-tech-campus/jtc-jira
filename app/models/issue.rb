@@ -1,5 +1,5 @@
 class Issue < ActiveModelSerializers::Model
-  attr_reader :key, :summary, :id, :estimation, :created,  :status,
+  attr_reader :key, :summary, :id, :estimation, :created, :status,
     :state_changed_events, :in_progress_date, :labels
   attr_accessor :epic, :assignee, :resolution
 

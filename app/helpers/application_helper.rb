@@ -4,4 +4,19 @@ module ApplicationHelper
   rescue ArgumentError
     default
   end
+
+  def self.format_to_days_hours_and_minutes(date_time_difference)
+    return '' unless date_time_difference
+    days = date_time_difference.floor
+    hours = ((date_time_difference  - days) * 24).floor
+    minutes = (((date_time_difference  - days) * 24) - hours) * 60
+
+    if hours == 0
+      "#{minutes.round}m"
+    elsif days == 0
+      "#{hours}h #{minutes.round}m"
+    else
+      "#{days}d #{hours}h #{minutes.round}m"
+    end
+  end
 end

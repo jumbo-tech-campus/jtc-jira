@@ -65,8 +65,11 @@ module Jira
           issues << @records[value['key']]
           next
         end
-
-        issue = Factory.for(:issue).create_from_jira(value)
+        if value['fields']['issuetype']['name'] == 'Incident'
+          issue = Factory.for(:incident).create_from_jira(value)
+        else
+          issue = Factory.for(:issue).create_from_jira(value)
+        end
 
         @records[issue.key] = issue
         issues << issue

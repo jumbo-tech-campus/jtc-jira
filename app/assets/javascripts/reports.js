@@ -116,17 +116,17 @@ function convertToCumulativeOverviewChartData(data, set_goal) {
 }
 
 function convertToCumulativeP1ChartData(data, set_goal) {
-  var dates = data.cumulative_count_per_label_per_day[0].issue_count.map(function(x){
+  var dates = data.cumulative_count_per_cause_per_day[0].issue_count.map(function(x){
     return x[0];
   });
 
   result = [['dates'].concat(dates)];
 
-  data.cumulative_count_per_label_per_day.forEach(function(hash){
+  data.cumulative_count_per_cause_per_day.forEach(function(hash){
     data = hash.issue_count.map(function(x){
       return x[1];
     });
-    result.push([hash.label].concat(data));
+    result.push([hash.cause].concat(data));
   })
 
   return result;

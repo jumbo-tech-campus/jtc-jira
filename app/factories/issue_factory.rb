@@ -1,6 +1,12 @@
 class IssueFactory
   def create_from_jira(json)
-    issue = Issue.new(json['key'], json['fields']['summary'],
+    if json['fields']['issuetype']['name'] == 'Incident'
+      issue_class = Incident
+    else
+      issue_class = Issue
+    end
+
+    issue = issue_class.new(json['key'], json['fields']['summary'],
       json['id'], json['fields']['customfield_10014'] || 0,
       ApplicationHelper.safe_parse(json['fields']['created']),
       json['fields']['status']['name'],
@@ -19,7 +25,13 @@ class IssueFactory
   end
 
   def create_from_json(json)
-    issue = Issue.new(json['key'], json['summary'],
+    if json['class'] == 'Incident'
+      issue_class = Incident
+    else
+      issue_class = Issue
+    end
+
+    issue = issue_class.new(json['key'], json['summary'],
       json['id'], json['estimation'],
       ApplicationHelper.safe_parse(json['created']),
       json['status'],
