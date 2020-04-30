@@ -28,4 +28,8 @@ class Incident < Issue
   def valid?
     start_date.present? && end_date.present? && reported_date.present?
   end
+
+  def class_name
+    'Incident'
+  end
 end

@@ -25,7 +25,7 @@ class IssueFactory
   end
 
   def create_from_json(json)
-    if json['class'] == 'Incident'
+    if json['class_name'] == 'Incident'
       issue_class = Incident
     else
       issue_class = Issue

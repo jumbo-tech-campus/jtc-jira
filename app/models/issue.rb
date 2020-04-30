@@ -97,4 +97,8 @@ class Issue < ActiveModelSerializers::Model
   def ==(issue)
     self.id == issue.id
   end
+
+  def class_name
+    'Issue'
+  end
 end
