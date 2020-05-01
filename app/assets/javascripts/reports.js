@@ -147,33 +147,47 @@ function convertToP1IssueCountChartData(data) {
   return p1count.concat(regression_data);
 }
 
-function convertToResolutionTimeChartData(data) {
-  var resolution_time_data = data.closed_issues_table.slice(1).reduce(function(memo, resolution_time_record){
-    memo[0].push(resolution_time_record[1]);
+function convertToTimeToRecoverChartData(data) {
+  var result = data.kpi_metrics.reduce(function(memo, resolution_time_record){
+    memo[0].push(resolution_time_record[0]);
     memo[1].push(resolution_time_record[3]);
     return memo;
-  }, [['cycle_time_x'], ['resolution time']]);
+  }, [['time_to_recover_x'], ['time to recover']]);
 
-  var regression_data = data.trend_resolution_time.reduce(function(memo, regression_record){
+  result = result.concat(data.kpi_metrics.reduce(function(memo, resolution_time_record){
+    memo[0].push(resolution_time_record[0]);
+    memo[1].push(resolution_time_record[2]);
+    return memo;
+  }, [['time_to_repair_x'], ['time to repair']]));
+
+  result = result.concat(data.kpi_metrics.reduce(function(memo, resolution_time_record){
+    memo[0].push(resolution_time_record[0]);
+    memo[1].push(resolution_time_record[1]);
+    return memo;
+  }, [['time_to_detect_x'], ['time to detect']]));
+
+  result = result.concat(data.trend_time_to_recover.reduce(function(memo, regression_record){
     memo[0].push(regression_record[0]);
     memo[1].push(regression_record[1]);
     return memo;
-  }, [['trendline_x'], ['trendline']]);
+  }, [['trendline_x'], ['trendline']]));
 
-  var moving_averages_data = data.resolution_averages.reduce(function(memo, average_record){
+  result = result.concat(data.time_to_recover_averages.reduce(function(memo, average_record){
     memo[0].push(average_record[0]);
     memo[1].push(average_record[1]);
     return memo;
-  }, [['moving_average_x'], ['moving average']]);
+  }, [['moving_average_x'], ['moving average']]));
 
-  return resolution_time_data.concat(regression_data).concat(moving_averages_data);
+  return result;
 }
 
 function generateScatterPlot(chart_data, start_date, css_selector, variable_name) {
-  xs = {};
-  xs[variable_name] = 'cycle_time_x';
-  xs['trendline'] = 'trendline_x';
-  xs['moving average'] = 'moving_average_x';
+  var xs = chart_data.reduce(function(memo, data, index, src){
+    if(index % 2 == 0) {
+      memo[src[index + 1][0]] = data[0];
+    }
+    return memo;
+  }, {});
 
   c3.generate({
     padding: {

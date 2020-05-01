@@ -5,9 +5,10 @@ class P1ReportService < BaseIssuesReportService
       open_issues_table: open_issues_table,
       issue_count_per_week: issue_count_per_week.to_a,
       trend_count_per_week: linear_regression_for_issue_count,
-      trend_resolution_time: linear_regression_for_resolution_time,
-      resolution_averages: resolution_time_moving_averages,
+      trend_time_to_recover: linear_regression_for_time_to_recover,
+      time_to_recover_averages: time_to_recover_moving_averages,
       cumulative_count_per_cause_per_day: cumulative_count_per_cause_per_day,
+      kpi_metrics: kpi_metrics
     }
   end
 
@@ -68,6 +69,20 @@ class P1ReportService < BaseIssuesReportService
     table
   end
 
+  def kpi_metrics
+    table = []
+    closed_issues.reverse.each do |issue|
+      table << [
+        issue.created.strftime('%Y-%m-%d'),
+        issue.time_to_detect,
+        issue.time_to_repair,
+        issue.time_to_recover,
+      ]
+    end
+
+    table
+  end
+
   def linear_regression_for_issue_count
     data = issue_count_per_week.map do |key, value|
       { week: key, issue_count: value }
@@ -80,29 +95,29 @@ class P1ReportService < BaseIssuesReportService
     [predict_count(model, @start_date.cweek), predict_count(model, @end_date.strftime('%W').to_i)]
   end
 
-  def linear_regression_for_resolution_time
-    return [] if closed_issues.size <= 2
+  def linear_regression_for_time_to_recover
+    return [] if incidents_with_end_date.size <= 2
 
-    data = closed_issues.map do |issue|
-      { date: issue.resolution_date.to_time.to_i, resolution_time: issue.resolution_time }
+    data = incidents_with_end_date.select.map do |issue|
+      { date: issue.end_date.to_time.to_i, time_to_recover: issue.time_to_recover }
     end
-    model = Eps::Model.new(data, target: :resolution_time, algorithm: :linear_regression)
+    model = Eps::Model.new(data, target: :time_to_recover, algorithm: :linear_regression)
 
     [predict_on_date(model, @start_date), predict_on_date(model, @end_date)]
   end
 
-  def resolution_time_moving_averages
-    return [] if closed_issues.size <= 2
+  def time_to_recover_moving_averages
+    return [] if incidents_with_end_date.size <= 2
 
     date =  @start_date
     moving_averages = []
 
     loop do
-      moving_averages << [date.strftime('%Y-%m-%d'), resolution_time_moving_average_on(date)]
+      moving_averages << [date.strftime('%Y-%m-%d'), time_to_recover_moving_average_on(date)]
 
       date = date + 1.week
       if date >= @end_date
-        moving_averages << [@end_date.strftime('%Y-%m-%d'), resolution_time_moving_average_on(@end_date)]
+        moving_averages << [@end_date.strftime('%Y-%m-%d'), time_to_recover_moving_average_on(@end_date)]
         break
       end
     end
@@ -110,14 +125,14 @@ class P1ReportService < BaseIssuesReportService
     moving_averages
   end
 
-  def resolution_time_moving_average_on(date, period = 2.weeks)
-    resolution_time_array = closed_issues.inject([]) do |memo, issue|
-      memo << issue.resolution_time if issue.created.between?(date.end_of_day - period, date.end_of_day)
+  def time_to_recover_moving_average_on(date, period = 2.weeks)
+    time_to_recover_array = incidents_with_end_date.inject([]) do |memo, issue|
+      memo << issue.time_to_recover if issue.end_date.between?(date.end_of_day - period, date.end_of_day)
       memo
     end
 
-    if resolution_time_array.size > 0
-      resolution_time_array.inject(:+) / resolution_time_array.size.to_f
+    if time_to_recover_array.size > 0
+      time_to_recover_array.inject(:+) / time_to_recover_array.size.to_f
     else
       0
     end
@@ -131,6 +146,10 @@ class P1ReportService < BaseIssuesReportService
     query = "(priority = 'P1 - Urgent' AND created <= #{@end_date.strftime('%Y-%m-%d')} AND issuetype = Incident AND reporter in (servicedesk.it, engin.keyif) AND created > #{@start_date.strftime('%Y-%m-%d')}) OR (priority = 'P1 - Urgent' AND created <= #{@end_date.strftime('%Y-%m-%d')} AND project = UI AND created > #{ish_live_date.strftime('%Y-%m-%d')}) ORDER BY created ASC, key DESC"
     # use Jira repository because we want real time data
     ::Jira::IssueRepository.new(::Jira::JiraClient.new).find_by(query: query)
+  end
+
+  def incidents_with_end_date
+    issues.select{ |issue| issue.end_date.present? }
   end
 
   def predict_count(model, week)
