@@ -33,6 +33,6 @@ class KpiGoalService
 
   private
   def retrieve_goals
-    Repository.for(:kpi_goal).find_by(department: @department, quarter: @quarter)
+    Repository.for(:kpi_goal).find_by(department: @department, quarter: @quarter).sort_by(&:type)
   end
 end
