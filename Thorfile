@@ -91,6 +91,15 @@ class Cache < Thor
       end if board.is_a? ScrumBoard
     end
 
+    CacheService.register_repositories
+
+    Repository.for(:kpi_goal).all.each do |kpi_goal|
+      puts "Recalculating KPI results for KPI goal '#{KpiGoal::TYPES[kpi_goal.type]}' for #{kpi_goal.department.name} for #{kpi_goal.quarter.name}"
+      kpi_goal.calculate_kpi_result
+      Repository.for(:kpi_goal).save(kpi_goal)
+      $stdout.flush
+    end
+
     Rails.cache.clear
     redis_client.del('updating_cache_since')
 
