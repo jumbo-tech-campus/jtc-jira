@@ -22,6 +22,12 @@ class DepartmentReportController < ApplicationController
 
   def kpi_overview
     @report = KpiGoalService.new(@department, @current_quarter).overview
+
+    respond_to do |format|
+      format.html { render :kpi_overview }
+      format.csv { send_data to_csv(@report[:table]), filename: "kpi_overview_#{@department.name}_#{@current_quarter.name}.csv" }
+      format.json { send_data @report.to_json }
+    end
   end
 
   def issues_overview
