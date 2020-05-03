@@ -4,9 +4,10 @@ class KpiGoalFactory
     department = Repository.for(:department).find(json['department_id'])
 
     kpi_goal = KpiGoal.new(json['id'], quarter, department)
-    kpi_goal.metric = json['metric']
     kpi_goal.type = json['type'].to_sym
+    kpi_goal.metric = json['metric'].to_f
     kpi_goal.kpi_result = Factory.for(:kpi_result).create_from_json(json['kpi_result'])
+    kpi_goal.kpi_result.kpi_goal = kpi_goal
 
     kpi_goal
   end
