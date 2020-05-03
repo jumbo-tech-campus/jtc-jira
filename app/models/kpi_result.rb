@@ -15,12 +15,28 @@ class KpiResult  < ActiveModelSerializers::Model
   end
 
   def is_positive?
-    if kpi_goal.higher_is_better? && compared_to_goal > 0
+    if kpi_goal.higher_is_better? && compared_to_goal >= 0
       true
-    elsif !kpi_goal.higher_is_better? && compared_to_goal < 0
+    elsif !kpi_goal.higher_is_better? && compared_to_goal <= 0
       true
     else
       false
+    end
+  end
+
+  def indication
+    if kpi_goal.higher_is_better? && percentage_compared_to_goal >= 0
+      'positive'
+    elsif kpi_goal.higher_is_better? && percentage_compared_to_goal.between?(-10, 0)
+      'warning'
+    elsif kpi_goal.higher_is_better? && percentage_compared_to_goal < -10
+      'negative'
+    elsif !kpi_goal.higher_is_better? && percentage_compared_to_goal <= 0
+      'positive'
+    elsif !kpi_goal.higher_is_better? && percentage_compared_to_goal.between?(0, 10)
+      'warning'
+    else
+      'negative'
     end
   end
 end

@@ -20,7 +20,7 @@ class KpiGoalService
         goal.current_target,
         goal.current_result,
         "#{goal.percentage_result_compared_to_target.round}%",
-        goal.kpi_result.is_positive?
+        goal.kpi_result.indication
       ]
     end
 

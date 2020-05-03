@@ -334,7 +334,11 @@ a.bg-info:hover {
 
 .bg-warning {
   color: #fff;
-  background-color: #ffb53e;
+  background-color: #ffb52b;
+  font-family: JumboBold;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
 }
 
 a.bg-warning:hover {
@@ -358,13 +362,30 @@ a.bg-danger:hover {
   color: rgba(255, 255, 255, .75);
 }
 
-
 .bg-orange {
   background-color: rgb(255,165,0);
 }
 
 .bg-yellow {
   background-color: #fdc513;
+}
+
+.bg-positive {
+  color: #fff;
+  background-color: #41c464;
+  font-family: JumboBold;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+.bg-negative {
+  color: #fff;
+  background-color: #eb364b;
+  font-family: JumboBold;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
 }
 
 /* line 362, /app/app/assets/stylesheets/global.css.scss */

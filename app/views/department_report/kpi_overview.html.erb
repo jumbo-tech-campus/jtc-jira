@@ -21,7 +21,26 @@
       <small class="text-muted small"></small>
     </div>
     <div class="card-body">
-      <%= render partial: 'shared/table', locals: { table: @report[:table], options: { header_text_rotated: false } } %>
+      <table class="table table-bordered">
+          <thead>
+            <tr class="small">
+              <% @report[:table][0][0..-2].each do |header_item| %>
+              <th><div><%= header_item %></div></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @report[:table][1..-1].each do |row| %>
+            <tr class="small">
+             <% row[0..-2].each_with_index do |row_item, index| %>
+             <td class="<%= 'text-center' unless index == 0 %> <%= "bg-#{row[-1]}" if row_item == row[-2] %>"">
+             <%= row_item %>
+             </td>
+             <% end %>
+           </tr>
+           <% end %>
+          </tbody>
+      </table>
     </div>
  </div>
 </div>
