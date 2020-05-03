@@ -1,0 +1,27 @@
+<div class="main">
+  <div class="row pl-3">
+    <ul class="nav">
+      <% @quarters.each do |quarter| %>
+      <li class="nav-item">
+        <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if quarter == @current_quarter %>"
+          href="<%= department_kpi_overview_path(quarter_id: quarter.id) %>">
+          <%= quarter.name %>
+        </a>
+      </li>
+     <% end %>
+    </ul>
+  </div>
+  <div class="card box-shadow mb-4">
+    <div class="card-header">
+      <a href="<%= department_kpi_overview_path(quarter: @current_quarter, format: 'csv') %>"
+        class="card-link float-right">
+        Download as csv file
+      </a>
+      <strong>Today's <%= @department.name %> KPI goals overview for quarter <%= @current_quarter.name %></strong><br>
+      <small class="text-muted small"></small>
+    </div>
+    <div class="card-body">
+      <%= render partial: 'shared/table', locals: { table: @report[:table], options: { header_text_rotated: false } } %>
+    </div>
+ </div>
+</div>

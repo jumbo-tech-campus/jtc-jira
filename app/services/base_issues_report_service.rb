@@ -15,6 +15,10 @@ class BaseIssuesReportService
     }
   end
 
+  def calculate_kpi_result
+    KpiResult.new(cumulative_count_per_day.last[1], cumulative_count_per_day)
+  end
+
   def issues_table
     table = []
     header = ["Key", "Date", "Title"]

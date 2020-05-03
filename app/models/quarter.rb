@@ -10,15 +10,27 @@ class Quarter < ActiveModelSerializers::Model
   end
 
   def start_date
-    Date.commercial(year, start_week, 1)
+    DateTime.commercial(year, start_week, 1)
   end
 
   def end_date
-    Date.commercial(year, end_week, 7)
+    DateTime.commercial(year, end_week, 7).end_of_day
   end
 
   def number_of_days
-    end_date.mjd - start_date.mjd
+    (end_date -  start_date).to_f
+  end
+
+  def days_since_start(date)
+    return 0 unless date.between?(start_date, end_date)
+
+    (date - start_date).to_f
+  end
+
+  def portion_passed
+    return 1 if DateTime.now > end_date
+
+    (days_since_start(DateTime.now) / number_of_days)
   end
 
   def ==(quarter)

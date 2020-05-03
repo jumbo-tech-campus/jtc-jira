@@ -26,6 +26,16 @@
                 <% end %>
               </ul>
             </li>
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle <%= 'text-yellow' if action_name == 'kpi_overview' %>" href="#">KPI overview</a>
+              <ul class="dropdown-menu">
+                <% @departments.each do |department| %>
+                <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'kpi_overview' && @department.id == department.id %>" href="<%= department_kpi_overview_path(department_id: department.id) %>">
+                  <%= department.name %>
+                </a></li>
+                <% end %>
+              </ul>
+            </li>
             <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'deployments_overview' %>" href="<%= department_deployments_overview_path %>">
               Deployments
             </a></li>

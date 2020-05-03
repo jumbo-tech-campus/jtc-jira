@@ -22,6 +22,7 @@ class KpiGoalsController < ApplicationController
 
   def create
     @kpi_goal = Factory.for(:kpi_goal).create_from_hash(kpi_goal_params)
+    @kpi_goal.calculate_kpi_result
     Repository.for(:kpi_goal).save(@kpi_goal)
 
     redirect_to kpi_goals_url(department_id: @kpi_goal.department.id), notice: 'Kpi goal was successfully created.'
@@ -29,6 +30,7 @@ class KpiGoalsController < ApplicationController
 
   def update
     @kpi_goal = Factory.for(:kpi_goal).create_from_hash(kpi_goal_params)
+    @kpi_goal.calculate_kpi_result
     Repository.for(:kpi_goal).save(@kpi_goal)
 
     redirect_to kpi_goals_url(department_id: @kpi_goal.department.id), notice: 'Kpi goal was successfully updated.'

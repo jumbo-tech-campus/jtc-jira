@@ -1,9 +1,11 @@
-<% options = options || {} %>
+<% options = options || { }
+   options.reverse_merge!({ header_text_rotated: true })
+%>
 <table class="table table-bordered <%= options[:table_class] %>">
     <thead>
       <tr class="small">
         <% table[0].each do |header_item| %>
-        <th><div class="text-rotated"><%= header_item %></div></th>
+        <th><div class="<%= "text-rotated" if options[:header_text_rotated] %>"><%= header_item %></div></th>
         <% end %>
       </tr>
     </thead>

@@ -15,6 +15,11 @@ class CycleTimeReportService
     }
   end
 
+  def calculate_kpi_result
+    average = cycle_issues.map(&:cycle_time).inject(:+) / cycle_issues.size.to_f
+    KpiResult.new(average, [])
+  end
+
   def cycle_issues
     @boards.inject([]) do |memo, board|
       board_issues = board.issues_with_cycle_time.select do |issue|

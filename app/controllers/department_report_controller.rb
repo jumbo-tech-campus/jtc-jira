@@ -20,6 +20,10 @@ class DepartmentReportController < ApplicationController
     }
   end
 
+  def kpi_overview
+    @report = KpiGoalService.new(@department, @current_quarter).overview
+  end
+
   def issues_overview
     boards = @department.teams.map(&:board).compact
     current_issues = IssueCountReportService.new(boards, @current_quarter.start_date, @current_quarter.end_date).overview
