@@ -9,64 +9,27 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle <%= 'text-yellow' if controller_name == 'department_report' || controller_name == 'kpi_goals' %>" href="#" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Department
+          <a class="nav-link dropdown-toggle <%= 'text-yellow' if ['department_report', 'kpi_goals', 'p1_report', 'deployment_report'].include?(controller_name) %>" href="#" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            JTC Digital
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
-            <!--<li><a class="dropdown-item <%= 'text-yellow' if action_name == 'index' %>" href="<%= cycle_time_deployment_constraint_path(deployment_constraint_id: 1) %>">
-              Dashboard
-            </a></li>-->
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle <%= 'text-yellow' if controller_name == 'kpi_goals' %>" href="#">KPI goals</a>
-              <ul class="dropdown-menu">
-                <% @departments.each do |department| %>
-                <li><a class="dropdown-item <%= 'text-yellow' if controller_name == 'kpi_goals' && @department.id == department.id %>" href="<%= kpi_goals_path(department_id: department.id) %>">
-                  <%= department.name %>
-                </a></li>
-                <% end %>
-              </ul>
-            </li>
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle <%= 'text-yellow' if action_name == 'kpi_overview' %>" href="#">KPI overview</a>
-              <ul class="dropdown-menu">
-                <% @departments.each do |department| %>
-                <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'kpi_overview' && @department.id == department.id %>" href="<%= department_kpi_overview_path(department_id: department.id) %>">
-                  <%= department.name %>
-                </a></li>
-                <% end %>
-              </ul>
-            </li>
-            <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'deployments_overview' %>" href="<%= department_deployments_overview_path %>">
+            <li><a class="dropdown-item <%= 'text-yellow' if controller_name == 'department_report' && action_name == 'kpi_dashboard' %>" href="<%= department_kpi_dashboard_path(department_id: 1) %>">
+              KPI dashboard
+            </a></li>
+            <li><a class="dropdown-item <%= 'text-yellow' if controller_name == 'kpi_goals' %>" href="<%= kpi_goals_path(department_id: 1) %>">
+              KPI goals
+            </a></li>
+            <li><a class="dropdown-item <%= 'text-yellow' if controller_name == 'department_report' && action_name == 'cycle_time_overview' %>" href="<%= department_cycle_time_overview_path(department_id: 1) %>">
+              Cycle time overview
+            </a></li>
+            <li><a class="dropdown-item <%= 'text-yellow' if controller_name == 'deployment_report' %>" href="<%= deployment_report_path %>">
               Deployments
             </a></li>
-            <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'p1s_overview' %>" href="<%= department_p1s_overview_path %>">
+            <li><a class="dropdown-item <%= 'text-yellow' if controller_name == 'p1_report' %>" href="<%= p1_report_path %>">
               P1 incidents
             </a></li>
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle <%= 'text-yellow' if action_name == 'cycle_time_overview' %>" href="#">Cycle time overview</a>
-              <ul class="dropdown-menu">
-                <% @departments.each do |department| %>
-                <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'cycle_time_overview' && @department.id == department.id %>" href="<%= department_cycle_time_overview_path(department_id: department.id) %>">
-                  <%= department.name %>
-                </a></li>
-                <% end %>
-              </ul>
-            </li>
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle <%= 'text-yellow' if action_name == 'issues_overview' %>" href="#">Overview of tickets released</a>
-              <ul class="dropdown-menu">
-                <% @departments.each do |department| %>
-                <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'issues_overview' && @department.id == department.id %>" href="<%= department_issues_overview_path(department_id: department.id) %>">
-                  <%= department.name %>
-                </a></li>
-                <% end %>
-              </ul>
-            </li>
           </ul>
         </li>
-
-
-
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle <%= 'text-yellow' if controller_name == 'cycle_time_report' %>" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Cycle time
@@ -128,16 +91,6 @@
             </li>
             <% end %>
           </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link <%= 'text-yellow' if controller_name == 'deployment_report' %>" href="<%= deployment_report_path %>">
-            Deployments
-          </a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link <%= 'text-yellow' if controller_name == 'p1_report' %>" href="<%= p1_report_path %>">
-            P1 Overview
-          </a>
         </li>
       </ul>
       <%= link_to 'Refresh data', sprint_report_refresh_path(board_id: @board.id), method: :post, class: 'btn btn-secondary', data: { disable_with: "In progress..." } if @board %>

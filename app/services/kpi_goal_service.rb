@@ -6,6 +6,8 @@ class KpiGoalService
   def overview
     {
       table: table,
+      goals: goals,
+      last_years_goals: last_years_goals
     }
   end
 
@@ -28,11 +30,19 @@ class KpiGoalService
   end
 
   def goals
-    @goals ||= retrieve_goals
+    @goals ||= retrieve_goals(@quarter)
+  end
+
+  def last_years_goals
+    @last_years_goals ||= retrieve_goals(last_years_quarter)
   end
 
   private
-  def retrieve_goals
-    Repository.for(:kpi_goal).find_by(department: @department, quarter: @quarter).sort_by(&:type)
+  def retrieve_goals(quarter)
+    Repository.for(:kpi_goal).find_by(department: @department, quarter: quarter).sort_by(&:type)
+  end
+
+  def last_years_quarter
+    Repository.for(:quarter).find_by(date: Date.commercial(@quarter.year - 1, @quarter.start_week, 5))
   end
 end

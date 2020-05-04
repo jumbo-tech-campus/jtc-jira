@@ -1,0 +1,52 @@
+<%
+  goal = report[:goals].find{ |goal| goal.type == options[:type] }
+  last_years_goal = report[:last_years_goals].find{ |goal| goal.type == options[:type] }
+  if goal.present?
+%>
+<div class="card box-shadow mb-4">
+  <div class="card-header">
+    <strong><%= options[:header] %></strong><br>
+  </div>
+  <div class="<%= options[:type] %>-chart m-4"></div>
+</div>
+<script>
+$(function() {
+  var chart_data = convertToCumulativeOverviewChartData(JSON.parse('<%= escape_javascript raw(goal.kpi_result.metrics.to_json) %>'), JSON.parse('<%= escape_javascript raw(last_years_goal.kpi_result.metrics.to_json) %>'), <%= goal.metric || 'null' %>);
+  c3.generate({
+      padding: {
+         right: 40,
+         left: 40
+      },
+      bindto: d3.select('.<%= options[:type] %>-chart'),
+      data: {
+        xs: {
+          'previous_x': 'dates',
+          'current_x': 'dates',
+          'goal': 'min_max_dates'
+        },
+        columns: chart_data,
+        names: {
+          'previous_x': '<%= last_years_goal&.quarter.name %>',
+          'current_x': '<%= goal.quarter.name %>'
+        }
+      },
+      axis: {
+        y: {
+          min: 0,
+          padding: { top: 5, bottom:0 }
+        },
+        x: {
+          type: 'timeseries',
+          tick: {
+           fit: true,
+           format: '%d-%m-%Y'
+          }
+        },
+      },
+      point: {
+        show: false
+      }
+   });
+});
+</script>
+<% end %>

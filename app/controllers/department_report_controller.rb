@@ -8,51 +8,14 @@ class DepartmentReportController < ApplicationController
     @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 1, 1), DateTime.now, 1.year).report(true)
   end
 
-  def deployments_overview
-    current_deploy = DeploymentReportService.new(@current_quarter.start_date, @current_quarter.end_date).overview
-    last_year_deploy = DeploymentReportService.new(@last_year_quarter.start_date, @last_year_quarter.end_date).overview
-
-    @kpi_goal = Repository.for(:kpi_goal).find_by(department: @department, quarter: @current_quarter, type: :deployments).first
-
-    @report = {
-      current: current_deploy[:issue_count_per_day],
-      previous: last_year_deploy[:issue_count_per_day]
-    }
-  end
-
-  def kpi_overview
+  def kpi_dashboard
     @report = KpiGoalService.new(@department, @current_quarter).overview
 
     respond_to do |format|
-      format.html { render :kpi_overview }
-      format.csv { send_data to_csv(@report[:table]), filename: "kpi_overview_#{@department.name}_#{@current_quarter.name}.csv" }
+      format.html { render :kpi_dashboard }
+      format.csv { send_data to_csv(@report[:table]), filename: "kpi_dashboard_#{@department.name}_#{@current_quarter.name}.csv" }
       format.json { send_data @report.to_json }
     end
-  end
-
-  def issues_overview
-    boards = @department.teams.map(&:board).compact
-    current_issues = IssueCountReportService.new(boards, @current_quarter.start_date, @current_quarter.end_date).overview
-    last_year_issues = IssueCountReportService.new(boards, @last_year_quarter.start_date, @last_year_quarter.end_date).overview
-
-    @kpi_goal = Repository.for(:kpi_goal).find_by(department: @department, quarter: @current_quarter, type: :issues).first
-
-    @report = {
-      current: current_issues[:issue_count_per_day],
-      previous: last_year_issues[:issue_count_per_day]
-    }
-  end
-
-  def p1s_overview
-    current_p1s = P1ReportService.new(@current_quarter.start_date, @current_quarter.end_date).overview
-    last_year_p1s = P1ReportService.new(@last_year_quarter.start_date, @last_year_quarter.end_date).overview
-
-    @kpi_goal = Repository.for(:kpi_goal).find_by(department: @department, quarter: @current_quarter, type: :p1s).first
-
-    @report = {
-      current: current_p1s[:issue_count_per_day],
-      previous: last_year_p1s[:issue_count_per_day]
-    }
   end
 
   protected

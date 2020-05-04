@@ -4,7 +4,7 @@
       <% @quarters.each do |quarter| %>
       <li class="nav-item">
         <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if quarter == @current_quarter %>"
-          href="<%= department_kpi_overview_path(quarter_id: quarter.id) %>">
+          href="<%= department_kpi_dashboard_path(quarter_id: quarter.id) %>">
           <%= quarter.name %>
         </a>
       </li>
@@ -13,7 +13,7 @@
   </div>
   <div class="card box-shadow mb-4">
     <div class="card-header">
-      <a href="<%= department_kpi_overview_path(quarter: @current_quarter, format: 'csv') %>"
+      <a href="<%= department_kpi_dashboard_path(quarter: @current_quarter, format: 'csv') %>"
         class="card-link float-right">
         Download as csv file
       </a>
@@ -42,5 +42,8 @@
           </tbody>
       </table>
     </div>
- </div>
+  </div>
+    <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :deployments, header: 'Number of deployment issues (cumulative)' } } %>
+    <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :p1s, header: 'Number of P1 issues (cumulative)' } } %>
+    <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :issues, header: 'Number of released issues (cumulative)' } } %>
 </div>
