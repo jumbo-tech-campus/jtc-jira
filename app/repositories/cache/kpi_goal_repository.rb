@@ -21,6 +21,9 @@ module Cache
         goals = all.select{ |goal| goal.department == options[:department] }
         if options[:quarter]
           goals = goals.select{ |goal| goal.quarter == options[:quarter] }
+          if options[:type]
+            goals = goals.select{ |goal| goal.type == options[:type] }
+          end
         end
         goals
       end
