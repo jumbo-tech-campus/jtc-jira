@@ -1,6 +1,6 @@
 /*-- Chart --*/
 .c3 svg {
-  font-size: 80%;
+  font: 10px sans-serif;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
@@ -59,10 +59,14 @@
 
 /*-- Line --*/
 .c3-line {
-  stroke-width: 2px;
+  stroke-width: 1px;
 }
 
 /*-- Point --*/
+.c3-circle {
+  fill: currentColor;
+}
+
 .c3-circle._expanded_ {
   stroke-width: 1px;
   stroke: white;
@@ -89,7 +93,7 @@
 }
 
 .c3-target.c3-focused path.c3-line, .c3-target.c3-focused path.c3-step {
-  stroke-width: 4px;
+  stroke-width: 2px;
 }
 
 .c3-target.c3-defocused {
@@ -100,6 +104,9 @@
 .c3-region {
   fill: steelblue;
   fill-opacity: 0.1;
+}
+.c3-region text {
+  fill-opacity: 1;
 }
 
 /*-- Brush --*/
@@ -171,7 +178,7 @@
   margin-right: 6px;
 }
 
-.c3-tooltip td.value {
+.c3-tooltip .value {
   text-align: right;
 }
 
@@ -231,8 +238,4 @@
 
 .c3-drag-zoom .extent {
   fill-opacity: 0.1;
-}
-
-.c3-target-goal {
-  stroke-dasharray: 5,5;
 }
