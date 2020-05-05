@@ -16,7 +16,8 @@ class CycleTimeReportService
   end
 
   def calculate_kpi_result
-    average = cycle_issues.map(&:cycle_time).inject(:+) / cycle_issues.size.to_f
+    sum = cycle_issues.map(&:cycle_time).inject(:+)
+    average = sum / cycle_issues.size.to_f if sum
     KpiResult.new(average, [])
   end
 
