@@ -7,6 +7,8 @@ class KpiResult  < ActiveModelSerializers::Model
   end
 
   def percentage_compared_to_goal
+    return 0 if kpi_goal.current_target == 0
+
     (compared_to_goal / kpi_goal.current_target.to_f) * 100
   end
 
