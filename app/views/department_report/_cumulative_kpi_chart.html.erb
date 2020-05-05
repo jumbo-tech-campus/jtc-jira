@@ -1,7 +1,10 @@
 <%
   goal = report[:goals].find{ |goal| goal.type == options[:type] }
   last_years_goal = report[:last_years_goals].find{ |goal| goal.type == options[:type] }
+
   if goal.present?
+    metrics = goal.kpi_result.metrics
+    last_years_metrics = last_years_goal ? last_years_goal.kpi_result.metrics : []
 %>
 <div class="card box-shadow mb-4">
   <div class="card-header">
@@ -11,7 +14,7 @@
 </div>
 <script>
 $(function() {
-  var chart_data = convertToCumulativeOverviewChartData(JSON.parse('<%= escape_javascript raw(goal.kpi_result.metrics.to_json) %>'), JSON.parse('<%= escape_javascript raw(last_years_goal.kpi_result.metrics.to_json) %>'), <%= goal.metric || 'null' %>);
+  var chart_data = convertToCumulativeOverviewChartData(JSON.parse('<%= escape_javascript raw(metrics.to_json) %>'), JSON.parse('<%= escape_javascript raw(last_years_metrics.to_json) %>'), <%= goal.metric || 'null' %>);
   c3.generate({
       padding: {
          right: 40,
@@ -26,7 +29,7 @@ $(function() {
         },
         columns: chart_data,
         names: {
-          'previous_x': '<%= last_years_goal&.quarter.name %>',
+          'previous_x': '<%= last_years_goal&.quarter&.name %>',
           'current_x': '<%= goal.quarter.name %>'
         }
       },
