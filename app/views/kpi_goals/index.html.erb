@@ -20,7 +20,7 @@
         <tr class="small">
           <td><%= kpi_goal.quarter.name %></td>
           <td><%= KpiGoal::TYPES[kpi_goal.type.to_sym] %></td>
-          <td><%= kpi_goal.metric %></td>
+          <td><%= kpi_goal.metric.round(kpi_goal.decimal_precision) %></td>
           <td><%= link_to 'Edit', edit_kpi_goal_path(id: kpi_goal.id) %></td>
           <td><%= link_to 'Destroy', kpi_goal_path(id: kpi_goal.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
