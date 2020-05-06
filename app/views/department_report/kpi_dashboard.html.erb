@@ -43,7 +43,7 @@
       </table>
     </div>
   </div>
-    <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :deployments, header: 'Number of deployment issues (cumulative)' } } %>
-    <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :p1s, header: 'Number of P1 issues (cumulative)' } } %>
-    <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :issues, header: 'Number of released issues (cumulative)' } } %>
+    <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :deployments, header: 'Number of deployments (cumulative)' } } %>
+    <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :p1s, header: 'Number of P1 incidents (cumulative)' } } %>
+    <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :issues, header: 'Number of JIRA tickets moved to Done (cumulative)' } } %>
 </div>
