@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     get 'cycle_time_report/two_week_overview', to: 'cycle_time_report#two_week_overview', as: :cycle_time_two_week_overview
     get 'deployment_report/overview', to: 'deployment_report#overview', as: :deployment_report
     get 'p1_report/overview', to: 'p1_report#overview', as: :p1_report
+    get 'uptime_report/overview', to: 'uptime_report#overview', as: :uptime_report
     get 'department_report/cycle_time_overview', to: 'department_report#cycle_time_overview', as: :department_cycle_time_overview
     get 'department_report/kpi_dashboard', to: 'department_report#kpi_dashboard', as: :department_kpi_dashboard
     post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data', as: :sprint_report_refresh
@@ -34,6 +35,7 @@ Rails.application.routes.draw do
   get 'cycle_time_report/two_week_overview', to: 'cycle_time_report#two_week_overview'
   get 'deployment_report/overview', to: 'deployment_report#overview'
   get 'p1_report/overview', to: 'p1_report#overview'
+  get 'uptime_report/overview', to: 'uptime_report#overview'
   get 'sprint_report/sprint', to: 'sprint_report#sprint'
   get 'department_report/cycle_time_overview', to: 'department_report#cycle_time_overview'
   get 'department_report/kpi_dashboard', to: 'department_report#kpi_dashboard'
