@@ -76,7 +76,7 @@ class P1ReportService < BaseIssuesReportService
         issue.created.strftime('%Y-%m-%d'),
         issue.time_to_detect,
         issue.time_to_repair,
-        issue.time_to_recover,
+        issue.time_to_recover ? issue.time_to_recover * 24 : nil,
       ]
     end
 
