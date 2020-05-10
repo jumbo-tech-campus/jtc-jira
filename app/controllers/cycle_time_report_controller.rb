@@ -34,7 +34,7 @@ class CycleTimeReportController < ApplicationController
 
   def two_week_overview
     boards = teams.map(&:board).compact
-    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(@year, 1, 1), DateTime.new(@year, 12, 31), 2.weeks).report
+    @report = CycleTimeOverviewReportService.new(boards, DateTime.commercial(@year, 1, 1), DateTime.commercial(@year, 52, 7), 2.weeks).report
 
     respond_to do |format|
       format.html
@@ -45,7 +45,7 @@ class CycleTimeReportController < ApplicationController
 
   def four_week_overview
     boards = teams.map(&:board).compact
-    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(@year, 1, 1), DateTime.new(@year, 12, 31), 4.weeks).report
+    @report = CycleTimeOverviewReportService.new(boards, DateTime.commercial(@year, 1, 1), DateTime.commercial(@year, 52, 7), 4.weeks).report
 
     respond_to do |format|
       format.html
