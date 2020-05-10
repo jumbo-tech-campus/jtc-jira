@@ -98,4 +98,18 @@ class CycleTimeOverviewReportService
 
     issues.map(&:cycle_time).inject(:+) / issues.size.to_f
   end
+
+  def periodic_overall_results
+    periods = Period.create_periods(@start_date, @end_date, @period)
+    results = []
+
+    periods.each do |period|
+      boards = @boards.select{ |board| board.team.is_active?(period.start_date) }
+      issues = cycle_issues(boards, period.start_date, period.end_date)
+      avg = cycle_time_average(issues)&.round(1)
+      results << [period.end_date.strftime('%W'), avg]
+    end
+
+    results
+  end
 end

@@ -18,7 +18,9 @@ class CycleTimeReportService
   def calculate_kpi_result
     sum = cycle_issues.map(&:cycle_time).inject(:+)
     average = sum / cycle_issues.size.to_f if sum
-    KpiResult.new(average, [])
+
+    results = CycleTimeOverviewReportService.new(@boards, @start_date, @end_date, 2.weeks).periodic_overall_results
+    KpiResult.new(average, results)
   end
 
   def cycle_issues
