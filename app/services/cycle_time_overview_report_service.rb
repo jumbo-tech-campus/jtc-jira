@@ -86,7 +86,7 @@ class CycleTimeOverviewReportService
   def cycle_issues(boards, start_date, end_date)
     boards.inject([]) do |memo, board|
       board_issues = board.issues_with_cycle_time.select do |issue|
-        issue.release_date.between?(start_date, end_date.end_of_day)
+        issue.release_date.between?(start_date, end_date.end_of_day) && board.team.is_active?(issue.release_date)
       end
       memo.concat(board_issues)
       memo

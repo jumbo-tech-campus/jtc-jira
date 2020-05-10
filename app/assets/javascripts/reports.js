@@ -115,6 +115,30 @@ function convertToCumulativeOverviewChartData(data, last_years_data, goal) {
   return [min_max_dates, dates, current, previous, goal];
 }
 
+function convertToPercentageOverviewChartData(data, last_years_data, goal) {
+  var x = data.map(function(x){
+    return x[0];
+  });
+
+  var min_max = ['min_max', x[0], x[x.length - 1]];
+  var goal = ['goal', goal, goal];
+
+  x = ['x'].concat(x);
+
+  var current = data.map(function(x){
+    return x[1];
+  });
+  current = ['current'].concat(current);
+
+  var previous = last_years_data.map(function(x){
+    return x[1];
+  });
+  previous = ['previous'].concat(previous);
+
+  return [min_max, x, current, previous, goal];
+}
+
+
 function convertToCumulativeP1ChartData(data, set_goal) {
   var dates = data.cumulative_count_per_cause_per_day[0].issue_count.map(function(x){
     return x[0];
