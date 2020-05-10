@@ -7,7 +7,6 @@ class Incident < Issue
   end
 
   def time_to_detect
-    puts reported_date.inspect
     return nil unless valid?
 
     (reported_date - start_date).to_f
