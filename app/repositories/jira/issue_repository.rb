@@ -67,6 +67,8 @@ module Jira
         end
         if value['fields']['issuetype']['name'] == 'Incident'
           issue = Factory.for(:incident).create_from_jira(value)
+        elsif value['fields']['issuetype']['name'] == 'Alert'
+          issue = Factory.for(:alert).create_from_jira(value)
         else
           issue = Factory.for(:issue).create_from_jira(value)
         end

@@ -10,6 +10,8 @@ module Cache
           issues = JSON.parse(sprint_json)['issues'].map do |issue_json|
             if issue_json['class'] == 'Incident'
               Factory.for(:incident).create_from_json(issue_json)
+            elsif issue_json['class'] == 'Alert'
+              Factory.for(:alert).create_from_json(issue_json)
             else
               Factory.for(:issue).create_from_json(issue_json)
             end

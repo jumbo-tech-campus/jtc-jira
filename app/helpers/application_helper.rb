@@ -5,6 +5,13 @@ module ApplicationHelper
     default
   end
 
+  def self.safe_parse_epoch(value, default = nil)
+    sec = (value / 1000).to_s
+    DateTime.strptime(sec, '%s').in_time_zone()
+  rescue ArgumentError, NoMethodError
+    default
+  end
+
   def self.format_to_days_hours_and_minutes(date_time_difference)
     return '' unless date_time_difference
     days = date_time_difference.floor

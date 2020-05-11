@@ -2,6 +2,8 @@ class IssueFactory
   def create_from_jira(json)
     if json['fields']['issuetype']['name'] == 'Incident'
       issue_class = Incident
+    elsif json['fields']['issuetype']['name'] == 'Alert'
+      issue_class = Alert
     else
       issue_class = Issue
     end
@@ -27,6 +29,8 @@ class IssueFactory
   def create_from_json(json)
     if json['class_name'] == 'Incident'
       issue_class = Incident
+    elsif json['class_name'] == 'Alert'
+      issue_class = Alert
     else
       issue_class = Issue
     end
@@ -43,7 +47,7 @@ class IssueFactory
     )
     issue.assignee = json['assignee']
     issue.resolution = json['resolution']
-    issue.epic = Factory.for(:epic).create_from_json(json['epic'])
+    issue.epic = Factory.for(:epic).create_from_json(json['epic']) if json['epic']
     json['labels'].each do |label|
       issue.labels << label
     end
