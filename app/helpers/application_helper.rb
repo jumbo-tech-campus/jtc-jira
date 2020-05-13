@@ -7,7 +7,7 @@ module ApplicationHelper
 
   def self.safe_parse_epoch(value, default = nil)
     sec = (value / 1000).to_s
-    DateTime.strptime(sec, '%s').in_time_zone()
+    DateTime.strptime(sec, '%s').in_time_zone.to_datetime
   rescue ArgumentError, NoMethodError
     default
   end
@@ -18,7 +18,7 @@ module ApplicationHelper
     hours = ((date_time_difference  - days) * 24).floor
     minutes = (((date_time_difference  - days) * 24) - hours) * 60
 
-    if hours == 0
+    if hours == 0 && days == 0
       "#{minutes.round}m"
     elsif days == 0
       "#{hours}h #{minutes.round}m"

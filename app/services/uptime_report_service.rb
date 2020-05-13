@@ -7,18 +7,35 @@ class UptimeReportService < BaseIssuesReportService
 
   def issues_table
     table = []
-    header = ["Key", "Title", "Alerted at", "Event key"]
+    header = ["Key", "Title", "Starts at", "Ends at", "Duration"]
     table << header
-    issues.reverse.each do |issue|
+    downtime_events.each do |event|
       table << [
-        issue.key,
-        issue.summary,
-        issue.alerted_at.strftime('%Y-%m-%d %H:%M'),
-        issue.event_key
+        event.alert_down.key,
+        event.summary,
+        event.started_at.strftime('%Y-%m-%d %H:%M'),
+        event.ended_at&.strftime('%Y-%m-%d %H:%M'),
+        ApplicationHelper.format_to_days_hours_and_minutes(event.duration)
       ]
     end
 
     table
+  end
+
+  def downtime_events
+    issues_per_event_key = issues.reverse.inject({}) do |memo, issue|
+      if memo[issue.event_key]
+        memo[issue.event_key] << issue
+      else
+        memo[issue.event_key] = [issue]
+      end
+      memo
+    end
+
+    issues_per_event_key.map do |key, value|
+      alerts = value.sort_by(&:alerted_at)
+      DowntimeEvent.new(alerts.first, alerts.second)
+    end
   end
 
   private
