@@ -1,9 +1,8 @@
 class DowntimeEvent
-  attr_reader :alert_down, :alert_up, :overlapping_events
+  attr_reader :alert_down, :alert_up
 
   def initialize(alert_down, alert_up)
     @alert_down, @alert_up = alert_down, alert_up
-    @overlapping_events = []
   end
 
   def duration
@@ -30,5 +29,9 @@ class DowntimeEvent
     else
       downtime_event.started_at >= started_at
     end
+  end
+
+  def overlapping_events_from(downtime_events)
+    downtime_events.select{ |event| self.overlaps_with?(event) }
   end
 end

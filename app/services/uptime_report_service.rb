@@ -1,11 +1,12 @@
 class UptimeReportService < BaseIssuesReportService
   def uptime_report
     {
-      issues_table: issues_table
+      table: downtime_events_table,
+      downtime_table: downtime_table
     }
   end
 
-  def issues_table
+  def downtime_events_table
     table = []
     header = ["Key", "Title", "Starts at", "Ends at", "Duration"]
     table << header
@@ -16,6 +17,22 @@ class UptimeReportService < BaseIssuesReportService
         event.started_at.strftime('%Y-%m-%d %H:%M'),
         event.ended_at&.strftime('%Y-%m-%d %H:%M'),
         ApplicationHelper.format_to_days_hours_and_minutes(event.duration)
+      ]
+    end
+
+    table
+  end
+
+  def downtime_table
+    table = []
+    header = ["Starts at", "Ends at", "Duration", "Outside of maintenance hours"]
+    table << header
+    downtimes.each do |downtime|
+      table << [
+        downtime.started_at.strftime('%Y-%m-%d %H:%M'),
+        downtime.ended_at.strftime('%Y-%m-%d %H:%M'),
+        ApplicationHelper.format_to_days_hours_and_minutes(downtime.duration),
+        ApplicationHelper.format_to_days_hours_and_minutes(downtime.duration_excluding_maintenance)
       ]
     end
 
@@ -36,6 +53,10 @@ class UptimeReportService < BaseIssuesReportService
       alerts = value.sort_by(&:alerted_at)
       DowntimeEvent.new(alerts.first, alerts.second)
     end
+  end
+
+  def downtimes
+    Downtime.create_from(downtime_events)
   end
 
   private
