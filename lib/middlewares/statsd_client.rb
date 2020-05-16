@@ -7,11 +7,9 @@ class StatsdClient
     @client = Datadog::Statsd.new(
       ENV['STATSD_HOST'],
       ENV['STATSD_PORT'] || 8125,
-      {
-        namespace: 'jtc_jira',
-        tags: [],
-        logger: Rails.logger
-      }
+      namespace: 'jtc_jira',
+      tags: [],
+      logger: Rails.logger
     )
   end
 
