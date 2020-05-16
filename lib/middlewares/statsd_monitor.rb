@@ -1,3 +1,5 @@
+require 'middlewares/statsd_client'
+
 class StatsdMonitor
   def initialize(app)
     @app = app
