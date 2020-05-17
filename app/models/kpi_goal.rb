@@ -1,5 +1,5 @@
 class KpiGoal < ActiveModelSerializers::Model
-  TYPES = {deployments: 'Deployments', issues: 'Released issues', cycle_time: 'Cycle time', p1s: 'P1 incidents'}
+  TYPES = {deployments: 'Deployments', issues: 'Released issues', cycle_time: 'Cycle time', p1s: 'P1 incidents', uptime: 'Uptime'}
 
   attr_reader :id, :quarter, :department
   attr_accessor :metric, :type, :kpi_result
@@ -26,6 +26,8 @@ class KpiGoal < ActiveModelSerializers::Model
         P1ReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result
       when :cycle_time
         CycleTimeReportService.new(department.boards, quarter.start_date, quarter.end_date).calculate_kpi_result
+      when :uptime
+        UptimeReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result
       else
         nil
       end
@@ -34,7 +36,7 @@ class KpiGoal < ActiveModelSerializers::Model
   end
 
   def current_target
-    if type == :cycle_time
+    if type == :cycle_time || type == :uptime
       metric
     else
       (quarter.portion_passed * metric).round(decimal_precision)
@@ -55,6 +57,8 @@ class KpiGoal < ActiveModelSerializers::Model
       true
     when :issues
       true
+    when :uptime
+      true
     when :p1s
       false
     when :cycle_time
@@ -67,6 +71,8 @@ class KpiGoal < ActiveModelSerializers::Model
   def decimal_precision
     if type == :cycle_time
       1
+    elsif type == :uptime
+      2
     else
       0
     end

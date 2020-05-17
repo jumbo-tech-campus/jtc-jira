@@ -16,6 +16,16 @@ class UptimeReportService < BaseIssuesReportService
     }
   end
 
+  def calculate_kpi_result
+    sum = downtimes.sum(&:duration_excluding_maintenance)
+    total_days = (@end_date - @start_date).to_f
+
+    uptime = ((total_days - sum) / total_days) * 100
+
+    results = uptime_percentage_per_period_excluding_maintenance.map{ |period, uptime| [period.end_date.strftime('%W'), uptime] }
+    KpiResult.new(uptime, results)
+  end
+
   def downtime_events_table
     table = []
     header = ["Key", "Title", "Starts at", "Ends at", "Duration"]
