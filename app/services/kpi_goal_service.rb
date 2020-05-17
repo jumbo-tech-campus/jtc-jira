@@ -19,8 +19,8 @@ class KpiGoalService
       table << [
         KpiGoal::TYPES[goal.type],
         goal.metric.round(goal.decimal_precision),
-        goal.current_target,
-        goal.current_result,
+        goal.current_target.round(goal.decimal_precision),
+        goal.current_result.round(goal.decimal_precision),
         "#{goal.percentage_result_compared_to_target.round}%",
         goal.kpi_result.indication
       ]
