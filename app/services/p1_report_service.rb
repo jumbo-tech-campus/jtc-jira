@@ -12,6 +12,14 @@ class P1ReportService < BaseIssuesReportService
     }
   end
 
+  def calculate_kpi_result(type)
+    if type == :p1s
+      KpiResult.new(cumulative_count_per_day.last[1], cumulative_count_per_day)
+    elsif type == :time_to_recover
+      KpiResult.new(average_time_to_recover, average_time_to_recover_per_period.map{ |period, avg| [period.end_date.strftime('%W'), (avg)]})
+    end
+  end
+
   def issues_per_cause
     issues.inject({}) do |memo, issue|
       issue.causes.each do |cause|
@@ -136,6 +144,34 @@ class P1ReportService < BaseIssuesReportService
     else
       0
     end
+  end
+
+  def p1s_per_period
+    periods = Period.create_periods(@start_date, @end_date, 2.weeks)
+
+    incidents_per_period = {}
+
+    periods.each do |period|
+      incidents_per_period[period] = incidents_with_end_date.select { |incident| incident.end_date.between?(period.start_date, period.end_date) }
+    end
+
+    incidents_per_period
+  end
+
+  def average_time_to_recover_per_period
+    p1s_per_period.map do |period, incidents|
+      if period.start_date > DateTime.now || incidents.size == 0
+        [period, nil]
+      else
+        [period, (incidents.sum(&:time_to_recover) / incidents.size.to_f) * 24 * 60]
+      end
+    end
+  end
+
+  def average_time_to_recover
+    return nil if incidents_with_end_date.size == 0
+
+    (incidents_with_end_date.sum(&:time_to_recover) / incidents_with_end_date.size.to_f) * 24 * 60
   end
 
   protected

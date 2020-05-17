@@ -1,5 +1,6 @@
 class KpiGoal < ActiveModelSerializers::Model
-  TYPES = {deployments: 'Deployments', issues: 'Released issues', cycle_time: 'Cycle time', p1s: 'P1 incidents', uptime: 'Uptime'}
+  TYPES = {deployments: 'Deployments', issues: 'Released issues', cycle_time: 'Cycle time',
+    p1s: 'P1 incidents', uptime: 'Uptime', time_to_recover: 'Time to recover'}
 
   attr_reader :id, :quarter, :department
   attr_accessor :metric, :type, :kpi_result
@@ -23,11 +24,13 @@ class KpiGoal < ActiveModelSerializers::Model
       when :issues
         IssueCountReportService.new(department.boards, quarter.start_date, quarter.end_date).calculate_kpi_result
       when :p1s
-        P1ReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result
+        P1ReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result(:p1s)
       when :cycle_time
         CycleTimeReportService.new(department.boards, quarter.start_date, quarter.end_date).calculate_kpi_result
       when :uptime
         UptimeReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result
+      when :time_to_recover
+        P1ReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result(:time_to_recover)
       else
         nil
       end
@@ -36,7 +39,7 @@ class KpiGoal < ActiveModelSerializers::Model
   end
 
   def current_target
-    if type == :cycle_time || type == :uptime
+    if type == :cycle_time || type == :uptime || type == :time_to_recover
       metric
     else
       (quarter.portion_passed * metric).round(decimal_precision)
@@ -60,6 +63,8 @@ class KpiGoal < ActiveModelSerializers::Model
     when :uptime
       true
     when :p1s
+      false
+    when :time_to_recover
       false
     when :cycle_time
       false
