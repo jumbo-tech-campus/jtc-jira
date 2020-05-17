@@ -56,17 +56,9 @@ class KpiGoal < ActiveModelSerializers::Model
 
   def higher_is_better?
     case type
-    when :deployments
+    when :deployments, :issues, :uptime
       true
-    when :issues
-      true
-    when :uptime
-      true
-    when :p1s
-      false
-    when :time_to_recover
-      false
-    when :cycle_time
+    when :p1s, :time_to_recover, :cycle_time
       false
     else
       nil
