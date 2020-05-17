@@ -27,15 +27,15 @@ class KpiResult  < ActiveModelSerializers::Model
   end
 
   def indication
-    if kpi_goal.higher_is_better? && percentage_compared_to_goal >= 0
+    if kpi_goal.higher_is_better? && percentage_compared_to_goal.round >= 0
       'positive'
-    elsif kpi_goal.higher_is_better? && percentage_compared_to_goal.between?(-10, 0)
+    elsif kpi_goal.higher_is_better? && percentage_compared_to_goal.round.between?(-10, 0)
       'warning'
-    elsif kpi_goal.higher_is_better? && percentage_compared_to_goal < -10
+    elsif kpi_goal.higher_is_better? && percentage_compared_to_goal.round < -10
       'negative'
-    elsif !kpi_goal.higher_is_better? && percentage_compared_to_goal <= 0
+    elsif !kpi_goal.higher_is_better? && percentage_compared_to_goal.round <= 0
       'positive'
-    elsif !kpi_goal.higher_is_better? && percentage_compared_to_goal.between?(0, 10)
+    elsif !kpi_goal.higher_is_better? && percentage_compared_to_goal.round.between?(0, 10)
       'warning'
     else
       'negative'
