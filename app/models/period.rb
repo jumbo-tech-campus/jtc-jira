@@ -9,6 +9,10 @@ class Period
     @start_date + @duration
   end
 
+  def duration_in_days
+    @duration / 86400.0
+  end
+
   def name
     if duration == 2.weeks
       "Week #{start_date.cweek} & #{start_date.cweek + 1}"

@@ -1,8 +1,18 @@
 class UptimeReportService < BaseIssuesReportService
+  def initialize(start_date, end_date)
+    @start_date = Date.commercial(start_date.year, start_date.cweek, 1).in_time_zone.to_datetime
+    @end_date = Date.commercial(end_date.year, end_date.cweek, 7).in_time_zone.to_datetime.end_of_day
+    @periods = Period.create_periods(@start_date, @end_date, 2.weeks)
+  end
+
   def uptime_report
     {
       table: downtime_events_table,
-      downtime_table: downtime_table
+      downtime_table: downtime_table,
+      uptime_table: uptime_table,
+      downtime_per_period: downtime_per_period,
+      uptime_percentage_per_period: uptime_percentage_per_period,
+      uptime_percentage_per_period_excluding_maintenance: uptime_percentage_per_period_excluding_maintenance
     }
   end
 
@@ -39,24 +49,103 @@ class UptimeReportService < BaseIssuesReportService
     table
   end
 
-  def downtime_events
-    issues_per_event_key = issues.reverse.inject({}) do |memo, issue|
-      if memo[issue.event_key]
-        memo[issue.event_key] << issue
+  def uptime_table
+    table = []
+    header = ['']
+    @periods.each do |period|
+      header << period.name
+    end
+    table << header
+
+    row = ['Uptime']
+    uptime_percentage_per_period.each do |period, uptime|
+      row << uptime&.round(1)
+    end
+    table << row
+
+    row = ['KPI uptime']
+    uptime_percentage_per_period_excluding_maintenance.each do |period, uptime|
+      row << uptime&.round(1)
+    end
+    table << row
+
+    table
+  end
+
+  def downtime_events(alerts = nil)
+    alerts ||= issues
+    alerts_per_event_key = alerts.reverse.inject({}) do |memo, alert|
+      if memo[alert.event_key]
+        memo[alert.event_key] << alert
       else
-        memo[issue.event_key] = [issue]
+        memo[alert.event_key] = [alert]
       end
       memo
     end
 
-    issues_per_event_key.map do |key, value|
-      alerts = value.sort_by(&:alerted_at)
-      DowntimeEvent.new(alerts.first, alerts.second)
+    alerts_per_event_key.map do |key, value|
+      down_alert = value.first.is_down_alert? ? value.first : value.second
+      up_alert = value.first.is_down_alert? ? value.second : value.first
+      DowntimeEvent.new(down_alert, up_alert)
     end
   end
 
   def downtimes
     Downtime.create_from(downtime_events)
+  end
+
+  def alerts_per_period
+    issues_per_period = {}
+
+    @periods.each do |period|
+      issues_per_period[period] = issues.select { |issue| issue.alerted_at.between?(period.start_date, period.end_date) }
+    end
+
+    issues_per_period
+  end
+
+  def downtime_per_period
+    events_per_period = alerts_per_period.map do |period, alerts|
+      [period, downtime_events(alerts)]
+    end
+
+    # because we are looking at downtime per week,
+    # the alert events signalling a down or up event may be outside of week
+    # correct this by setting fake events for down or up at week end or week start
+    events_per_period.each do |period, events|
+      events.each do |event|
+        if event.alert_up.nil?
+          event.alert_up = OpenStruct.new(alerted_at: Date.commercial(event.alert_down.year, event.alert_down.cweek, 7).in_time_zone.to_datetime.end_of_day)
+        elsif event.alert_down.nil?
+          event.alert_down = OpenStruct.new(alerted_at: Date.commercial(event.alert_up.year, event.alert_up.cweek, 1).in_time_zone.to_datetime)
+        end
+      end
+    end
+
+    events_per_period.map do |period, events|
+      [period, Downtime.create_from(events)]
+    end
+  end
+
+  def uptime_percentage_per_period
+    downtime_per_period.map do |period, downtimes|
+      if period.start_date < DateTime.now
+        [period, ((period.duration_in_days - downtimes.sum(&:duration)) / period.duration_in_days) * 100]
+      else
+        [period, nil]
+      end
+    end
+  end
+
+  def uptime_percentage_per_period_excluding_maintenance
+    period_duration_excluding_maintenance = (2 / 3.0) * @periods.first.duration_in_days
+    downtime_per_period.map do |period, downtimes|
+      if period.start_date < DateTime.now
+        [period, ((period_duration_excluding_maintenance - downtimes.sum(&:duration_excluding_maintenance)) /  period_duration_excluding_maintenance) * 100]
+      else
+        [period, nil]
+      end
+    end
   end
 
   private

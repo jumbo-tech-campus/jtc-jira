@@ -1,8 +1,6 @@
 class UptimeReportController < ApplicationController
-  before_action :set_year_dates
-
   def overview
-    @report = UptimeReportService.new(@start_date, @end_date).uptime_report
+    @report = UptimeReportService.new(Date.commercial(2020,20,1).to_datetime, DateTime.new(2020,12,31)).uptime_report
 
     respond_to do |format|
       format.html

@@ -8,4 +8,8 @@ class Alert < Issue
   def class_name
     'Alert'
   end
+
+  def is_down_alert?
+    summary.include?('[Triggered]')
+  end
 end
