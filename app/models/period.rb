@@ -14,16 +14,19 @@ class Period
   end
 
   def name
-    if duration == 1.week
+    case duration
+    when 1.week
       "Week #{start_date.cweek}"
-    elsif duration == 2.weeks
+    when 2.weeks
       "Week #{start_date.cweek} & #{start_date.cweek + 1}"
-    elsif duration == 4.weeks
+    when 4.weeks
       "Week #{start_date.cweek} - #{start_date.cweek + 3}"
-    elsif duration == 1.month
+    when 1.month
       "Week #{start_date.strftime("%B")}"
-    elsif duration == 1.year
+    when 1.year
       start_date.strftime("%Y")
+    else
+      ''
     end
   end
 
