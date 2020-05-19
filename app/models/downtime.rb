@@ -62,7 +62,13 @@ class Downtime
   end
 
   def ended_at
-    events.sort_by(&:ended_at).last.ended_at
+    events.sort do |a, b|
+      if a.ended_at.nil? || b.ended_at.nil?
+        1
+      else
+        a.ended_at <=> b.ended_at
+      end
+    end.last.ended_at
   end
 
   def self.create_from(downtime_events)

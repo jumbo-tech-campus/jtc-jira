@@ -24,7 +24,7 @@ class DowntimeEvent
   end
 
   def overlaps_with?(downtime_event)
-    if alert_up
+    if alert_up.present? && downtime_event.alert_up.present?
       downtime_event.ended_at >= started_at && ended_at >= downtime_event.started_at
     else
       downtime_event.started_at >= started_at
