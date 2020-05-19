@@ -2,7 +2,7 @@ class UptimeReportService < BaseIssuesReportService
   def initialize(start_date, end_date)
     @start_date = Date.commercial(start_date.year, start_date.cweek, 1).in_time_zone.to_datetime
     @end_date = Date.commercial(end_date.year, end_date.cweek, 7).in_time_zone.to_datetime.end_of_day
-    @periods = Period.create_periods(@start_date, @end_date, 2.weeks)
+    @periods = Period.create_periods(@start_date, @end_date, 1.week)
   end
 
   def uptime_report
