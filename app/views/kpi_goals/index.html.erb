@@ -16,7 +16,7 @@
     </thead>
 
     <tbody>
-      <% @kpi_goals.sort_by{ |goal| [goal.quarter.year, goal.quarter.name, goal.type] }.each do |kpi_goal| %>
+      <% @kpi_goals.sort_by{ |goal| [goal.quarter.year, goal.quarter.name, goal.type] }.reverse.each do |kpi_goal| %>
         <tr class="small">
           <td><%= kpi_goal.quarter.name %></td>
           <td><%= KpiGoal::TYPES[kpi_goal.type.to_sym] %></td>
