@@ -149,13 +149,13 @@
   :department_id: 3
   :project_key: BI5
   :board_id: 240
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - transformers:
   :name: Transformers
   :department_id: 3
   :project_key: BI6
   :board_id: 281
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - r10:
   :name: Store-1 R10
   :department_id: 3
@@ -173,13 +173,13 @@
   :department_id: 3
   :project_key: STL
   :board_id: 192
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - iam:
   :name: IAM
   :department_id: 3
   :project_key: IAMD
   :board_id: 405
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - sap_finance:
   :name: SAP Finance
   :department_id: 2
@@ -197,19 +197,19 @@
   :department_id: 3
   :board_id: 16
   :project_key: BI1
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - bi2:
   :name: Trailblazers
   :department_id: 3
   :board_id: 8
   :project_key: BI2
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - bi3:
   :name: BI Three
   :department_id: 3
   :board_id: 97
   :project_key: BI3
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 - mob_csi:
   :name: Mobile-inspiration
   :department_id: 1
@@ -293,7 +293,7 @@
   :department_id: 3
   :board_id: 621
   :project_key: LPBI
-  :deployment_constraint_id: 2
+  :deployment_constraint_id: 6
 :departments:
 - digital:
   :name: JTC Digital
