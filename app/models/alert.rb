@@ -10,6 +10,6 @@ class Alert < Issue
   end
 
   def is_down_alert?
-    summary.include?('[Triggered]')
+    summary.include?('Triggered')
   end
 end

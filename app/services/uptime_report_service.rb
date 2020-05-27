@@ -163,6 +163,6 @@ class UptimeReportService < BaseIssuesReportService
     ::Jira::IssueRepository.new(::Jira::JiraClient.new).find_by(query: "project = JDUA AND
       created >= #{@start_date.strftime('%Y-%m-%d')} AND
       created < #{(@end_date + 1.day).strftime('%Y-%m-%d')} ORDER BY created ASC, key DESC"
-    )
+    ).select{ |issue| issue.labels.include?('www.jumbo.com') }
   end
 end
