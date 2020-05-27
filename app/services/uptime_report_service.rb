@@ -22,7 +22,7 @@ class UptimeReportService < BaseIssuesReportService
 
     uptime = ((total_days - sum) / total_days) * 100
 
-    results = uptime_percentage_per_period_excluding_maintenance.map{ |period, uptime| [period.end_date.strftime('%W'), uptime] }
+    results = uptime_percentage_per_period_excluding_maintenance.map{ |period, uptime| [period.end_date.cweek, uptime] }
     KpiResult.new(uptime, results)
   end
 
