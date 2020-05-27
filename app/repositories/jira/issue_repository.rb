@@ -51,6 +51,12 @@ module Jira
         if board.team.subteam
           return true if issue_json['fields']['customfield_12613'] && issue_json['fields']['customfield_12613']['value'] != board.team.subteam
         end
+        #filter on component
+        if board.team.component
+          issue_json['fields']['components'].each do |component|
+            return true if component['name'] != board.team.component
+          end
+        end
       end
 
       return false
