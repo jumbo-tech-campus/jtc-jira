@@ -16,7 +16,9 @@ class P1ReportService < BaseIssuesReportService
     if type == :p1s
       KpiResult.new(cumulative_count_per_day.last[1], cumulative_count_per_day)
     elsif type == :time_to_recover
-      KpiResult.new(average_time_to_recover, average_time_to_recover_per_period.map{ |period, avg| [period.end_date.strftime('%W'), (avg)]})
+      KpiResult.new(average_time(:time_to_recover), average_time_per_period(:time_to_recover).map{ |period, avg| [period.end_date.cweek, (avg)]})
+    elsif type == :time_to_detect
+      KpiResult.new(average_time(:time_to_detect), average_time_per_period(:time_to_detect).map{ |period, avg| [period.end_date.cweek, (avg)]})
     end
   end
 
@@ -147,7 +149,7 @@ class P1ReportService < BaseIssuesReportService
   end
 
   def p1s_per_period
-    periods = Period.create_periods(@start_date, @end_date, 2.weeks)
+    periods = Period.create_periods(@start_date, @end_date, 1.week)
 
     incidents_per_period = {}
 
@@ -158,20 +160,20 @@ class P1ReportService < BaseIssuesReportService
     incidents_per_period
   end
 
-  def average_time_to_recover_per_period
+  def average_time_per_period(metric)
     p1s_per_period.map do |period, incidents|
       if period.start_date > DateTime.now || incidents.size == 0
         [period, nil]
       else
-        [period, (incidents.sum(&:time_to_recover) / incidents.size.to_f) * 24 * 60]
+        [period, (incidents.sum(&metric) / incidents.size.to_f) * 24 * 60]
       end
     end
   end
 
-  def average_time_to_recover
+  def average_time(metric)
     return nil if incidents_with_end_date.size == 0
 
-    (incidents_with_end_date.sum(&:time_to_recover) / incidents_with_end_date.size.to_f) * 24 * 60
+    (incidents_with_end_date.sum(&metric) / incidents_with_end_date.size.to_f) * 24 * 60
   end
 
   protected

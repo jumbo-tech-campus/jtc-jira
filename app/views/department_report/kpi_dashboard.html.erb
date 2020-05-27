@@ -48,5 +48,6 @@
     <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :issues, title: 'Released issues (cumulative)', subtitle: 'Number of JIRA tickets moved to \'Released\' status' } } %>
     <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :p1s, title: 'P1 incidents (cumulative)', subtitle: 'Number of incidents rated Priority 1'  } } %>
     <%= render partial: 'percentage_kpi_chart', locals: { report: @report, options: { type: :time_to_recover, title: 'Time to recover', subtitle: 'Average time (in minutes) to recover for P1 incidents' } } %>
+    <%= render partial: 'percentage_kpi_chart', locals: { report: @report, options: { type: :time_to_detect, title: 'Time to detect', subtitle: 'Average time (in minutes) to detect a P1 incident' } } %>
     <%= render partial: 'percentage_kpi_chart', locals: { report: @report, options: { type: :uptime, title: 'Uptime', subtitle: 'Uptime percentage of jumbo.com, calculated excluding maintenance window from 12AM to 8AM', min_y: 85 } } %>
 </div>
