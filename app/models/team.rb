@@ -3,7 +3,7 @@ class Team < ActiveModelSerializers::Model
 
   attr_reader :name, :board_id, :subteam
   attr_accessor :project, :department, :deployment_constraint,
-    :position, :archived_at, :started_at, :component
+    :position, :archived_at, :started_at, :component, :filter_sprints_by_team_name
 
   def initialize(name, board_id, subteam)
     @name, @board_id, @subteam = name, board_id, subteam

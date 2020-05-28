@@ -129,13 +129,30 @@
   :board_id: 301
   :deployment_constraint_id: 4
   :position: 28000
-- sap_1:
-  :name: SAP1 SCM
+- juscia:
+  :name: JuSCIA
   :department_id: 2
   :project_key: SAP1
   :board_id: 312
   :deployment_constraint_id: 6
   :position: 26000
+  :filter_sprints_by_team_name: true
+- scrumbled_eggs:
+  :name: SRUMbled Eggs
+  :department_id: 2
+  :project_key: SAP1
+  :board_id: 312
+  :deployment_constraint_id: 6
+  :position: 26500
+  :filter_sprints_by_team_name: true
+- sap_scone:
+  :name: SAP SCONE
+  :department_id: 2
+  :project_key: SAP1
+  :board_id: 312
+  :deployment_constraint_id: 6
+  :position: 26750
+  :filter_sprints_by_team_name: true
 - ps:
   :name: Performance & Stability
   :department_id: 1
