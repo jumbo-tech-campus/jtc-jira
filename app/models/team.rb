@@ -1,12 +1,12 @@
 class Team < ActiveModelSerializers::Model
   extend Forwardable
 
-  attr_reader :name, :board_id, :subteam
+  attr_reader :id, :name, :board_id, :subteam
   attr_accessor :project, :department, :deployment_constraint,
     :position, :archived_at, :started_at, :component, :filter_sprints_by_team_name
 
-  def initialize(name, board_id, subteam)
-    @name, @board_id, @subteam = name, board_id, subteam
+  def initialize(id, name, board_id, subteam)
+    @id, @name, @board_id, @subteam = id, name, board_id, subteam
   end
 
   def is_scrum_team?

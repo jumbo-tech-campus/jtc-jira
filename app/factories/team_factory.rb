@@ -1,6 +1,6 @@
 class TeamFactory
   def create_from_json(json)
-    team = Team.new(json['name'], json['board_id'], json['subteam'])
+    team = Team.new(json['id'], json['name'], json['board_id'], json['subteam'])
     team.archived_at = ApplicationHelper.safe_parse(json['archived_at'])
     team.started_at = ApplicationHelper.safe_parse(json['started_at'])
     team.position = json['position']
@@ -13,7 +13,7 @@ class TeamFactory
   end
 
   def create_from_hash(hash)
-    team = Team.new(hash[:name], hash[:board_id], hash[:subteam])
+    team = Team.new(hash[:id], hash[:name], hash[:board_id], hash[:subteam])
     team.archived_at = ApplicationHelper.safe_parse(hash[:archived_at])
     team.started_at = ApplicationHelper.safe_parse(hash[:started_at])
     team.position = hash[:position]
