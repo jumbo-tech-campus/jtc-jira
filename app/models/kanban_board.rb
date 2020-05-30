@@ -6,6 +6,10 @@ class KanbanBoard < Board
     @issues = []
   end
 
+  def sprints_for(date)
+    [sprint_for(date)]
+  end
+
   def sprint_for(date)
     start_date = date.beginning_of_week
     # sprints always start on uneven weeks

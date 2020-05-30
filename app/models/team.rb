@@ -18,7 +18,16 @@ class Team < ActiveModelSerializers::Model
   end
 
   def issues
-    board.issues
+    if is_scrum_team?
+      @issues ||= filter_sprints(board.sprints).inject([]) do |memo, sprint|
+        sprint.issues.each do |issue|
+          memo << issue unless memo.include?(issue)
+        end
+        memo
+      end
+    else
+      @issues ||= board.issues
+    end
   end
 
   def issues_with_cycle_time
@@ -34,7 +43,7 @@ class Team < ActiveModelSerializers::Model
   end
 
   def sprints_from(year)
-    board.sprints_from(year)
+    filter_sprints(board.sprints_from(year))
   end
 
   def current_sprint
@@ -42,7 +51,8 @@ class Team < ActiveModelSerializers::Model
   end
 
   def sprint_for(date)
-    board.sprint_for(date)
+    sprints = filter_sprints(board.sprints_for(date))
+    sprints.first
   end
 
   def last_closed_sprint
@@ -86,4 +96,13 @@ class Team < ActiveModelSerializers::Model
   def_delegator :@project, :avatars
   def_delegator :@project, :name, :project_name
   def_delegator :@project, :key, :project_key
+
+  private
+  def filter_sprints(sprints)
+    if filter_sprints_by_team_name
+      sprints.select { |sprint| sprint.name.downcase.include?(self.name.downcase) }
+    else
+      sprints
+    end
+  end
 end

@@ -30,9 +30,9 @@ class ScrumBoard < Board
     recent_closed_sprints(1).first
   end
 
-  def sprint_for(date)
-    sprints.find{ |sprint| is_date_between?(date, sprint.start_date, sprint.end_date)} ||
-      sprints.find{ |sprint| is_date_between?(date, sprint.start_date, sprint.complete_date)}
+  def sprints_for(date)
+    (sprints.select { |sprint| is_date_between?(date, sprint.start_date, sprint.end_date) } +
+      sprints.select { |sprint| is_date_between?(date, sprint.start_date, sprint.complete_date)}).uniq
   end
 
   def is_date_between?(date, start_date, end_date)
