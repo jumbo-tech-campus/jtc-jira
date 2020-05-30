@@ -215,7 +215,7 @@
   :deployment_constraint_id: 4
   :component: Core Team
   :position: 39000
-- r10:
+- r10_extend:
   :id: 27
   :name: R10 extendables
   :department_id: 3
