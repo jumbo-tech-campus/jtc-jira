@@ -37,6 +37,18 @@ class Team < ActiveModelSerializers::Model
     board.sprints_from(year)
   end
 
+  def current_sprint
+    sprint_for(Date.today)
+  end
+
+  def sprint_for(date)
+    board.sprint_for(date)
+  end
+
+  def last_closed_sprint
+    board.last_closed_sprint
+  end
+
   def is_active?(date = Date.today)
     if archived_at && archived_at <= date
       false

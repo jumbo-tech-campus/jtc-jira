@@ -22,7 +22,7 @@ class PortfolioReportService
       wbso_row = ["WBSO - #{wbso_project}", nil, nil]
 
       @teams.inject({}) do |memo, team|
-        sprint = Repository.for(:board).find(team.board_id)&.sprint_for(@date)
+        sprint = team.sprint_for(@date)
         if sprint && sprint.wbso_issues.size > 0
           wbso_row  << sprint.wbso_percentage_of_points_closed_per_wbso_project[wbso_project]&.round
         else
@@ -54,7 +54,7 @@ class PortfolioReportService
 
   def team_sprint_parent_epics
     @team_sprint_parent_epics ||= @teams.inject({}) do |memo, team|
-      sprint = Repository.for(:board).find(team.board_id)&.sprint_for(@date)
+      sprint = team.sprint_for(@date)
 
       memo[team.name] = sprint&.sprint_parent_epics || []
       memo
@@ -63,7 +63,7 @@ class PortfolioReportService
 
   def team_wbso_percentages
     @team_wbso_percentages = @teams.inject({}) do |memo, team|
-      sprint = Repository.for(:board).find(team.board_id)&.sprint_for(@date)
+      sprint = team.sprint_for(@date)
 
       memo[team.name] = sprint&.wbso_percentage_of_issues_closed || 0
       memo

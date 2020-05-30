@@ -5,8 +5,4 @@ class Board < ActiveModelSerializers::Model
   def initialize(id, type)
     @id, @type = id, type
   end
-
-  def current_sprint
-    sprint_for(Date.today)
-  end
 end
