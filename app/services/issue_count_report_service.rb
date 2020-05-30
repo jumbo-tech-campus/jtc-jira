@@ -1,7 +1,7 @@
 class IssueCountReportService < BaseIssuesReportService
-  def initialize(boards, start_date, end_date)
+  def initialize(teams, start_date, end_date)
     super(start_date, end_date)
-    @boards = boards
+    @teams = teams
   end
 
   def issue_count_property
@@ -9,11 +9,11 @@ class IssueCountReportService < BaseIssuesReportService
   end
 
   def retrieve_issues
-    @boards.inject([]) do |memo, board|
-      board_issues = board.issues_with_cycle_time.select do |issue|
-        issue.release_date.between?(@start_date, @end_date.end_of_day) && board.team.is_active?(issue.release_date)
+    @teams.inject([]) do |memo, team|
+      team_issues = team.issues_with_cycle_time.select do |issue|
+        issue.release_date.between?(@start_date, @end_date.end_of_day) && team.is_active?(issue.release_date)
       end
-      memo.concat(board_issues)
+      memo.concat(team_issues)
       memo
     end
   end

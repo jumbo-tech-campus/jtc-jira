@@ -9,7 +9,7 @@ class CycleTimeReportController < ApplicationController
 
   def team
     @team = Repository.for(:team).find(params[:team_id])
-    @report = CycleTimeReportService.new([@team.board], @start_date, @end_date).cycle_time_report
+    @report = CycleTimeReportService.new([@team], @start_date, @end_date).cycle_time_report
     @table = @report[:table]
 
     respond_to do |format|
@@ -21,9 +21,7 @@ class CycleTimeReportController < ApplicationController
 
   def deployment_constraint
     @deployment_constraint ||= Repository.for(:deployment_constraint).find(1)
-    boards = @deployment_constraint.teams.map(&:board).compact
-
-    @report = CycleTimeReportService.new(boards, @start_date, @end_date).cycle_time_report
+    @report = CycleTimeReportService.new(@deployment_constraint.teams, @start_date, @end_date).cycle_time_report
 
     respond_to do |format|
       format.html { render :deployment_constraint }
@@ -33,8 +31,7 @@ class CycleTimeReportController < ApplicationController
   end
 
   def two_week_overview
-    boards = teams.map(&:board).compact
-    @report = CycleTimeOverviewReportService.new(boards, DateTime.commercial(@year, 1, 1), DateTime.commercial(@year, 52, 7), 2.weeks).report
+    @report = CycleTimeOverviewReportService.new(teams, DateTime.commercial(@year, 1, 1), DateTime.commercial(@year, 52, 7), 2.weeks).report
 
     respond_to do |format|
       format.html
@@ -44,8 +41,7 @@ class CycleTimeReportController < ApplicationController
   end
 
   def four_week_overview
-    boards = teams.map(&:board).compact
-    @report = CycleTimeOverviewReportService.new(boards, DateTime.commercial(@year, 1, 1), DateTime.commercial(@year, 52, 7), 4.weeks).report
+    @report = CycleTimeOverviewReportService.new(teams, DateTime.commercial(@year, 1, 1), DateTime.commercial(@year, 52, 7), 4.weeks).report
 
     respond_to do |format|
       format.html

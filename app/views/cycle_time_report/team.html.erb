@@ -3,9 +3,9 @@
      <form class="form-inline" action="<%= cycle_time_team_path %>">
        <div class="form-group mb-3">
        <label for="teamsSelect" class="ml-3 mr-3">Team:</label>
-       <select class="form-control" id="teamsSelect" class="ml-3" name="board_id">
+       <select class="form-control" id="teamsSelect" class="ml-3" name="team_id">
           <% @teams.each do |team| %>
-          <option value="<%= team.board_id %>" <%= 'selected' if team == @team %>><%= team.name %></option>
+          <option value="<%= team.id %>" <%= 'selected' if team == @team %>><%= team.name %></option>
           <% end %>
       </select>
       </div>

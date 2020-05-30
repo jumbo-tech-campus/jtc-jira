@@ -25,10 +25,6 @@ class Department < ActiveModelSerializers::Model
     active_teams(date).select(&:is_scrum_team?)
   end
 
-  def boards
-    teams.map(&:board).compact
-  end
-
   def ==(department)
     self.id == department&.id
   end

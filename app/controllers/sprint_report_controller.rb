@@ -1,5 +1,5 @@
 class SprintReportController < ApplicationController
-  before_action :set_board
+  before_action :set_team
 
   def sprint
     if params[:id]
@@ -15,7 +15,7 @@ class SprintReportController < ApplicationController
   end
 
   private
-  def set_board
+  def set_team
     @team = Repository.for(:team).find(params[:team_id].to_i)
   end
 end

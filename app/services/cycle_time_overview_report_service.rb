@@ -1,6 +1,6 @@
 class CycleTimeOverviewReportService
-  def initialize(boards, start_date, end_date, period)
-    @boards, @start_date, @end_date, @period = boards, start_date, end_date, period
+  def initialize(teams, start_date, end_date, period)
+    @teams, @start_date, @end_date, @period = teams, start_date, end_date, period
   end
 
   def report(include_percentages = false)
@@ -18,14 +18,13 @@ class CycleTimeOverviewReportService
 
     table << header
 
-    @boards.each do |board|
-      team = board.team
+    @teams.each do |team|
       row = [team.name, team.deployment_constraint.name]
       prev_period_avg = nil
 
       periods.each do |period|
         if team.is_active?(period.start_date)
-          issues = cycle_issues([board], period.start_date, period.end_date)
+          issues = cycle_issues([team], period.start_date, period.end_date)
           avg = cycle_time_average(issues)&.round(1)
           row << avg
         else
@@ -54,7 +53,7 @@ class CycleTimeOverviewReportService
         ended = @end_date
       end
 
-      issues = cycle_issues([board], started, ended)
+      issues = cycle_issues([team], started, ended)
       row << cycle_time_average(issues)&.round(1)
 
       table << row
@@ -64,8 +63,8 @@ class CycleTimeOverviewReportService
 
     prev_period_avg = nil
     periods.each do |period|
-      boards = @boards.select{ |board| board.team.is_active?(period.start_date) }
-      issues = cycle_issues(boards, period.start_date, period.end_date)
+      teams = @teams.select{ |team| team.is_active?(period.start_date) }
+      issues = cycle_issues(teams, period.start_date, period.end_date)
       avg = cycle_time_average(issues)&.round(1)
       row << avg
 
@@ -83,12 +82,12 @@ class CycleTimeOverviewReportService
     table
   end
 
-  def cycle_issues(boards, start_date, end_date)
-    boards.inject([]) do |memo, board|
-      board_issues = board.issues_with_cycle_time.select do |issue|
-        issue.release_date.between?(start_date, end_date.end_of_day) && board.team.is_active?(issue.release_date)
+  def cycle_issues(teams, start_date, end_date)
+    teams.inject([]) do |memo, team|
+      team_issues = team.issues_with_cycle_time.select do |issue|
+        issue.release_date.between?(start_date, end_date.end_of_day) && team.is_active?(issue.release_date)
       end
-      memo.concat(board_issues)
+      memo.concat(team_issues)
       memo
     end
   end
@@ -104,8 +103,8 @@ class CycleTimeOverviewReportService
     results = []
 
     periods.each do |period|
-      boards = @boards.select{ |board| board.team.is_active?(period.start_date) }
-      issues = cycle_issues(boards, period.start_date, period.end_date)
+      teams = @teams.select{ |team| team.is_active?(period.start_date) }
+      issues = cycle_issues(teams, period.start_date, period.end_date)
       avg = cycle_time_average(issues)&.round(1)
       results << [period.end_date.strftime('%W'), avg]
     end

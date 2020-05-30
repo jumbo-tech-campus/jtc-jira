@@ -4,8 +4,7 @@ class DepartmentReportController < ApplicationController
   caches_action :cycle_time_overview, expires_in: 12.hours, cache_path: :department_cache_path
 
   def cycle_time_overview
-    boards = @department.teams.map(&:board).compact
-    @report = CycleTimeOverviewReportService.new(boards, DateTime.new(2019, 1, 1), DateTime.now, 1.year).report(true)
+    @report = CycleTimeOverviewReportService.new(@department.teams, DateTime.new(2019, 1, 1), DateTime.now, 1.year).report(true)
   end
 
   def kpi_dashboard

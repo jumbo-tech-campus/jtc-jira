@@ -1,7 +1,7 @@
 class PortfolioQuarterReportService
   def initialize(quarter)
     @quarter = quarter
-    @boards = Repository.for(:team).all.map(&:board).compact
+    @teams = Repository.for(:team).all
     @parent_epics = Repository.for(:parent_epic).find_by(fix_version: quarter.fix_version)
   end
 
@@ -16,13 +16,13 @@ class PortfolioQuarterReportService
   def issues
     return @issues if @issues
 
-    @issues = @boards.inject([]) do |memo, board|
-      board_issues = board.issues.select do |issue|
+    @issues = @teams.inject([]) do |memo, team|
+      team_issues = team.issues.select do |issue|
         issue.release_date && issue.release_date.year == @quarter.year &&
           issue.release_date.cweek >= @quarter.start_week &&
           issue.release_date.cweek <= @quarter.end_week
       end
-      memo.concat(board_issues)
+      memo.concat(team_issues)
       memo
     end
   end

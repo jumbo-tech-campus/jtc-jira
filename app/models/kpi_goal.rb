@@ -24,11 +24,11 @@ class KpiGoal < ActiveModelSerializers::Model
       when :deployments
         DeploymentReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result
       when :issues
-        IssueCountReportService.new(department.boards, quarter.start_date, quarter.end_date).calculate_kpi_result
+        IssueCountReportService.new(department.teams, quarter.start_date, quarter.end_date).calculate_kpi_result
       when :p1s
         P1ReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result(:p1s)
       when :cycle_time
-        CycleTimeReportService.new(department.boards, quarter.start_date, quarter.end_date).calculate_kpi_result
+        CycleTimeReportService.new(department.teams, quarter.start_date, quarter.end_date).calculate_kpi_result
       when :uptime
         UptimeReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result
       when :time_to_recover

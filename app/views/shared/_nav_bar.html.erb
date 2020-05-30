@@ -41,7 +41,7 @@
             <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'deployment_constraint' %>" href="<%= cycle_time_deployment_constraint_path(deployment_constraint_id: 1) %>">
               Constraint groups
             </a></li>
-            <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'team' %>" href="<%= cycle_time_team_path(board_id: @teams.first.board_id) %>">
+            <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'team' %>" href="<%= cycle_time_team_path(team_id: @teams.first.id) %>">
               Teams
             </a></li>
             <li><a class="dropdown-item <%= 'text-yellow' if action_name == 'two_week_overview' %>" href="<%= cycle_time_two_week_overview_path(deployment_constraint_id: 1) %>">
@@ -88,7 +88,7 @@
               <a class="dropdown-item dropdown-toggle <%= 'text-yellow' if controller_name == 'sprint_report' && @team.department == department %>" href="#"><%= department.name %></a>
               <ul class="dropdown-menu">
                 <% department.active_teams.each do |team| %>
-                  <li><a class="dropdown-item <%= 'text-yellow' if @team && team.name == @team.name && controller_name == 'sprint_report' %>" href="<%= sprint_report_path(board_id: team.board_id)%>"><%= team.name %></a></li>
+                  <li><a class="dropdown-item <%= 'text-yellow' if @team && team.name == @team.name && controller_name == 'sprint_report' %>" href="<%= sprint_report_path(team_id: team.id)%>"><%= team.name %></a></li>
                 <% end %>
               </ul>
             </li>

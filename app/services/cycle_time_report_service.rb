@@ -1,6 +1,6 @@
 class CycleTimeReportService
-  def initialize(boards, start_date, end_date)
-    @boards, @start_date, @end_date = boards, start_date, end_date
+  def initialize(teams, start_date, end_date)
+    @teams, @start_date, @end_date = teams, start_date, end_date
   end
 
   def cycle_time_report
@@ -19,36 +19,36 @@ class CycleTimeReportService
     sum = cycle_issues.map(&:cycle_time).inject(:+)
     average = sum / cycle_issues.size.to_f if sum
 
-    results = CycleTimeOverviewReportService.new(@boards, @start_date, @end_date, 2.weeks).periodic_overall_results
+    results = CycleTimeOverviewReportService.new(@teams, @start_date, @end_date, 2.weeks).periodic_overall_results
     KpiResult.new(average, results)
   end
 
   def cycle_issues
-    @boards.inject([]) do |memo, board|
-      board_issues = board.issues_with_cycle_time.select do |issue|
-        issue.release_date.between?(@start_date, @end_date) && board.team.is_active?(issue.release_date)
+    @teams.inject([]) do |memo, team|
+      team_issues = team.issues_with_cycle_time.select do |issue|
+        issue.release_date.between?(@start_date, @end_date) && team.is_active?(issue.release_date)
       end
-      memo.concat(board_issues)
+      memo.concat(team_issues)
       memo
     end
   end
 
   def short_cycle_issues
-    @boards.inject([]) do |memo, board|
-      board_issues = board.issues_with_short_cycle_time.select do |issue|
-        issue.pending_release_date.between?(@start_date, @end_date) && board.team.is_active?(issue.pending_release_date)
+    @teams.inject([]) do |memo, team|
+      team_issues = team.issues_with_short_cycle_time.select do |issue|
+        issue.pending_release_date.between?(@start_date, @end_date) && team.is_active?(issue.pending_release_date)
       end
-      memo.concat(board_issues)
+      memo.concat(team_issues)
       memo
     end
   end
 
   def cycle_delta_issues
-    @boards.inject([]) do |memo, board|
-      board_issues = board.issues_with_cycle_time_delta.select do |issue|
-        issue.release_date.between?(@start_date, @end_date) && board.team.is_active?(issue.release_date)
+    @teams.inject([]) do |memo, team|
+      team_issues = team.issues_with_cycle_time_delta.select do |issue|
+        issue.release_date.between?(@start_date, @end_date) && team.is_active?(issue.release_date)
       end
-      memo.concat(board_issues)
+      memo.concat(team_issues)
       memo
     end
   end
