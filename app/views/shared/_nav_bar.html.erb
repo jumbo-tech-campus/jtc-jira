@@ -85,10 +85,10 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
             <% @departments.each do |department| %>
             <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle <%= 'text-yellow' if controller_name == 'sprint_report' && @board.team.department == department %>" href="#"><%= department.name %></a>
+              <a class="dropdown-item dropdown-toggle <%= 'text-yellow' if controller_name == 'sprint_report' && @team.department == department %>" href="#"><%= department.name %></a>
               <ul class="dropdown-menu">
                 <% department.active_teams.each do |team| %>
-                  <li><a class="dropdown-item <%= 'text-yellow' if @board && team.name == @board.team.name && controller_name == 'sprint_report' %>" href="<%= sprint_report_path(board_id: team.board_id)%>"><%= team.name %></a></li>
+                  <li><a class="dropdown-item <%= 'text-yellow' if @team && team.name == @team.name && controller_name == 'sprint_report' %>" href="<%= sprint_report_path(board_id: team.board_id)%>"><%= team.name %></a></li>
                 <% end %>
               </ul>
             </li>
@@ -96,7 +96,7 @@
           </ul>
         </li>
       </ul>
-      <%= link_to 'Refresh data', sprint_report_refresh_path(board_id: @board.id), method: :post, class: 'btn btn-secondary', data: { disable_with: "In progress..." } if @board %>
+      <%= link_to 'Refresh data', sprint_report_refresh_path(team_id: @team.id), method: :post, class: 'btn btn-secondary', data: { disable_with: "In progress..." } if @team %>
     </div>
   </nav>
 </header>

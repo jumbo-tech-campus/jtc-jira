@@ -3,19 +3,19 @@ class SprintReportController < ApplicationController
 
   def sprint
     if params[:id]
-      @sprint = Repository.for(:sprint).find_by(id: params[:id], board: @board)
+      @sprint = Repository.for(:sprint).find_by(id: params[:id], board: @team.board)
     else
-      @sprint = @board.current_sprint || @board.last_closed_sprint
+      @sprint = @team.board.current_sprint || @team.board.last_closed_sprint
     end
   end
 
   def refresh_data
-    CacheService.refresh_team_data(@board.team)
-    redirect_to action: 'sprint', board_id: @board.id, id: @board.last_closed_sprint.id
+    CacheService.refresh_team_data(@team)
+    redirect_to action: 'sprint'
   end
 
   private
   def set_board
-    @board = Repository.for(:board).find(params[:board_id].to_i)
+    @team = Repository.for(:team).find(params[:team_id].to_i)
   end
 end

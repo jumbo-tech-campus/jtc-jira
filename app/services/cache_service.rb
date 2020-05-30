@@ -1,5 +1,9 @@
 class CacheService
   def self.refresh_team_data(team)
+    team.board.sprints.each do |sprint|
+      Repository.for(:sprint).delete(sprint)
+    end if team.board.is_a?(ScrumBoard)
+
     teams = Config::TeamRepository.new(Config::ConfigClient.new).all
 
     JiraService.register_repositories

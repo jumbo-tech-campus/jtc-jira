@@ -1,9 +1,11 @@
 module Cache
   class TeamRepository < Cache::CacheRepository
+    def find(id)
+      @records[id] ||= Factory.for(:team).create_from_json(JSON.parse(@client.get("team.#{id}")))
+    end
+
     def all
-      @all ||= JSON.parse(@client.get("teams")).map do |team|
-        Factory.for(:team).create_from_json(team)
-      end
+      @client.keys("team.*").map{ |id| find(id.sub('team.', '')) }
     end
 
     def find_by(options)
@@ -16,9 +18,9 @@ module Cache
       end
     end
 
-    def save(teams)
-      @client.set("teams", ActiveModelSerializers::SerializableResource.
-        new(teams, include: ['project', 'department', 'deployment_constraint']).to_json)
+    def save(team)
+      @client.set("team.#{team.id}", ActiveModelSerializers::SerializableResource.
+        new(team, include: ['project', 'department', 'deployment_constraint']).to_json)
     end
   end
 end

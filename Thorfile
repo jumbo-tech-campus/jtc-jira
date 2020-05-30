@@ -62,7 +62,10 @@ class Cache < Thor
     redis_client.set('updating_cache_since', started.strftime('%Y-%m-%d %H:%M'))
 
     puts "Caching #{teams.size} teams"
-    ::Cache::TeamRepository.new(redis_client).save(teams)
+    team_repo = ::Cache::TeamRepository.new(redis_client)
+    teams.each do |team|
+      team_repo.save(team)
+    end
     $stdout.flush
 
     puts "Caching #{projects.size} projects"

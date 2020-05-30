@@ -8,13 +8,13 @@ class CycleTimeReportController < ApplicationController
   caches_action :four_week_overview, expires_in: 12.hours, cache_path: :cycle_time_overview_cache_path
 
   def team
-    @board = Repository.for(:board).find(params[:board_id])
-    @report = CycleTimeReportService.new([@board], @start_date, @end_date).cycle_time_report
+    @team = Repository.for(:team).find(params[:team_id])
+    @report = CycleTimeReportService.new([@team.board], @start_date, @end_date).cycle_time_report
     @table = @report[:table]
 
     respond_to do |format|
       format.html { render :team }
-      format.csv { send_data to_csv(@table), filename: "cycle_time_report_team_#{@board.team.name}.csv" }
+      format.csv { send_data to_csv(@table), filename: "cycle_time_report_team_#{@team.name}.csv" }
       format.json { send_data @report.to_json }
     end
   end

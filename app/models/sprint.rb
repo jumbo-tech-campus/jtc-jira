@@ -97,6 +97,10 @@ class Sprint < ActiveModelSerializers::Model
     @board_id ||= board.id
   end
 
+  def team
+    @board.team
+  end
+
   def ==(sprint)
     self.uid == sprint.uid
   end

@@ -2,11 +2,11 @@
   <div class="row mb-3">
     <div class="col-xl-12">
       <form class="form-inline" action="<%= sprint_report_path %>">
-        <input type="hidden" name="board_id" value="<%= @board.id %>"/>
+        <input type="hidden" name="team_id" value="<%= @team.id %>"/>
         <div class="form-group mb-3">
         <label for="sprintSelect" class="ml-3 mr-3">Sprint:</label>
         <select class="form-control" id="sprintSelect" class="ml-3" name="id" onchange="this.form.submit()">
-           <% @board.sprints_from(2019).each do |sprint|  %>
+           <% @team.board.sprints_from(2019).each do |sprint|  %>
            <option value="<%= sprint.id %>" <%= 'selected' if sprint == @sprint %>><%= sprint.name %><%= " (current sprint)" unless sprint.complete_date %></option>
            <% end %>
        </select>
@@ -78,8 +78,8 @@
                            <tr>
                             <td class="small p-1" width="30%"><strong>Team</strong></td>
                             <td class="small p-1">
-                              <img src="<%= @board.team.avatars['24x24'] %>" alt="" class="mr-2 rounded" height="24" width="24">
-                              <%= @board.team.name %>
+                              <img src="<%= @team.avatars['24x24'] %>" alt="" class="mr-2 rounded" height="24" width="24">
+                              <%= @team.name %>
                             </td>
                           </tr>
                           <tr>
