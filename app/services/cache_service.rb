@@ -1,10 +1,6 @@
 class CacheService
   def self.refresh_team_data(team)
-    team.board.sprints.each do |sprint|
-      Repository.for(:sprint).delete(sprint)
-    end if team.board.is_a?(ScrumBoard)
-
-    teams = Config::TeamRepository.new(Config::ConfigClient.new).all
+    team = Config::TeamRepository.new(Config::ConfigClient.new).find(team.id)
 
     JiraService.register_repositories
     board = Repository.for(:board).find(team.board_id)
@@ -16,10 +12,10 @@ class CacheService
     board_repo = Cache::BoardRepository.new(redis_client)
     sprint_repo = Cache::SprintRepository.new(redis_client)
 
-    team_repo.save(teams)
+    team_repo.save(team)
     board_repo.save(board)
-    if board.is_a?(ScrumBoard)
-      board.sprints_from(2019).each do |sprint|
+    if team.is_scrum_team?
+      team.sprints_from(2019).each do |sprint|
         sprint_repo.save(sprint)
       end
     end

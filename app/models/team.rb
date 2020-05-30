@@ -33,6 +33,10 @@ class Team < ActiveModelSerializers::Model
     @issues_with_cycle_time_delta ||= issues.select(&:cycle_time_delta).sort_by(&:release_date)
   end
 
+  def sprints_from(year)
+    board.sprints_from(year)
+  end
+
   def is_active?(date = Date.today)
     if archived_at && archived_at <= date
       false
@@ -57,6 +61,10 @@ class Team < ActiveModelSerializers::Model
 
   def has_position?
     position.present?
+  end
+
+  def is_scrum_team?
+    board.is_a? ScrumBoard
   end
 
   def ==(team)

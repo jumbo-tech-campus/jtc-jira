@@ -6,7 +6,7 @@
         <div class="form-group mb-3">
         <label for="sprintSelect" class="ml-3 mr-3">Sprint:</label>
         <select class="form-control" id="sprintSelect" class="ml-3" name="id" onchange="this.form.submit()">
-           <% @team.board.sprints_from(2019).each do |sprint|  %>
+           <% @team.sprints_from(2019).each do |sprint|  %>
            <option value="<%= sprint.id %>" <%= 'selected' if sprint == @sprint %>><%= sprint.name %><%= " (current sprint)" unless sprint.complete_date %></option>
            <% end %>
        </select>

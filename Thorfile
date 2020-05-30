@@ -33,7 +33,7 @@ class Cache < Thor
         if board.nil?
           puts "Board #{team.board_id} for team #{team.name} nil - not found. "
           failed_teams << team
-        else
+        elsif !boards.include?(board)
           boards << board
         end
       rescue StandardError => e
@@ -65,6 +65,11 @@ class Cache < Thor
     team_repo = ::Cache::TeamRepository.new(redis_client)
     teams.each do |team|
       team_repo.save(team)
+      team.sprints_from(2019).each do |sprint|
+        puts "#{team.name}: Caching sprint #{sprint.name}"
+        sprint_repo.save(sprint)
+        $stdout.flush
+      end if team.is_scrum_team?
     end
     $stdout.flush
 
@@ -87,11 +92,6 @@ class Cache < Thor
       puts "Cache board #{board.id} for team #{board.team.name}"
       board_repo.save(board)
       $stdout.flush
-      board.sprints_from(2019).each do |sprint|
-        puts "#{board.team.name}: Caching sprint #{sprint.name}"
-        sprint_repo.save(sprint)
-        $stdout.flush
-      end if board.is_a? ScrumBoard
     end
 
     CacheService.register_repositories
