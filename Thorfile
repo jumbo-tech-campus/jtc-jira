@@ -20,10 +20,6 @@ class Cache < Thor
     end
     $stdout.flush
 
-    projects = Repository.for(:project).all
-    puts "Retrieved #{projects.size} projects"
-    $stdout.flush
-
     boards = []
     failed_teams = []
     teams.each do |team|
@@ -71,10 +67,6 @@ class Cache < Thor
         $stdout.flush
       end if team.is_scrum_team?
     end
-    $stdout.flush
-
-    puts "Caching #{projects.size} projects"
-    ::Cache::ProjectRepository.new(redis_client).save(projects)
     $stdout.flush
 
     puts "Caching #{quarters.size} quarters"
