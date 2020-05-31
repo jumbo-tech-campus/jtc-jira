@@ -17,10 +17,9 @@
   :position: 1000
 - food_csi:
   :id: 3
-  :name: CSI
+  :name: Foodcoach CSI
   :department_id: 1
-  :board_id: 294
-  :subteam: CSI
+  :board_id: 255
   :deployment_constraint_id: 1
   :archived_at: 01-07-2019
 - selling:
