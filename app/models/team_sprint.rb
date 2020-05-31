@@ -1,10 +1,11 @@
 class TeamSprint
   extend Forwardable
-  attr_reader :team, :sprint
+  attr_reader :team
   include SprintIssueAbilities
 
   def initialize(team, sprint)
-    @team, @sprint = team, sprint
+    @team = team
+    @ssprint = sprint
 
     sprint_issue_abilities(self, filtered_issues)
   end
@@ -87,7 +88,11 @@ class TeamSprint
     end
   end
 
-  def_delegators :@sprint, :id, :closed?, :name, :state, :start_date, :end_date, :complete_date
+  def sprint
+    @ssprint
+  end
+
+  def_delegators :@ssprint, :id, :closed?, :name, :state, :start_date, :end_date, :complete_date
 
   private
 

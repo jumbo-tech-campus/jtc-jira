@@ -1,5 +1,5 @@
 module SprintIssueAbilities
-  attr_reader :issues, :sprint
+  attr_reader :issues
 
   def sprint_issue_abilities(sprint, issues)
     @sprint = sprint
@@ -9,13 +9,13 @@ module SprintIssueAbilities
   def percentage_closed
     return 0 if points_total == 0
 
-    points_closed / sprint.points_total.to_f * 100
+    points_closed / @sprint.points_total.to_f * 100
   end
 
   def percentage_of_points_closed
-    return 0 if sprint.points_closed == 0
+    return 0 if @sprint.points_closed == 0
 
-    points_closed / sprint.points_closed.to_f * 100
+    points_closed / @sprint.points_closed.to_f * 100
   end
 
   def percentage_of_issues_closed
@@ -25,9 +25,9 @@ module SprintIssueAbilities
   end
 
   def wbso_percentage_of_issues_closed
-    return 0 if sprint.points_closed == 0
+    return 0 if @sprint.points_closed == 0
 
-    wbso_points_closed / sprint.points_closed.to_f * 100
+    wbso_points_closed / @sprint.points_closed.to_f * 100
   end
 
   def closed_issues
@@ -56,7 +56,7 @@ module SprintIssueAbilities
 
   def done_issues
     issues.each_with_object([]) do |issue, memo|
-      if issue.release_date.present? && issue.release_date.between?(sprint.start_date, sprint.complete_date || sprint.end_date)
+      if issue.release_date.present? && issue.release_date.between?(@sprint.start_date, @sprint.complete_date || @sprint.end_date)
         memo << issue
       end
     end
@@ -74,36 +74,36 @@ module SprintIssueAbilities
   end
 
   def closed_in_sprint?(issue)
-    issue.closed? && issue.resolution_date <= (sprint.complete_date || sprint.end_date)
+    issue.closed? && issue.resolution_date <= (@sprint.complete_date || @sprint.end_date)
   end
 
   def released_in_sprint?(issue)
-    issue.released? && issue.release_date <= (sprint.complete_date || sprint.end_date)
+    issue.released? && issue.release_date <= (@sprint.complete_date || @sprint.end_date)
   end
 
   def points_closed
-    closed_issues.reduce(0) { |sum, issue| sum + (issue.estimation || sprint.issue_estimation_nil_value) }
+    closed_issues.reduce(0) { |sum, issue| sum + (issue.estimation || @sprint.issue_estimation_nil_value) }
   end
 
   def points_released
-    released_issues.reduce(0) { |sum, issue| sum + (issue.estimation || sprint.issue_estimation_nil_value) }
+    released_issues.reduce(0) { |sum, issue| sum + (issue.estimation || @sprint.issue_estimation_nil_value) }
   end
 
   def points_open
-    open_issues.reduce(0) { |sum, issue| sum + (issue.estimation || sprint.issue_estimation_nil_value) }
+    open_issues.reduce(0) { |sum, issue| sum + (issue.estimation || @sprint.issue_estimation_nil_value) }
   end
 
   def points_total
-    issues.reduce(0) { |sum, issue| sum + (issue.estimation || sprint.issue_estimation_nil_value) }
+    issues.reduce(0) { |sum, issue| sum + (issue.estimation || @sprint.issue_estimation_nil_value) }
   end
 
   def points_rejected
-    rejected_issues.reduce(0) { |sum, issue| sum + (issue.estimation || sprint.issue_estimation_nil_value) }
+    rejected_issues.reduce(0) { |sum, issue| sum + (issue.estimation || @sprint.issue_estimation_nil_value) }
   end
 
   def wbso_points_closed
     wbso_issues.reduce(0) do |sum, issue|
-      sum += issue.estimation || sprint.issue_estimation_nil_value if closed_in_sprint?(issue)
+      sum += issue.estimation || @sprint.issue_estimation_nil_value if closed_in_sprint?(issue)
       sum
     end
   end
@@ -111,7 +111,7 @@ module SprintIssueAbilities
   def wbso_percentage_of_points_closed_per_wbso_project
     issues_per_wbso_project.each_with_object({}) do |(wbso_project, issues), memo|
       total = issues.reduce(0) do |sum, issue|
-        sum += issue.estimation || sprint.issue_estimation_nil_value if closed_in_sprint?(issue)
+        sum += issue.estimation || @sprint.issue_estimation_nil_value if closed_in_sprint?(issue)
         sum
       end
       memo[wbso_project] = total / points_closed.to_f * 100 if points_closed > 0
