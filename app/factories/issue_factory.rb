@@ -17,12 +17,15 @@ class IssueFactory
     )
     issue.assignee = json['fields']['assignee']['displayName'] if json['fields']['assignee']
     issue.resolution = json['fields']['resolution']['name'] if json['fields']['resolution']
+    issue.subteam = json['fields']['customfield_12613']['value'] if json['fields']['customfield_12613']
     issue.epic = Repository.for(:epic)&.find(json['fields']['customfield_10016']) if json['fields']['customfield_10016']
     issue.state_changed_events.concat(get_state_changed_events(json))
     json['fields']['labels'].each do |label|
       issue.labels << label
     end
-
+    json['fields']['components'].each do |component|
+      issue.components << component
+    end
     issue
   end
 
@@ -47,9 +50,13 @@ class IssueFactory
     )
     issue.assignee = json['assignee']
     issue.resolution = json['resolution']
+    issue.subteam = json['subteam']
     issue.epic = Factory.for(:epic).create_from_json(json['epic']) if json['epic']
     json['labels'].each do |label|
       issue.labels << label
+    end
+    json['components'].each do |component|
+      issue.components << component
     end
 
     issue

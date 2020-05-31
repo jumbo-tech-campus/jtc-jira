@@ -1,7 +1,7 @@
 class Issue < ActiveModelSerializers::Model
   attr_reader :key, :summary, :id, :estimation, :created, :status,
     :state_changed_events, :in_progress_date, :labels
-  attr_accessor :epic, :assignee, :resolution
+  attr_accessor :epic, :assignee, :resolution, :subteam, :components
 
   RELEASED_STATES = ['Done', 'Released']
   PENDING_RELEASE_STATES = ['Ready for prod', 'Pending release']
@@ -12,6 +12,7 @@ class Issue < ActiveModelSerializers::Model
     @resolution_date, @in_progress_date, @release_date, @pending_release_date, @done_date = resolution_date, in_progress_date, release_date, pending_release_date, done_date
     @state_changed_events = []
     @labels = []
+    @components = []
   end
 
   def jira_url
