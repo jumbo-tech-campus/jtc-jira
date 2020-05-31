@@ -82,29 +82,29 @@ module SprintIssueAbilities
   end
 
   def points_closed
-    closed_issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
+    closed_issues.reduce(0){ |sum, issue| sum + (issue.estimation || sprint.issue_estimation_nil_value) }
   end
 
   def points_released
-    released_issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
+    released_issues.reduce(0){ |sum, issue| sum + (issue.estimation || sprint.issue_estimation_nil_value) }
   end
 
   def points_open
-    open_issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
+    open_issues.reduce(0){ |sum, issue| sum + (issue.estimation || sprint.issue_estimation_nil_value) }
   end
 
   def points_total
-    issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
+    issues.reduce(0){ |sum, issue| sum + (issue.estimation || sprint.issue_estimation_nil_value) }
   end
 
   def points_rejected
-    rejected_issues.reduce(0){ |sum, issue| sum + (issue.estimation || 0) }
+    rejected_issues.reduce(0){ |sum, issue| sum + (issue.estimation || sprint.issue_estimation_nil_value) }
   end
 
   def wbso_points_closed
     wbso_issues.reduce(0) do |sum, issue|
       if closed_in_sprint?(issue)
-        sum += issue.estimation
+        sum += issue.estimation || sprint.issue_estimation_nil_value
       end
       sum
     end
@@ -114,7 +114,7 @@ module SprintIssueAbilities
     issues_per_wbso_project.inject({}) do |memo, (wbso_project, issues)|
       total = issues.reduce(0) do |sum, issue|
         if closed_in_sprint?(issue)
-          sum += issue.estimation
+          sum += issue.estimation || sprint.issue_estimation_nil_value
         end
         sum
       end

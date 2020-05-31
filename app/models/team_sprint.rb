@@ -6,7 +6,7 @@ class TeamSprint
   def initialize(team, sprint)
     @team, @sprint = team, sprint
 
-    sprint_issue_abilities(sprint, filtered_issues)
+    sprint_issue_abilities(self, filtered_issues)
   end
 
   def self.for(date, team)
@@ -80,6 +80,14 @@ class TeamSprint
 
   def ==(team_sprint)
     self.sprint == team_sprint.sprint && self.team == team_sprint.team
+  end
+
+  def issue_estimation_nil_value
+    if team.uses_estimations?
+      0
+    else
+      1
+    end
   end
 
   def_delegators :@sprint, :id, :closed?, :name, :state, :start_date, :end_date, :complete_date

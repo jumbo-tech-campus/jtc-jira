@@ -33,4 +33,8 @@ class Sprint < ActiveModelSerializers::Model
   def ==(sprint)
     self.uid == sprint.uid
   end
+
+  def issue_estimation_nil_value
+    0
+  end
 end

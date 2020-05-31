@@ -3,7 +3,8 @@ class Team < ActiveModelSerializers::Model
 
   attr_reader :id, :name, :board_id, :subteam
   attr_accessor :department, :deployment_constraint,
-    :position, :archived_at, :started_at, :component, :filter_sprints_by_team_name
+    :position, :archived_at, :started_at, :component,
+    :filter_sprints_by_team_name, :no_estimations
 
   def initialize(id, name, board_id, subteam)
     @id, @name, @board_id, @subteam = id, name, board_id, subteam
@@ -11,6 +12,10 @@ class Team < ActiveModelSerializers::Model
 
   def is_scrum_team?
     board&.is_a? ScrumBoard
+  end
+
+  def uses_estimations?
+    !no_estimations
   end
 
   def board
