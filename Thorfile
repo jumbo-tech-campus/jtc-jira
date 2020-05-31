@@ -59,6 +59,7 @@ class Cache < Thor
 
     puts "Caching #{teams.size} teams"
     team_repo = ::Cache::TeamRepository.new(redis_client)
+    sprint_repo = ::Cache::SprintRepository.new(redis_client)
     teams.each do |team|
       team_repo.save(team)
       team.sprints_from(2019).each do |sprint|
@@ -78,8 +79,6 @@ class Cache < Thor
     $stdout.flush
 
     board_repo = ::Cache::BoardRepository.new(redis_client)
-    sprint_repo = ::Cache::SprintRepository.new(redis_client)
-
     boards.each do |board|
       puts "Cache board #{board.id}"
       board_repo.save(board)
