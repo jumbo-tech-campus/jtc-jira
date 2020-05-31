@@ -218,13 +218,14 @@
   :board_id: 405
   :deployment_constraint_id: 6
   :position: 43000
-- sap_finance:
+- sap_finance_1:
   :id: 31
-  :name: SAP Finance
+  :name: Finance Team 1
   :department_id: 2
   :board_id: 141
   :deployment_constraint_id: 6
   :position: 30000
+  :filter_sprints_by_team_name: true
 - rpa:
   :id: 32
   :name: RPA
@@ -387,9 +388,16 @@
   :name: BI Beheer
   :department_id: 3
   :board_id: 334
-  :project_key: BIBK
   :deployment_constraint_id: 6
   :position: 36000
+- sap_finance_a:
+  :id: 55
+  :name: Finance Team A
+  :department_id: 2
+  :board_id: 141
+  :deployment_constraint_id: 6
+  :position: 35000
+  :filter_sprints_by_team_name: true
 :departments:
 - digital:
   :name: JTC Digital
