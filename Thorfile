@@ -29,7 +29,7 @@ class Cache < Thor
     teams.each do |team|
       begin
         puts "Retrieving board #{team.board_id} for team #{team.name}"
-        board = Repository.for(:board).find(team.board_id)
+        board = Repository.for(:board).find_by(team: team)
         if board.nil?
           puts "Board #{team.board_id} for team #{team.name} nil - not found. "
           failed_teams << team
@@ -89,7 +89,7 @@ class Cache < Thor
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
 
     boards.each do |board|
-      puts "Cache board #{board.id} for team #{board.team.name}"
+      puts "Cache board #{board.id}"
       board_repo.save(board)
       $stdout.flush
     end
