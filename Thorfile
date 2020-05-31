@@ -2,7 +2,7 @@ require 'dotenv/load'
 require_relative 'config/environment.rb'
 
 class Cache < Thor
-  desc "cache data", "Extract boards from JIRA and store in Redis cache"
+  desc 'cache data', 'Extract boards from JIRA and store in Redis cache'
   def all
     statsd_client = StatsdClient.new
     started = Time.now
@@ -40,7 +40,7 @@ class Cache < Thor
     end
 
     puts "Removing #{failed_teams.size} teams from teams set and continuing."
-    teams = teams - failed_teams
+    teams -= failed_teams
     puts "Retrieved #{boards.size} boards for the teams"
     $stdout.flush
 
@@ -62,11 +62,13 @@ class Cache < Thor
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
     teams.each do |team|
       team_repo.save(team)
+      next unless team.is_scrum_team?
+
       team.sprints_from(2019).each do |team_sprint|
         puts "#{team.name}: Caching sprint #{team_sprint.name}"
         sprint_repo.save(team_sprint.sprint)
         $stdout.flush
-      end if team.is_scrum_team?
+      end
     end
     $stdout.flush
 
@@ -97,11 +99,10 @@ class Cache < Thor
     Rails.cache.clear
     redis_client.del('updating_cache_since')
 
-    puts "Rails cache cleared. Caching job finished!"
+    puts 'Rails cache cleared. Caching job finished!'
 
     statsd_client.timing('thor.cache',
-      (Time.now - started) * 1000,
-      tags: ["action:all"]
-    )
+                         (Time.now - started) * 1000,
+                         tags: ['action:all'])
   end
 end

@@ -1,6 +1,6 @@
 class ScrumBoard < Board
   def open_sprint
-    sprints.select{ |sprint| !sprint.closed? }.first
+    sprints.reject(&:closed?).first
   end
 
   def recent_closed_sprints(n)
@@ -12,7 +12,7 @@ class ScrumBoard < Board
   end
 
   def sprints_from(year)
-    sprints.select{ |sprint| sprint.end_date > DateTime.new(year, 1, 1) }.sort_by(&:end_date)
+    sprints.select { |sprint| sprint.end_date > DateTime.new(year, 1, 1) }.sort_by(&:end_date)
   end
 
   def last_closed_sprint
@@ -21,7 +21,7 @@ class ScrumBoard < Board
 
   def sprints_for(date)
     (sprints.select { |sprint| is_date_between?(date, sprint.start_date, sprint.end_date) } +
-      sprints.select { |sprint| is_date_between?(date, sprint.start_date, sprint.complete_date)}).uniq
+      sprints.select { |sprint| is_date_between?(date, sprint.start_date, sprint.complete_date) }).uniq
   end
 
   def is_date_between?(date, start_date, end_date)
@@ -31,11 +31,10 @@ class ScrumBoard < Board
   end
 
   def issues
-    @issues ||= sprints.inject([]) do |memo, sprint|
+    @issues ||= sprints.each_with_object([]) do |sprint, memo|
       sprint.issues.each do |issue|
         memo << issue unless memo.include?(issue)
       end
-      memo
     end
   end
 end

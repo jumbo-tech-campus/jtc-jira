@@ -21,7 +21,7 @@ class BaseIssuesReportService
 
   def issues_table
     table = []
-    header = ["Key", "Date", "Title"]
+    header = %w[Key Date Title]
     table << header
     issues.reverse.each do |issue|
       table << [
@@ -39,11 +39,11 @@ class BaseIssuesReportService
   end
 
   def closed_issues
-    issues.select{ |issue| issue.closed? }
+    issues.select(&:closed?)
   end
 
   def open_issues
-    issues.select{ |issue| !issue.closed? }
+    issues.reject(&:closed?)
   end
 
   def issue_count_per_week(issue_collection = nil)
@@ -55,12 +55,11 @@ class BaseIssuesReportService
       break if date > @end_date
 
       count_per_week[date.cweek] = 0
-      date = date + 1.week
+      date += 1.week
     end
 
-    issues_to_count.inject(count_per_week) do |memo, issue|
+    issues_to_count.each_with_object(count_per_week) do |issue, memo|
       memo[issue.send(issue_count_property).cweek] += 1
-      memo
     end
   end
 
@@ -73,13 +72,12 @@ class BaseIssuesReportService
       break if date > @end_date
 
       count_per_day[date.strftime('%Y-%m-%d')] = 0
-      date = date + 1.day
+      date += 1.day
     end
 
-    issues_to_count.inject(count_per_day) do |memo, issue|
+    issues_to_count.each_with_object(count_per_day) do |issue, memo|
       date = issue.send(issue_count_property).strftime('%Y-%m-%d')
       memo[date] += 1
-      memo
     end
   end
 
@@ -101,8 +99,8 @@ class BaseIssuesReportService
   end
 
   protected
-  def retrieve_issues
-  end
+
+  def retrieve_issues; end
 
   def predict_on_date(model, date)
     [date.strftime('%Y-%m-%d'), model.predict(date: date.to_time.to_i)]

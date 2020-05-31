@@ -13,12 +13,13 @@ module Cache
 
     def save(sprint)
       # skip sprints that have no issues
-      return if sprint.issues.size == 0
+      return if sprint.issues.empty?
 
       @client.set("sprint.#{sprint.uid}", ActiveModelSerializers::SerializableResource.new(sprint, include: ['issues', 'issues.epic', 'issues.epic.parent_epic']).to_json)
     end
 
     private
+
     def uid(options)
       "#{options[:board].id}_#{options[:id]}"
     end

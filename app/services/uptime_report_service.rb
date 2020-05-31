@@ -22,13 +22,13 @@ class UptimeReportService < BaseIssuesReportService
 
     uptime = ((total_days - sum) / total_days) * 100
 
-    results = uptime_percentage_per_period_excluding_maintenance.map{ |period, uptime| [period.end_date.cweek, uptime] }
+    results = uptime_percentage_per_period_excluding_maintenance.map { |period, uptime| [period.end_date.cweek, uptime] }
     KpiResult.new(uptime, results)
   end
 
   def downtime_events_table
     table = []
-    header = ["Key", "Title", "Starts at", "Ends at", "Duration"]
+    header = ['Key', 'Title', 'Starts at', 'Ends at', 'Duration']
     table << header
     downtime_events.each do |event|
       table << [
@@ -45,7 +45,7 @@ class UptimeReportService < BaseIssuesReportService
 
   def downtime_table
     table = []
-    header = ["Starts at", "Ends at", "Duration", "Outside of maintenance hours"]
+    header = ['Starts at', 'Ends at', 'Duration', 'Outside of maintenance hours']
     table << header
     downtimes.each do |downtime|
       table << [
@@ -68,13 +68,13 @@ class UptimeReportService < BaseIssuesReportService
     table << header
 
     row = ['Uptime']
-    uptime_percentage_per_period.each do |period, uptime|
+    uptime_percentage_per_period.each do |_period, uptime|
       row << uptime&.round(1)
     end
     table << row
 
     row = ['KPI uptime']
-    uptime_percentage_per_period_excluding_maintenance.each do |period, uptime|
+    uptime_percentage_per_period_excluding_maintenance.each do |_period, uptime|
       row << uptime&.round(1)
     end
     table << row
@@ -84,16 +84,15 @@ class UptimeReportService < BaseIssuesReportService
 
   def downtime_events(alerts = nil)
     alerts ||= issues
-    alerts_per_event_key = alerts.reverse.inject({}) do |memo, alert|
+    alerts_per_event_key = alerts.reverse.each_with_object({}) do |alert, memo|
       if memo[alert.event_key]
         memo[alert.event_key] << alert
       else
         memo[alert.event_key] = [alert]
       end
-      memo
     end
 
-    alerts_per_event_key.map do |key, value|
+    alerts_per_event_key.map do |_key, value|
       down_alert = value.first.is_down_alert? ? value.first : value.second
       up_alert = value.first.is_down_alert? ? value.second : value.first
       DowntimeEvent.new(down_alert, up_alert)
@@ -122,7 +121,7 @@ class UptimeReportService < BaseIssuesReportService
     # because we are looking at downtime per week,
     # the alert events signalling a down or up event may be outside of week
     # correct this by setting fake events for down or up at week end or week start
-    events_per_period.each do |period, events|
+    events_per_period.each do |_period, events|
       events.each do |event|
         if event.alert_up.nil?
           event.alert_up = OpenStruct.new(alerted_at: Date.commercial(event.alert_down.year, event.alert_down.cweek, 7).in_time_zone.to_datetime.end_of_day)
@@ -151,7 +150,7 @@ class UptimeReportService < BaseIssuesReportService
     period_duration_excluding_maintenance = (2 / 3.0) * @periods.first.duration_in_days
     downtime_per_period.map do |period, downtimes|
       if period.start_date < DateTime.now
-        [period, ((period_duration_excluding_maintenance - downtimes.sum(&:duration_excluding_maintenance)) /  period_duration_excluding_maintenance) * 100]
+        [period, ((period_duration_excluding_maintenance - downtimes.sum(&:duration_excluding_maintenance)) / period_duration_excluding_maintenance) * 100]
       else
         [period, nil]
       end
@@ -159,10 +158,10 @@ class UptimeReportService < BaseIssuesReportService
   end
 
   private
+
   def retrieve_issues
     ::Jira::IssueRepository.new(::Jira::JiraClient.new).find_by(query: "project = JDUA AND
       created >= #{@start_date.strftime('%Y-%m-%d')} AND
-      created < #{(@end_date + 1.day).strftime('%Y-%m-%d')} ORDER BY created ASC, key DESC"
-    ).select{ |issue| issue.labels.include?('www.jumbo.com') }
+      created < #{(@end_date + 1.day).strftime('%Y-%m-%d')} ORDER BY created ASC, key DESC").select { |issue| issue.labels.include?('www.jumbo.com') }
   end
 end

@@ -9,7 +9,7 @@ class SprintParentEpic
   end
 
   def ==(sprint_parent_epic)
-    self.parent_epic == sprint_parent_epic.parent_epic
+    parent_epic == sprint_parent_epic.parent_epic
   end
 
   def description

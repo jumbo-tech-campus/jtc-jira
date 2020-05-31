@@ -11,9 +11,10 @@ class ParentEpicService
   end
 
   private
+
   def epics_report_table
     table = []
-    header = ["Assignee", "Key", "Title", "Summary"]
+    header = %w[Assignee Key Title Summary]
     table << header
     @parent_epics.each do |parent_epic|
       table << [

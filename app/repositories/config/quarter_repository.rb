@@ -15,9 +15,7 @@ module Config
     end
 
     def find_by(options)
-      if options[:fix_version]
-        all.find{ |quarter| quarter.fix_version == options[:fix_version] }
-      end
+      all.find { |quarter| quarter.fix_version == options[:fix_version] } if options[:fix_version]
     end
   end
 end

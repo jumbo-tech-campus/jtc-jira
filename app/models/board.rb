@@ -8,10 +8,10 @@ class Board < ActiveModelSerializers::Model
   end
 
   def closed_sprints
-    sprints.select{ |sprint| sprint.closed? }
+    sprints.select(&:closed?)
   end
 
   def open_sprints
-    sprints.select{ |sprint| sprint.open? }
+    sprints.select(&:open?)
   end
 end

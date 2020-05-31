@@ -10,7 +10,7 @@ class Period
   end
 
   def duration_in_days
-    @duration / 86400.0
+    @duration / 86_400.0
   end
 
   def name
@@ -22,9 +22,9 @@ class Period
     when 4.weeks
       "Week #{start_date.cweek} - #{start_date.cweek + 3}"
     when 1.month
-      "Week #{start_date.strftime("%B")}"
+      "Week #{start_date.strftime('%B')}"
     when 1.year
-      start_date.strftime("%Y")
+      start_date.strftime('%Y')
     else
       ''
     end
@@ -35,7 +35,7 @@ class Period
 
     while start_date < end_date
       periods << Period.new(start_date, interval)
-      start_date = start_date + interval
+      start_date += interval
     end
 
     periods

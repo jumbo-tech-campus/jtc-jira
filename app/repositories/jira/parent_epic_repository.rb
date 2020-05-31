@@ -5,7 +5,7 @@ module Jira
     end
 
     def all
-      query = "project = PK AND type = \"Parent Epic\" ORDER BY created DESC, key ASC"
+      query = 'project = PK AND type = "Parent Epic" ORDER BY created DESC, key ASC'
       response = @client.Issue.jql(query)
 
       parent_epics = []

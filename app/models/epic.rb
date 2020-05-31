@@ -11,6 +11,6 @@ class Epic < ActiveModelSerializers::Model
   end
 
   def ==(epic)
-    self.id == epic.id
+    id == epic.id
   end
 end

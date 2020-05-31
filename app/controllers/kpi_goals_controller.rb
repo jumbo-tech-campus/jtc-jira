@@ -1,16 +1,17 @@
+# frozen_string_literal: true
+
 require 'securerandom'
 
 class KpiGoalsController < ApplicationController
-  before_action :set_kpi_goal, only: [:show, :edit, :update, :destroy]
-  before_action :set_department, only: [:index, :new]
-  before_action :set_quarters, only: [:new, :edit, :update]
+  before_action :set_kpi_goal, only: %i[show edit update destroy]
+  before_action :set_department, only: %i[index new]
+  before_action :set_quarters, only: %i[new edit update]
 
   def index
     @kpi_goals = Repository.for(:kpi_goal).find_by(department: @department)
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @kpi_goal = KpiGoal.new(SecureRandom.uuid, @quarter, @department)
@@ -42,6 +43,7 @@ class KpiGoalsController < ApplicationController
   end
 
   private
+
   def set_kpi_goal
     @kpi_goal = Repository.for(:kpi_goal).find(params[:id])
   end

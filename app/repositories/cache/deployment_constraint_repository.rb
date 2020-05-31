@@ -5,7 +5,7 @@ module Cache
     end
 
     def find(id)
-      all.find{ |deployment_constraint| deployment_constraint.id == id }
+      all.find { |deployment_constraint| deployment_constraint.id == id }
     end
   end
 end

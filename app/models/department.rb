@@ -10,11 +10,11 @@ class Department < ActiveModelSerializers::Model
   end
 
   def active_teams(date = Date.today)
-    teams.select{ |team| team.is_active?(date) }
+    teams.select { |team| team.is_active?(date) }
   end
 
   def active_teams_in(year = Date.today.year)
-    teams.select{ |team| team.is_active_in?(year) }
+    teams.select { |team| team.is_active_in?(year) }
   end
 
   def scrum_teams
@@ -26,6 +26,6 @@ class Department < ActiveModelSerializers::Model
   end
 
   def ==(department)
-    self.id == department&.id
+    id == department&.id
   end
 end

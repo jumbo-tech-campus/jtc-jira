@@ -11,6 +11,7 @@ module Jira
     end
 
     private
+
     def find_by_sprint(sprint)
       response = @client.Issue.jql("sprint=#{sprint.id}", expand: 'changelog')
       extract_issues(response, sprint.board.project.key)
@@ -27,14 +28,14 @@ module Jira
     end
 
     def filter_out_issue?(issue_json, project_key)
-      #filter out subtasks, action requests, epics and parent epics
+      # filter out subtasks, action requests, epics and parent epics
       if issue_json['fields']['issuetype']['subtask'] || ['Action Request', 'Epic', 'Parent Epic'].include?(issue_json['fields']['issuetype']['name'])
-        return true
-      #filter out issues from other projects
+        true
+      # filter out issues from other projects
       elsif project_key && issue_json['fields']['project']['key'] != project_key
-        return true
+        true
       else
-        return false
+        false
       end
     end
 
@@ -42,19 +43,20 @@ module Jira
       issues = []
 
       response.each do |issue_json|
-        #filter out subtasks, action requests, epics and parent epics
+        # filter out subtasks, action requests, epics and parent epics
         next if filter_out_issue?(issue_json, project_key)
+
         if @records[issue_json['key']]
           issues << @records[issue_json['key']]
           next
         end
-        if issue_json['fields']['issuetype']['name'] == 'Incident'
-          issue = Factory.for(:incident).create_from_jira(issue_json)
-        elsif issue_json['fields']['issuetype']['name'] == 'Alert'
-          issue = Factory.for(:alert).create_from_jira(issue_json)
-        else
-          issue = Factory.for(:issue).create_from_jira(issue_json)
-        end
+        issue = if issue_json['fields']['issuetype']['name'] == 'Incident'
+                  Factory.for(:incident).create_from_jira(issue_json)
+                elsif issue_json['fields']['issuetype']['name'] == 'Alert'
+                  Factory.for(:alert).create_from_jira(issue_json)
+                else
+                  Factory.for(:issue).create_from_jira(issue_json)
+                end
 
         @records[issue.key] = issue
         issues << issue

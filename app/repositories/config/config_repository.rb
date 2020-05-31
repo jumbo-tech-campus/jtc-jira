@@ -16,7 +16,7 @@ module Config
 
     def find(id)
       config = @client.get(config_key).find do |config_hash|
-         config_hash[:id] == id
+        config_hash[:id] == id
       end
 
       @records[id] ||= Factory.for(object_type).create_from_hash(config)

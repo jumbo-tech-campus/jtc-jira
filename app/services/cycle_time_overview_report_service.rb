@@ -8,13 +8,13 @@ class CycleTimeOverviewReportService
 
     table = []
 
-    header = ["Team", "Constraint"]
+    header = %w[Team Constraint]
     periods.each do |period|
       header << period.name
 
-      header << "Rel %" if include_percentages && period != periods.first
+      header << 'Rel %' if include_percentages && period != periods.first
     end
-    header << "Total avg"
+    header << 'Total avg'
 
     table << header
 
@@ -34,24 +34,24 @@ class CycleTimeOverviewReportService
         next unless include_percentages
 
         if prev_period_avg && avg
-          row << "#{(((avg - prev_period_avg) /  prev_period_avg) * 100.0).round}%"
+          row << "#{(((avg - prev_period_avg) / prev_period_avg) * 100.0).round}%"
         elsif period != periods.first
           row << nil
         end
         prev_period_avg = avg
       end
 
-      if team.started_at && team.started_at > @start_date
-        started = team.started_at
-      else
-        started = @start_date
-      end
+      started = if team.started_at && team.started_at > @start_date
+                  team.started_at
+                else
+                  @start_date
+                end
 
-      if team.archived_at && team.archived_at < @end_date
-        ended = team.archived_at
-      else
-        ended = @end_date
-      end
+      ended = if team.archived_at && team.archived_at < @end_date
+                team.archived_at
+              else
+                @end_date
+              end
 
       issues = cycle_issues([team], started, ended)
       row << cycle_time_average(issues)&.round(1)
@@ -59,11 +59,11 @@ class CycleTimeOverviewReportService
       table << row
     end
 
-    row = ["Total", nil]
+    row = ['Total', nil]
 
     prev_period_avg = nil
     periods.each do |period|
-      teams = @teams.select{ |team| team.is_active?(period.start_date) }
+      teams = @teams.select { |team| team.is_active?(period.start_date) }
       issues = cycle_issues(teams, period.start_date, period.end_date)
       avg = cycle_time_average(issues)&.round(1)
       row << avg
@@ -71,7 +71,7 @@ class CycleTimeOverviewReportService
       next unless include_percentages
 
       if prev_period_avg && avg
-        row << "#{(((avg - prev_period_avg) /  prev_period_avg) * 100.0).round}%"
+        row << "#{(((avg - prev_period_avg) / prev_period_avg) * 100.0).round}%"
       elsif period != periods.first
         row << nil
       end
@@ -83,17 +83,16 @@ class CycleTimeOverviewReportService
   end
 
   def cycle_issues(teams, start_date, end_date)
-    teams.inject([]) do |memo, team|
+    teams.each_with_object([]) do |team, memo|
       team_issues = team.issues_with_cycle_time.select do |issue|
         issue.release_date.between?(start_date, end_date.end_of_day) && team.is_active?(issue.release_date)
       end
       memo.concat(team_issues)
-      memo
     end
   end
 
   def cycle_time_average(issues)
-    return nil if issues.size == 0
+    return nil if issues.empty?
 
     issues.map(&:cycle_time).inject(:+) / issues.size.to_f
   end
@@ -103,7 +102,7 @@ class CycleTimeOverviewReportService
     results = []
 
     periods.each do |period|
-      teams = @teams.select{ |team| team.is_active?(period.start_date) }
+      teams = @teams.select { |team| team.is_active?(period.start_date) }
       issues = cycle_issues(teams, period.start_date, period.end_date)
       avg = cycle_time_average(issues)&.round(1)
       results << [period.end_date.strftime('%W'), avg]

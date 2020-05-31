@@ -7,7 +7,7 @@ class CacheService
 
     redis_client = Cache::RedisClient.new
 
-    #use specific cache repositories to save to cache
+    # use specific cache repositories to save to cache
     team_repo = Cache::TeamRepository.new(redis_client)
     board_repo = Cache::BoardRepository.new(redis_client)
     sprint_repo = Cache::SprintRepository.new(redis_client)

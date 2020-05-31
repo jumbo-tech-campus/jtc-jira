@@ -5,7 +5,7 @@ module Cache
     end
 
     def find(id)
-      all.find{ |department| department.id == id }
+      all.find { |department| department.id == id }
     end
   end
 end

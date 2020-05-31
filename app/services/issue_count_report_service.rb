@@ -9,12 +9,11 @@ class IssueCountReportService < BaseIssuesReportService
   end
 
   def retrieve_issues
-    @teams.inject([]) do |memo, team|
+    @teams.each_with_object([]) do |team, memo|
       team_issues = team.issues_with_cycle_time.select do |issue|
         issue.release_date.between?(@start_date, @end_date.end_of_day) && team.is_active?(issue.release_date)
       end
       memo.concat(team_issues)
-      memo
     end
   end
 end

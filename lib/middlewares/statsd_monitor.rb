@@ -13,9 +13,9 @@ class StatsdMonitor
 
     begin
       if status.to_i.between?(200, 400)
-        result = "result:success"
+        result = 'result:success'
       elsif status.to_i.between?(500, 600)
-        result = "result:failure"
+        result = 'result:failure'
       end
 
       path = Rails.application.routes.recognize_path(env['PATH_INFO'])
@@ -24,11 +24,9 @@ class StatsdMonitor
       action = path[:action]
 
       @client.timing('request.duration',
-        (Time.now - started) * 1000,
-        tags: ["status:#{status}", result, "path:/#{controller}/#{action}"]
-      )
-    rescue; end
-
+                     (Time.now - started) * 1000,
+                     tags: ["status:#{status}", result, "path:/#{controller}/#{action}"])
+    rescue StandardError; end
     [status, headers, body]
   end
 end

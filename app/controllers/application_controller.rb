@@ -6,12 +6,13 @@ class ApplicationController < ActionController::Base
   before_action :set_updating_cache
 
   protected
+
   def set_week_dates
     date = DateTime.new(2019, 1, 4)
     @dates = [date]
 
     loop do
-      date = date + 2.weeks
+      date += 2.weeks
       break if date > DateTime.now
 
       @dates << date
@@ -26,7 +27,7 @@ class ApplicationController < ActionController::Base
 
   def set_year_dates
     @end_date = ApplicationHelper.safe_parse(params[:end_date]) || Date.today
-    @start_date = ApplicationHelper.safe_parse(params[:start_date]) || DateTime.new(Date.today.year,1,1)
+    @start_date = ApplicationHelper.safe_parse(params[:start_date]) || DateTime.new(Date.today.year, 1, 1)
   end
 
   def to_csv(table)
@@ -38,9 +39,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def set_teams
     @teams = Repository.for(:team).all.sort_by(&:name)
-    @scrum_teams = @teams.select{ |team| team.is_scrum_team? }
+    @scrum_teams = @teams.select(&:is_scrum_team?)
   end
 
   def set_departments
@@ -48,12 +50,12 @@ class ApplicationController < ActionController::Base
   end
 
   def set_deployment_constraints
-    @deployment_constraints = Repository.for(:deployment_constraint).all.
-      sort_by(&:name).delete_if{ |deployment_constraint| deployment_constraint.id == 5 }
+    @deployment_constraints = Repository.for(:deployment_constraint).all
+                                        .sort_by(&:name).delete_if { |deployment_constraint| deployment_constraint.id == 5 }
   end
 
   def set_updating_cache
-    @updating_cache_since = ApplicationHelper.safe_parse(Cache::RedisClient.new().get('updating_cache_since'))
+    @updating_cache_since = ApplicationHelper.safe_parse(Cache::RedisClient.new.get('updating_cache_since'))
   end
 
   def reset_cache_repositories

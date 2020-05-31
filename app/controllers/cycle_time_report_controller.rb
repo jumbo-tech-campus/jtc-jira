@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class CycleTimeReportController < ApplicationController
   before_action :set_dates
-  before_action :set_deployment_constraint, only: [:two_week_overview, :four_week_overview, :deployment_constraint]
-  before_action :set_department, only: [:two_week_overview, :four_week_overview]
-  before_action :set_years, only: [:two_week_overview, :four_week_overview]
+  before_action :set_deployment_constraint, only: %i[two_week_overview four_week_overview deployment_constraint]
+  before_action :set_department, only: %i[two_week_overview four_week_overview]
+  before_action :set_years, only: %i[two_week_overview four_week_overview]
 
   caches_action :two_week_overview, expires_in: 12.hours, cache_path: :cycle_time_overview_cache_path
   caches_action :four_week_overview, expires_in: 12.hours, cache_path: :cycle_time_overview_cache_path
@@ -51,11 +53,13 @@ class CycleTimeReportController < ApplicationController
   end
 
   protected
+
   def cycle_time_overview_cache_path
     { department_id: params[:department_id], deployment_constraint_id: params[:deployment_constraint_id], year: params[:year] }
   end
 
   private
+
   def set_deployment_constraint
     deployment_constraint_id = params[:deployment_constraint_id]
     @deployment_constraint = Repository.for(:deployment_constraint).find(deployment_constraint_id.to_i)
@@ -68,13 +72,13 @@ class CycleTimeReportController < ApplicationController
 
   def teams
     if @department && @deployment_constraint
-      @department.active_teams_in(@year).select{ |team| team.deployment_constraint == @deployment_constraint }
+      @department.active_teams_in(@year).select { |team| team.deployment_constraint == @deployment_constraint }
     elsif @department
       @department.active_teams_in(@year)
     elsif @deployment_constraint
       @deployment_constraint.active_teams_in(@year)
     else
-      Repository.for(:team).all.select{ |team| team.is_active_in?(@year) }
+      Repository.for(:team).all.select { |team| team.is_active_in?(@year) }
     end
   end
 
@@ -86,7 +90,7 @@ class CycleTimeReportController < ApplicationController
     @years = [date.year]
 
     loop do
-      date = date - 1.year
+      date -= 1.year
       @years << date.year
 
       break if date.year == 2019

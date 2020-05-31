@@ -14,9 +14,10 @@ module ApplicationHelper
 
   def self.format_to_days_hours_and_minutes(date_time_difference)
     return '' unless date_time_difference
+
     days = date_time_difference.floor
-    hours = ((date_time_difference  - days) * 24).floor
-    minutes = (((date_time_difference  - days) * 24) - hours) * 60
+    hours = ((date_time_difference - days) * 24).floor
+    minutes = (((date_time_difference - days) * 24) - hours) * 60
 
     if hours == 0 && days == 0
       "#{minutes.round}m"

@@ -16,7 +16,7 @@ class TeamSprint
 
   def self.all(team)
     sprints = filter_sprints(team.board.sprints, team)
-    sprints.map{ |sprint| new(team, sprint) }
+    sprints.map { |sprint| new(team, sprint) }
   end
 
   def self.last_closed(team)
@@ -26,7 +26,7 @@ class TeamSprint
 
   def self.from(year, team)
     sprints = filter_sprints(team.board.sprints_from(year), team)
-    sprints.map{ |sprint| new(team, sprint) }
+    sprints.map { |sprint| new(team, sprint) }
   end
 
   def sprint_epics
@@ -34,7 +34,7 @@ class TeamSprint
 
     no_sprint_epic = SprintEpic.new(self, Epic.new('DEV', 'Issues without epic', 0, 'Issues without epic', nil))
 
-    @sprint_epics = issues.inject([]) do |memo, issue|
+    @sprint_epics = issues.each_with_object([]) do |issue, memo|
       if issue.epic
         sprint_epic = SprintEpic.new(self, issue.epic)
         if memo.include?(sprint_epic)
@@ -46,11 +46,9 @@ class TeamSprint
         sprint_epic = no_sprint_epic
       end
       sprint_epic.issues << issue
-
-      memo
     end
 
-    @sprint_epics << no_sprint_epic if no_sprint_epic.issues.size > 0
+    @sprint_epics << no_sprint_epic unless no_sprint_epic.issues.empty?
     @sprint_epics
   end
 
@@ -59,7 +57,7 @@ class TeamSprint
 
     no_sprint_parent_epic = SprintParentEpic.new(self, ParentEpic.new(0, 'DEV', 'Issues without portfolio epic', nil, nil, nil))
 
-    @sprint_parent_epics = sprint_epics.inject([]) do |memo, sprint_epic|
+    @sprint_parent_epics = sprint_epics.each_with_object([]) do |sprint_epic, memo|
       if sprint_epic.parent_epic
         sprint_parent_epic = SprintParentEpic.new(self, sprint_epic.parent_epic)
         if memo.include?(sprint_parent_epic)
@@ -71,15 +69,14 @@ class TeamSprint
         sprint_parent_epic = no_sprint_parent_epic
       end
       sprint_parent_epic.issues.concat(sprint_epic.issues)
-      memo
     end
 
-    @sprint_parent_epics << no_sprint_parent_epic if no_sprint_parent_epic.issues.size > 0
+    @sprint_parent_epics << no_sprint_parent_epic unless no_sprint_parent_epic.issues.empty?
     @sprint_parent_epics
   end
 
   def ==(team_sprint)
-    self.sprint == team_sprint.sprint && self.team == team_sprint.team
+    sprint == team_sprint.sprint && team == team_sprint.team
   end
 
   def issue_estimation_nil_value
@@ -93,9 +90,10 @@ class TeamSprint
   def_delegators :@sprint, :id, :closed?, :name, :state, :start_date, :end_date, :complete_date
 
   private
+
   def self.filter_sprints(sprints, team)
     if team.filter_sprints_by_team_name
-      sprints.select { |sprint| sprint.name.downcase.include?(self.name.downcase) }
+      sprints.select { |sprint| sprint.name.downcase.include?(name.downcase) }
     else
       sprints
     end

@@ -14,12 +14,11 @@ module Jira
     end
 
     def find_by(options)
-      if options[:parent_epic]
-        find_by_parent_epic(options[:parent_epic])
-      end
+      find_by_parent_epic(options[:parent_epic]) if options[:parent_epic]
     end
 
     private
+
     def find_by_parent_epic(parent_epic)
       epics = []
       response = @client.Issue.jql("\"Parent Link\"=#{parent_epic.key}")

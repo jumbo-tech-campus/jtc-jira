@@ -33,7 +33,7 @@ Rails.application.configure do
 
   config.public_file_server.headers = {
     'Cache-Control' => 'public, s-maxage=31536000, max-age=15552000',
-    'Expires' => "#{1.year.from_now.to_formatted_s(:rfc822)}"
+    'Expires' => 1.year.from_now.to_formatted_s(:rfc822).to_s
   }
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
@@ -57,11 +57,10 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store, { host: ENV['REDIS_HOST'], password: ENV['REDIS_PASSWORD'], ssl: true, port: 6379, db: 1 }
-
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
@@ -87,7 +86,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)

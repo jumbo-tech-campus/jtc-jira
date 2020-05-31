@@ -13,7 +13,7 @@ class Downtime
 
     loop do
       events_overlapping_events = get_overlapping_events_for(overlapping_events, downtime_events - overlapping_events)
-      break if events_overlapping_events.size == 0
+      break if events_overlapping_events.empty?
 
       overlapping_events.concat(events_overlapping_events)
       overlapping_events.uniq!
@@ -34,12 +34,11 @@ class Downtime
       maintenance_end = Time.zone.local(day.year, day.month, day.day, MAINTENANCE_END_HOUR, 0, 0).to_datetime
       day_end = Time.zone.local(day.year, day.month, day.day + 1, 0, 0, 0).to_datetime
 
-
-      if started_at.to_date == day && started_at > maintenance_end
-        start_on_day = started_at
-      else
-        start_on_day = maintenance_end
-      end
+      start_on_day = if started_at.to_date == day && started_at > maintenance_end
+                       started_at
+                     else
+                       maintenance_end
+                     end
 
       if ended_at.to_date > day
         end_on_day = day_end
@@ -51,24 +50,24 @@ class Downtime
 
       duration += (end_on_day - start_on_day).to_f
 
-      day = day + 1.day
+      day += 1.day
     end
 
     duration
   end
 
   def started_at
-    events.sort_by(&:started_at).first.started_at
+    events.min_by(&:started_at).started_at
   end
 
   def ended_at
-    events.sort do |a, b|
+    events.max do |a, b|
       if a.ended_at.nil? || b.ended_at.nil?
         1
       else
         a.ended_at <=> b.ended_at
       end
-    end.last.ended_at
+    end.ended_at
   end
 
   def self.create_from(downtime_events)
@@ -82,10 +81,10 @@ class Downtime
   end
 
   private
+
   def get_overlapping_events_for(events_source, downtime_events)
-    events_source.inject([]) do |memo, event|
+    events_source.each_with_object([]) do |event, memo|
       memo.concat(event.overlapping_events_from(downtime_events))
-      memo
     end
   end
 

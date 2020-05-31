@@ -8,11 +8,11 @@ class ParentEpic < ActiveModelSerializers::Model
   end
 
   def ==(parent_epic)
-    self.key == parent_epic&.key
+    key == parent_epic&.key
   end
 
   def fix_versions_string
-    fix_versions.map{|fix_version| fix_version.chomp(' plan')}.join(', ')
+    fix_versions.map { |fix_version| fix_version.chomp(' plan') }.join(', ')
   end
 
   def description

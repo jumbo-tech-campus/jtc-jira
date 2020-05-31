@@ -7,5 +7,5 @@ class StateChangedEvent
 
   def to_s
     "Created on #{created} for state change from #{from_state} to #{to_state}"
-  end  
+  end
 end

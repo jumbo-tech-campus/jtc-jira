@@ -18,17 +18,18 @@ class DepartmentReportController < ApplicationController
   end
 
   protected
+
   def department_cache_path
     { department_id: params[:department_id] }
   end
 
   def set_current_quarters
-    @quarters = Repository.for(:quarter).all.select{ |quarter| quarter.year >= 2020 }
-    if params[:quarter_id].present?
-      @current_quarter = Repository.for(:quarter).find(params[:quarter_id].to_i)
-    else
-      @current_quarter = Repository.for(:quarter).find_by(date: Date.today)
-    end
+    @quarters = Repository.for(:quarter).all.select { |quarter| quarter.year >= 2020 }
+    @current_quarter = if params[:quarter_id].present?
+                         Repository.for(:quarter).find(params[:quarter_id].to_i)
+                       else
+                         Repository.for(:quarter).find_by(date: Date.today)
+                       end
     @last_year_quarter = Repository.for(:quarter).find_by(date: Date.commercial(@current_quarter.year - 1, @current_quarter.start_week, 5))
   end
 

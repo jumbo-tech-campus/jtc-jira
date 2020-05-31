@@ -24,32 +24,29 @@ class CycleTimeReportService
   end
 
   def cycle_issues
-    @teams.inject([]) do |memo, team|
+    @teams.each_with_object([]) do |team, memo|
       team_issues = team.issues_with_cycle_time.select do |issue|
         issue.release_date.between?(@start_date, @end_date) && team.is_active?(issue.release_date)
       end
       memo.concat(team_issues)
-      memo
     end
   end
 
   def short_cycle_issues
-    @teams.inject([]) do |memo, team|
+    @teams.each_with_object([]) do |team, memo|
       team_issues = team.issues_with_short_cycle_time.select do |issue|
         issue.pending_release_date.between?(@start_date, @end_date) && team.is_active?(issue.pending_release_date)
       end
       memo.concat(team_issues)
-      memo
     end
   end
 
   def cycle_delta_issues
-    @teams.inject([]) do |memo, team|
+    @teams.each_with_object([]) do |team, memo|
       team_issues = team.issues_with_cycle_time_delta.select do |issue|
         issue.release_date.between?(@start_date, @end_date) && team.is_active?(issue.release_date)
       end
       memo.concat(team_issues)
-      memo
     end
   end
 
@@ -59,8 +56,8 @@ class CycleTimeReportService
 
   def cycle_time
     table = []
-    header = ["Key", "In progress date", "Pending release date", "Release date",
-      "Cycle time (days)", "Short cycle time (days)", "Delta", "Resolution"]
+    header = ['Key', 'In progress date', 'Pending release date', 'Release date',
+              'Cycle time (days)', 'Short cycle time (days)', 'Delta', 'Resolution']
     table << header
 
     sorted_issues = issues.sort do |a, b|
@@ -109,7 +106,6 @@ class CycleTimeReportService
     [prediction(model, @start_date), prediction(model, @end_date)]
   end
 
-
   def cycle_time_delta_linear_regression
     return [] if cycle_delta_issues.size <= 2
 
@@ -124,13 +120,13 @@ class CycleTimeReportService
   def cycle_time_moving_averages
     return [] if cycle_issues.size <= 2
 
-    date =  @start_date
+    date = @start_date
     moving_averages = []
 
     loop do
       moving_averages << [date.strftime('%Y-%m-%d'), cycle_time_moving_average_on(date)]
 
-      date = date + 1.week
+      date += 1.week
       if date >= @end_date
         moving_averages << [@end_date.strftime('%Y-%m-%d'), cycle_time_moving_average_on(@end_date)]
         break
@@ -143,13 +139,13 @@ class CycleTimeReportService
   def short_cycle_time_moving_averages
     return [] if short_cycle_issues.size <= 2
 
-    date =  @start_date
+    date = @start_date
     moving_averages = []
 
     loop do
       moving_averages << [date.strftime('%Y-%m-%d'), short_cycle_time_moving_average_on(date)]
 
-      date = date + 1.week
+      date += 1.week
       if date >= @end_date
         moving_averages << [@end_date.strftime('%Y-%m-%d'), short_cycle_time_moving_average_on(@end_date)]
         break
@@ -168,7 +164,7 @@ class CycleTimeReportService
     loop do
       moving_averages << [date.strftime('%Y-%m-%d'), cycle_time_delta_moving_average_on(date)]
 
-      date = date + 1.week
+      date += 1.week
       if date >= @end_date
         moving_averages << [@end_date.strftime('%Y-%m-%d'), cycle_time_delta_moving_average_on(@end_date)]
         break
@@ -179,12 +175,11 @@ class CycleTimeReportService
   end
 
   def cycle_time_moving_average_on(date, period = 2.weeks)
-    cycle_time_array = cycle_issues.inject([]) do |memo, issue|
+    cycle_time_array = cycle_issues.each_with_object([]) do |issue, memo|
       memo << issue.cycle_time if issue.release_date.between?(date.end_of_day - period, date.end_of_day)
-      memo
     end
 
-    if cycle_time_array.size > 0
+    if !cycle_time_array.empty?
       cycle_time_array.inject(:+) / cycle_time_array.size.to_f
     else
       0
@@ -192,12 +187,11 @@ class CycleTimeReportService
   end
 
   def short_cycle_time_moving_average_on(date, period = 2.weeks)
-    cycle_time_array = short_cycle_issues.inject([]) do |memo, issue|
+    cycle_time_array = short_cycle_issues.each_with_object([]) do |issue, memo|
       memo << issue.short_cycle_time if issue.pending_release_date.between?(date.end_of_day - period, date.end_of_day)
-      memo
     end
 
-    if cycle_time_array.size > 0
+    if !cycle_time_array.empty?
       cycle_time_array.inject(:+) / cycle_time_array.size.to_f
     else
       0
@@ -205,12 +199,11 @@ class CycleTimeReportService
   end
 
   def cycle_time_delta_moving_average_on(date, period = 2.weeks)
-    cycle_time_array = cycle_delta_issues.inject([]) do |memo, issue|
+    cycle_time_array = cycle_delta_issues.each_with_object([]) do |issue, memo|
       memo << issue.cycle_time_delta if issue.release_date.between?(date.end_of_day - period, date.end_of_day)
-      memo
     end
 
-    if cycle_time_array.size > 0
+    if !cycle_time_array.empty?
       cycle_time_array.inject(:+) / cycle_time_array.size.to_f
     else
       0
@@ -218,6 +211,7 @@ class CycleTimeReportService
   end
 
   private
+
   def prediction(model, date)
     [date.strftime('%Y-%m-%d'), model.predict(date: date.to_time.to_i)]
   end

@@ -9,16 +9,17 @@ module Jira
     end
 
     private
+
     def find_by_board(board)
       start_at = 0
       sprints = []
 
       loop do
-        response = @client.Agile.get_sprints(board.id, {startAt: start_at})
+        response = @client.Agile.get_sprints(board.id, { startAt: start_at })
 
         response['values'].each do |value|
           sprint = Factory.for(:sprint).create_from_jira(value)
-          #skip future sprints
+          # skip future sprints
           next unless sprint.start_date
 
           sprint.board = board
@@ -50,7 +51,6 @@ module Jira
       sprint
     end
 
-    private
     def uid(id, board)
       board.id.to_s << '_' << id.to_s
     end

@@ -2,8 +2,8 @@ class Team < ActiveModelSerializers::Model
   extend Forwardable
   attr_reader :id, :name, :board_id, :subteam
   attr_accessor :department, :deployment_constraint,
-    :position, :archived_at, :started_at, :component,
-    :filter_sprints_by_team_name, :no_estimations
+                :position, :archived_at, :started_at, :component,
+                :filter_sprints_by_team_name, :no_estimations
 
   def initialize(id, name, board_id, subteam)
     @id, @name, @board_id, @subteam = id, name, board_id, subteam
@@ -26,16 +26,15 @@ class Team < ActiveModelSerializers::Model
   end
 
   def issues
-    if is_scrum_team?
-      @issues ||= TeamSprint.all(self).inject([]) do |memo, sprint|
-        sprint.issues.each do |issue|
-          memo << issue unless memo.include?(issue)
-        end
-        memo
-      end
-    else
-      @issues ||= board.issues
-    end
+    @issues ||= if is_scrum_team?
+                  TeamSprint.all(self).each_with_object([]) do |sprint, memo|
+                    sprint.issues.each do |issue|
+                      memo << issue unless memo.include?(issue)
+                    end
+                  end
+                else
+                  board.issues
+                end
   end
 
   def issues_with_cycle_time
@@ -71,10 +70,8 @@ class Team < ActiveModelSerializers::Model
       false
     elsif started_at && started_at > date
       false
-    elsif deployment_constraint.id == 5
-      false
     else
-      true
+      deployment_constraint.id != 5
     end
   end
 
@@ -93,7 +90,7 @@ class Team < ActiveModelSerializers::Model
   end
 
   def ==(team)
-    self.id == team.id
+    id == team.id
   end
 
   def_delegator :@project, :avatars

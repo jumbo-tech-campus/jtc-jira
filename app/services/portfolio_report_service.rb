@@ -4,7 +4,7 @@ class PortfolioReportService
     @date = date
     @small_changes_epic = Repository.for(:parent_epic).find('PK-246')
     @static_epics = [@small_changes_epic, Repository.for(:parent_epic).find('PK-341')]
-    @static_epics.each{ |epic| epic.fix_versions.clear }
+    @static_epics.each { |epic| epic.fix_versions.clear }
   end
 
   def team_report
@@ -16,18 +16,16 @@ class PortfolioReportService
     table << header
 
     parent_epic_rows(table, @static_epics, { include_wbso: true, include_fix_version: true })
-    parent_epic_rows(table, team_parent_epics.select{ |parent_epic| !@static_epics.include?(parent_epic) }, { include_wbso: true, include_fix_version: true })
+    parent_epic_rows(table, team_parent_epics.reject { |parent_epic| @static_epics.include?(parent_epic) }, { include_wbso: true, include_fix_version: true })
 
     wbso_projects(team_parent_epics).each do |wbso_project|
       wbso_row = ["WBSO - #{wbso_project}", nil, nil]
 
-      @teams.inject({}) do |memo, team|
+      @teams.inject({}) do |_memo, team|
         sprint = team.sprint_for(@date)
-        if sprint && sprint.wbso_issues.size > 0
-          wbso_row  << sprint.wbso_percentage_of_points_closed_per_wbso_project[wbso_project]&.round
-        else
-          wbso_row << nil
-        end
+        wbso_row << if sprint && !sprint.wbso_issues.empty?
+                      sprint.wbso_percentage_of_points_closed_per_wbso_project[wbso_project]&.round
+                    end
       end
       table << wbso_row
     end
@@ -44,8 +42,8 @@ class PortfolioReportService
     table << header
 
     quarter = Repository.for(:quarter).find_by(date: @date)
-    parent_epics = Repository.for(:parent_epic).find_by(fix_version: quarter.fix_version).sort_by{ |parent_epic| parent_epic.id }
-    parent_epics = parent_epics - @static_epics
+    parent_epics = Repository.for(:parent_epic).find_by(fix_version: quarter.fix_version).sort_by(&:id)
+    parent_epics -= @static_epics
 
     parent_epic_rows(table, @static_epics, { merge_no_epic_into_small_changes: true, include_fix_version: false, include_empty_lines: true })
     parent_epic_rows(table, parent_epics, { include_empty_lines: true })
@@ -53,36 +51,32 @@ class PortfolioReportService
   end
 
   def team_sprint_parent_epics
-    @team_sprint_parent_epics ||= @teams.inject({}) do |memo, team|
+    @team_sprint_parent_epics ||= @teams.each_with_object({}) do |team, memo|
       sprint = team.sprint_for(@date)
 
       memo[team.name] = sprint&.sprint_parent_epics || []
-      memo
     end
   end
 
   def team_wbso_percentages
-    @team_wbso_percentages = @teams.inject({}) do |memo, team|
+    @team_wbso_percentages = @teams.each_with_object({}) do |team, memo|
       sprint = team.sprint_for(@date)
 
       memo[team.name] = sprint&.wbso_percentage_of_issues_closed || 0
-      memo
     end
   end
 
   def team_parent_epics
-    @team_parent_epics ||= team_sprint_parent_epics.values.inject([]) do |memo, sprint_parent_epics|
+    @team_parent_epics ||= team_sprint_parent_epics.values.each_with_object([]) do |sprint_parent_epics, memo|
       sprint_parent_epics.each do |sprint_parent_epic|
         memo << sprint_parent_epic.parent_epic unless memo.include?(sprint_parent_epic.parent_epic)
       end
-      memo
-    end.sort_by{ |parent_epic| parent_epic.id }
+    end.sort_by(&:id)
   end
 
   def wbso_projects(parent_epics)
-    @wbso_projects ||= parent_epics.inject([]) do |memo, parent_epic|
+    @wbso_projects ||= parent_epics.each_with_object([]) do |parent_epic, memo|
       memo << parent_epic.wbso_project unless memo.include?(parent_epic.wbso_project) || parent_epic.wbso_project.nil?
-      memo
     end
   end
 
@@ -98,7 +92,7 @@ class PortfolioReportService
       skip_row = true
 
       if parent_epic == @small_changes_epic && options[:merge_no_epic_into_small_changes]
-        #find both small changes epic and not defined epic
+        # find both small changes epic and not defined epic
         team_sprint_parent_epics.values.each do |sprint_parent_epics|
           row_value = 0
           sprint_parent_epics.each do |sprint_parent_epic|

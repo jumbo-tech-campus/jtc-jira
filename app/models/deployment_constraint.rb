@@ -10,10 +10,10 @@ class DeploymentConstraint < ActiveModelSerializers::Model
   end
 
   def active_teams_in(year = Date.today.year)
-    teams.select{ |team| team.is_active_in?(year) }
+    teams.select { |team| team.is_active_in?(year) }
   end
 
   def ==(deployment_constraint)
-    self.id == deployment_constraint&.id
+    id == deployment_constraint&.id
   end
 end

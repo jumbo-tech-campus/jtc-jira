@@ -34,6 +34,6 @@ class Quarter < ActiveModelSerializers::Model
   end
 
   def ==(quarter)
-    self.id == quarter.id
+    id == quarter.id
   end
 end

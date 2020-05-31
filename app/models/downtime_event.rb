@@ -32,6 +32,6 @@ class DowntimeEvent
   end
 
   def overlapping_events_from(downtime_events)
-    downtime_events.select{ |event| self.overlaps_with?(event) }
+    downtime_events.select { |event| overlaps_with?(event) }
   end
 end

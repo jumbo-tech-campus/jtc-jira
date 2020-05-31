@@ -13,17 +13,15 @@ module Cache
     end
 
     def all
-      @client.keys("kpi_goal.*").map{ |id| find(id.sub('kpi_goal.', '')) }
+      @client.keys('kpi_goal.*').map { |id| find(id.sub('kpi_goal.', '')) }
     end
 
     def find_by(options)
       if options[:department]
-        goals = all.select{ |goal| goal.department == options[:department] }
+        goals = all.select { |goal| goal.department == options[:department] }
         if options[:quarter]
-          goals = goals.select{ |goal| goal.quarter == options[:quarter] }
-          if options[:type]
-            goals = goals.select{ |goal| goal.type == options[:type] }
-          end
+          goals = goals.select { |goal| goal.quarter == options[:quarter] }
+          goals = goals.select { |goal| goal.type == options[:type] } if options[:type]
         end
         goals
       end

@@ -13,7 +13,7 @@ class KpiGoalService
 
   def table
     table = []
-    header = ["Type", "Goal #{@quarter.name}", "Target for today", "Result today", "Compared to target", "Positive result?"]
+    header = ['Type', "Goal #{@quarter.name}", 'Target for today', 'Result today', 'Compared to target', 'Positive result?']
     table << header
     goals.each do |goal|
       table << [
@@ -38,6 +38,7 @@ class KpiGoalService
   end
 
   private
+
   def retrieve_goals(quarter)
     Repository.for(:kpi_goal).find_by(department: @department, quarter: quarter).sort_by(&:type)
   end

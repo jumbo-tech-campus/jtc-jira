@@ -1,11 +1,11 @@
 class Issue < ActiveModelSerializers::Model
   attr_reader :key, :summary, :id, :estimation, :created, :status,
-    :state_changed_events, :in_progress_date, :labels
+              :state_changed_events, :in_progress_date, :labels
   attr_accessor :epic, :assignee, :resolution, :subteam, :components
 
-  RELEASED_STATES = ['Done', 'Released']
-  PENDING_RELEASE_STATES = ['Ready for prod', 'Pending release']
-  IN_PROGRESS_STATES = ['In Progress', 'Development', 'Specification']
+  RELEASED_STATES = %w[Done Released].freeze
+  PENDING_RELEASE_STATES = ['Ready for prod', 'Pending release'].freeze
+  IN_PROGRESS_STATES = ['In Progress', 'Development', 'Specification'].freeze
 
   def initialize(key, summary, id, estimation, created, status, resolution_date, in_progress_date, release_date, pending_release_date, done_date)
     @key, @summary, @id, @estimation, @created, @status  = key, summary, id, estimation, created, status
@@ -16,36 +16,37 @@ class Issue < ActiveModelSerializers::Model
   end
 
   def jira_url
-    URI.join(ENV['JIRA_SITE'], "browse/", key)
+    URI.join(ENV['JIRA_SITE'], 'browse/', key)
   end
 
   def in_progress_date
-    @in_progress_date ||= @state_changed_events.find{ |event| IN_PROGRESS_STATES.include?(event.to_state) }&.created
+    @in_progress_date ||= @state_changed_events.find { |event| IN_PROGRESS_STATES.include?(event.to_state) }&.created
   end
 
   def release_date
     return nil unless RELEASED_STATES.include?(status)
     return done_date if done_date
 
-    @release_date ||= @state_changed_events.reverse.find{ |event| RELEASED_STATES.include?(event.to_state) }&.created
+    @release_date ||= @state_changed_events.reverse.find { |event| RELEASED_STATES.include?(event.to_state) }&.created
   end
 
   def done_date
     return nil unless RELEASED_STATES.include?(status)
 
-    @done_date || @state_changed_events.reverse.find{ |event| event.to_state == 'Done' }&.created
+    @done_date || @state_changed_events.reverse.find { |event| event.to_state == 'Done' }&.created
   end
 
   def pending_release_date
     return nil unless PENDING_RELEASE_STATES.include?(status) || RELEASED_STATES.include?(status)
 
-    @pending_release_date ||= @state_changed_events.reverse.find{ |event| PENDING_RELEASE_STATES.include?(event.to_state) }&.created
+    @pending_release_date ||= @state_changed_events.reverse.find { |event| PENDING_RELEASE_STATES.include?(event.to_state) }&.created
   end
 
   def resolution_date
     return pending_release_date if pending_release_date.present?
     return release_date if release_date.present?
-    return @resolution_date
+
+    @resolution_date
   end
 
   def cycle_time
@@ -96,7 +97,7 @@ class Issue < ActiveModelSerializers::Model
   end
 
   def ==(issue)
-    self.id == issue.id
+    id == issue.id
   end
 
   def class_name

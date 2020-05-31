@@ -4,9 +4,9 @@ class IncidentFactory < IssueFactory
     incident.start_date = ApplicationHelper.safe_parse(json['fields']['customfield_12878'])
     incident.end_date = ApplicationHelper.safe_parse(json['fields']['customfield_12879'])
     incident.reported_date = ApplicationHelper.safe_parse(json['fields']['customfield_12881'])
-    json['fields']['customfield_12880'].each do |cause|
+    json['fields']['customfield_12880']&.each do |cause|
       incident.causes << cause['value']
-    end if json['fields']['customfield_12880']
+    end
     incident
   end
 

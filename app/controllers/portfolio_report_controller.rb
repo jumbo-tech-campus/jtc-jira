@@ -1,6 +1,6 @@
 class PortfolioReportController < ApplicationController
-  before_action :set_week_dates, only: [:teams_overview, :export]
-  before_action :set_quarters, only: [:epics_overview, :quarter_overview]
+  before_action :set_week_dates, only: %i[teams_overview export]
+  before_action :set_quarters, only: %i[epics_overview quarter_overview]
 
   caches_action :export, expires_in: 12.hours, cache_path: :department_date_cache_path
   caches_action :teams_overview, expires_in: 12.hours, cache_path: :department_date_cache_path
@@ -21,9 +21,8 @@ class PortfolioReportController < ApplicationController
   end
 
   def export
-    teams = Repository.for(:department).all.inject([]) do |memo, department|
+    teams = Repository.for(:department).all.each_with_object([]) do |department, memo|
       memo.concat(department.active_teams(@selected_date).select(&:has_position?))
-      memo
     end
 
     teams.sort_by!(&:position)
@@ -61,6 +60,7 @@ class PortfolioReportController < ApplicationController
   end
 
   protected
+
   def department_date_cache_path
     { department_id: params[:department_id], date: params[:date] }
   end
@@ -70,6 +70,7 @@ class PortfolioReportController < ApplicationController
   end
 
   private
+
   def set_quarters
     @quarters = Repository.for(:quarter).all.sort_by(&:fix_version)
   end
