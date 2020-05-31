@@ -13,12 +13,12 @@ module Jira
     private
     def find_by_sprint(sprint)
       response = @client.Issue.jql("sprint=#{sprint.id}", expand: 'changelog')
-      extract_issues(response)
+      extract_issues(response, sprint.board.project.key)
     end
 
     def find_by_project_key(project_key)
       response = @client.Issue.jql("project=\"#{project_key}\"", expand: 'changelog')
-      extract_issues(response)
+      extract_issues(response, project_key)
     end
 
     def find_by_query(query)
@@ -26,20 +26,24 @@ module Jira
       extract_issues(response)
     end
 
-    def filter_out_issue?(issue_json, team)
+    def filter_out_issue?(issue_json, project_key)
       #filter out subtasks, action requests, epics and parent epics
       if issue_json['fields']['issuetype']['subtask'] || ['Action Request', 'Epic', 'Parent Epic'].include?(issue_json['fields']['issuetype']['name'])
+        return true
+      #filter out issues from other projects
+      elsif project_key && issue_json['fields']['project']['key'] != project_key
         return true
       else
         return false
       end
     end
 
-    def extract_issues(response)
+    def extract_issues(response, project_key = nil)
       issues = []
 
       response.each do |value|
-        next if filter_out_issue?(value)
+        #filter out subtasks, action requests, epics and parent epics
+        next if filter_out_issue?(value, project_key)
         if @records[value['key']]
           issues << @records[value['key']]
           next
