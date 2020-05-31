@@ -6,7 +6,6 @@ class TeamFactory
     team.position = json['position']
     team.component = json['component']
     team.filter_sprints_by_team_name = json['filter_sprints_by_team_name']
-    team.project = Factory.for(:project).create_from_json(json['project'])
     team.department = Factory.for(:department).create_from_json(json['department'])
     team.deployment_constraint = Factory.for(:deployment_constraint).create_from_json(json['deployment_constraint'])
     team
@@ -19,7 +18,6 @@ class TeamFactory
     team.position = hash[:position]
     team.component = hash[:component]
     team.filter_sprints_by_team_name = hash[:filter_sprints_by_team_name]
-    team.project = Repository.for(:project).find(hash[:project_key])
     team.department = Repository.for(:department).find(hash[:department_id])
     team.deployment_constraint = Repository.for(:deployment_constraint).find(hash[:deployment_constraint_id])
     team

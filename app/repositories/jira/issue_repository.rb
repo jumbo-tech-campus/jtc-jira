@@ -3,8 +3,8 @@ module Jira
     def find_by(options)
       if options[:sprint]
         find_by_sprint(options[:sprint])
-      elsif options[:project]
-        find_by_project(options[:project])
+      elsif options[:project_key]
+        find_by_project_key(options[:project_key])
       elsif options[:query]
         find_by_query(options[:query])
       end
@@ -16,8 +16,8 @@ module Jira
       extract_issues(response, sprint.team)
     end
 
-    def find_by_project(project)
-      response = @client.Issue.jql("project=\"#{project.key}\"", expand: 'changelog')
+    def find_by_project_key(project_key)
+      response = @client.Issue.jql("project=\"#{project_key}\"", expand: 'changelog')
       extract_issues(response)
     end
 

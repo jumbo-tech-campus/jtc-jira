@@ -3,7 +3,6 @@
   :id: 1
   :name: Mobile-order
   :department_id: 1
-  :project_key: JMBMOB
   :board_id: 230
   :subteam: Mob-Order
   :deployment_constraint_id: 1
@@ -12,7 +11,6 @@
   :id: 2
   :name: Mobile-orientation
   :department_id: 1
-  :project_key: JMBMOB
   :board_id: 231
   :subteam: Mob-Orientation
   :deployment_constraint_id: 1
@@ -21,7 +19,6 @@
   :id: 3
   :name: CSI
   :department_id: 1
-  :project_key: FOOD
   :board_id: 294
   :subteam: CSI
   :deployment_constraint_id: 1
@@ -30,7 +27,6 @@
   :id: 4
   :name: Selling
   :department_id: 1
-  :project_key: SEL
   :board_id: 261
   :deployment_constraint_id: 3
   :position: 8000
@@ -38,7 +34,6 @@
   :id: 5
   :name: Collect and Pay (Archived)
   :department_id: 1
-  :project_key: OMS
   :board_id: 259
   :deployment_constraint_id: 3
   :position: 4000
@@ -47,7 +42,6 @@
   :id: 6
   :name: Collect and Pay
   :department_id: 1
-  :project_key: OMS
   :board_id: 574
   :deployment_constraint_id: 3
   :position: 4000
@@ -56,7 +50,6 @@
   :id: 7
   :name: Ordering (Archived)
   :department_id: 1
-  :project_key: ORD
   :board_id: 260
   :deployment_constraint_id: 3
   :archived_at: 26-09-2019
@@ -64,7 +57,6 @@
   :id: 8
   :name: Ordering
   :department_id: 1
-  :project_key: RC
   :board_id: 579
   :deployment_constraint_id: 3
   :position: 11000
@@ -72,7 +64,6 @@
   :id: 9
   :name: B2B
   :department_id: 1
-  :project_key: B2BJTC
   :board_id: 258
   :deployment_constraint_id: 3
   :position: 10000
@@ -80,7 +71,6 @@
   :id: 10
   :name: Inspiration
   :department_id: 1
-  :project_key: INS
   :board_id: 228
   :deployment_constraint_id: 3
   :position: 7000
@@ -88,7 +78,6 @@
   :id: 11
   :name: Winkelapp
   :department_id: 1
-  :project_key: APP
   :board_id: 43
   :deployment_constraint_id: 4
   :archived_at: 31-12-2019
@@ -96,7 +85,6 @@
   :id: 12
   :name: Search
   :department_id: 1
-  :project_key: FI
   :board_id: 267
   :deployment_constraint_id: 3
   :position: 17000
@@ -104,7 +92,6 @@
   :id: 13
   :name: SMDX
   :department_id: 2
-  :project_key: SAP2
   :board_id: 14
   :deployment_constraint_id: 6
   :position: 19000
@@ -112,14 +99,12 @@
   :id: 14
   :name: Yellow SAP Marines
   :department_id: 2
-  :project_key: SAP5
   :board_id: 199
   :deployment_constraint_id: 6
 - musketiers:
   :id: 15
   :name: SLTS
   :department_id: 2
-  :project_key: FMCO3
   :board_id: 309
   :deployment_constraint_id: 6
   :position: 20000
@@ -127,7 +112,6 @@
   :id: 16
   :name: Pim
   :department_id: 1
-  :project_key: PIM
   :board_id: 466
   :deployment_constraint_id: 4
   :position: 18000
@@ -135,7 +119,6 @@
   :id: 17
   :name: Integration
   :department_id: 2
-  :project_key: ESB
   :board_id: 626
   :deployment_constraint_id: 6
   :position: 24000
@@ -143,7 +126,6 @@
   :id: 18
   :name: SC Core systems
   :department_id: 2
-  :project_key: SCC
   :board_id: 301
   :deployment_constraint_id: 4
   :position: 28000
@@ -151,7 +133,6 @@
   :id: 19
   :name: JuSCIA
   :department_id: 2
-  :project_key: SAP1
   :board_id: 312
   :deployment_constraint_id: 6
   :position: 26000
@@ -160,7 +141,6 @@
   :id: 20
   :name: SRUMbled Eggs
   :department_id: 2
-  :project_key: SAP1
   :board_id: 312
   :deployment_constraint_id: 6
   :position: 26500
@@ -169,7 +149,6 @@
   :id: 21
   :name: SAP SCONE
   :department_id: 2
-  :project_key: SAP1
   :board_id: 312
   :deployment_constraint_id: 6
   :position: 26750
@@ -178,7 +157,6 @@
   :id: 22
   :name: Performance & Stability
   :department_id: 1
-  :project_key: PS
   :board_id: 427
   :deployment_constraint_id: 3
   :archived_at: 01-02-2020
@@ -186,7 +164,6 @@
   :id: 23
   :name: Intershop Upgrade
   :department_id: 1
-  :project_key: UI
   :board_id: 287
   :deployment_constraint_id: 3
   :archived_at: 01-12-2019
@@ -194,7 +171,6 @@
   :id: 24
   :name: Prometheus
   :department_id: 3
-  :project_key: BI5
   :board_id: 240
   :deployment_constraint_id: 6
   :position: 37000
@@ -202,7 +178,6 @@
   :id: 25
   :name: Transformers
   :department_id: 3
-  :project_key: BI6
   :board_id: 281
   :deployment_constraint_id: 6
   :position: 38000
@@ -210,7 +185,6 @@
   :id: 26
   :name: R10 core
   :department_id: 3
-  :project_key: SAP4
   :board_id: 396
   :deployment_constraint_id: 4
   :component: Core Team
@@ -219,7 +193,6 @@
   :id: 27
   :name: R10 extendables
   :department_id: 3
-  :project_key: SAP4
   :board_id: 395
   :deployment_constraint_id: 4
   :component: Extension Team
@@ -228,7 +201,6 @@
   :id: 28
   :name: Cloud Busters
   :department_id: 3
-  :project_key: JAF
   :board_id: 353
   :deployment_constraint_id: 3
   :position: 41000
@@ -236,7 +208,6 @@
   :id: 29
   :name: .NET
   :department_id: 3
-  :project_key: STL
   :board_id: 192
   :deployment_constraint_id: 6
   :position: 42000
@@ -244,7 +215,6 @@
   :id: 30
   :name: ID
   :department_id: 3
-  :project_key: IAMD
   :board_id: 405
   :deployment_constraint_id: 6
   :position: 43000
@@ -252,7 +222,6 @@
   :id: 31
   :name: SAP Finance
   :department_id: 2
-  :project_key: SAP3
   :board_id: 141
   :deployment_constraint_id: 6
   :position: 30000
@@ -260,7 +229,6 @@
   :id: 32
   :name: RPA
   :department_id: 2
-  :project_key: FN
   :board_id: 470
   :deployment_constraint_id: 6
   :position: 31000
@@ -269,7 +237,6 @@
   :name: BI One
   :department_id: 3
   :board_id: 16
-  :project_key: BI1
   :deployment_constraint_id: 6
   :position: 33000
 - bi2:
@@ -277,7 +244,6 @@
   :name: Trailblazers
   :department_id: 3
   :board_id: 8
-  :project_key: BI2
   :deployment_constraint_id: 6
   :position: 34000
 - bi3:
@@ -285,7 +251,6 @@
   :name: BI Three
   :department_id: 3
   :board_id: 97
-  :project_key: BI3
   :deployment_constraint_id: 6
   :position: 35000
 - mob_csi:
@@ -293,7 +258,6 @@
   :name: Mobile-inspiration
   :department_id: 1
   :board_id: 535
-  :project_key: JMBMOB
   :deployment_constraint_id: 1
   :subteam: Mob-Inspiration
   :position: 2000
@@ -302,7 +266,6 @@
   :name: Loyal
   :department_id: 1
   :board_id: 201
-  :project_key: HJ
   :deployment_constraint_id: 3
   :position: 5000
 - medewerker_app:
@@ -310,7 +273,6 @@
   :name: Employee
   :department_id: 1
   :board_id: 336
-  :project_key: MA
   :deployment_constraint_id: 1
   :position: 13000
   :started_at: 11-03-2020
@@ -319,7 +281,6 @@
   :name: Aftercare
   :department_id: 1
   :board_id: 489
-  :project_key: SP
   :deployment_constraint_id: 3
   :position: 12000
   :started_at: 11-03-2020
@@ -328,7 +289,6 @@
   :name: Predict IT
   :department_id: 1
   :board_id: 348
-  :project_key: PI
   :deployment_constraint_id: 3
   :position: 44000
 - mdm:
@@ -336,7 +296,6 @@
   :name: MDM EBX5
   :department_id: 2
   :board_id: 484
-  :project_key: MDM
   :deployment_constraint_id: 6
   :position: 21000
 - foodcoach_cust:
@@ -344,7 +303,6 @@
   :name: Foodcoach
   :department_id: 1
   :board_id: 591
-  :project_key: FDCCH
   :deployment_constraint_id: 1
   :position: 15000
 - foodcoach_pro:
@@ -352,7 +310,6 @@
   :name: Foodcoach Pro
   :department_id: 1
   :board_id: 620
-  :project_key: FCP
   :deployment_constraint_id: 1
   :position: 16000
 - cust_profile:
@@ -360,7 +317,6 @@
   :name: Customer Profile
   :department_id: 1
   :board_id: 615
-  :project_key: CPR
   :deployment_constraint_id: 3
   :position: 9000
 - intershop:
@@ -368,7 +324,6 @@
   :name: Intershop
   :department_id: 1
   :board_id: 606
-  :project_key: ISH
   :deployment_constraint_id: 3
   :position: 3000
   :started_at: 11-01-2020
@@ -377,7 +332,6 @@
   :name: JCA Open Tekst
   :department_id: 2
   :board_id: 526
-  :project_key: XECM
   :deployment_constraint_id: 6
   :position: 25000
 - aps_hd:
@@ -385,7 +339,6 @@
   :name: APS HD
   :department_id: 1
   :board_id: 644
-  :project_key: APSHD
   :deployment_constraint_id: 3
   :position: 11000
 - lp_bi:
@@ -393,14 +346,12 @@
   :name: LP BI
   :department_id: 3
   :board_id: 621
-  :project_key: LPBI
   :deployment_constraint_id: 6
 - laplace:
   :id: 49
   :name: La Place IT
   :department_id: 1
   :board_id: 450
-  :project_key: OIB
   :deployment_constraint_id: 3
   :position: 14000
 - jda:
@@ -408,7 +359,6 @@
   :name: JDA
   :department_id: 2
   :board_id: 674
-  :project_key: JDA
   :deployment_constraint_id: 6
   :position: 22000
 - optumera:
@@ -416,7 +366,6 @@
   :name: Optumera
   :department_id: 2
   :board_id: 676
-  :project_key: OPTU
   :deployment_constraint_id: 6
   :position: 23000
 - aps_sc:
@@ -424,7 +373,6 @@
   :name: APS
   :department_id: 2
   :board_id: 622
-  :project_key: APST
   :deployment_constraint_id: 6
   :position: 29000
 - hr:
@@ -432,7 +380,6 @@
   :name: HR/WFM
   :department_id: 2
   :board_id: 332
-  :project_key: HR
   :deployment_constraint_id: 6
   :position: 32000
 - bi_beheer:

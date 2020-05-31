@@ -2,7 +2,7 @@ class Team < ActiveModelSerializers::Model
   extend Forwardable
 
   attr_reader :id, :name, :board_id, :subteam
-  attr_accessor :project, :department, :deployment_constraint,
+  attr_accessor :department, :deployment_constraint,
     :position, :archived_at, :started_at, :component, :filter_sprints_by_team_name
 
   def initialize(id, name, board_id, subteam)
@@ -15,6 +15,10 @@ class Team < ActiveModelSerializers::Model
 
   def board
     Repository.for(:board).find(board_id)
+  end
+
+  def project
+    board.project
   end
 
   def issues
