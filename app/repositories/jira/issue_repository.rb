@@ -41,19 +41,19 @@ module Jira
     def extract_issues(response, project_key = nil)
       issues = []
 
-      response.each do |value|
+      response.each do |issue_json|
         #filter out subtasks, action requests, epics and parent epics
-        next if filter_out_issue?(value, project_key)
-        if @records[value['key']]
-          issues << @records[value['key']]
+        next if filter_out_issue?(issue_json, project_key)
+        if @records[issue_json['key']]
+          issues << @records[issue_json['key']]
           next
         end
-        if value['fields']['issuetype']['name'] == 'Incident'
-          issue = Factory.for(:incident).create_from_jira(value)
-        elsif value['fields']['issuetype']['name'] == 'Alert'
-          issue = Factory.for(:alert).create_from_jira(value)
+        if issue_json['fields']['issuetype']['name'] == 'Incident'
+          issue = Factory.for(:incident).create_from_jira(issue_json)
+        elsif issue_json['fields']['issuetype']['name'] == 'Alert'
+          issue = Factory.for(:alert).create_from_jira(issue_json)
         else
-          issue = Factory.for(:issue).create_from_jira(value)
+          issue = Factory.for(:issue).create_from_jira(issue_json)
         end
 
         @records[issue.key] = issue
