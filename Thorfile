@@ -65,7 +65,7 @@ class Cache < Thor
       next unless team.is_scrum_team?
 
       team.sprints_from(2019).each do |team_sprint|
-        puts "#{team.name}: Caching sprint #{team_sprint.name}"
+        puts "#{team.name}: Caching sprint #{team_sprint.name} (#{team_sprint.id})"
         sprint_repo.save(team_sprint.sprint)
         $stdout.flush
       end
