@@ -1,13 +1,7 @@
 class ScrumBoard < Board
-  attr_reader :sprints
-
   def initialize(*args)
     super
     @sprints = []
-  end
-
-  def closed_sprints
-    sprints.select{ |sprint| sprint.closed? }
   end
 
   def open_sprint

@@ -3,7 +3,7 @@ class SprintReportController < ApplicationController
 
   def sprint
     if params[:id]
-      @sprint = Repository.for(:sprint).find_by(id: params[:id], board: @team.board)
+      @sprint = TeamSprint.for(@team, Repository.for(:sprint).find_by(id: params[:id], team: @team))
     else
       @sprint = @team.current_sprint || @team.last_closed_sprint
     end

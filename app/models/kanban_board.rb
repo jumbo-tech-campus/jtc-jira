@@ -50,4 +50,8 @@ class KanbanBoard < Board
       sprint_for(sprint_date)
     end
   end
+
+  def sprints
+    @sprints ||= sprints_from(2019)
+  end
 end

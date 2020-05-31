@@ -62,9 +62,9 @@ class Cache < Thor
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
     teams.each do |team|
       team_repo.save(team)
-      team.sprints_from(2019).each do |sprint|
-        puts "#{team.name}: Caching sprint #{sprint.name}"
-        sprint_repo.save(sprint)
+      team.sprints_from(2019).each do |team_sprint|
+        puts "#{team.name}: Caching sprint #{team_sprint.name}"
+        sprint_repo.save(team_sprint.sprint)
         $stdout.flush
       end if team.is_scrum_team?
     end

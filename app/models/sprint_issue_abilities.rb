@@ -6,6 +6,12 @@ module SprintIssueAbilities
     @issues = issues
   end
 
+  def percentage_closed
+    return 0 if points_total == 0
+
+    points_closed / sprint.points_total.to_f * 100
+  end
+
   def percentage_of_points_closed
     return 0 if sprint.points_closed == 0
 
@@ -46,6 +52,13 @@ module SprintIssueAbilities
 
   def resolved_issues
     closed_issues + rejected_issues
+  end
+
+  def done_issues
+    issues.inject([]) do |memo, issue|
+      memo << issue if issue.release_date.present? && issue.release_date.between?(sprint.start_date, sprint.complete_date || sprint.end_date)
+      memo
+    end
   end
 
   def issues_per_wbso_project
@@ -108,5 +121,13 @@ module SprintIssueAbilities
       memo[wbso_project] = total  / points_closed.to_f * 100 if points_closed > 0
       memo
     end
+  end
+
+  def average_cycle_time
+    issues_with_cycle_time = done_issues.select(&:cycle_time)
+    return nil if issues_with_cycle_time.size == 0
+
+    total_cycle_time = issues_with_cycle_time.reduce(0){ |memo, issue| memo += issue.cycle_time }
+    total_cycle_time / issues_with_cycle_time.size
   end
 end
