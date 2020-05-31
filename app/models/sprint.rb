@@ -1,7 +1,6 @@
 class Sprint < ActiveModelSerializers::Model
   attr_reader :id, :name, :state, :start_date, :end_date, :complete_date
   attr_accessor :board
-
   include SprintIssueAbilities
 
   def initialize(id, name, state, start_date, end_date, complete_date)

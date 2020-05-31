@@ -1,11 +1,11 @@
 class KpiGoal < ActiveModelSerializers::Model
+  attr_reader :id, :quarter, :department
+  attr_accessor :metric, :type, :kpi_result
+
   TYPES = {deployments: 'Deployments', issues: 'Released issues', cycle_time: 'Cycle time',
     p1s: 'P1 incidents', uptime: 'Uptime', time_to_recover: 'Time to recover',
     time_to_detect: 'Time to detect'
   }
-
-  attr_reader :id, :quarter, :department
-  attr_accessor :metric, :type, :kpi_result
 
   def initialize(id, quarter, department)
     @id, @quarter, @department = id, quarter, department

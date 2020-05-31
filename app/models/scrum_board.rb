@@ -1,9 +1,4 @@
 class ScrumBoard < Board
-  def initialize(*args)
-    super
-    @sprints = []
-  end
-
   def open_sprint
     sprints.select{ |sprint| !sprint.closed? }.first
   end

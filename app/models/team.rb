@@ -1,6 +1,5 @@
 class Team < ActiveModelSerializers::Model
   extend Forwardable
-
   attr_reader :id, :name, :board_id, :subteam
   attr_accessor :department, :deployment_constraint,
     :position, :archived_at, :started_at, :component,

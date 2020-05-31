@@ -1,6 +1,5 @@
 class SprintParentEpic
   attr_reader :parent_epic
-
   include SprintIssueAbilities
 
   def initialize(sprint, parent_epic)

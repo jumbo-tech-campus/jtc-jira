@@ -1,6 +1,5 @@
 class SprintEpic
   attr_reader :epic
-
   include SprintIssueAbilities
 
   def initialize(sprint, epic)
