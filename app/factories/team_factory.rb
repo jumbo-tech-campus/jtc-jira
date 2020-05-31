@@ -18,8 +18,8 @@ class TeamFactory
     team.started_at = ApplicationHelper.safe_parse(hash[:started_at])
     team.position = hash[:position]
     team.component = hash[:component]
-    team.no_estimations = hash[:no_estimations]
-    team.filter_sprints_by_team_name = hash[:filter_sprints_by_team_name]
+    team.no_estimations = hash[:no_estimations] || false
+    team.filter_sprints_by_team_name = hash[:filter_sprints_by_team_name] || false
     team.department = Repository.for(:department).find(hash[:department_id])
     team.deployment_constraint = Repository.for(:deployment_constraint).find(hash[:deployment_constraint_id])
     team
