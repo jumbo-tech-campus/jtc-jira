@@ -62,7 +62,7 @@ class Team < ActiveModelSerializers::Model
   end
 
   def last_closed_sprint
-    TeamSprint.last_closed_sprint(self)
+    TeamSprint.last_closed(self)
   end
 
   def is_active?(date = Date.today)
