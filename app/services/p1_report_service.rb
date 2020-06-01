@@ -16,9 +16,9 @@ class P1ReportService < BaseIssuesReportService
     if type == :p1s
       KpiResult.new(cumulative_count_per_day.last[1], cumulative_count_per_day)
     elsif type == :time_to_recover
-      KpiResult.new(average_time(:time_to_recover), average_time_per_period(:time_to_recover).map { |period, avg| [period.end_date.cweek, avg] })
+      KpiResult.new(average_time(:time_to_recover), average_time_per_period(:time_to_recover).map { |period, avg| [period.start_date.cweek, avg] })
     elsif type == :time_to_detect
-      KpiResult.new(average_time(:time_to_detect), average_time_per_period(:time_to_detect).map { |period, avg| [period.end_date.cweek, avg] })
+      KpiResult.new(average_time(:time_to_detect), average_time_per_period(:time_to_detect).map { |period, avg| [period.start_date.cweek, avg] })
     end
   end
 
