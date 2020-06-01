@@ -93,7 +93,7 @@ class Team < ActiveModelSerializers::Model
     id == team.id
   end
 
-  def_delegator :@project, :avatars
-  def_delegator :@project, :name, :project_name
-  def_delegator :@project, :key, :project_key
+  def_delegator :project, :avatars
+  def_delegator :project, :name, :project_name
+  def_delegator :project, :key, :project_key
 end
