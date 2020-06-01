@@ -98,7 +98,7 @@ class TeamSprint
 
   def self.filter_sprints(sprints, team)
     if team.filter_sprints_by_team_name
-      sprints.select { |sprint| sprint.name.downcase.include?(name.downcase) }
+      sprints.select { |sprint| sprint.name.downcase.include?(team.name.downcase) }
     else
       sprints
     end
