@@ -15,7 +15,7 @@ class KanbanBoard < Board
     # sprints always start on uneven weeks
     start_date -= 1.week if start_date.cweek.even?
 
-    end_date = start_date.end_of_week + 1.weeks
+    end_date = start_date.end_of_week + 1.week
 
     sprint = KanbanSprint.new(0, "Week #{start_date.cweek} & #{end_date.cweek} #{end_date.year}", '', start_date, end_date, end_date)
     sprint.board = self
