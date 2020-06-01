@@ -12,7 +12,7 @@ class TeamSprint
 
   def self.for(date, team)
     sprint = filter_sprints(team.board.sprints_for(date), team).first
-    new(team, sprint)
+    new(team, sprint) if sprint.present?
   end
 
   def self.all(team)
@@ -22,7 +22,7 @@ class TeamSprint
 
   def self.last_closed(team)
     sprint = filter_sprints(team.board.closed_sprints, team).sort_by(&:end_date).reverse.first
-    new(team, sprint)
+    new(team, sprint) if sprint.present?
   end
 
   def self.from(year, team)
