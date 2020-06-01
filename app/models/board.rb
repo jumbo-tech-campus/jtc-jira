@@ -1,6 +1,6 @@
 class Board < ActiveModelSerializers::Model
   attr_reader :id, :type, :sprints
-  attr_accessor :team, :project
+  attr_accessor :project
 
   def initialize(id, type)
     @id, @type = id, type
