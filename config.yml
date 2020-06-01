@@ -291,6 +291,7 @@
   :board_id: 348
   :deployment_constraint_id: 3
   :position: 44000
+  :archived_at: 01-05-2020
 - mdm:
   :id: 41
   :name: MDM EBX5
@@ -397,6 +398,14 @@
   :deployment_constraint_id: 6
   :position: 35000
   :filter_sprints_by_team_name: true
+- predict_it:
+  :id: 56
+  :name: Predict IT
+  :department_id: 3
+  :board_id: 348
+  :deployment_constraint_id: 3
+  :position: 44000
+  :started_at: 01-05-2020
 :departments:
 - digital:
   :name: JTC Digital
