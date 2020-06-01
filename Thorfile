@@ -62,13 +62,6 @@ class Cache < Thor
     sprint_repo = ::Cache::SprintRepository.new(redis_client)
     teams.each do |team|
       team_repo.save(team)
-      next unless team.is_scrum_team?
-
-      team.sprints_from(2019).each do |team_sprint|
-        puts "#{team.name}: Caching sprint #{team_sprint.name} (#{team_sprint.id})"
-        sprint_repo.save(team_sprint.sprint)
-        $stdout.flush
-      end
     end
     $stdout.flush
 
@@ -84,7 +77,14 @@ class Cache < Thor
     boards.each do |board|
       puts "Cache board #{board.id}"
       board_repo.save(board)
-      $stdout.flush
+
+      next unless board.is_a? ScrumBoard
+
+      board.sprints_from(2019).each do |sprint|
+        puts "Caching sprint #{sprint.name} (#{sprint.id})"
+        sprint_repo.save(sprint)
+        $stdout.flush
+      end
     end
 
     CacheService.register_repositories
