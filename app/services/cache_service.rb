@@ -14,8 +14,8 @@ class CacheService
 
     team_repo.save(team)
     board_repo.save(board)
-    if team.is_scrum_team?
-      team.sprints_from(2019).each do |sprint|
+    if board.is_a?(ScrumBoard)
+      board.sprints_from(2019).each do |sprint|
         sprint_repo.save(sprint)
       end
     end
