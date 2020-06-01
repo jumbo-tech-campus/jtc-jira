@@ -37,10 +37,8 @@ class KanbanBoard < Board
     date = DateTime.new(year, 1, 1)
     dates = [date]
 
-    loop do
+    while date <= DateTime.now
       date += 2.weeks
-      break if date > DateTime.now
-
       dates << date
     end
 
