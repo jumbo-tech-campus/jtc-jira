@@ -23,7 +23,7 @@ class IssueFactory
       issue.labels << label
     end
     json['fields']['components'].each do |component|
-      issue.components << component
+      issue.components << component['name']
     end
     issue
   end
