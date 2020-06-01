@@ -22,7 +22,7 @@ class UptimeReportService < BaseIssuesReportService
 
     uptime = ((total_days - sum) / total_days) * 100
 
-    results = uptime_percentage_per_period_excluding_maintenance.map { |period, uptime| [period.end_date.cweek, uptime] }
+    results = uptime_percentage_per_period_excluding_maintenance.map { |period, uptime| [period.start_date.cweek, uptime] }
     KpiResult.new(uptime, results)
   end
 
@@ -138,7 +138,7 @@ class UptimeReportService < BaseIssuesReportService
 
   def uptime_percentage_per_period
     downtime_per_period.map do |period, downtimes|
-      if period.start_date < DateTime.now
+      if period.start_date <= DateTime.now
         [period, ((period.duration_in_days - downtimes.sum(&:duration)) / period.duration_in_days) * 100]
       else
         [period, nil]
@@ -149,7 +149,7 @@ class UptimeReportService < BaseIssuesReportService
   def uptime_percentage_per_period_excluding_maintenance
     period_duration_excluding_maintenance = (2 / 3.0) * @periods.first.duration_in_days
     downtime_per_period.map do |period, downtimes|
-      if period.start_date < DateTime.now
+      if period.start_date <= DateTime.now
         [period, ((period_duration_excluding_maintenance - downtimes.sum(&:duration_excluding_maintenance)) / period_duration_excluding_maintenance) * 100]
       else
         [period, nil]
