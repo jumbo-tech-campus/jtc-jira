@@ -406,6 +406,13 @@
   :deployment_constraint_id: 3
   :position: 44000
   :started_at: 01-05-2020
+- store_operations:
+  :id: 57
+  :name: Store Operations
+  :department_id: 2
+  :board_id: 684
+  :deployment_constraint_id: 6
+  :position: 27000
 :departments:
 - digital:
   :name: JTC Digital
