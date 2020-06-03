@@ -21,7 +21,7 @@ class PortfolioReportService
     wbso_projects(team_parent_epics).each do |wbso_project|
       wbso_row = ["WBSO - #{wbso_project}", nil, nil]
 
-      @teams.inject({}) do |_memo, team|
+      @teams.each do |team|
         sprint = team.sprint_for(@date)
         wbso_row << if sprint && !sprint.wbso_issues.empty?
                       sprint.wbso_percentage_of_points_closed_per_wbso_project[wbso_project]&.round
