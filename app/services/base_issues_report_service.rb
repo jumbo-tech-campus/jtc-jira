@@ -51,9 +51,7 @@ class BaseIssuesReportService
     date = @start_date
     count_per_week = {}
 
-    loop do
-      break if date > @end_date
-
+    while date <= @end_date
       count_per_week[date.cweek] = 0
       date += 1.week
     end
@@ -68,9 +66,7 @@ class BaseIssuesReportService
     date = @start_date
     count_per_day = {}
 
-    loop do
-      break if date > @end_date
-
+    while date <= @end_date
       count_per_day[date.strftime('%Y-%m-%d')] = 0
       date += 1.day
     end
