@@ -13,12 +13,16 @@ class P1ReportService < BaseIssuesReportService
   end
 
   def calculate_kpi_result(type)
-    if type == :p1s
+
+    case type
+    when :p1s
       KpiResult.new(cumulative_count_per_day.last[1], cumulative_count_per_day)
-    elsif type == :time_to_recover
+    when :time_to_recover
       KpiResult.new(average_time(:time_to_recover), average_time_per_period(:time_to_recover).map { |period, avg| [period.start_date.cweek, avg] })
-    elsif type == :time_to_detect
+    when :time_to_detect
       KpiResult.new(average_time(:time_to_detect), average_time_per_period(:time_to_detect).map { |period, avg| [period.start_date.cweek, avg] })
+    when :change_fail
+      KpiResult.new(change_fail_percentage, change_fail_percentage_per_period(1.week).map { |period, perc| [period.start_date.cweek, perc] })
     end
   end
 
@@ -191,5 +195,42 @@ class P1ReportService < BaseIssuesReportService
 
   def predict_count(model, week)
     [week, model.predict(week: week)]
+  end
+
+  def deployment_report_service
+    @deployment_report_service ||= DeploymentReportService.new(@start_date, @end_date)
+  end
+
+  def incidents_caused_by_deploys
+    issues.select { |issue| issue.causes.include?('Deployment') }
+  end
+
+  def incidents_caused_by_deploys_per_period(period_duration = 1.week)
+    periods = Period.create_periods(@start_date, @end_date, period_duration)
+    periods.each_with_object({}) do |period, memo|
+      memo[period] = incidents_caused_by_deploys.select do |incident|
+        incident.created.between?(period.start_date, period.end_date)
+      end
+    end
+  end
+
+  def change_fail_percentage
+    number_of_deploys = deployment_report_service.issues.size
+    number_of_deployment_related_incidents = incidents_caused_by_deploys.size
+
+    (number_of_deployment_related_incidents / number_of_deploys.to_f) * 100
+  end
+
+  def change_fail_percentage_per_period(period_duration = 1.week)
+    deployment_report_service.issues_per_period(period_duration).map do |period, deploys|
+      if period.start_date > DateTime.now || deploys.empty?
+        [period, nil]
+      else
+        incidents = incidents_caused_by_deploys_per_period(period_duration).find do |p2, incidents|
+          period == p2
+        end
+        [period, (incidents[1].size / deploys.size.to_f) * 100]
+      end
+    end
   end
 end

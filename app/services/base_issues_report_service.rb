@@ -81,6 +81,15 @@ class BaseIssuesReportService
     end
   end
 
+  def issues_per_period(period_duration = 1.week)
+    periods = Period.create_periods(@start_date, @end_date, period_duration)
+    periods.each_with_object({}) do |period, memo|
+      memo[period] = issues.select do |issue|
+        issue.send(issue_count_property).between?(period.start_date, period.end_date)
+      end
+    end
+  end
+
   def cumulative_count_per_day(issue_collection = nil)
     accumulator = 0
     issue_count_per_day(issue_collection).map do |day, count|

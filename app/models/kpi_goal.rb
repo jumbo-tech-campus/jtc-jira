@@ -4,7 +4,7 @@ class KpiGoal < ActiveModelSerializers::Model
 
   TYPES = { deployments: 'Deployments', issues: 'Released issues', cycle_time: 'Cycle time',
             p1s: 'P1 incidents', uptime: 'Uptime', time_to_recover: 'Time to recover',
-            time_to_detect: 'Time to detect' }.freeze
+            time_to_detect: 'Time to detect', change_fail: 'Change failure rate' }.freeze
 
   def initialize(id, quarter, department)
     @id, @quarter, @department = id, quarter, department
@@ -34,13 +34,15 @@ class KpiGoal < ActiveModelSerializers::Model
                     P1ReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result(:time_to_recover)
                   when :time_to_detect
                     P1ReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result(:time_to_detect)
+                  when :change_fail
+                    P1ReportService.new(quarter.start_date, quarter.end_date).calculate_kpi_result(:change_fail)
       end
     @kpi_result.kpi_goal = self
     @kpi_result
   end
 
   def current_target
-    if %i[cycle_time uptime time_to_recover time_to_detect].include?(type)
+    if %i[cycle_time uptime time_to_recover time_to_detect change_fail].include?(type)
       metric
     else
       (quarter.portion_passed * metric).round(decimal_precision)
@@ -59,7 +61,7 @@ class KpiGoal < ActiveModelSerializers::Model
     case type
     when :deployments, :issues, :uptime
       true
-    when :p1s, :time_to_recover, :cycle_time, :time_to_detect
+    when :p1s, :time_to_recover, :cycle_time, :time_to_detect, :change_fail
       false
     end
   end
@@ -67,7 +69,7 @@ class KpiGoal < ActiveModelSerializers::Model
   def decimal_precision
     if type == :cycle_time
       1
-    elsif type == :uptime
+    elsif type == :uptime || type == :change_fail
       2
     else
       0

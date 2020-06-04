@@ -40,4 +40,8 @@ class Period
 
     periods
   end
+
+  def ==(period)
+    period.start_date == start_date && period.end_date == end_date
+  end
 end

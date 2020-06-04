@@ -43,6 +43,7 @@
       </table>
     </div>
   </div>
+    <%= render partial: 'percentage_kpi_chart', locals: { report: @report, options: { type: :change_fail, title: 'Change failure rate', subtitle: 'Percentage of deployments that result in a P1 incident' } } %>
     <%= render partial: 'percentage_kpi_chart', locals: { report: @report, options: { type: :cycle_time, title: 'Cycle time', subtitle: 'Cycle time calculated across all teams in the department in two week periods' } } %>
     <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :deployments, title: 'Deployments (cumulative)', subtitle: 'Number of deployments, measured by the number of deployment tickets created'  } } %>
     <%= render partial: 'cumulative_kpi_chart', locals: { report: @report, options: { type: :issues, title: 'Released issues (cumulative)', subtitle: 'Number of JIRA tickets moved to \'Released\' status' } } %>
