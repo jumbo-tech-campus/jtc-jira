@@ -152,7 +152,7 @@ class P1ReportService < BaseIssuesReportService
 
   def p1s_per_period(period_duration = 1.week)
     periods = Period.create_periods(@start_date, @end_date, period_duration)
-    periods.each_with_object do |period, memo|
+    periods.each_with_object({}) do |period, memo|
       memo[period] = incidents_with_end_date.select do |incident|
         incident.end_date.between?(period.start_date, period.end_date)
       end
