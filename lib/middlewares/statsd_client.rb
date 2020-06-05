@@ -13,5 +13,5 @@ class StatsdClient
     )
   end
 
-  def_delegators :@client, :timing
+  def_delegators :@client, :timing, :increment
 end

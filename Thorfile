@@ -6,6 +6,7 @@ class Cache < Thor
   def all
     statsd_client = StatsdClient.new
     started = Time.now
+    statsd_client.increment('thor.cache_started')
 
     # first make sure we use the Jira repositories to fetch data
     JiraService.register_repositories
@@ -101,8 +102,6 @@ class Cache < Thor
 
     puts 'Rails cache cleared. Caching job finished!'
 
-    statsd_client.timing('thor.cache',
-                         (Time.now - started) * 1000,
-                         tags: ['action:all'])
+    statsd_client.timing('thor.cache_duration', (Time.now - started) * 1000)
   end
 end
