@@ -6,8 +6,8 @@ class KpiGoalService
   def overview
     {
       table: table,
-      goals: goals,
-      last_years_goals: last_years_goals
+      report: KpiReport.new(goals),
+      last_years_report: KpiReport.new(last_years_goals)
     }
   end
 
