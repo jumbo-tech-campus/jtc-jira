@@ -90,12 +90,8 @@ class Cache < Thor
 
     CacheService.register_repositories
 
-    Repository.for(:kpi_goal).all.each do |kpi_goal|
-      puts "Recalculating KPI results for KPI goal '#{KpiGoal::TYPES[kpi_goal.type]}' for #{kpi_goal.department.name} for #{kpi_goal.quarter.name}"
-      kpi_goal.calculate_kpi_result
-      Repository.for(:kpi_goal).save(kpi_goal)
-      $stdout.flush
-    end
+    puts "Recalculating #{Repository.for(:kpi_goal).all.size} KPI results"
+    KpiResultService.recalculte_kpi_results
 
     Rails.cache.clear
     redis_client.del('updating_cache_since')
