@@ -91,7 +91,7 @@ class Cache < Thor
     CacheService.register_repositories
 
     puts "Recalculating #{Repository.for(:kpi_goal).all.size} KPI results"
-    KpiResultService.recalculte_kpi_results
+    KpiResultService.recalculate_kpi_results
 
     Rails.cache.clear
     redis_client.del('updating_cache_since')

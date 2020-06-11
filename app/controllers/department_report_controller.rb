@@ -17,6 +17,11 @@ class DepartmentReportController < ApplicationController
     end
   end
 
+  def recalculate_kpi_results
+    KpiResultService.recalculate_kpi_results
+    redirect_to action: 'kpi_dashboard'
+  end
+
   protected
 
   def department_cache_path

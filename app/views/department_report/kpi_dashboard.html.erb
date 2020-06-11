@@ -1,15 +1,20 @@
 <div class="main">
   <div class="row pl-3">
-    <ul class="nav">
-      <% @quarters.each do |quarter| %>
-      <li class="nav-item">
-        <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if quarter == @current_quarter %>"
-          href="<%= department_kpi_dashboard_path(quarter_id: quarter.id) %>">
-          <%= quarter.name %>
-        </a>
-      </li>
-     <% end %>
-    </ul>
+    <div class="col-6">
+      <ul class="nav">
+        <% @quarters.each do |quarter| %>
+        <li class="nav-item">
+          <a class="btn btn-outline-jumbo btn-sm shadow-sm mb-4 mr-2 <%= 'active' if quarter == @current_quarter %>"
+            href="<%= department_kpi_dashboard_path(quarter_id: quarter.id) %>">
+            <%= quarter.name %>
+          </a>
+        </li>
+       <% end %>
+      </ul>
+    </div>
+    <div class="col-6">
+      <%= button_to 'Recalculate KPI results', department_recalculate_kpi_results_path, method: :post, class: 'btn btn-outline-jumbo btn-sm float-right mr-2', data: { disable_with: "In progress..." } %>
+    </div>
   </div>
   <div class="card box-shadow mb-4">
     <div class="card-header">

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     get 'uptime_report/overview', to: 'uptime_report#overview', as: :uptime_report
     get 'department_report/cycle_time_overview', to: 'department_report#cycle_time_overview', as: :department_cycle_time_overview
     get 'department_report/kpi_dashboard', to: 'department_report#kpi_dashboard', as: :department_kpi_dashboard
+    post 'department_report/recalculate_kpi_results', to: 'department_report#recalculate_kpi_results', as: :department_recalculate_kpi_results
     post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data', as: :sprint_report_refresh
   end
 
@@ -39,5 +40,6 @@ Rails.application.routes.draw do
   get 'sprint_report/sprint', to: 'sprint_report#sprint'
   get 'department_report/cycle_time_overview', to: 'department_report#cycle_time_overview'
   get 'department_report/kpi_dashboard', to: 'department_report#kpi_dashboard'
+  post 'department_report/recalculate_kpi_results', to: 'department_report#recalculate_kpi_results'
   post 'sprint_report/refresh_data', to: 'sprint_report#refresh_data'
 end
