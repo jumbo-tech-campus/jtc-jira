@@ -8,7 +8,7 @@ class DepartmentReportController < ApplicationController
   end
 
   def kpi_dashboard
-    @report = KpiGoalService.new(@department, @current_quarter).overview
+    @report = KpiGoalReportService.new(@department, @current_quarter).overview
 
     respond_to do |format|
       format.html { render :kpi_dashboard }

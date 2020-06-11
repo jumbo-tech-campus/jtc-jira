@@ -1,4 +1,4 @@
-class KpiGoalService
+class KpiGoalReportService
   def initialize(department, quarter)
     @department, @quarter = department, quarter
   end
