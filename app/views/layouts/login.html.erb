@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<%= render 'shared/header' %>
+<body class="bg-light">
+  <main role="main" class="container-fluid">
+    <header>
+      <nav class="navbar navbar-light navbar-white fixed-top navbar-expand-lg" role="navigation">
+        <a class="navbar-brand" href="<%= root_path %>">
+          <%= image_tag('320px-Jumbo_Logo.png', height: '32', class:'mr-1') %>
+          <span>JTC Jira dashboard</span>
+        </a>
+      </nav>
+    </header>
+    <% flash.each do |name, msg| %>
+      <% if msg.is_a?(String) %>
+        <div class="alert alert-dismissible alert-<%= name.to_s == 'notice' ? 'success' : 'danger' %>">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <%= content_tag :div, msg, :id => "flash_#{name}" %>
+        </div>
+      <% end %>
+    <% end %>
+  <%= yield %>
+  </main>
+</body>
+</html>

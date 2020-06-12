@@ -15,5 +15,6 @@ class FactoryService
     Factory.register(:incident, IncidentFactory.new)
     Factory.register(:kpi_result, KpiResultFactory.new)
     Factory.register(:alert, AlertFactory.new)
+    Factory.register(:user, UserFactory.new)
   end
 end

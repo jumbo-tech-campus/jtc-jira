@@ -1,4 +1,4 @@
-class DeploymentReportController < ApplicationController
+class DeploymentReportController < AuthenticatedController
   before_action :set_last_week_dates
 
   def overview

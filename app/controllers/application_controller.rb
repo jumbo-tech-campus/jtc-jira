@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
   before_action :set_deployment_constraints
   before_action :set_updating_cache
 
+  helper_method :current_user
+  helper_method :user_signed_in?
+
   protected
 
   def set_week_dates
@@ -61,4 +64,23 @@ class ApplicationController < ActionController::Base
   def reset_cache_repositories
     CacheService.register_repositories
   end
+
+  private
+    def current_user
+      begin
+        @current_user ||= Repository.for(:user).find(session[:user_id]) if session[:user_id]
+      rescue
+        nil
+      end
+    end
+
+    def user_signed_in?
+      return true if current_user
+    end
+
+    def authenticate_user!
+      unless user_signed_in?
+        redirect_to root_path, :alert => 'You need to sign in for access to this page.'
+      end
+    end
 end

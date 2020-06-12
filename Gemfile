@@ -6,6 +6,7 @@ gem 'dotenv-rails', groups: %i[development test]
 gem 'eps'
 gem 'jira-ruby'
 gem 'thor'
+gem 'omniauth-oauth2'
 
 ruby '~> 2.7'
 

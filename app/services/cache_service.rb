@@ -37,5 +37,6 @@ class CacheService
     Repository.register(:parent_epic, Cache::ParentEpicRepository.new(redis_client))
     Repository.register(:kpi_goal, Cache::KpiGoalRepository.new(redis_client))
     Repository.register(:team_sprint, Cache::TeamSprintRepository.new)
+    Repository.register(:user, Cache::UserRepository.new(redis_client))
   end
 end

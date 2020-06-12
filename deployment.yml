@@ -32,6 +32,16 @@ spec:
             secretKeyRef:
               name: jtc-jira
               key: JIRA_SITE
+        - name: JIRA_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: jtc-jira
+              key: JIRA_CLIENT_ID
+        - name: JIRA_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jtc-jira
+              key: JIRA_CLIENT_SECRET
         - name: REDIS_HOST
           value: "master.dev-jtc-jira.h76mdt.euc1.cache.amazonaws.com"
         - name: REDIS_PASSWORD
@@ -53,6 +63,8 @@ spec:
           value: "237dd1fee65d1b2fcf463c446daa16e6"
         - name: STATSD_HOST
           value: "dogstatsd.datadog.svc.cluster.local"
+        - name: APP_URL
+          value: "https://internal.dev.cloud.jumbo.com/jira"
         ports:
         - containerPort: 3001
           name: {APP}
@@ -90,6 +102,16 @@ spec:
                 secretKeyRef:
                   name: jtc-jira
                   key: JIRA_SITE
+            - name: JIRA_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: jtc-jira
+                  key: JIRA_CLIENT_ID
+            - name: JIRA_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jtc-jira
+                  key: JIRA_CLIENT_SECRET
             - name: REDIS_HOST
               value: "master.dev-jtc-jira.h76mdt.euc1.cache.amazonaws.com"
             - name: REDIS_PASSWORD

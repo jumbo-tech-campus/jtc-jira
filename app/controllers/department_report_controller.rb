@@ -1,4 +1,4 @@
-class DepartmentReportController < ApplicationController
+class DepartmentReportController < AuthenticatedController
   before_action :set_current_quarters
   before_action :set_department
   caches_action :cycle_time_overview, expires_in: 12.hours, cache_path: :department_cache_path

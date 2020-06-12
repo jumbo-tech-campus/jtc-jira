@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-class CycleTimeReportController < ApplicationController
+class CycleTimeReportController < AuthenticatedController
   before_action :set_dates
   before_action :set_deployment_constraint, only: %i[two_week_overview four_week_overview deployment_constraint]
   before_action :set_department, only: %i[two_week_overview four_week_overview]

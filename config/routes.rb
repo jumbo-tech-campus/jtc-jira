@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
-  root 'cycle_time_report#deployment_constraint'
+  root 'login#index'
   scope :jira do
-    get '/', to: 'cycle_time_report#deployment_constraint'
+    get '/', to: 'login#index'
     resources :kpi_goals
     resources :teams, only: [:index]
+    get 'auth/:provider/callback', to: 'sessions#create'
+    get 'login' => 'sessions#new', :as => :login
+    get 'logout' => 'sessions#destroy', :as => :logout
+    get 'auth/failure' => 'sessions#failure'
     get 'sprint_report/last_sprint', to: 'sprint_report#last_sprint', as: :last_sprint_report
     get 'sprint_report/sprint', to: 'sprint_report#sprint', as: :sprint_report
     get 'portfolio_report/teams_overview', to: 'portfolio_report#teams_overview', as: :portfolio_teams
@@ -25,6 +29,10 @@ Rails.application.routes.draw do
 
   resources :kpi_goals
   resources :teams, only: [:index]
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'login' => 'sessions#new'
+  get 'logout' => 'sessions#destroy'
+  get 'auth/failure' => 'sessions#failure'
   get 'sprint_report/last_sprint', to: 'sprint_report#last_sprint'
   get 'portfolio_report/teams_overview', to: 'portfolio_report#teams_overview'
   get 'portfolio_report/export', to: 'portfolio_report#export'

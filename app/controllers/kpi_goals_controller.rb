@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 require 'securerandom'
 
-class KpiGoalsController < ApplicationController
+class KpiGoalsController < AuthenticatedController
   before_action :set_kpi_goal, only: %i[show edit update destroy]
   before_action :set_department, only: %i[index new]
   before_action :set_quarters, only: %i[new edit update]

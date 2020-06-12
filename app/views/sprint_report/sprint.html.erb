@@ -1,6 +1,6 @@
-<div class="col-md-12 col-xl-12 main">
+<div class="main">
   <div class="row mb-3">
-    <div class="col-xl-12">
+    <div class="col-9">
       <form class="form-inline" action="<%= sprint_report_path %>">
         <input type="hidden" name="team_id" value="<%= @team.id %>"/>
         <div class="form-group mb-3">
@@ -12,6 +12,9 @@
        </select>
        </div>
       </form>
+    </div>
+    <div class="col-3">
+      <%= link_to 'Refresh data', sprint_report_refresh_path(team_id: @team.id), method: :post, class: 'btn btn-secondary float-right', data: { disable_with: "In progress..." } %>
     </div>
    </div>
    <div class="row">

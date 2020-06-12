@@ -1,4 +1,4 @@
-class UptimeReportController < ApplicationController
+class UptimeReportController < AuthenticatedController
   def overview
     @report = UptimeReportService.new(Date.commercial(2020, 20, 1).to_datetime, DateTime.new(2020, 12, 31)).uptime_report
 

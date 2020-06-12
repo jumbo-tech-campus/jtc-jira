@@ -1,4 +1,4 @@
-class PortfolioReportController < ApplicationController
+class PortfolioReportController < AuthenticatedController
   before_action :set_week_dates, only: %i[teams_overview export]
   before_action :set_quarters, only: %i[epics_overview quarter_overview]
 

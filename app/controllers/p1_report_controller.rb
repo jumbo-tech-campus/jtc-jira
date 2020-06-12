@@ -1,4 +1,4 @@
-class P1ReportController < ApplicationController
+class P1ReportController < AuthenticatedController
   before_action :set_year_dates
 
   def overview

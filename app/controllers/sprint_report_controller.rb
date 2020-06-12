@@ -1,4 +1,4 @@
-class SprintReportController < ApplicationController
+class SprintReportController < AuthenticatedController
   before_action :set_team
 
   def sprint
